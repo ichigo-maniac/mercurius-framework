@@ -1,5 +1,6 @@
 package org.mercuriusframework.entities;
 
+import org.mercuriusframework.listeners.AbstractEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
  */
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@EntityListeners({AbstractEntityListener.class})
 public abstract class AbstractEntity implements Serializable {
     /**
      * Entity id
@@ -17,9 +19,14 @@ public abstract class AbstractEntity implements Serializable {
     @GeneratedValue(generator = "entity_id_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
     /**
+     * Entity uid
+     */
+    @Column(name = "ENTITY_UID", unique = true, nullable = false, updatable = true, length = 36)
+    private String uid;
+    /**
      * Creation time
      */
-    private Date creationDTime;
+    private Date creationTime;
     /**
      * Modification time
      */
@@ -34,24 +41,46 @@ public abstract class AbstractEntity implements Serializable {
         return id;
     }
 
+
+    /**
+     * Get entity uid
+     *
+     * @return Uid
+     */
+    public String getUid() {
+        return uid;
+    }
+
+    /**
+     * Set entity uid
+     *
+     * @param uid Uid
+     */
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     /**
      * Get creation time
+     *
      * @return Creation time
      */
-    public Date getCreationDTime() {
-        return creationDTime;
+    public Date getCreationTime() {
+        return creationTime;
     }
 
     /**
      * Set creation time
-     * @param creationDTime Creation time
+     *
+     * @param creationTime Creation time
      */
-    public void setCreationDTime(Date creationDTime) {
-        this.creationDTime = creationDTime;
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
     }
 
     /**
      * Get modification time
+     *
      * @return Modification time
      */
     public Date getModificationTime() {
@@ -60,6 +89,7 @@ public abstract class AbstractEntity implements Serializable {
 
     /**
      * Set modification time
+     *
      * @param modificationTime Modification time
      */
     public void setModificationTime(Date modificationTime) {
