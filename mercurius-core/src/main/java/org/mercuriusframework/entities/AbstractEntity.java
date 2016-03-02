@@ -1,6 +1,6 @@
 package org.mercuriusframework.entities;
 
-import org.mercuriusframework.listeners.AbstractEntityListener;
+import org.mercuriusframework.listeners.CommonAbstractEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@EntityListeners({AbstractEntityListener.class})
+@EntityListeners({CommonAbstractEntityListener.class})
 public abstract class AbstractEntity implements Serializable {
     /**
      * Entity id
