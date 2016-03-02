@@ -5,7 +5,7 @@ import org.mercuriusframework.entities.AbstractEntity;
 /**
  * "Post-load" entity listener interface
  */
-public interface PostLoadEntityListener<T extends AbstractEntity> {
+public interface PostLoadEntityListener<T extends AbstractEntity> extends EntityListener<T> {
     /**
      * "Post-load" handler
      * @param entityObject Entity object
