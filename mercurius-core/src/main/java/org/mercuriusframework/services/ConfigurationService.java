@@ -7,6 +7,11 @@ import java.util.List;
  */
 public interface ConfigurationService {
     /**
+     * Get server root path
+     * @return Server root path
+     */
+    String getServerRoot();
+    /**
      * Get parameter value from properties file
      *
      * @param name Parameter name

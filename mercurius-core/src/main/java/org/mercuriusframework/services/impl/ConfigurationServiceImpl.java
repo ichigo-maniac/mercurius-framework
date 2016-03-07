@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import javax.servlet.ServletContext;
 import java.util.*;
 
 /**
@@ -14,12 +15,25 @@ import java.util.*;
 @PropertySource("classpath:application.properties")
 @Service("configurationService")
 public class ConfigurationServiceImpl implements ConfigurationService {
+    /**
+     * Server root path
+     */
+    private String serverRoot;
 
     /**
      * Spring environment bean
      */
     @Autowired
     private Environment environment;
+
+    /**
+     * Get server root path
+     *
+     * @return Server root path
+     */
+    public String getServerRoot() {
+        return serverRoot;
+    }
 
     /**
      * Get parameter value from properties file
@@ -136,5 +150,14 @@ public class ConfigurationServiceImpl implements ConfigurationService {
      */
     public boolean containParameter(String name) {
         return environment.containsProperty(name);
+    }
+
+    /**
+     * Set servlet context
+     *
+     * @param servletContext Servlet context
+     */
+    public void setServletContext(ServletContext servletContext) {
+        serverRoot = servletContext.getRealPath("/").replace("\\", "/");
     }
 }

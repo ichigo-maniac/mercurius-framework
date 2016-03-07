@@ -2,10 +2,12 @@ package org.mercuriusframework.configuration;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.mercuriusframework.constants.MercuriusConfigurationParameters;
+import org.mercuriusframework.flyway.DatabaseMigration;
 import org.mercuriusframework.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.orm.jpa.AbstractEntityManagerFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -83,7 +85,7 @@ public class DatabaseConnectionConfiguration {
     }
 
     /**
-     * Transaction template ben
+     * Transaction template bean
      *
      * @param transactionManager Transaction manager
      * @return Transaction template
@@ -92,6 +94,29 @@ public class DatabaseConnectionConfiguration {
     public TransactionTemplate transactionTemplate(JpaTransactionManager transactionManager) {
         TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
         return transactionTemplate;
+    }
+
+    /**
+     * JDBC template bean
+     * @param dataSource Data source
+     * @return JDBC template
+     */
+    @Bean(name = "jdbcTemplate")
+    public NamedParameterJdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new NamedParameterJdbcTemplate(dataSource);
+    }
+
+    /**
+     * Flyway database migration bean
+     * @return
+     */
+    @Bean(name = "databaseMigration")
+    public DatabaseMigration databaseMigration(DataSource dataSource, NamedParameterJdbcTemplate jdbcTemplate, ConfigurationService configurationService) {
+        DatabaseMigration databaseMigration = new DatabaseMigration();
+        databaseMigration.setDataSource(dataSource);
+        databaseMigration.setJdbcTemplate(jdbcTemplate);
+        databaseMigration.setConfigurationService(configurationService);
+        return databaseMigration;
     }
 
 }
