@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.ServletContextAware;
 import javax.servlet.ServletContext;
 import java.util.*;
 
@@ -14,7 +15,7 @@ import java.util.*;
  */
 @PropertySource("classpath:application.properties")
 @Service("configurationService")
-public class ConfigurationServiceImpl implements ConfigurationService {
+public class ConfigurationServiceImpl implements ConfigurationService, ServletContextAware {
     /**
      * Server root path
      */
