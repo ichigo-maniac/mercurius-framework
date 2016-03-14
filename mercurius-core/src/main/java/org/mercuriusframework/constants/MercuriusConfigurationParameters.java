@@ -15,4 +15,14 @@ public class MercuriusConfigurationParameters {
         public static final String DATABASE_HIBERNATE_DIALECT = "mercurius.database.hibernate.dialect";
         public static final String SHOW_SQL_LOG = "mercurius.show.sql.log";
     }
+
+    /**
+     * Database flyway migration parameters
+     */
+    public class DATABASE_FLYWAY_MIGRATION_PARAMETERS {
+        public static final String VALIDATE_VERSION = "mercurius.flyway.validate.version";
+        public static final String OUT_OF_ORDER = "mercurius.flyway.out.of.order";
+        public static final String CLEAN_SCHEMA = "mercurius.flyway.clean.schema";
+        public static final String CUSTOM_SCRIPTS_FOLDER = "mercurius.flyway.custom.scripts.folder";
+    }
 }

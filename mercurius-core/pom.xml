@@ -15,12 +15,34 @@
         <google.guava.version>19.0</google.guava.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>
         <hibernate.version>4.3.9.Final</hibernate.version>
+        <flyway.version>2.0.2</flyway.version>
         <!-- Database drivers -->
         <postgre.sql.driver.version>9.0-801.jdbc4</postgre.sql.driver.version>
     </properties>
 
     <!-- Dependencies -->
     <dependencies>
+
+        <!-- Servlet Api -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
 
         <!-- AoP dependencies -->
         <dependency>
@@ -145,6 +167,13 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${google.guava.version}</version>
+        </dependency>
+
+        <!-- Flyway -->
+        <dependency>
+            <groupId>com.googlecode.flyway</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
 
     </dependencies>
