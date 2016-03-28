@@ -17,7 +17,7 @@ public class DatabaseTypeHelper {
      */
     static {
         DATABASE_TYPES_MAP.put("org.postgresql.Driver", "postgresql");
-        DATABASE_TYPES_MAP.put("com.mysql.jdbc.Driver", "mysql");
+        DATABASE_TYPES_MAP.put("oracle.jdbc.driver.OracleDriver", "oracle");
     }
 
     /**
