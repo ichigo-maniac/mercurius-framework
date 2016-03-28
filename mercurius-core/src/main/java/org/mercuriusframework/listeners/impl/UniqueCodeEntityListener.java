@@ -1,6 +1,6 @@
 package org.mercuriusframework.listeners.impl;
 
-import org.mercuriusframework.entities.Catalog;
+import org.mercuriusframework.entities.UniqueCodeEntity;
 import org.mercuriusframework.exceptions.NullUniqueCodeException;
 import org.mercuriusframework.exceptions.UniqueCodeConstraintViolationException;
 import org.mercuriusframework.listeners.PrePersistEntityListener;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * Unique code entity listener
  */
 @Service("uniqueCodeEntityListener")
-public class UniqueCodeEntityListener implements PrePersistEntityListener<Catalog>, PreUpdateEntityListener<Catalog> {
+public class UniqueCodeEntityListener implements PrePersistEntityListener<UniqueCodeEntity>, PreUpdateEntityListener<UniqueCodeEntity> {
     /**
      * Code generation service
      */
@@ -26,7 +26,7 @@ public class UniqueCodeEntityListener implements PrePersistEntityListener<Catalo
      * @param entityObject Entity object
      */
     @Override
-    public void prePersist(Catalog entityObject) {
+    public void prePersist(UniqueCodeEntity entityObject) {
         if (entityObject.getCode() == null) {
             entityObject.setCode(codeGenerationService.generateUniqueCode(entityObject.getClass()));
         } else {
@@ -43,7 +43,7 @@ public class UniqueCodeEntityListener implements PrePersistEntityListener<Catalo
      * @param entityObject Entity object
      */
     @Override
-    public void preUpdate(Catalog entityObject) {
+    public void preUpdate(UniqueCodeEntity entityObject) {
         if (entityObject.getCode() == null) {
             throw new NullUniqueCodeException(entityObject.getClass());
         } else {
@@ -60,7 +60,7 @@ public class UniqueCodeEntityListener implements PrePersistEntityListener<Catalo
      * @return Entity type
      */
     @Override
-    public Class<Catalog> getEntityType() {
-        return Catalog.class;
+    public Class<UniqueCodeEntity> getEntityType() {
+        return UniqueCodeEntity.class;
     }
 }
