@@ -25,7 +25,7 @@ public interface EntityService {
      * @param parameters  Query parameters
      * @return Single result (null if there is no result)
      */
-    <T extends AbstractEntity> List getListResultByQuery(String queryString, Class<T> classType, QueryParameter... parameters);
+    <T> List getListResultByQuery(String queryString, Class<T> classType, QueryParameter... parameters);
 
     /**
      * Get single result by query
@@ -34,5 +34,5 @@ public interface EntityService {
      * @param parameters  Query parameters
      * @return Single result (null if there is no result)
      */
-    <T extends AbstractEntity> T getSingleResultByQuery(String queryString, Class<T> classType, QueryParameter... parameters);
+    <T> T getSingleResultByQuery(String queryString, Class<T> classType, QueryParameter... parameters);
 }

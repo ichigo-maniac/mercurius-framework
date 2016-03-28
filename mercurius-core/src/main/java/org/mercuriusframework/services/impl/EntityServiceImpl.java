@@ -61,7 +61,7 @@ public class EntityServiceImpl implements EntityService {
      * @param classType
      * @param parameters  Query parameters  @return Single result (null if there is no result)
      */
-    public <T extends AbstractEntity> List getListResultByQuery(String queryString, Class<T> classType, QueryParameter... parameters) {
+    public <T> List getListResultByQuery(String queryString, Class<T> classType, QueryParameter... parameters) {
         TypedQuery<T> query = entityManager.createQuery(queryString, classType);
         if (parameters != null) {
             for (QueryParameter parameter : parameters) {
@@ -78,7 +78,7 @@ public class EntityServiceImpl implements EntityService {
      * @param parameters  Query parameters
      * @return Single result (null if there is no result)
      */
-    public <T extends AbstractEntity> T getSingleResultByQuery(String queryString, Class<T> classType, QueryParameter... parameters) {
+    public <T> T getSingleResultByQuery(String queryString, Class<T> classType, QueryParameter... parameters) {
         try {
             TypedQuery<T> query = entityManager.createQuery(queryString, classType);
             if (parameters != null) {
