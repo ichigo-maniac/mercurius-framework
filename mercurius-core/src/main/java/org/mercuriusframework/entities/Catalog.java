@@ -1,15 +1,13 @@
 package org.mercuriusframework.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Catalog entity class
  */
 @Entity
-@Table(name = "CATALOG")
-@SequenceGenerator(name = "entity_id_gen", sequenceName = "CATALOG_SEQ",
+@Table(name = "SHOP_CATALOG")
+@SequenceGenerator(name = "entity_id_gen", sequenceName = "SHOP_CATALOG_SEQ",
         allocationSize = 1, initialValue = 1)
 public class Catalog extends UniqueCodeEntity {
     /**
