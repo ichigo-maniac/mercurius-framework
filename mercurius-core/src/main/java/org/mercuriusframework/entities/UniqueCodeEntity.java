@@ -21,6 +21,22 @@ public abstract class UniqueCodeEntity extends AbstractEntity implements Seriali
     private String code;
 
     /**
+     * Get name
+     * @return Name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Set name
+     * @param name Name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
      * Get code
      * @return Code
      */
