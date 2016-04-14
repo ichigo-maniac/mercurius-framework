@@ -1,8 +1,6 @@
 package org.mercuriusframework.entities;
 
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 /**
  * Entity with unique code inside catalog class
@@ -13,14 +11,21 @@ public abstract class CatalogUniqueCodeEntity extends AbstractEntity {
     /**
      * Name
      */
+    @Basic(optional = false)
     private String name;
     /**
      * Code (unique)
      */
+    @Basic(optional = false)
     private String code;
     /**
      * Catalog
      */
+    /**
+     * Main unit
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CATALOG_ID", referencedColumnName = "id", nullable = false)
     private Catalog catalog;
 
     /**

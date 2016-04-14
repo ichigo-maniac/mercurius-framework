@@ -14,6 +14,8 @@ public class Product extends CatalogUniqueCodeEntity {
     /**
      * Main unit
      */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MAIN_UNIT_ID", referencedColumnName = "id", nullable = false)
     private Unit mainUnit;
     /**
      * All available units
@@ -30,6 +32,8 @@ public class Product extends CatalogUniqueCodeEntity {
     /**
      * Main category
      */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MAIN_CATEGORY_ID", referencedColumnName = "id", nullable = false)
     private Category mainCategory;
     /**
      * All product categories

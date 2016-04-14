@@ -1,8 +1,6 @@
 package org.mercuriusframework.entities;
 
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -14,10 +12,13 @@ public abstract class UniqueCodeEntity extends AbstractEntity implements Seriali
     /**
      * Name
      */
+    @Basic(optional = false)
     private String name;
     /**
      * Code (unique)
      */
+    @Basic(optional = false)
+    @Column(unique = true)
     private String code;
 
     /**
