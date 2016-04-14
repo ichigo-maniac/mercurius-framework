@@ -50,7 +50,7 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
         Class classValue = getSuperUniqueCodeClass(type);
         Long entitiesCount = entityService.getSingleResultByQuery("SELECT count(entity) FROM " + classValue.getSimpleName() + " as entity " +
                 "WHERE entity.code = :entityCode",  Long.class, new QueryParameter("entityCode", codeValue));
-        return !entitiesCount.equals(0);
+        return !entitiesCount.equals(0l);
     }
 
     /**
@@ -68,7 +68,7 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
                 "WHERE entity.code = :entityCode AND entity.id <> :entityId",  Long.class,
                 new QueryParameter("entityCode", codeValue),
                 new QueryParameter("entityId", entityId));
-        return !entitiesCount.equals(0);
+        return !entitiesCount.equals(0l);
     }
 
     /**
