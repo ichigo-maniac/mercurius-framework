@@ -11,6 +11,10 @@ import javax.persistence.MappedSuperclass;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class CatalogUniqueCodeEntity extends AbstractEntity {
     /**
+     * Name
+     */
+    private String name;
+    /**
      * Code (unique)
      */
     private String code;
@@ -18,6 +22,22 @@ public abstract class CatalogUniqueCodeEntity extends AbstractEntity {
      * Catalog
      */
     private Catalog catalog;
+
+    /**
+     * Get name
+     * @return Name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Set name
+     * @param name Name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * Get code
