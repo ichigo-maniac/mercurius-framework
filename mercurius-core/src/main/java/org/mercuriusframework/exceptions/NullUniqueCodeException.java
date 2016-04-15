@@ -5,8 +5,8 @@ package org.mercuriusframework.exceptions;
  */
 public class NullUniqueCodeException extends RuntimeException {
     /**
-     * Constructor Entity class type
-     * @param classType
+     * Constructor
+     * @param classType Entity class type
      */
     public NullUniqueCodeException(Class classType) {
         super("Entity unique code null exception (entity type " + classType.getSimpleName() + ")");
