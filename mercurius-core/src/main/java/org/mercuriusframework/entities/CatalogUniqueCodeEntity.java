@@ -24,7 +24,7 @@ public abstract class CatalogUniqueCodeEntity extends AbstractEntity {
     /**
      * Main unit
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CATALOG_ID", referencedColumnName = "id", nullable = false)
     private Catalog catalog;
 
