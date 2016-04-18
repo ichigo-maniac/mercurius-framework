@@ -1,7 +1,7 @@
 package org.mercuriusframework.listeners.impl;
 
 import org.mercuriusframework.entities.UniqueCodeEntity;
-import org.mercuriusframework.exceptions.NullUniqueCodeException;
+import org.mercuriusframework.exceptions.MandatoryParameterNullException;
 import org.mercuriusframework.exceptions.UniqueCodeConstraintViolationException;
 import org.mercuriusframework.listeners.PrePersistEntityListener;
 import org.mercuriusframework.listeners.PreUpdateEntityListener;
@@ -27,6 +27,9 @@ public class UniqueCodeEntityListener implements PrePersistEntityListener<Unique
      */
     @Override
     public void prePersist(UniqueCodeEntity entityObject) {
+        if (entityObject.getName() == null) {
+            throw new MandatoryParameterNullException(entityObject.getClass(), "name");
+        }
         if (entityObject.getCode() == null) {
             entityObject.setCode(codeGenerationService.generateUniqueCode(entityObject.getClass()));
         } else {
@@ -44,8 +47,11 @@ public class UniqueCodeEntityListener implements PrePersistEntityListener<Unique
      */
     @Override
     public void preUpdate(UniqueCodeEntity entityObject) {
+        if (entityObject.getName() == null) {
+            throw new MandatoryParameterNullException(entityObject.getClass(), "name");
+        }
         if (entityObject.getCode() == null) {
-            throw new NullUniqueCodeException(entityObject.getClass());
+            throw new MandatoryParameterNullException(entityObject.getClass(), "code");
         } else {
             boolean checkResult = codeGenerationService.existUniqueCodeExceptOne(entityObject.getClass(), entityObject.getCode(), entityObject.getId());
             if (checkResult) {

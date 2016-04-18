@@ -10,6 +10,6 @@ public class MandatoryParameterNullException extends RuntimeException {
      * @param paramName Mandatory parameter name
      */
     public MandatoryParameterNullException(Class classType, String paramName) {
-        super("Mandatory parameter is null (class type " + classType.getSimpleName() + ", parameter" + paramName +  ")");
+        super("Mandatory parameter is null (class type - " + classType.getSimpleName() + ", parameter - " + paramName +  ")");
     }
 }

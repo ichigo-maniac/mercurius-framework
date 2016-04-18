@@ -1,7 +1,7 @@
 package org.mercuriusframework.listeners.impl;
 
 import org.mercuriusframework.entities.CatalogUniqueCodeEntity;
-import org.mercuriusframework.exceptions.NullUniqueCodeException;
+import org.mercuriusframework.exceptions.MandatoryParameterNullException;
 import org.mercuriusframework.exceptions.UniqueCodeConstraintViolationException;
 import org.mercuriusframework.listeners.PrePersistEntityListener;
 import org.mercuriusframework.listeners.PreUpdateEntityListener;
@@ -27,8 +27,11 @@ public class CatalogUniqueCodeEntityListener implements PrePersistEntityListener
      */
     @Override
     public void prePersist(CatalogUniqueCodeEntity entityObject) {
+        if (entityObject.getName() == null) {
+            throw new MandatoryParameterNullException(entityObject.getClass(), "name");
+        }
         if (entityObject.getCatalog() == null) {
-            throw new RuntimeException("s");
+            throw new MandatoryParameterNullException(entityObject.getClass(), "catalog");
         }
         if (entityObject.getCode() == null) {
             entityObject.setCode(codeGenerationService.generateCatalogUniqueCode(entityObject.getClass(), entityObject.getCatalog()));
@@ -48,11 +51,14 @@ public class CatalogUniqueCodeEntityListener implements PrePersistEntityListener
      */
     @Override
     public void preUpdate(CatalogUniqueCodeEntity entityObject) {
+        if (entityObject.getName() == null) {
+            throw new MandatoryParameterNullException(entityObject.getClass(), "name");
+        }
         if (entityObject.getCatalog() == null) {
-            throw new RuntimeException("s");
+            throw new MandatoryParameterNullException(entityObject.getClass(), "catalog");
         }
         if (entityObject.getCode() == null) {
-            throw new NullUniqueCodeException(entityObject.getClass());
+            throw new MandatoryParameterNullException(entityObject.getClass(), "code");
         } else {
             boolean checkResult = codeGenerationService.existCatalogUniqueCodeExceptOne(entityObject.getClass(), entityObject.getCode(), entityObject.getCatalog(), entityObject.getId());
             if (checkResult) {
