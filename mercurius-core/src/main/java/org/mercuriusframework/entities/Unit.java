@@ -9,7 +9,5 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "UNIT")
-@SequenceGenerator(name = "entity_id_gen", sequenceName = "UNIT_SEQ",
-        allocationSize = 1, initialValue = 1)
 public class Unit extends CatalogUniqueCodeEntity {
 }

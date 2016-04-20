@@ -53,7 +53,7 @@ public class UniqueCodeEntityListener implements PrePersistEntityListener<Unique
         if (entityObject.getCode() == null) {
             throw new MandatoryParameterNullException(entityObject.getClass(), "code");
         } else {
-            boolean checkResult = codeGenerationService.existUniqueCodeExceptOne(entityObject.getClass(), entityObject.getCode(), entityObject.getId());
+            boolean checkResult = codeGenerationService.existUniqueCodeExceptOne(entityObject.getClass(), entityObject.getCode(), entityObject.getUuid());
             if (checkResult) {
                 throw new UniqueCodeConstraintViolationException(codeGenerationService.getSuperUniqueCodeClass(entityObject.getClass()), entityObject.getCode());
             }

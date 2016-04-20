@@ -1,5 +1,6 @@
 package org.mercuriusframework.entities;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.mercuriusframework.listeners.CommonAbstractEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,8 +17,10 @@ public abstract class AbstractEntity implements Serializable {
      * Entity id
      */
     @Id
-    @GeneratedValue(generator = "entity_id_gen", strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(name = "UUID", updatable = false, unique = true, nullable = false, length = 36)
+    private String uuid;
     /**
      * Entity uid
      */
@@ -33,14 +36,12 @@ public abstract class AbstractEntity implements Serializable {
     private Date modificationTime;
 
     /**
-     * Get entity id
-     *
-     * @return Entity id
+     * Get uuid
+     * @return Uuid string
      */
-    public Long getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
-
 
     /**
      * Get entity uid

@@ -39,7 +39,7 @@ public class EntityServiceImpl implements EntityService {
     public <T extends AbstractEntity> T save(final T entity) {
         return transactionOperations.execute(new TransactionCallback<T>() {
             public T doInTransaction(TransactionStatus transactionStatus) {
-                if (entity.getId() == null) {
+                if (entity.getUuid() == null) {
                     entityManager.persist(entity);
                     return entity;
                 } else {

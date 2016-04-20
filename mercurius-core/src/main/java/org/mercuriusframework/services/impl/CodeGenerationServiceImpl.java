@@ -59,17 +59,17 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
      * Check unique code existence except one entity
      * @param type Entity type class
      * @param codeValue Code value
-     * @param entityId Entity id
+     * @param entityUUID Entity uuid
      * @param <T> Entity type class
      * @return Check result
      */
     @Override
-    public <T extends UniqueCodeEntity> boolean existUniqueCodeExceptOne(Class<T> type, String codeValue, Long entityId) {
+    public <T extends UniqueCodeEntity> boolean existUniqueCodeExceptOne(Class<T> type, String codeValue, String entityUUID) {
         Class classValue = getSuperUniqueCodeClass(type);
         Long entitiesCount = entityService.getSingleResultByQuery("SELECT count(entity) FROM " + classValue.getSimpleName() + " as entity " +
-                "WHERE entity.code = :entityCode AND entity.id <> :entityId",  Long.class,
+                "WHERE entity.code = :entityCode AND entity.uuid <> :entityUUID",  Long.class,
                 new QueryParameter("entityCode", codeValue),
-                new QueryParameter("entityId", entityId));
+                new QueryParameter("entityUUID", entityUUID));
         return !entitiesCount.equals(0l);
     }
 
@@ -167,15 +167,15 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
      * @param type      Entity type class
      * @param codeValue Code value
      * @param catalog   Catalog
-     * @param entityId  Entity id
+     * @param entityUUID Entity uuid
      * @return Check result
      */
     @Override
-    public <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, Catalog catalog, Long entityId) {
+    public <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, Catalog catalog, String entityUUID) {
         Class classValue = getSuperCatalogUniqueCodeClass(type);
         Long entitiesCount = entityService.getSingleResultByQuery("SELECT count(entity) FROM " + classValue.getSimpleName() + " as entity " +
-                        "WHERE entity.code = :entityCode AND entity.catalog = :catalog AND entity.id <> :entityId",  Long.class,
-                new QueryParameter("entityCode", codeValue), new QueryParameter("catalog", catalog), new QueryParameter("entityId", entityId));
+                        "WHERE entity.code = :entityCode AND entity.catalog = :catalog AND entity.uuid <> :entityUUID",  Long.class,
+                new QueryParameter("entityCode", codeValue), new QueryParameter("catalog", catalog), new QueryParameter("entityUUID", entityUUID));
         return !entitiesCount.equals(0l);
     }
 
@@ -185,15 +185,15 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
      * @param type        Entity type class
      * @param codeValue   Code value
      * @param catalogCode Catalog code
-     * @param entityId    Entity id
+     * @param entityUUID Entity uuid
      * @return Check result
      */
     @Override
-    public <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, String catalogCode, Long entityId) {
+    public <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, String catalogCode, String entityUUID) {
         Class classValue = getSuperCatalogUniqueCodeClass(type);
         Long entitiesCount = entityService.getSingleResultByQuery("SELECT count(entity) FROM " + classValue.getSimpleName() + " as entity " +
-                        "WHERE entity.code = :entityCode AND entity.catalog.code = :catalogCode AND entity.id <> :entityId",
-                Long.class, new QueryParameter("entityCode", codeValue), new QueryParameter("catalogCode", catalogCode), new QueryParameter("entityId", entityId));
+                        "WHERE entity.code = :entityCode AND entity.catalog.code = :catalogCode AND entity.uuid <> :entityUUID",
+                Long.class, new QueryParameter("entityCode", codeValue), new QueryParameter("catalogCode", catalogCode), new QueryParameter("entityUUID", entityUUID));
         return !entitiesCount.equals(0l);
     }
 

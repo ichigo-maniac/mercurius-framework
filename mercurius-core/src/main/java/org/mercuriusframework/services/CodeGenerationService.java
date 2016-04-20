@@ -28,11 +28,11 @@ public interface CodeGenerationService {
      * Check unique code existence except one entity
      * @param type Entity type class
      * @param codeValue Code value
-     * @param entityId Entity id
+     * @param entityUUID Entity uuid
      * @param <T> Entity type class
      * @return Check result
      */
-    <T extends UniqueCodeEntity> boolean existUniqueCodeExceptOne(Class<T> type, String codeValue, Long entityId);
+    <T extends UniqueCodeEntity> boolean existUniqueCodeExceptOne(Class<T> type, String codeValue, String entityUUID);
 
     /**
      * Get UniqueCodeEntity super class
@@ -81,21 +81,21 @@ public interface CodeGenerationService {
      * @param type Entity type class
      * @param codeValue Code value
      * @param catalog Catalog
-     * @param entityId Entity id
+     * @param entityUUID Entity uuid
      * @param <T> Entity type class
      * @return Check result
      */
-    <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, Catalog catalog, Long entityId);
+    <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, Catalog catalog, String entityUUID);
     /**
      * Check catalog unique code existence except one entity
      * @param type Entity type class
      * @param codeValue Code value
      * @param catalogCode Catalog code
-     * @param entityId Entity id
+     * @param entityUUID Entity uuid
      * @param <T> Entity type class
      * @return Check result
      */
-    <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, String catalogCode, Long entityId);
+    <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, String catalogCode, String entityUUID);
     /**
      * Get CatalogUniqueCodeEntity super class
      *

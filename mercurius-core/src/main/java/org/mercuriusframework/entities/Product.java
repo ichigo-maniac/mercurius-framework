@@ -8,14 +8,12 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "PRODUCT")
-@SequenceGenerator(name = "entity_id_gen", sequenceName = "PRODUCT_SEQ",
-        allocationSize = 1, initialValue = 1)
 public class Product extends CatalogUniqueCodeEntity {
     /**
      * Main unit
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MAIN_UNIT_ID", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "MAIN_UNIT_UUID", referencedColumnName = "uuid", nullable = false)
     private Unit mainUnit;
     /**
      * All available units
@@ -23,17 +21,17 @@ public class Product extends CatalogUniqueCodeEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "PRODUCTS_UNITS_LINK",
             joinColumns = {
-                    @JoinColumn(name = "PRODUCT_ID",
+                    @JoinColumn(name = "PRODUCT_UUID",
                             nullable = false, updatable = false)},
             inverseJoinColumns = {
-                    @JoinColumn(name = "UNIT_ID",
+                    @JoinColumn(name = "UNIT_UUID",
                             nullable = false, updatable = false)})
     private Set<Unit> units;
     /**
      * Main category
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MAIN_CATEGORY_ID", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "MAIN_CATEGORY_UUID", referencedColumnName = "UUID", nullable = false)
     private Category mainCategory;
     /**
      * All product categories
@@ -41,10 +39,10 @@ public class Product extends CatalogUniqueCodeEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "PRODUCTS_CATEGORIES_LINK",
             joinColumns = {
-                    @JoinColumn(name = "PRODUCT_ID",
+                    @JoinColumn(name = "PRODUCT_UUID",
                             nullable = false, updatable = false)},
             inverseJoinColumns = {
-                    @JoinColumn(name = "CATEGORY_ID",
+                    @JoinColumn(name = "CATEGORY_UUID",
                             nullable = false, updatable = false)})
     private Set<Category> categories;
 

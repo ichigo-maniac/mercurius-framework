@@ -60,7 +60,7 @@ public class CatalogUniqueCodeEntityListener implements PrePersistEntityListener
         if (entityObject.getCode() == null) {
             throw new MandatoryParameterNullException(entityObject.getClass(), "code");
         } else {
-            boolean checkResult = codeGenerationService.existCatalogUniqueCodeExceptOne(entityObject.getClass(), entityObject.getCode(), entityObject.getCatalog(), entityObject.getId());
+            boolean checkResult = codeGenerationService.existCatalogUniqueCodeExceptOne(entityObject.getClass(), entityObject.getCode(), entityObject.getCatalog(), entityObject.getUuid());
             if (checkResult) {
                 throw new UniqueCodeConstraintViolationException(
                         codeGenerationService.getSuperCatalogUniqueCodeClass(entityObject.getClass()), entityObject.getCode(), entityObject.getCatalog().getCode());
