@@ -8,12 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionOperations;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -68,6 +63,7 @@ public class EntityServiceImpl implements EntityService {
                 query.setParameter(parameter.getKey(), parameter.getValue());
             }
         }
+        query.setFlushMode(FlushModeType.COMMIT);
         return query.getResultList();
     }
 
@@ -86,6 +82,7 @@ public class EntityServiceImpl implements EntityService {
                     query.setParameter(parameter.getKey(), parameter.getValue());
                 }
             }
+            query.setFlushMode(FlushModeType.COMMIT);
             return (T) query.getSingleResult();
         } catch (NoResultException exception) {
             return null;
