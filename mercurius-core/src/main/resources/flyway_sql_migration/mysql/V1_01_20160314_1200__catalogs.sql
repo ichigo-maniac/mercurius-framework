@@ -6,3 +6,10 @@ CREATE TABLE SHOP_CATALOG(
   modificationtime TIMESTAMP NOT NULL
 );
 
+INSERT INTO SHOP_CATALOG(uuid, name, code, creationtime, modificationtime) VALUES (
+  UUID(), 'Master catalog', 'master', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+INSERT INTO SHOP_CATALOG(uuid, name, code, creationtime, modificationtime) VALUES (
+  UUID(), 'Online catalog', 'online', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
