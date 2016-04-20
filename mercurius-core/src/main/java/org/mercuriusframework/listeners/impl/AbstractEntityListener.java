@@ -21,9 +21,6 @@ public class AbstractEntityListener implements PrePersistEntityListener<Abstract
     public void prePersist(AbstractEntity entityObject) {
         entityObject.setCreationTime(new Date());
         entityObject.setModificationTime(new Date());
-        if (entityObject.getUid() == null) {
-            entityObject.setUid(UUID.randomUUID().toString().toLowerCase());
-        }
     }
 
     /**

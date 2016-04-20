@@ -22,11 +22,6 @@ public abstract class AbstractEntity implements Serializable {
     @Column(name = "UUID", updatable = false, unique = true, nullable = false, length = 36)
     private String uuid;
     /**
-     * Entity uid
-     */
-    @Column(name = "ENTITY_UID", unique = true, nullable = false, updatable = true, length = 36)
-    private String uid;
-    /**
      * Creation time
      */
     private Date creationTime;
@@ -41,24 +36,6 @@ public abstract class AbstractEntity implements Serializable {
      */
     public String getUuid() {
         return uuid;
-    }
-
-    /**
-     * Get entity uid
-     *
-     * @return Uid
-     */
-    public String getUid() {
-        return uid;
-    }
-
-    /**
-     * Set entity uid
-     *
-     * @param uid Uid
-     */
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     /**
