@@ -18,7 +18,7 @@ public abstract class AbstractEntity implements Serializable {
      */
     @Id
     @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "UUID", updatable = false, unique = true, nullable = false, length = 36)
     private String uuid;
     /**
