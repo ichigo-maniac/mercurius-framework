@@ -1,3 +1,11 @@
+mercurius/.idea
+mercurius/*.iml
+mercurius/target
+
 mercurius-core/.idea
 mercurius-core/*.iml
 mercurius-core/target
+
+mercurius-mmc/.idea
+mercurius-mmc/*.iml
+mercurius-mmc/target
