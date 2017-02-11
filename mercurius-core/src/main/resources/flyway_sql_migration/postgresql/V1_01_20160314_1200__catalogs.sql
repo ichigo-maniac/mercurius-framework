@@ -7,8 +7,5 @@ CREATE TABLE SHOP_CATALOG(
 );
 
 INSERT INTO SHOP_CATALOG(uuid, name, code, creationtime, modificationtime) VALUES (
-  uuid_generate_v1(), 'Master catalog', 'master', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
-);
-INSERT INTO SHOP_CATALOG(uuid, name, code, creationtime, modificationtime) VALUES (
-  uuid_generate_v1(), 'Online catalog', 'online', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+  uuid_generate_v1(), 'Master catalog', 'master_catalog', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 );
