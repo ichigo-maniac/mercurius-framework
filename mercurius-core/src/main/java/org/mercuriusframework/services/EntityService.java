@@ -10,6 +10,15 @@ import java.util.List;
  */
 public interface EntityService {
     /**
+     * Find entity by uuid
+     * @param entityUUid Entity uuid
+     * @param entityClass Entity class
+     * @param fetchFields Fetch fields
+     * @param <T> Entity Class
+     * @return Entity
+     */
+    <T extends AbstractEntity> T findByUuid(String entityUUid, Class<T> entityClass, String... fetchFields);
+    /**
      * Save entity
      *
      * @param entity Entity

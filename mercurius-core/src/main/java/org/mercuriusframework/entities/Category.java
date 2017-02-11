@@ -31,12 +31,12 @@ public class Category extends CatalogUniqueCodeEntity {
      * Sub categories
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "CATEGORIES_SUBCATEGORIES_LINK",
+    @JoinTable(name = "CATEGORIES_SUPERCATEGORIES_LINK",
             joinColumns = {
-                    @JoinColumn(name = "CATEGORY_UUID",
+                    @JoinColumn(name = "SUPERCATEGORY_UUID",
                             nullable = false, updatable = false)},
             inverseJoinColumns = {
-                    @JoinColumn(name = "SUBCATEGORY_UUID",
+                    @JoinColumn(name = "CATEGORY_UUID",
                             nullable = false, updatable = false)})
     private Set<Category> subCategories;
 

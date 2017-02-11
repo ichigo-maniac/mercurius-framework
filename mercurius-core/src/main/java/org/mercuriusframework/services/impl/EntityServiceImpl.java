@@ -9,6 +9,10 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionOperations;
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
@@ -28,6 +32,25 @@ public class EntityServiceImpl implements EntityService {
      */
     @Autowired
     private TransactionOperations transactionOperations;
+
+    /**
+     * Find entity by uuid
+     * @param entityUUid  Entity uuid
+     * @param entityClass Entity class
+     * @param fetchFields  Fetch fields
+     * @return Entity
+     */
+    public <T extends AbstractEntity> T findByUuid(String entityUUid, Class<T> entityClass, String... fetchFields) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
+        Root<T> root = criteriaQuery.from(entityClass);
+        for (String fetchField : fetchFields) {
+            root.fetch(fetchField, JoinType.LEFT);
+        }
+        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get("uuid"), entityUUid));
+        TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+        return typedQuery.getSingleResult();
+    }
 
     /**
      * Save entity
