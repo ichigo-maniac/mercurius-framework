@@ -12,7 +12,7 @@
     <!-- Modules -->
     <modules>
         <module>../mercurius-core</module>
-        <module>../mercurius-mmc</module>
+        <!--<module>../mercurius-mmc</module>-->
     </modules>
 
     <!-- Properties -->
