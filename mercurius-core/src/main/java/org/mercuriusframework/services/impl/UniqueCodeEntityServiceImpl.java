@@ -8,11 +8,26 @@ import org.mercuriusframework.services.UniqueCodeEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
+
 /**
  * Catalog unique code entity service
  */
 @Service("uniqueCodeEntityService")
 public class UniqueCodeEntityServiceImpl implements UniqueCodeEntityService {
+
+    /**
+     * Entity manager
+    */
+    @PersistenceContext
+    protected EntityManager entityManager;
+
     /**
      * Entity service
      */
@@ -28,12 +43,21 @@ public class UniqueCodeEntityServiceImpl implements UniqueCodeEntityService {
      * Get unique code entity by code
      * @param code  Entity code
      * @param clazz Entity class
+     * @param fetchFields Fetch fields
      * @return Unique code entity
      */
     @Override
-    public <T extends UniqueCodeEntity> T getEntityByCode(String code, Class<T> clazz) {
+    public <T extends UniqueCodeEntity> T getEntityByCode(String code, Class<T> clazz, String... fetchFields) {
         Class classValue = codeGenerationService.getSuperUniqueCodeClass(clazz);
-        return entityService.getSingleResultByQuery("SELECT entity FROM " + classValue.getSimpleName() + " as entity " +
-                "WHERE entity.code = :entityCode", clazz, new QueryParameter("entityCode", code));
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = builder.createQuery(classValue);
+        Root<T> root = criteriaQuery.from(classValue);
+        for (String fetchField : fetchFields) {
+            root.fetch(fetchField, JoinType.LEFT);
+        }
+        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get("code"), code));
+        TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+        return typedQuery.getSingleResult();
     }
 }
