@@ -1,7 +1,7 @@
 package org.mercuriusframework.test;
 
 import org.junit.Test;
-import org.mercuriusframework.entities.Catalog;
+import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.Category;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
 import org.mercuriusframework.services.CategoryService;
@@ -58,7 +58,7 @@ public class CategoryServiceTest extends AbstractTest {
      */
     @Test
     public void getAllCategoriesWithoutMainSuperCategoryTest2() {
-        Catalog catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", Catalog.class);
+        CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
         List<Category> categories = categoryService.getAllCategoriesWithoutMainSuperCategory(catalog);
         assertEquals(categories.size() == 1 && categories.get(0).getUuid().equals("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f"), true);
     }
@@ -96,7 +96,7 @@ public class CategoryServiceTest extends AbstractTest {
      */
     @Test
     public void getBreadCrumbsTest4() {
-        Catalog catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", Catalog.class);
+        CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
         List<Category> breadCrumbs = categoryService.getBreadCrumbs("spokon_manga", catalog);
         assertOrderedUuidListsEquals(getUuids(breadCrumbs), ORDERED_BREAD_CRUMBS_UUIDS_LIST);
     }
@@ -107,7 +107,7 @@ public class CategoryServiceTest extends AbstractTest {
      */
     @Test
     public void getSubCategoriesTest() {
-        Catalog catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", Catalog.class);
+        CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
         List<Category> categories = categoryService.getSubCategories("main_category", catalog);
         assertUuidListsEquals(SUB_CATEGORIES_UUIDS_LIST, getUuids(categories));
     }

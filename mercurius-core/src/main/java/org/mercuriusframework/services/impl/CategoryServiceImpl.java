@@ -1,7 +1,7 @@
 package org.mercuriusframework.services.impl;
 
 import org.mercuriusframework.dto.QueryParameter;
-import org.mercuriusframework.entities.Catalog;
+import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.Category;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
 import org.mercuriusframework.services.CategoryService;
@@ -42,11 +42,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * Get all categories without a main super category
-     *
      * @param catalog Catalog
      * @return List of categories
      */
-    public List<Category> getAllCategoriesWithoutMainSuperCategory(Catalog catalog) {
+    public List<Category> getAllCategoriesWithoutMainSuperCategory(CatalogEntity catalog) {
         return entityService.getListResultByQuery("SELECT category FROM Category as category " +
                         "WHERE category.mainSuperCategory IS NULL AND category.catalog = :catalog",
                 Category.class, new QueryParameter("catalog", catalog));
@@ -54,24 +53,22 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * Get category bread crumbs
-     *
      * @param categoryCode Category code
      * @param catalogCode  Catalog code
      * @return List of categories (ordered)
      */
     public List<Category> getBreadCrumbs(String categoryCode, String catalogCode) {
-        return getBreadCrumbs(catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, Category.class, "mainSuperCategory"));
+        return getBreadCrumbs(catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, Category.class, Category.MAIN_SUPER_CATEGORY));
     }
 
     /**
      * Get category bread crumbs
-     *
      * @param categoryCode Category code
      * @param catalog      Catalog
      * @return List of categories (ordered)
      */
-    public List<Category> getBreadCrumbs(String categoryCode, Catalog catalog) {
-        return getBreadCrumbs(catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, Category.class, "mainSuperCategory"));
+    public List<Category> getBreadCrumbs(String categoryCode, CatalogEntity catalog) {
+        return getBreadCrumbs(catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, Category.class, Category.MAIN_SUPER_CATEGORY));
     }
 
     /**
@@ -81,12 +78,11 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of categories (ordered)
      */
     public List<Category> getBreadCrumbs(String categoryUuid) {
-        return getBreadCrumbs(entityService.findByUuid(categoryUuid, Category.class, "mainSuperCategory"));
+        return getBreadCrumbs(entityService.findByUuid(categoryUuid, Category.class, Category.MAIN_SUPER_CATEGORY));
     }
 
     /**
      * Get category bread crumbs
-     *
      * @param category Category
      * @return List of categories (ordered)
      */
@@ -94,9 +90,9 @@ public class CategoryServiceImpl implements CategoryService {
         ArrayList<Category> breadCrumbs = new ArrayList<Category>();
         breadCrumbs.add(category);
         /** Build bread crumbs */
-        Category currentCategory = entityService.findByUuid(category.getUuid(), Category.class, "mainSuperCategory");
+        Category currentCategory = entityService.findByUuid(category.getUuid(), Category.class, Category.MAIN_SUPER_CATEGORY);
         while (currentCategory.getMainSuperCategory() != null) {
-            currentCategory = entityService.findByUuid(currentCategory.getUuid(), Category.class, "mainSuperCategory");
+            currentCategory = entityService.findByUuid(currentCategory.getUuid(), Category.class, Category.MAIN_SUPER_CATEGORY);
             currentCategory = currentCategory.getMainSuperCategory();
             breadCrumbs.add(currentCategory);
         }
@@ -121,12 +117,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * Get sub-categories
-     *
      * @param categoryCode Category code
      * @param catalog      Catalog
      * @return List of categories
      */
-    public List<Category> getSubCategories(String categoryCode, Catalog catalog) {
+    public List<Category> getSubCategories(String categoryCode, CatalogEntity catalog) {
         return entityService.getListResultByQuery("SELECT DISTINCT category FROM Category as category " +
                 "LEFT JOIN category.superCategories as superCategory " +
                 "WHERE superCategory.catalog = :catalog AND superCategory.code = :categoryCode",

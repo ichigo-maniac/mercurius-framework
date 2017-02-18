@@ -1,7 +1,7 @@
 package org.mercuriusframework.test;
 
 import org.junit.Test;
-import org.mercuriusframework.entities.Catalog;
+import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.Category;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
 import org.mercuriusframework.services.UniqueCodeEntityService;
@@ -29,7 +29,7 @@ public class CatalogUniqueCodeEntityServiceTest extends AbstractTest {
      */
     @Test
     public void getEntityByCodeAndCatalogTest() {
-        Catalog catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", Catalog.class);
+        CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
         Category category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalog("manga", catalog, Category.class, "mainSuperCategory");
         assertEquals(
                 category.getUuid().equals("4aa6fb20-f065-11e6-9daf-a334a56d0d4c")

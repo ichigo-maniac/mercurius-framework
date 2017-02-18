@@ -1,6 +1,6 @@
 package org.mercuriusframework.services;
 
-import org.mercuriusframework.entities.Catalog;
+import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.CatalogUniqueCodeEntity;
 import org.mercuriusframework.entities.UniqueCodeEntity;
 
@@ -49,7 +49,7 @@ public interface CodeGenerationService {
      * @param catalog Catalog
      * @return Unique code
      */
-    <T extends CatalogUniqueCodeEntity> String generateCatalogUniqueCode(Class<T> type, Catalog catalog);
+    <T extends CatalogUniqueCodeEntity> String generateCatalogUniqueCode(Class<T> type, CatalogEntity catalog);
     /**
      * Generate catalog unique code
      * @param type Entity type class
@@ -66,7 +66,7 @@ public interface CodeGenerationService {
      * @param catalog Catalog
      * @return Check result
      */
-    <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCode(Class<T> type, String codeValue, Catalog catalog);
+    <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCode(Class<T> type, String codeValue, CatalogEntity catalog);
     /**
      * Check catalog unique code existence
      * @param type Entity type class
@@ -85,7 +85,7 @@ public interface CodeGenerationService {
      * @param <T> Entity type class
      * @return Check result
      */
-    <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, Catalog catalog, String entityUUID);
+    <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, CatalogEntity catalog, String entityUUID);
     /**
      * Check catalog unique code existence except one entity
      * @param type Entity type class

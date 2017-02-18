@@ -1,6 +1,6 @@
 package org.mercuriusframework.services;
 
-import org.mercuriusframework.entities.Catalog;
+import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.Category;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public interface CategoryService {
      * @param catalog Catalog
      * @return List of categories
      */
-    List<Category> getAllCategoriesWithoutMainSuperCategory(Catalog catalog);
+    List<Category> getAllCategoriesWithoutMainSuperCategory(CatalogEntity catalog);
     /**
      * Get category bread crumbs
      * @param categoryCode Category code
@@ -34,7 +34,7 @@ public interface CategoryService {
      * @param catalog Catalog
      * @return List of categories (ordered)
      */
-    List<Category> getBreadCrumbs(String categoryCode, Catalog catalog);
+    List<Category> getBreadCrumbs(String categoryCode, CatalogEntity catalog);
     /**
      * Get category bread crumbs
      * @param categoryUuid Category uid
@@ -60,7 +60,7 @@ public interface CategoryService {
      * @param catalog Catalog
      * @return List of categories
      */
-    List<Category> getSubCategories(String categoryCode, Catalog catalog);
+    List<Category> getSubCategories(String categoryCode, CatalogEntity catalog);
     /**
      * Get sub-categories
      * @param categoryUid Category uid

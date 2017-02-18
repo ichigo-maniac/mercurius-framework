@@ -1,7 +1,7 @@
 package org.mercuriusframework.test;
 
 import org.junit.Test;
-import org.mercuriusframework.entities.Catalog;
+import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.services.UniqueCodeEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,7 +21,7 @@ public class UniqueCodeEntityServiceTest extends AbstractTest {
      */
     @Test
     public void getEntityByCodeTest() {
-        Catalog catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", Catalog.class);
+        CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
         assertEquals(catalog.getUuid(), "4a9b636e-f065-11e6-9dac-836adef2f3a6");
     }
 }

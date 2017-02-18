@@ -27,7 +27,7 @@ public abstract class CatalogUniqueCodeEntity extends AbstractEntity {
      */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CATALOG_UUID", referencedColumnName = "uuid", nullable = false)
-    private Catalog catalog;
+    private CatalogEntity catalog;
     public static final String CATALOG = "catalog";
 
 
@@ -67,7 +67,7 @@ public abstract class CatalogUniqueCodeEntity extends AbstractEntity {
      * Get catalog
      * @return Catalog
      */
-    public Catalog getCatalog() {
+    public CatalogEntity getCatalog() {
         return catalog;
     }
 
@@ -75,7 +75,7 @@ public abstract class CatalogUniqueCodeEntity extends AbstractEntity {
      * Set catalog
      * @param catalog Catalog
      */
-    public void setCatalog(Catalog catalog) {
+    public void setCatalog(CatalogEntity catalog) {
         this.catalog = catalog;
     }
 }

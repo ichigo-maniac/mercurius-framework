@@ -5,9 +5,9 @@ import javax.persistence.*;
 /**
  * Catalog entity class
  */
-@Entity(name = Catalog.ENTITY_NAME)
+@Entity(name = CatalogEntity.ENTITY_NAME)
 @Table(name = "SHOP_CATALOG")
-public class Catalog extends UniqueCodeEntity {
+public class CatalogEntity extends UniqueCodeEntity {
     /**
      * Entity name
      */

@@ -1,7 +1,6 @@
 package org.mercuriusframework.services.impl;
 
-import org.mercuriusframework.dto.QueryParameter;
-import org.mercuriusframework.entities.Catalog;
+import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.CatalogUniqueCodeEntity;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
 import org.mercuriusframework.services.CodeGenerationService;
@@ -53,7 +52,7 @@ public class CatalogUniqueCodeEntityServiceImpl implements CatalogUniqueCodeEnti
      * @return Catalog unique code entity
      */
     @Override
-    public <T extends CatalogUniqueCodeEntity> T getEntityByCodeAndCatalog(String code, Catalog catalog, Class<T> clazz, String... fetchFields) {
+    public <T extends CatalogUniqueCodeEntity> T getEntityByCodeAndCatalog(String code, CatalogEntity catalog, Class<T> clazz, String... fetchFields) {
         Class classValue = codeGenerationService.getSuperCatalogUniqueCodeClass(clazz);
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -86,7 +85,7 @@ public class CatalogUniqueCodeEntityServiceImpl implements CatalogUniqueCodeEnti
             root.fetch(fetchField, JoinType.LEFT);
         }
         criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get("code"), code),
-                builder.and(builder.equal(root.get("catalog"), uniqueCodeEntityService.getEntityByCode(catalogCode, Catalog.class))));
+                builder.and(builder.equal(root.get("catalog"), uniqueCodeEntityService.getEntityByCode(catalogCode, CatalogEntity.class))));
         TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
         return typedQuery.getSingleResult();
     }

@@ -1,7 +1,7 @@
 package org.mercuriusframework.services.impl;
 
 import org.mercuriusframework.dto.QueryParameter;
-import org.mercuriusframework.entities.Catalog;
+import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.CatalogUniqueCodeEntity;
 import org.mercuriusframework.entities.UniqueCodeEntity;
 import org.mercuriusframework.services.CodeGenerationService;
@@ -97,7 +97,7 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
      * @return Unique code
      */
     @Override
-    public <T extends CatalogUniqueCodeEntity> String generateCatalogUniqueCode(Class<T> type, Catalog catalog) {
+    public <T extends CatalogUniqueCodeEntity> String generateCatalogUniqueCode(Class<T> type, CatalogEntity catalog) {
         Class classValue = getSuperCatalogUniqueCodeClass(type);
         String tempCode = classValue.getSimpleName().toLowerCase() + new Date().getTime();
         boolean existCode = existCatalogUniqueCode(classValue, tempCode, catalog);
@@ -136,7 +136,7 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
      * @return Check result
      */
     @Override
-    public <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCode(Class<T> type, String codeValue, Catalog catalog) {
+    public <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCode(Class<T> type, String codeValue, CatalogEntity catalog) {
         Class classValue = getSuperCatalogUniqueCodeClass(type);
         Long entitiesCount = entityService.getSingleResultByQuery("SELECT count(entity) FROM " + classValue.getSimpleName() + " as entity " +
                 "WHERE entity.code = :entityCode AND entity.catalog = :catalog",  Long.class,
@@ -171,7 +171,7 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
      * @return Check result
      */
     @Override
-    public <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, Catalog catalog, String entityUUID) {
+    public <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, CatalogEntity catalog, String entityUUID) {
         Class classValue = getSuperCatalogUniqueCodeClass(type);
         Long entitiesCount = entityService.getSingleResultByQuery("SELECT count(entity) FROM " + classValue.getSimpleName() + " as entity " +
                         "WHERE entity.code = :entityCode AND entity.catalog = :catalog AND entity.uuid <> :entityUUID",  Long.class,
