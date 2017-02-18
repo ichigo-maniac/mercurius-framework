@@ -1,8 +1,10 @@
 package org.mercuriusframework.services.impl;
 
 import com.google.common.base.Splitter;
+import org.mercuriusframework.constants.MercuriusConstants;
 import org.mercuriusframework.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -13,8 +15,9 @@ import java.util.*;
 /**
  * Configuration service (retrieve parameters from application.properties file in classpath)
  */
-@PropertySource("classpath:application.properties")
+@PropertySource(MercuriusConstants.COMMON.APPLICATION_PROPERTIES_PATH)
 @Service("configurationService")
+@Profile(MercuriusConstants.PROFILES.DEVELOP_PROFILE)
 public class ConfigurationServiceImpl implements ConfigurationService, ServletContextAware {
     /**
      * Server root path

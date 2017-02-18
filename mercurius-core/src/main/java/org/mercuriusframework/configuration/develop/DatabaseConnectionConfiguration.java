@@ -1,12 +1,15 @@
-package org.mercuriusframework.configuration;
+package org.mercuriusframework.configuration.develop;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.mercuriusframework.constants.MercuriusConfigurationParameters;
+import org.mercuriusframework.constants.MercuriusConstants;
 import org.mercuriusframework.flyway.DatabaseMigration;
 import org.mercuriusframework.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.orm.jpa.AbstractEntityManagerFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -20,6 +23,8 @@ import javax.sql.DataSource;
  * Database connection configuration (connection pool, entity manager)
  */
 @Configuration
+@ComponentScan({MercuriusConstants.COMMON.MERCURIUS_BASE_PACKAGE})
+@Profile(MercuriusConstants.PROFILES.DEVELOP_PROFILE)
 public class DatabaseConnectionConfiguration {
     /**
      * Configuration service
@@ -29,7 +34,6 @@ public class DatabaseConnectionConfiguration {
 
     /**
      * Database data source bean (connection pool)
-     *
      * @return Database data source
      */
     @Bean(name = "dataSource")
@@ -45,7 +49,6 @@ public class DatabaseConnectionConfiguration {
 
     /**
      * JPA vendor adapter bean
-     *
      * @return JPA vendor adapter
      */
     @Bean(name = "jpaVendorAdapter")
@@ -59,22 +62,21 @@ public class DatabaseConnectionConfiguration {
 
     /**
      * Entity manager factory bean
-     *
      * @param dataSource Data source
+     * @param jpaVendorAdapter JPA vendor adapter
      * @return Entity manager factory
      */
     @Bean(name = "entityManagerFactory")
     public AbstractEntityManagerFactoryBean entityManagerFactoryBean(DataSource dataSource, HibernateJpaVendorAdapter jpaVendorAdapter) {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource);
-        factoryBean.setPackagesToScan("org.mercuriusframework.*");
+        factoryBean.setPackagesToScan(MercuriusConstants.COMMON.MERCURIUS_BASE_PACKAGE_FOR_SCAN);
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter);
         return factoryBean;
     }
 
     /**
      * Transaction manager bean
-     *
      * @param entityManagerFactory Entity manager factory
      * @return Transaction manager
      */
@@ -86,7 +88,6 @@ public class DatabaseConnectionConfiguration {
 
     /**
      * Transaction template bean
-     *
      * @param transactionManager Transaction manager
      * @return Transaction template
      */
@@ -108,7 +109,10 @@ public class DatabaseConnectionConfiguration {
 
     /**
      * Flyway database migration bean
-     * @return
+     * @param configurationService Configuration service
+     * @param dataSource Data source
+     * @param jdbcTemplate JDBC template
+     * @return Flyway migration service
      */
     @Bean(name = "databaseMigration")
     public DatabaseMigration databaseMigration(DataSource dataSource, NamedParameterJdbcTemplate jdbcTemplate, ConfigurationService configurationService) {
