@@ -6,15 +6,22 @@ import java.util.Set;
 /**
  * Product entity class
  */
-@Entity
+@Entity(name = Product.ENTITY_NAME)
 @Table(name = "PRODUCT")
 public class Product extends CatalogUniqueCodeEntity {
+    /**
+     * Entity name
+     */
+    public static final String ENTITY_NAME = "Product";
+
     /**
      * Main unit
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MAIN_UNIT_UUID", referencedColumnName = "uuid", nullable = false)
     private Unit mainUnit;
+    public static final String MAIN_UNIT = "mainUnit";
+
     /**
      * All available units
      */
@@ -27,12 +34,16 @@ public class Product extends CatalogUniqueCodeEntity {
                     @JoinColumn(name = "UNIT_UUID",
                             nullable = false, updatable = false)})
     private Set<Unit> units;
+    public static final String UNITS = "units";
+
     /**
      * Main category
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MAIN_CATEGORY_UUID", referencedColumnName = "UUID", nullable = false)
     private Category mainCategory;
+    public static final String MAIN_CATEGORY = "mainCategory";
+
     /**
      * All product categories
      */
@@ -45,6 +56,7 @@ public class Product extends CatalogUniqueCodeEntity {
                     @JoinColumn(name = "CATEGORY_UUID",
                             nullable = false, updatable = false)})
     private Set<Category> categories;
+    public static final String CATEGORIES = "categories";
 
     /**
      * Get main unit

@@ -9,17 +9,21 @@ import java.io.Serializable;
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class UniqueCodeEntity extends AbstractEntity implements Serializable {
+
     /**
      * Name
      */
     @Basic(optional = false)
     private String name;
+    public static final String NAME = "name";
+
     /**
      * Code (unique)
      */
     @Basic(optional = false)
     @Column(unique = true)
     private String code;
+    public static final String CODE = "code";
 
     /**
      * Get name

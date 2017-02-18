@@ -13,20 +13,23 @@ public abstract class CatalogUniqueCodeEntity extends AbstractEntity {
      */
     @Basic(optional = false)
     private String name;
+    public static final String NAME = "name";
+
     /**
      * Code (unique)
      */
     @Basic(optional = false)
     private String code;
+    public static final String CODE = "code";
+
     /**
      * Catalog
-     */
-    /**
-     * Main unit
      */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CATALOG_UUID", referencedColumnName = "uuid", nullable = false)
     private Catalog catalog;
+    public static final String CATALOG = "catalog";
+
 
     /**
      * Get name

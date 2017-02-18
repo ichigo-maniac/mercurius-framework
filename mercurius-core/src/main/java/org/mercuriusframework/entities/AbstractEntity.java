@@ -13,6 +13,7 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @EntityListeners({CommonAbstractEntityListener.class})
 public abstract class AbstractEntity implements Serializable {
+
     /**
      * Entity id
      */
@@ -21,14 +22,19 @@ public abstract class AbstractEntity implements Serializable {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "UUID", updatable = false, unique = true, nullable = false, length = 36)
     private String uuid;
+    public static final String UUID = "uuid";
+
     /**
      * Creation time
      */
     private Date creationTime;
+    public static final String CREATION_TIME = "creationTime";
+
     /**
      * Modification time
      */
     private Date modificationTime;
+    public static final String MODIFICATION_TIME = "modificationTime";
 
     /**
      * Get uuid

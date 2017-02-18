@@ -6,15 +6,23 @@ import java.util.Set;
 /**
  * Category entity class
  */
-@Entity
+@Entity(name = Category.ENTITY_NAME)
 @Table(name = "CATEGORY")
 public class Category extends CatalogUniqueCodeEntity {
+
+    /**
+     * Entity name
+     */
+    public static final String ENTITY_NAME = "Category";
+
     /**
      * Main super category
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MAIN_SUPERCATEGORY_UUID", referencedColumnName = "uuid", nullable = true)
     private Category mainSuperCategory;
+    public static final String MAIN_SUPER_CATEGORY = "mainSuperCategory";
+
     /**
      * Super categories
      */
@@ -27,6 +35,8 @@ public class Category extends CatalogUniqueCodeEntity {
                     @JoinColumn(name = "SUPERCATEGORY_UUID",
                             nullable = false, updatable = false)})
     private Set<Category> superCategories;
+    public static final String SUPER_CATEGORIES = "superCategories";
+
     /**
      * Sub categories
      */
@@ -39,6 +49,7 @@ public class Category extends CatalogUniqueCodeEntity {
                     @JoinColumn(name = "CATEGORY_UUID",
                             nullable = false, updatable = false)})
     private Set<Category> subCategories;
+    public static final String SUB_CATEGORIES = "subCategories";
 
     /**
      * Get sub categories
