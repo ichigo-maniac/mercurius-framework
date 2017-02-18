@@ -6,9 +6,9 @@ import java.util.Set;
 /**
  * Product entity class
  */
-@Entity(name = Product.ENTITY_NAME)
+@Entity(name = ProductEntity.ENTITY_NAME)
 @Table(name = "PRODUCT")
-public class Product extends CatalogUniqueCodeEntity {
+public class ProductEntity extends CatalogUniqueCodeEntity {
     /**
      * Entity name
      */
@@ -19,7 +19,7 @@ public class Product extends CatalogUniqueCodeEntity {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MAIN_UNIT_UUID", referencedColumnName = "uuid", nullable = false)
-    private Unit mainUnit;
+    private UnitEntity mainUnit;
     public static final String MAIN_UNIT = "mainUnit";
 
     /**
@@ -33,7 +33,7 @@ public class Product extends CatalogUniqueCodeEntity {
             inverseJoinColumns = {
                     @JoinColumn(name = "UNIT_UUID",
                             nullable = false, updatable = false)})
-    private Set<Unit> units;
+    private Set<UnitEntity> units;
     public static final String UNITS = "units";
 
     /**
@@ -62,7 +62,7 @@ public class Product extends CatalogUniqueCodeEntity {
      * Get main unit
      * @return Main unit
      */
-    public Unit getMainUnit() {
+    public UnitEntity getMainUnit() {
         return mainUnit;
     }
 
@@ -71,7 +71,7 @@ public class Product extends CatalogUniqueCodeEntity {
      * @param mainUnit Main unit
 
      */
-    public void setMainUnit(Unit mainUnit) {
+    public void setMainUnit(UnitEntity mainUnit) {
         this.mainUnit = mainUnit;
     }
 
@@ -79,7 +79,7 @@ public class Product extends CatalogUniqueCodeEntity {
      * Get lll available units
      * @return Set of units
      */
-    public Set<Unit> getUnits() {
+    public Set<UnitEntity> getUnits() {
         return units;
     }
 
@@ -87,7 +87,7 @@ public class Product extends CatalogUniqueCodeEntity {
      * Set all available units
      * @param units Set of units
      */
-    public void setUnits(Set<Unit> units) {
+    public void setUnits(Set<UnitEntity> units) {
         this.units = units;
     }
 
