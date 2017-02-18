@@ -47,7 +47,7 @@ public class EntityServiceImpl implements EntityService {
         for (String fetchField : fetchFields) {
             root.fetch(fetchField, JoinType.LEFT);
         }
-        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get("uuid"), entityUUid));
+        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(AbstractEntity.UUID), entityUUid));
         TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
         return typedQuery.getSingleResult();
     }

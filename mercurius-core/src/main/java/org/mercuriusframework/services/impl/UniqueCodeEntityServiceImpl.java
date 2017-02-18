@@ -56,7 +56,7 @@ public class UniqueCodeEntityServiceImpl implements UniqueCodeEntityService {
         for (String fetchField : fetchFields) {
             root.fetch(fetchField, JoinType.LEFT);
         }
-        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get("code"), code));
+        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(UniqueCodeEntity.CODE), code));
         TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
         return typedQuery.getSingleResult();
     }

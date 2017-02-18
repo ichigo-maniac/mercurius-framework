@@ -51,7 +51,8 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
     public <T extends UniqueCodeEntity> boolean existUniqueCode(Class<T> type, String codeValue) {
         Class classValue = getSuperUniqueCodeClass(type);
         Long entitiesCount = entityService.getSingleResultByQuery("SELECT count(entity) FROM " + classValue.getSimpleName() + " as entity " +
-                "WHERE entity.code = :entityCode",  Long.class, new QueryParameter("entityCode", codeValue));
+                "WHERE entity." + UniqueCodeEntity.CODE + " = :entityCode",  Long.class,
+                new QueryParameter("entityCode", codeValue));
         return !entitiesCount.equals(0l);
     }
 
@@ -67,7 +68,9 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
     public <T extends UniqueCodeEntity> boolean existUniqueCodeExceptOne(Class<T> type, String codeValue, String entityUUID) {
         Class classValue = getSuperUniqueCodeClass(type);
         Long entitiesCount = entityService.getSingleResultByQuery("SELECT count(entity) FROM " + classValue.getSimpleName() + " as entity " +
-                "WHERE entity.code = :entityCode AND entity.uuid <> :entityUUID",  Long.class,
+                "WHERE entity." + UniqueCodeEntity.CODE + " = :entityCode " +
+                "AND entity." + UniqueCodeEntity.UUID + " <> :entityUUID",
+                Long.class,
                 new QueryParameter("entityCode", codeValue),
                 new QueryParameter("entityUUID", entityUUID));
         return !entitiesCount.equals(0l);
@@ -139,7 +142,8 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
     public <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCode(Class<T> type, String codeValue, CatalogEntity catalog) {
         Class classValue = getSuperCatalogUniqueCodeClass(type);
         Long entitiesCount = entityService.getSingleResultByQuery("SELECT count(entity) FROM " + classValue.getSimpleName() + " as entity " +
-                "WHERE entity.code = :entityCode AND entity.catalog = :catalog",  Long.class,
+                "WHERE entity." + CatalogUniqueCodeEntity.CODE + " = :entityCode " +
+                "AND entity." + CatalogUniqueCodeEntity.CATALOG + " = :catalog",  Long.class,
                 new QueryParameter("entityCode", codeValue), new QueryParameter("catalog", catalog));
         return !entitiesCount.equals(0l);
     }
@@ -156,7 +160,8 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
     public <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCode(Class<T> type, String codeValue, String catalogCode) {
         Class classValue = getSuperCatalogUniqueCodeClass(type);
         Long entitiesCount = entityService.getSingleResultByQuery("SELECT count(entity) FROM " + classValue.getSimpleName() + " as entity " +
-                "WHERE entity.code = :entityCode AND entity.catalog.code = :catalogCode",
+                "WHERE entity." + CatalogUniqueCodeEntity.CODE + " = :entityCode " +
+                "AND entity." + CatalogUniqueCodeEntity.CATALOG + "." + CatalogEntity.CODE + " = :catalogCode",
                 Long.class, new QueryParameter("entityCode", codeValue), new QueryParameter("catalogCode", catalogCode));
         return !entitiesCount.equals(0l);
     }
@@ -174,7 +179,9 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
     public <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, CatalogEntity catalog, String entityUUID) {
         Class classValue = getSuperCatalogUniqueCodeClass(type);
         Long entitiesCount = entityService.getSingleResultByQuery("SELECT count(entity) FROM " + classValue.getSimpleName() + " as entity " +
-                        "WHERE entity.code = :entityCode AND entity.catalog = :catalog AND entity.uuid <> :entityUUID",  Long.class,
+                        "WHERE entity." + CatalogUniqueCodeEntity.CODE + " = :entityCode " +
+                        "AND entity." + CatalogUniqueCodeEntity.CATALOG + " = :catalog " +
+                        "AND entity." + CatalogUniqueCodeEntity.UUID + " <> :entityUUID",  Long.class,
                 new QueryParameter("entityCode", codeValue), new QueryParameter("catalog", catalog), new QueryParameter("entityUUID", entityUUID));
         return !entitiesCount.equals(0l);
     }
@@ -192,7 +199,9 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
     public <T extends CatalogUniqueCodeEntity> boolean existCatalogUniqueCodeExceptOne(Class<T> type, String codeValue, String catalogCode, String entityUUID) {
         Class classValue = getSuperCatalogUniqueCodeClass(type);
         Long entitiesCount = entityService.getSingleResultByQuery("SELECT count(entity) FROM " + classValue.getSimpleName() + " as entity " +
-                        "WHERE entity.code = :entityCode AND entity.catalog.code = :catalogCode AND entity.uuid <> :entityUUID",
+                        "WHERE entity." + CatalogUniqueCodeEntity.CODE + " = :entityCode " +
+                        "AND entity." + CatalogUniqueCodeEntity.CATALOG + "." + CatalogEntity.CODE + " = :catalogCode " +
+                        "AND entity." + CatalogUniqueCodeEntity.UUID + " <> :entityUUID",
                 Long.class, new QueryParameter("entityCode", codeValue), new QueryParameter("catalogCode", catalogCode), new QueryParameter("entityUUID", entityUUID));
         return !entitiesCount.equals(0l);
     }

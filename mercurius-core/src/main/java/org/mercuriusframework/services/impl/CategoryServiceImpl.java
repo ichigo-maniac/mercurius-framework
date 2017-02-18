@@ -35,8 +35,9 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of categories
      */
     public List<CategoryEntity> getAllCategoriesWithoutMainSuperCategory(String catalogCode) {
-        return entityService.getListResultByQuery("SELECT category FROM Category as category " +
-                "WHERE category.mainSuperCategory IS NULL AND category.catalog.code = :catalogCode",
+        return entityService.getListResultByQuery("SELECT DISTINCT category FROM " + CategoryEntity.ENTITY_NAME + " as category " +
+                "WHERE category." + CategoryEntity.MAIN_SUPER_CATEGORY + " IS NULL " +
+                "AND category." + CategoryEntity.CATALOG + "." + CatalogEntity.CODE + " = :catalogCode",
                 CategoryEntity.class, new QueryParameter("catalogCode", catalogCode));
     }
 
@@ -46,8 +47,9 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of categories
      */
     public List<CategoryEntity> getAllCategoriesWithoutMainSuperCategory(CatalogEntity catalog) {
-        return entityService.getListResultByQuery("SELECT category FROM Category as category " +
-                        "WHERE category.mainSuperCategory IS NULL AND category.catalog = :catalog",
+        return entityService.getListResultByQuery("SELECT DISTINCT category FROM " + CategoryEntity.ENTITY_NAME +" as category " +
+                        "WHERE category." + CategoryEntity.MAIN_SUPER_CATEGORY + " IS NULL " +
+                        "AND category." + CategoryEntity.CATALOG + " = :catalog",
                 CategoryEntity.class, new QueryParameter("catalog", catalog));
     }
 
@@ -58,7 +60,8 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of categories (ordered)
      */
     public List<CategoryEntity> getBreadCrumbs(String categoryCode, String catalogCode) {
-        return getBreadCrumbs(catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, CategoryEntity.class, CategoryEntity.MAIN_SUPER_CATEGORY));
+        return getBreadCrumbs(catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, CategoryEntity.class,
+                CategoryEntity.MAIN_SUPER_CATEGORY));
     }
 
     /**
@@ -68,7 +71,8 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of categories (ordered)
      */
     public List<CategoryEntity> getBreadCrumbs(String categoryCode, CatalogEntity catalog) {
-        return getBreadCrumbs(catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, CategoryEntity.class, CategoryEntity.MAIN_SUPER_CATEGORY));
+        return getBreadCrumbs(catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, CategoryEntity.class,
+                CategoryEntity.MAIN_SUPER_CATEGORY));
     }
 
     /**
@@ -103,15 +107,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * Get sub-categories
-     *
      * @param categoryCode Category code
      * @param catalogCode  Catalog code
      * @return List of categories
      */
     public List<CategoryEntity> getSubCategories(String categoryCode, String catalogCode) {
-        return entityService.getListResultByQuery("SELECT DISTINCT category FROM Category as category " +
-                "LEFT JOIN category.superCategories as superCategory " +
-                "WHERE superCategory.catalog.code = :catalogCode AND superCategory.code = :categoryCode",
+        return entityService.getListResultByQuery("SELECT DISTINCT category FROM " + CategoryEntity.ENTITY_NAME + " as category " +
+                "LEFT JOIN category." + CategoryEntity.SUPER_CATEGORIES + " as superCategory " +
+                "WHERE superCategory." + CategoryEntity.CATALOG + ".code = :catalogCode " +
+                "AND superCategory." + CategoryEntity.CODE + " = :categoryCode",
                 CategoryEntity.class, new QueryParameter("catalogCode", catalogCode), new QueryParameter("categoryCode", categoryCode));
     }
 
@@ -122,9 +126,10 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of categories
      */
     public List<CategoryEntity> getSubCategories(String categoryCode, CatalogEntity catalog) {
-        return entityService.getListResultByQuery("SELECT DISTINCT category FROM Category as category " +
-                "LEFT JOIN category.superCategories as superCategory " +
-                "WHERE superCategory.catalog = :catalog AND superCategory.code = :categoryCode",
+        return entityService.getListResultByQuery("SELECT DISTINCT category FROM " + CategoryEntity.ENTITY_NAME + " as category " +
+                "LEFT JOIN category." + CategoryEntity.SUPER_CATEGORIES + " as superCategory " +
+                "WHERE superCategory." + CategoryEntity.CATALOG + " = :catalog " +
+                "AND superCategory." + CategoryEntity.CODE + " = :categoryCode",
                 CategoryEntity.class, new QueryParameter("catalog", catalog), new QueryParameter("categoryCode", categoryCode));
     }
 
@@ -135,9 +140,9 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of categories
      */
     public List<CategoryEntity> getSubCategories(String categoryUid) {
-        return entityService.getListResultByQuery("SELECT DISTINCT category FROM Category as category " +
-                "LEFT JOIN category.superCategories as superCategory " +
-                "WHERE superCategory.uuid = :categoryUid",
+        return entityService.getListResultByQuery("SELECT DISTINCT category FROM " + CategoryEntity.ENTITY_NAME + " as category " +
+                "LEFT JOIN category." + CategoryEntity.SUPER_CATEGORIES + " as superCategory " +
+                "WHERE superCategory." + CategoryEntity.UUID + " = :categoryUid",
                 CategoryEntity.class, new QueryParameter("categoryUid", categoryUid));
     }
 }

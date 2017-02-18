@@ -61,7 +61,8 @@ public class CatalogUniqueCodeEntityServiceImpl implements CatalogUniqueCodeEnti
         for (String fetchField : fetchFields) {
             root.fetch(fetchField, JoinType.LEFT);
         }
-        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get("code"), code), builder.and(builder.equal(root.get("catalog"), catalog)));
+        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(CatalogUniqueCodeEntity.CODE), code),
+                builder.and(builder.equal(root.get(CatalogUniqueCodeEntity.CATALOG), catalog)));
         TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
         return typedQuery.getSingleResult();
     }
@@ -84,8 +85,9 @@ public class CatalogUniqueCodeEntityServiceImpl implements CatalogUniqueCodeEnti
         for (String fetchField : fetchFields) {
             root.fetch(fetchField, JoinType.LEFT);
         }
-        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get("code"), code),
-                builder.and(builder.equal(root.get("catalog"), uniqueCodeEntityService.getEntityByCode(catalogCode, CatalogEntity.class))));
+        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(CatalogUniqueCodeEntity.CODE), code),
+                builder.and(builder.equal(root.get(CatalogUniqueCodeEntity.CATALOG),
+                        uniqueCodeEntityService.getEntityByCode(catalogCode, CatalogEntity.class))));
         TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
         return typedQuery.getSingleResult();
     }
