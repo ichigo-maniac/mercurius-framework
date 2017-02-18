@@ -17,6 +17,17 @@
 
     <!-- Properties -->
     <properties>
+        <!-- Common -->
+        <servlet.api.version>2.5</servlet.api.version>
+        <jsp.api.version>2.1</jsp.api.version>
+        <jstl.version>1.2</jstl.version>
+        <cglib.version>2.2.2</cglib.version>
+        <common.logging.version>1.1.3</common.logging.version>
+        <common.io.version>2.4</common.io.version>
+        <common.lang.version>2.6</common.lang.version>
+        <javassist.version>3.19.0-GA</javassist.version>
+        <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
+        <!-- Libraries -->
         <spring.version>4.1.9.RELEASE</spring.version>
         <jackson.version>1.9.13</jackson.version>
         <google.guava.version>19.0</google.guava.version>
@@ -26,6 +37,9 @@
         <!-- Database drivers -->
         <postgre.sql.driver.version>9.0-801.jdbc4</postgre.sql.driver.version>
         <mysql.sql.driver.version>5.1.6</mysql.sql.driver.version>
+        <!-- Testing -->
+        <junit.version>4.12</junit.version>
+        <h2.database.version>1.4.193</h2.database.version>
     </properties>
 
     <!-- Dependencies -->
@@ -35,45 +49,45 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <version>${servlet.api.version}</version>
         </dependency>
 
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
-            <version>2.1</version>
+            <version>${jsp.api.version}</version>
         </dependency>
 
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <version>${jstl.version}</version>
         </dependency>
 
         <!-- AoP dependencies -->
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
-            <version>2.2.2</version>
+            <version>${cglib.version}</version>
         </dependency>
 
         <!-- Spring framework dependencies -->
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.1.3</version>
+            <version>${common.logging.version}</version>
         </dependency>
 
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.4</version>
+            <version>${common.io.version}</version>
         </dependency>
 
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
+            <version>${common.lang.version}</version>
         </dependency>
 
         <dependency>
@@ -158,13 +172,13 @@
         <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
-            <version>3.19.0-GA</version>
+            <version>${javassist.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>1.0.0.Final</version>
+            <version>${hibernate.jpa.version}</version>
         </dependency>
 
         <!-- Jackson dependencies -->
@@ -186,6 +200,28 @@
             <groupId>com.googlecode.flyway</groupId>
             <artifactId>flyway-core</artifactId>
             <version>${flyway.version}</version>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.database.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
