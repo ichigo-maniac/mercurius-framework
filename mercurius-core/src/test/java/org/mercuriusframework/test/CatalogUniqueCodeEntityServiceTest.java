@@ -2,7 +2,7 @@ package org.mercuriusframework.test;
 
 import org.junit.Test;
 import org.mercuriusframework.entities.CatalogEntity;
-import org.mercuriusframework.entities.Category;
+import org.mercuriusframework.entities.CategoryEntity;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
 import org.mercuriusframework.services.UniqueCodeEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,8 @@ public class CatalogUniqueCodeEntityServiceTest extends AbstractTest {
     @Test
     public void getEntityByCodeAndCatalogTest() {
         CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
-        Category category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalog("manga", catalog, Category.class, "mainSuperCategory");
+        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalog("manga", catalog, CategoryEntity.class,
+                CategoryEntity.MAIN_SUPER_CATEGORY);
         assertEquals(
                 category.getUuid().equals("4aa6fb20-f065-11e6-9daf-a334a56d0d4c")
                 && category.getMainSuperCategory().getUuid().equals("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f"), true);
@@ -41,7 +42,8 @@ public class CatalogUniqueCodeEntityServiceTest extends AbstractTest {
      */
     @Test
     public void getEntityByCodeAndCatalogCodeTest() {
-        Category category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("bluray", "master_catalog", Category.class, "mainSuperCategory");
+        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("bluray", "master_catalog",
+                CategoryEntity.class, CategoryEntity.MAIN_SUPER_CATEGORY);
         assertEquals(
                 category.getUuid().equals("4aa6e108-f065-11e6-9dae-774f2dfc5358")
                         && category.getMainSuperCategory().getUuid().equals("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f"), true);

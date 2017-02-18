@@ -1,7 +1,7 @@
 package org.mercuriusframework.services;
 
 import org.mercuriusframework.entities.CatalogEntity;
-import org.mercuriusframework.entities.Category;
+import org.mercuriusframework.entities.CategoryEntity;
 
 import java.util.List;
 
@@ -14,58 +14,58 @@ public interface CategoryService {
      * @param catalogCode Catalog code
      * @return List of categories
      */
-    List<Category> getAllCategoriesWithoutMainSuperCategory(String catalogCode);
+    List<CategoryEntity> getAllCategoriesWithoutMainSuperCategory(String catalogCode);
     /**
      * Get all categories without a main super category
      * @param catalog Catalog
      * @return List of categories
      */
-    List<Category> getAllCategoriesWithoutMainSuperCategory(CatalogEntity catalog);
+    List<CategoryEntity> getAllCategoriesWithoutMainSuperCategory(CatalogEntity catalog);
     /**
      * Get category bread crumbs
      * @param categoryCode Category code
      * @param catalogCode Catalog code
      * @return List of categories (ordered)
      */
-    List<Category> getBreadCrumbs(String categoryCode, String catalogCode);
+    List<CategoryEntity> getBreadCrumbs(String categoryCode, String catalogCode);
     /**
      * Get category bread crumbs
      * @param categoryCode Category code
      * @param catalog Catalog
      * @return List of categories (ordered)
      */
-    List<Category> getBreadCrumbs(String categoryCode, CatalogEntity catalog);
+    List<CategoryEntity> getBreadCrumbs(String categoryCode, CatalogEntity catalog);
     /**
      * Get category bread crumbs
      * @param categoryUuid Category uid
      * @return List of categories (ordered)
      */
-    List<Category> getBreadCrumbs(String categoryUuid);
+    List<CategoryEntity> getBreadCrumbs(String categoryUuid);
     /**
      * Get category bread crumbs
      * @param category Category
      * @return List of categories (ordered)
      */
-    List<Category> getBreadCrumbs(Category category);
+    List<CategoryEntity> getBreadCrumbs(CategoryEntity category);
     /**
      * Get sub-categories
      * @param categoryCode Category code
      * @param catalogCode Catalog code
      * @return List of categories
      */
-    List<Category> getSubCategories(String categoryCode, String catalogCode);
+    List<CategoryEntity> getSubCategories(String categoryCode, String catalogCode);
     /**
      * Get sub-categories
      * @param categoryCode Category code
      * @param catalog Catalog
      * @return List of categories
      */
-    List<Category> getSubCategories(String categoryCode, CatalogEntity catalog);
+    List<CategoryEntity> getSubCategories(String categoryCode, CatalogEntity catalog);
     /**
      * Get sub-categories
      * @param categoryUid Category uid
      * @return List of categories
      */
-    List<Category> getSubCategories(String categoryUid);
+    List<CategoryEntity> getSubCategories(String categoryUid);
 
 }

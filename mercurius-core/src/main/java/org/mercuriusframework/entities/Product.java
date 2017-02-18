@@ -41,7 +41,7 @@ public class Product extends CatalogUniqueCodeEntity {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MAIN_CATEGORY_UUID", referencedColumnName = "UUID", nullable = false)
-    private Category mainCategory;
+    private CategoryEntity mainCategory;
     public static final String MAIN_CATEGORY = "mainCategory";
 
     /**
@@ -55,7 +55,7 @@ public class Product extends CatalogUniqueCodeEntity {
             inverseJoinColumns = {
                     @JoinColumn(name = "CATEGORY_UUID",
                             nullable = false, updatable = false)})
-    private Set<Category> categories;
+    private Set<CategoryEntity> categories;
     public static final String CATEGORIES = "categories";
 
     /**
@@ -95,7 +95,7 @@ public class Product extends CatalogUniqueCodeEntity {
      * Get main category
      * @return Main category
      */
-    public Category getMainCategory() {
+    public CategoryEntity getMainCategory() {
         return mainCategory;
     }
 
@@ -103,7 +103,7 @@ public class Product extends CatalogUniqueCodeEntity {
      * Set main category
      * @param mainCategory Main category
      */
-    public void setMainCategory(Category mainCategory) {
+    public void setMainCategory(CategoryEntity mainCategory) {
         this.mainCategory = mainCategory;
     }
 
@@ -111,7 +111,7 @@ public class Product extends CatalogUniqueCodeEntity {
      * Get all product categories
      * @return Set of categories
      */
-    public Set<Category> getCategories() {
+    public Set<CategoryEntity> getCategories() {
         return categories;
     }
 
@@ -119,7 +119,7 @@ public class Product extends CatalogUniqueCodeEntity {
      * Set all product categories
      * @param categories Set of categories
      */
-    public void setCategories(Set<Category> categories) {
+    public void setCategories(Set<CategoryEntity> categories) {
         this.categories = categories;
     }
 }

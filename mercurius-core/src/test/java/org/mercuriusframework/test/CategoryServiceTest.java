@@ -2,7 +2,7 @@ package org.mercuriusframework.test;
 
 import org.junit.Test;
 import org.mercuriusframework.entities.CatalogEntity;
-import org.mercuriusframework.entities.Category;
+import org.mercuriusframework.entities.CategoryEntity;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
 import org.mercuriusframework.services.CategoryService;
 import org.mercuriusframework.services.UniqueCodeEntityService;
@@ -49,7 +49,7 @@ public class CategoryServiceTest extends AbstractTest {
      */
     @Test
     public void getAllCategoriesWithoutMainSuperCategoryTest() {
-        List<Category> categories = categoryService.getAllCategoriesWithoutMainSuperCategory("master_catalog");
+        List<CategoryEntity> categories = categoryService.getAllCategoriesWithoutMainSuperCategory("master_catalog");
         assertEquals(categories.size() == 1 && categories.get(0).getUuid().equals("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f"), true);
     }
 
@@ -59,7 +59,7 @@ public class CategoryServiceTest extends AbstractTest {
     @Test
     public void getAllCategoriesWithoutMainSuperCategoryTest2() {
         CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
-        List<Category> categories = categoryService.getAllCategoriesWithoutMainSuperCategory(catalog);
+        List<CategoryEntity> categories = categoryService.getAllCategoriesWithoutMainSuperCategory(catalog);
         assertEquals(categories.size() == 1 && categories.get(0).getUuid().equals("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f"), true);
     }
 
@@ -68,8 +68,8 @@ public class CategoryServiceTest extends AbstractTest {
      */
     @Test
     public void getBreadCrumbsTest() {
-        Category category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("spokon_manga", "master_catalog", Category.class);
-        List<Category> breadCrumbs = categoryService.getBreadCrumbs(category);
+        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("spokon_manga", "master_catalog", CategoryEntity.class);
+        List<CategoryEntity> breadCrumbs = categoryService.getBreadCrumbs(category);
         assertOrderedUuidListsEquals(getUuids(breadCrumbs), ORDERED_BREAD_CRUMBS_UUIDS_LIST);
     }
 
@@ -78,7 +78,7 @@ public class CategoryServiceTest extends AbstractTest {
      */
     @Test
     public void getBreadCrumbsTest2() {
-        List<Category> breadCrumbs = categoryService.getBreadCrumbs("1116fb20-f065-11e6-9daf-a334a56d0111");
+        List<CategoryEntity> breadCrumbs = categoryService.getBreadCrumbs("1116fb20-f065-11e6-9daf-a334a56d0111");
         assertOrderedUuidListsEquals(getUuids(breadCrumbs), ORDERED_BREAD_CRUMBS_UUIDS_LIST);
     }
 
@@ -87,7 +87,7 @@ public class CategoryServiceTest extends AbstractTest {
      */
     @Test
     public void getBreadCrumbsTest3() {
-        List<Category> breadCrumbs = categoryService.getBreadCrumbs("spokon_manga", "master_catalog");
+        List<CategoryEntity> breadCrumbs = categoryService.getBreadCrumbs("spokon_manga", "master_catalog");
         assertOrderedUuidListsEquals(getUuids(breadCrumbs), ORDERED_BREAD_CRUMBS_UUIDS_LIST);
     }
 
@@ -97,7 +97,7 @@ public class CategoryServiceTest extends AbstractTest {
     @Test
     public void getBreadCrumbsTest4() {
         CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
-        List<Category> breadCrumbs = categoryService.getBreadCrumbs("spokon_manga", catalog);
+        List<CategoryEntity> breadCrumbs = categoryService.getBreadCrumbs("spokon_manga", catalog);
         assertOrderedUuidListsEquals(getUuids(breadCrumbs), ORDERED_BREAD_CRUMBS_UUIDS_LIST);
     }
 
@@ -108,7 +108,7 @@ public class CategoryServiceTest extends AbstractTest {
     @Test
     public void getSubCategoriesTest() {
         CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
-        List<Category> categories = categoryService.getSubCategories("main_category", catalog);
+        List<CategoryEntity> categories = categoryService.getSubCategories("main_category", catalog);
         assertUuidListsEquals(SUB_CATEGORIES_UUIDS_LIST, getUuids(categories));
     }
 
@@ -117,7 +117,7 @@ public class CategoryServiceTest extends AbstractTest {
      */
     @Test
     public void getSubCategoriesTest2() {
-        List<Category> categories = categoryService.getSubCategories("main_category", "master_catalog");
+        List<CategoryEntity> categories = categoryService.getSubCategories("main_category", "master_catalog");
         assertUuidListsEquals(SUB_CATEGORIES_UUIDS_LIST, getUuids(categories));assertUuidListsEquals(SUB_CATEGORIES_UUIDS_LIST, getUuids(categories));
     }
 
@@ -126,7 +126,7 @@ public class CategoryServiceTest extends AbstractTest {
      */
     @Test
     public void getSubCategoriesTest3() {
-        List<Category> categories = categoryService.getSubCategories("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f");
+        List<CategoryEntity> categories = categoryService.getSubCategories("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f");
         assertUuidListsEquals(SUB_CATEGORIES_UUIDS_LIST, getUuids(categories));
     }
 
