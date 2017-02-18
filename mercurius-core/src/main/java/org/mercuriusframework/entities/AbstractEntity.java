@@ -73,4 +73,34 @@ public abstract class AbstractEntity implements Serializable {
     public void setModificationTime(Date modificationTime) {
         this.modificationTime = modificationTime;
     }
+
+    /**
+     * Get hash code
+     * @return Hash code
+     */
+    @Override
+    public int hashCode() {
+        return uuid != null ? uuid.hashCode() : 0;
+    }
+
+    /**
+     * Equals
+     * @param object Object
+     * @return Compare result
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (getClass() != object.getClass()) {
+            return false;
+        }
+        final AbstractEntity other = (AbstractEntity) object;
+        if (this.getUuid() != other.getUuid()
+                && (this.getUuid() == null || !this.getUuid().equals(other.getUuid()))) {
+            return false;
+        }
+        return true;
+    }
 }
