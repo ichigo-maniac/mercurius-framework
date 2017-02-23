@@ -3,6 +3,7 @@ package org.mercuriusframework.converters.impl;
 import org.mercuriusframework.converters.Converter;
 import org.mercuriusframework.dto.CategoryEntityDto;
 import org.mercuriusframework.entities.CategoryEntity;
+import org.mercuriusframework.enums.LoadOptions;
 import org.mercuriusframework.fillers.impl.CategoryEntityFiller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,12 +25,13 @@ public class CategoryEntityConverter implements Converter<CategoryEntity, Catego
     /**
      * Convert a source object to a result object
      * @param categoryEntity Source object
+     * @param options Load options
      * @return Result object
      */
     @Override
-    public CategoryEntityDto convert(CategoryEntity categoryEntity) {
+    public CategoryEntityDto convert(CategoryEntity categoryEntity, LoadOptions... options) {
         CategoryEntityDto result = new CategoryEntityDto();
-        categoryEntityFiller.fillIn(categoryEntity, result);
+        categoryEntityFiller.fillIn(categoryEntity, result, options);
         return result;
     }
 }

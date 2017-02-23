@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -53,18 +54,22 @@ public class CatalogUniqueCodeEntityServiceImpl implements CatalogUniqueCodeEnti
      */
     @Override
     public <T extends CatalogUniqueCodeEntity> T getEntityByCodeAndCatalog(String code, CatalogEntity catalog, Class<T> clazz, String... fetchFields) {
-        Class classValue = codeGenerationService.getSuperCatalogUniqueCodeClass(clazz);
+        try {
+            Class classValue = codeGenerationService.getSuperCatalogUniqueCodeClass(clazz);
 
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<T> criteriaQuery = builder.createQuery(classValue);
-        Root<T> root = criteriaQuery.from(classValue);
-        for (String fetchField : fetchFields) {
-            root.fetch(fetchField, JoinType.LEFT);
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<T> criteriaQuery = builder.createQuery(classValue);
+            Root<T> root = criteriaQuery.from(classValue);
+            for (String fetchField : fetchFields) {
+                root.fetch(fetchField, JoinType.LEFT);
+            }
+            criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(CatalogUniqueCodeEntity.CODE), code),
+                    builder.and(builder.equal(root.get(CatalogUniqueCodeEntity.CATALOG), catalog)));
+            TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+            return typedQuery.getSingleResult();
+        } catch (NoResultException exception) {
+            return null;
         }
-        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(CatalogUniqueCodeEntity.CODE), code),
-                builder.and(builder.equal(root.get(CatalogUniqueCodeEntity.CATALOG), catalog)));
-        TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
-        return typedQuery.getSingleResult();
     }
 
     /**
@@ -77,18 +82,22 @@ public class CatalogUniqueCodeEntityServiceImpl implements CatalogUniqueCodeEnti
      */
     @Override
     public <T extends CatalogUniqueCodeEntity> T getEntityByCodeAndCatalogCode(String code, String catalogCode, Class<T> clazz, String... fetchFields) {
-        Class classValue = codeGenerationService.getSuperCatalogUniqueCodeClass(clazz);
+        try {
+            Class classValue = codeGenerationService.getSuperCatalogUniqueCodeClass(clazz);
 
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<T> criteriaQuery = builder.createQuery(classValue);
-        Root<T> root = criteriaQuery.from(classValue);
-        for (String fetchField : fetchFields) {
-            root.fetch(fetchField, JoinType.LEFT);
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<T> criteriaQuery = builder.createQuery(classValue);
+            Root<T> root = criteriaQuery.from(classValue);
+            for (String fetchField : fetchFields) {
+                root.fetch(fetchField, JoinType.LEFT);
+            }
+            criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(CatalogUniqueCodeEntity.CODE), code),
+                    builder.and(builder.equal(root.get(CatalogUniqueCodeEntity.CATALOG),
+                            uniqueCodeEntityService.getEntityByCode(catalogCode, CatalogEntity.class))));
+            TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+            return typedQuery.getSingleResult();
+        } catch (NoResultException exception) {
+            return null;
         }
-        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(CatalogUniqueCodeEntity.CODE), code),
-                builder.and(builder.equal(root.get(CatalogUniqueCodeEntity.CATALOG),
-                        uniqueCodeEntityService.getEntityByCode(catalogCode, CatalogEntity.class))));
-        TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
-        return typedQuery.getSingleResult();
     }
 }

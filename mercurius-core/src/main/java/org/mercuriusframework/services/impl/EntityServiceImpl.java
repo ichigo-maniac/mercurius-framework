@@ -41,15 +41,19 @@ public class EntityServiceImpl implements EntityService {
      * @return Entity
      */
     public <T extends AbstractEntity> T findByUuid(String entityUUid, Class<T> entityClass, String... fetchFields) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
-        Root<T> root = criteriaQuery.from(entityClass);
-        for (String fetchField : fetchFields) {
-            root.fetch(fetchField, JoinType.LEFT);
+        try {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
+            Root<T> root = criteriaQuery.from(entityClass);
+            for (String fetchField : fetchFields) {
+                root.fetch(fetchField, JoinType.LEFT);
+            }
+            criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(AbstractEntity.UUID), entityUUid));
+            TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+            return typedQuery.getSingleResult();
+        } catch (NoResultException exception) {
+            return null;
         }
-        criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(AbstractEntity.UUID), entityUUid));
-        TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
-        return typedQuery.getSingleResult();
     }
 
     /**
