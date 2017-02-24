@@ -19,4 +19,11 @@ public class MercuriusConstants {
         public static final String DEVELOP_PROFILE = "mercurius_develop_profile";
         public static final String TEST_PROFILE = "mercurius_test_profile1";
     }
+
+    /**
+     * Session attributes constants
+     */
+    public class SESSION_ATTRIBUTES {
+        public static final String DEFAULT_CATALOG = "defaultCatalog";
+    }
 }

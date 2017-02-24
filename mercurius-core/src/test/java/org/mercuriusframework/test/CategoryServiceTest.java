@@ -64,21 +64,21 @@ public class CategoryServiceTest extends AbstractTest {
     }
 
     /**
-     * Method test - categoryService.getBreadCrumbs
+     * Method test - categoryService.getBreadCrumbsByCategory
      */
     @Test
-    public void getBreadCrumbsTest() {
+    public void getBreadCrumbsByCategoryTest() {
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("spokon_manga", "master_catalog", CategoryEntity.class);
-        List<CategoryEntity> breadCrumbs = categoryService.getBreadCrumbs(category);
+        List<CategoryEntity> breadCrumbs = categoryService.getBreadCrumbsByCategory(category);
         assertOrderedUuidListsEquals(getUuids(breadCrumbs), ORDERED_BREAD_CRUMBS_UUIDS_LIST);
     }
 
     /**
-     * Method test (second) - categoryService.getBreadCrumbs
+     * Method test (second) - categoryService.getBreadCrumbsByCategoryUuid
      */
     @Test
     public void getBreadCrumbsTest2() {
-        List<CategoryEntity> breadCrumbs = categoryService.getBreadCrumbs("1116fb20-f065-11e6-9daf-a334a56d0111");
+        List<CategoryEntity> breadCrumbs = categoryService.getBreadCrumbsByCategoryUuid("1116fb20-f065-11e6-9daf-a334a56d0111");
         assertOrderedUuidListsEquals(getUuids(breadCrumbs), ORDERED_BREAD_CRUMBS_UUIDS_LIST);
     }
 
@@ -122,11 +122,11 @@ public class CategoryServiceTest extends AbstractTest {
     }
 
     /**
-     * Method test (third) - categoryService.getSubCategories
+     * Method test (third) - categoryService.getSubCategoriesByCategoryUuid
      */
     @Test
     public void getSubCategoriesTest3() {
-        List<CategoryEntity> categories = categoryService.getSubCategories("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f");
+        List<CategoryEntity> categories = categoryService.getSubCategoriesByCategoryUuid("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f");
         assertUuidListsEquals(SUB_CATEGORIES_UUIDS_LIST, getUuids(categories));
     }
 

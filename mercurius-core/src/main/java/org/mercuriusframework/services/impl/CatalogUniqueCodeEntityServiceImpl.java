@@ -1,7 +1,10 @@
 package org.mercuriusframework.services.impl;
 
+import org.mercuriusframework.dto.CatalogEntityDto;
 import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.CatalogUniqueCodeEntity;
+import org.mercuriusframework.exceptions.DefaultCatalogPresetException;
+import org.mercuriusframework.facades.CatalogFacade;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
 import org.mercuriusframework.services.CodeGenerationService;
 import org.mercuriusframework.services.EntityService;
@@ -23,26 +26,52 @@ import javax.persistence.criteria.Root;
  */
 @Service("catalogUniqueCodeEntityService")
 public class CatalogUniqueCodeEntityServiceImpl implements CatalogUniqueCodeEntityService {
+
     /**
      * Entity manager
      */
     @PersistenceContext
     protected EntityManager entityManager;
+
     /**
      * Entity service
      */
     @Autowired
     private EntityService entityService;
+
     /**
      * Code generation service
      */
     @Autowired
     private CodeGenerationService codeGenerationService;
+
     /**
      * Unique code entity service
      */
     @Autowired
     private UniqueCodeEntityService uniqueCodeEntityService;
+
+    /**
+     * Catalog facade
+     */
+    @Autowired
+    private CatalogFacade catalogFacade;
+
+    /**
+     * Get catalog unique code entity by code and catalog (use default catalog)
+     * @param code        Entity code
+     * @param clazz       Entity class
+     * @param fetchFields Fetch fields
+     * @return Catalog unique code entity
+     */
+    @Override
+    public <T extends CatalogUniqueCodeEntity> T getEntityByCode(String code, Class<T> clazz, String... fetchFields) {
+        CatalogEntityDto catalog = catalogFacade.getDefaultCatalog();
+        if (catalog == null) {
+            throw new DefaultCatalogPresetException();
+        }
+        return getEntityByCodeAndCatalogCode(code, catalog.getCode(), clazz, fetchFields);
+    }
 
     /**
      * Get catalog unique code entity by code and catalog

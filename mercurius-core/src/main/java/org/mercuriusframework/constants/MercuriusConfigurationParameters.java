@@ -25,4 +25,11 @@ public class MercuriusConfigurationParameters {
         public static final String CLEAN_SCHEMA = "mercurius.flyway.clean.schema";
         public static final String CUSTOM_SCRIPTS_FOLDER = "mercurius.flyway.custom.scripts.folder";
     }
+
+    /**
+     * Web parameters
+     */
+    public class WEB_PARAMETERS {
+        public static final String DEFAULT_CATALOG_CODE = "mercurius.default.catalog.code";
+    }
 }

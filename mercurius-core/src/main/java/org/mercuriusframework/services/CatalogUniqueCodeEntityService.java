@@ -7,6 +7,17 @@ import org.mercuriusframework.entities.CatalogUniqueCodeEntity;
  * Catalog unique code entity service interface
  */
 public interface CatalogUniqueCodeEntityService {
+
+    /**
+     * Get catalog unique code entity by code and catalog (use default catalog)
+     * @param code Entity code
+     * @param clazz  Entity class
+     * @param fetchFields Fetch fields
+     * @param <T> Entity class
+     * @return Catalog unique code entity
+     */
+    <T extends CatalogUniqueCodeEntity> T getEntityByCode(String code, Class<T> clazz, String... fetchFields);
+
     /**
      * Get catalog unique code entity by code and catalog
      * @param code Entity code
@@ -17,6 +28,7 @@ public interface CatalogUniqueCodeEntityService {
      * @return Catalog unique code entity
      */
     <T extends CatalogUniqueCodeEntity> T getEntityByCodeAndCatalog(String code, CatalogEntity catalog, Class<T> clazz, String... fetchFields);
+
     /**
      * Get catalog unique code entity by code and catalog code
      * @param code Entity code

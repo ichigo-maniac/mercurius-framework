@@ -1,8 +1,11 @@
 package org.mercuriusframework.services.impl;
 
+import org.mercuriusframework.dto.CatalogEntityDto;
 import org.mercuriusframework.dto.QueryParameter;
 import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.CategoryEntity;
+import org.mercuriusframework.exceptions.DefaultCatalogPresetException;
+import org.mercuriusframework.facades.CatalogFacade;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
 import org.mercuriusframework.services.CategoryService;
 import org.mercuriusframework.services.EntityService;
@@ -30,6 +33,25 @@ public class CategoryServiceImpl implements CategoryService {
     private CatalogUniqueCodeEntityService catalogUniqueCodeEntityService;
 
     /**
+     * Catalog facade
+     */
+    @Autowired
+    private CatalogFacade catalogFacade;
+
+    /**
+     * Get all categories without a main super category (use default catalog)
+     * @return List of categories
+     */
+    @Override
+    public List<CategoryEntity> getAllCategoriesWithoutMainSuperCategory() {
+        CatalogEntityDto catalog = catalogFacade.getDefaultCatalog();
+        if (catalog == null) {
+            throw new DefaultCatalogPresetException();
+        }
+        return getAllCategoriesWithoutMainSuperCategory(catalog.getCode());
+    }
+
+    /**
      * Get all categories without a main super category
      * @param catalogCode Catalog code
      * @return List of categories
@@ -54,13 +76,27 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
+     * Get category bread crumbs (use default catalog)
+     * @param categoryCode Category code
+     * @return List of categories (ordered)
+     */
+    @Override
+    public List<CategoryEntity> getBreadCrumbs(String categoryCode) {
+        CatalogEntityDto catalog = catalogFacade.getDefaultCatalog();
+        if (catalog == null) {
+            throw new DefaultCatalogPresetException();
+        }
+        return getBreadCrumbs(categoryCode, catalog.getCode());
+    }
+
+    /**
      * Get category bread crumbs
      * @param categoryCode Category code
      * @param catalogCode  Catalog code
      * @return List of categories (ordered)
      */
     public List<CategoryEntity> getBreadCrumbs(String categoryCode, String catalogCode) {
-        return getBreadCrumbs(catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, CategoryEntity.class,
+        return getBreadCrumbsByCategory(catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, CategoryEntity.class,
                 CategoryEntity.MAIN_SUPER_CATEGORY));
     }
 
@@ -71,18 +107,17 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of categories (ordered)
      */
     public List<CategoryEntity> getBreadCrumbs(String categoryCode, CatalogEntity catalog) {
-        return getBreadCrumbs(catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, CategoryEntity.class,
+        return getBreadCrumbsByCategory(catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, CategoryEntity.class,
                 CategoryEntity.MAIN_SUPER_CATEGORY));
     }
 
     /**
      * Get category bread crumbs
-     *
      * @param categoryUuid Category uuid
      * @return List of categories (ordered)
      */
-    public List<CategoryEntity> getBreadCrumbs(String categoryUuid) {
-        return getBreadCrumbs(entityService.findByUuid(categoryUuid, CategoryEntity.class, CategoryEntity.MAIN_SUPER_CATEGORY));
+    public List<CategoryEntity> getBreadCrumbsByCategoryUuid(String categoryUuid) {
+        return getBreadCrumbsByCategory(entityService.findByUuid(categoryUuid, CategoryEntity.class, CategoryEntity.MAIN_SUPER_CATEGORY));
     }
 
     /**
@@ -90,7 +125,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @param category Category
      * @return List of categories (ordered)
      */
-    public List<CategoryEntity> getBreadCrumbs(CategoryEntity category) {
+    public List<CategoryEntity> getBreadCrumbsByCategory(CategoryEntity category) {
         ArrayList<CategoryEntity> breadCrumbs = new ArrayList<CategoryEntity>();
         breadCrumbs.add(category);
         /** Build bread crumbs */
@@ -103,6 +138,20 @@ public class CategoryServiceImpl implements CategoryService {
         breadCrumbs.trimToSize();
         Collections.reverse(breadCrumbs);
         return breadCrumbs;
+    }
+
+    /**
+     * Get sub-categories (use default catalog)
+     * @param categoryCode Category code
+     * @return List of categories
+     */
+    @Override
+    public List<CategoryEntity> getSubCategories(String categoryCode) {
+        CatalogEntityDto catalog = catalogFacade.getDefaultCatalog();
+        if (catalog == null) {
+            throw new DefaultCatalogPresetException();
+        }
+        return getSubCategories(categoryCode, catalog.getCode());
     }
 
     /**
@@ -135,14 +184,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * Get sub-categories
-     *
-     * @param categoryUid Category uid
+     * @param categoryUuid Category uid
      * @return List of categories
      */
-    public List<CategoryEntity> getSubCategories(String categoryUid) {
+    public List<CategoryEntity> getSubCategoriesByCategoryUuid(String categoryUuid) {
         return entityService.getListResultByQuery("SELECT DISTINCT category FROM " + CategoryEntity.ENTITY_NAME + " as category " +
                 "LEFT JOIN category." + CategoryEntity.SUPER_CATEGORIES + " as superCategory " +
-                "WHERE superCategory." + CategoryEntity.UUID + " = :categoryUid",
-                CategoryEntity.class, new QueryParameter("categoryUid", categoryUid));
+                "WHERE superCategory." + CategoryEntity.UUID + " = :categoryUuid",
+                CategoryEntity.class, new QueryParameter("categoryUuid", categoryUuid));
     }
 }
