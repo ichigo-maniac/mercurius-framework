@@ -38,6 +38,12 @@ INSERT INTO CATEGORY(uuid, name, code, creationtime, modificationtime, catalog_u
   (SELECT uuid FROM CATEGORY WHERE code = 'manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
 );
 
+INSERT INTO CATEGORY(uuid, name, code, creationtime, modificationtime, catalog_uuid, main_supercategory_uuid) VALUES (
+  '1116fb20-f065-11e6-9daf-a334a56d2222', 'Fantasy manga', 'fantasy_manga',
+  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'),
+  (SELECT uuid FROM CATEGORY WHERE code = 'manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
+);
+
 INSERT INTO CATEGORIES_SUPERCATEGORIES_LINK(CATEGORY_UUID, SUPERCATEGORY_UUID) VALUES
 (
   (SELECT uuid FROM CATEGORY WHERE code = 'bluray' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
@@ -53,5 +59,11 @@ INSERT INTO CATEGORIES_SUPERCATEGORIES_LINK(CATEGORY_UUID, SUPERCATEGORY_UUID) V
 INSERT INTO CATEGORIES_SUPERCATEGORIES_LINK(CATEGORY_UUID, SUPERCATEGORY_UUID) VALUES
 (
   (SELECT uuid FROM CATEGORY WHERE code = 'spokon_manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM CATEGORY WHERE code = 'manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
+);
+
+INSERT INTO CATEGORIES_SUPERCATEGORIES_LINK(CATEGORY_UUID, SUPERCATEGORY_UUID) VALUES
+(
+  (SELECT uuid FROM CATEGORY WHERE code = 'fantasy_manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
   (SELECT uuid FROM CATEGORY WHERE code = 'manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
 );

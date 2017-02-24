@@ -92,9 +92,39 @@ public interface CategoryService {
 
     /**
      * Get sub-categories
-     * @param categoryUuid Category uid
+     * @param categoryUuid Category uuid
      * @return List of categories
      */
     List<CategoryEntity> getSubCategoriesByCategoryUuid(String categoryUuid);
+
+    /**
+     * Get all sub-categories (include low-level sub-categories) (use default catalog)
+     * @param categoryCode Category code
+     * @return List of categories
+     */
+    List<CategoryEntity> getAllSubCategories(String categoryCode);
+
+    /**
+     * Get all sub-categories (include low-level sub-categories)
+     * @param categoryCode Category code
+     * @param catalogCode Catalog code
+     * @return List of categories
+     */
+    List<CategoryEntity> getAllSubCategories(String categoryCode, String catalogCode);
+
+    /**
+     * Get all sub-categories (include low-level sub-categories)
+     * @param categoryCode Category code
+     * @param catalog Catalog
+     * @return List of categories
+     */
+    List<CategoryEntity> getAllSubCategories(String categoryCode, CatalogEntity catalog);
+
+    /**
+     * Get all sub-categories (include low-level sub-categories)
+     * @param categoryUuid Category uuid
+     * @return List of categories
+     */
+    List<CategoryEntity> getAllSubCategoriesByCategoryUuid(String categoryUuid);
 
 }

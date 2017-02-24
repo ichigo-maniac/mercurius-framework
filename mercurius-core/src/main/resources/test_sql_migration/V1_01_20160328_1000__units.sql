@@ -6,3 +6,7 @@ CREATE TABLE UNIT(
   modificationtime TIMESTAMP NOT NULL,
   catalog_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SHOP_CATALOG(uuid)
 );
+
+INSERT INTO UNIT(uuid, name, code, creationtime, modificationtime, catalog_uuid) VALUES(
+  'a1e2ae50-fa94-11e6-b6f6-67b357732118', 'Pieces', 'pieces', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')
+);

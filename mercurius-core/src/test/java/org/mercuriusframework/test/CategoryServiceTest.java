@@ -26,6 +26,11 @@ public class CategoryServiceTest extends AbstractTest {
         "4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f", "4aa6fb20-f065-11e6-9daf-a334a56d0d4c", "1116fb20-f065-11e6-9daf-a334a56d0111"
     );
 
+    private static final List<String> ALL_SUB_CATEGORIES_UUIDS_LIST = Arrays.asList(
+        "4aa6e108-f065-11e6-9dae-774f2dfc5358", "4aa6fb20-f065-11e6-9daf-a334a56d0d4c", "1116fb20-f065-11e6-9daf-a334a56d0111",
+        "1116fb20-f065-11e6-9daf-a334a56d2222"
+    );
+
     /**
      * Unique code entity service
      */
@@ -128,6 +133,34 @@ public class CategoryServiceTest extends AbstractTest {
     public void getSubCategoriesTest3() {
         List<CategoryEntity> categories = categoryService.getSubCategoriesByCategoryUuid("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f");
         assertUuidListsEquals(SUB_CATEGORIES_UUIDS_LIST, getUuids(categories));
+    }
+
+    /**
+     * Method test - categoryService.getAllSubCategories
+     */
+    @Test
+    public void getAllSubCategoriesTest() {
+        List<CategoryEntity> allCategories = categoryService.getAllSubCategories("main_category", "master_catalog");
+        assertUuidListsEquals(getUuids(allCategories), ALL_SUB_CATEGORIES_UUIDS_LIST);
+    }
+
+    /**
+     * Method test - categoryService.getAllSubCategories
+     */
+    @Test
+    public void getAllSubCategoriesTest2() {
+        CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
+        List<CategoryEntity> allCategories = categoryService.getAllSubCategories("main_category", catalog);
+        assertUuidListsEquals(getUuids(allCategories), ALL_SUB_CATEGORIES_UUIDS_LIST);
+    }
+
+    /**
+     * Method test - categoryService.getAllSubCategoriesByCategoryUuid
+     */
+    @Test
+    public void getAllSubCategoriesTest3() {
+        List<CategoryEntity> allCategories = categoryService.getAllSubCategoriesByCategoryUuid("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f");
+        assertUuidListsEquals(getUuids(allCategories), ALL_SUB_CATEGORIES_UUIDS_LIST);
     }
 
 }

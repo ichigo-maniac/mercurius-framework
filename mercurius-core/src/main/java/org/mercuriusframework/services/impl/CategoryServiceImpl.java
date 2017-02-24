@@ -12,20 +12,21 @@ import org.mercuriusframework.services.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Category service
  */
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService {
+
     /**
      * Entity service
      */
     @Autowired
     private EntityService entityService;
+
     /**
      * Catalog unique code entity service
      */
@@ -184,7 +185,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * Get sub-categories
-     * @param categoryUuid Category uid
+     * @param categoryUuid Category uuid
      * @return List of categories
      */
     public List<CategoryEntity> getSubCategoriesByCategoryUuid(String categoryUuid) {
@@ -192,5 +193,71 @@ public class CategoryServiceImpl implements CategoryService {
                 "LEFT JOIN category." + CategoryEntity.SUPER_CATEGORIES + " as superCategory " +
                 "WHERE superCategory." + CategoryEntity.UUID + " = :categoryUuid",
                 CategoryEntity.class, new QueryParameter("categoryUuid", categoryUuid));
+    }
+
+    /**
+     * Get all sub-categories (include low-level sub-categories) (use default catalog)
+     * @param categoryCode Category code
+     * @return List of categories
+     */
+    @Override
+    public List<CategoryEntity> getAllSubCategories(String categoryCode) {
+        CatalogEntityDto catalog = catalogFacade.getDefaultCatalog();
+        if (catalog == null) {
+            throw new DefaultCatalogPresetException();
+        }
+        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCode(categoryCode, CategoryEntity.class);
+        if (category == null) {
+            return null;
+        }
+        return getAllSubCategoriesByCategoryUuid(category.getUuid());
+    }
+
+    /**
+     * Get all sub-categories (include low-level sub-categories)
+     * @param categoryCode Category code
+     * @param catalogCode  Catalog code
+     * @return List of categories
+     */
+    @Override
+    public List<CategoryEntity> getAllSubCategories(String categoryCode, String catalogCode) {
+        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, CategoryEntity.class);
+        if (category == null) {
+            return null;
+        }
+        return getAllSubCategoriesByCategoryUuid(category.getUuid());
+    }
+
+    /**
+     * Get all sub-categories (include low-level sub-categories)
+     * @param categoryCode Category code
+     * @param catalog      Catalog
+     * @return List of categories
+     */
+    @Override
+    public List<CategoryEntity> getAllSubCategories(String categoryCode, CatalogEntity catalog) {
+        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, CategoryEntity.class);
+        if (category == null) {
+            return null;
+        }
+        return getAllSubCategoriesByCategoryUuid(category.getUuid());
+    }
+
+    /**
+     * Get all sub-categories (include low-level sub-categories)
+     * @param categoryUuid Category uuid
+     * @return List of categories
+     */
+    @Override
+    public List<CategoryEntity> getAllSubCategoriesByCategoryUuid(String categoryUuid) {
+        List<CategoryEntity> result = new CopyOnWriteArrayList<>();
+        List<CategoryEntity> subCategories = getSubCategoriesByCategoryUuid(categoryUuid);
+        if (!subCategories.isEmpty()) {
+            result.addAll(subCategories);
+            subCategories.parallelStream().forEach((subCategory) -> {
+                result.addAll(getAllSubCategoriesByCategoryUuid(subCategory.getUuid()));
+            });
+        }
+        return result;
     }
 }
