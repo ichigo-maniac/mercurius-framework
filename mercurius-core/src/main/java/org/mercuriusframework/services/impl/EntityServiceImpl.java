@@ -1,6 +1,6 @@
 package org.mercuriusframework.services.impl;
 
-import org.mercuriusframework.dto.QueryParameter;
+import org.mercuriusframework.services.query.QueryParameter;
 import org.mercuriusframework.entities.AbstractEntity;
 import org.mercuriusframework.services.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;

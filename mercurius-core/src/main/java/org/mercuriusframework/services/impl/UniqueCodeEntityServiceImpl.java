@@ -1,6 +1,5 @@
 package org.mercuriusframework.services.impl;
 
-import org.mercuriusframework.dto.QueryParameter;
 import org.mercuriusframework.entities.UniqueCodeEntity;
 import org.mercuriusframework.services.CodeGenerationService;
 import org.mercuriusframework.services.EntityService;

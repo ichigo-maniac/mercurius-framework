@@ -1,7 +1,7 @@
 package org.mercuriusframework.services.impl;
 
 import org.mercuriusframework.dto.CatalogEntityDto;
-import org.mercuriusframework.dto.QueryParameter;
+import org.mercuriusframework.services.query.QueryParameter;
 import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.CategoryEntity;
 import org.mercuriusframework.exceptions.DefaultCatalogPresetException;

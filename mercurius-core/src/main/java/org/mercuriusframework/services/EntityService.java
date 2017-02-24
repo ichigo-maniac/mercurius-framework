@@ -1,6 +1,6 @@
 package org.mercuriusframework.services;
 
-import org.mercuriusframework.dto.QueryParameter;
+import org.mercuriusframework.services.query.QueryParameter;
 import org.mercuriusframework.entities.AbstractEntity;
 
 import java.util.List;

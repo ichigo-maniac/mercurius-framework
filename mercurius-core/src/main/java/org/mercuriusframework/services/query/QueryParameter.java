@@ -1,4 +1,4 @@
-package org.mercuriusframework.dto;
+package org.mercuriusframework.services.query;
 
 /**
  * Query parameter class
