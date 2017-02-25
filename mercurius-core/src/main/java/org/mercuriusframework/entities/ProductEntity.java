@@ -15,6 +15,13 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
     public static final String ENTITY_NAME = "Product";
 
     /**
+     * Short name
+     */
+    @Basic(optional = true)
+    private String shortName;
+    public static final String SHORT_NAME = "shortName";
+
+    /**
      * Main unit
      */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -57,6 +64,22 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
                             nullable = false, updatable = false)})
     private Set<CategoryEntity> categories;
     public static final String CATEGORIES = "categories";
+
+    /**
+     * Get short name
+     * @return Short name
+     */
+    public String getShortName() {
+        return shortName;
+    }
+
+    /**
+     * Set short name
+     * @param shortName Short name
+     */
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
 
     /**
      * Get main unit

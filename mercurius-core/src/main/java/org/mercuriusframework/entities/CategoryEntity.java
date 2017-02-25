@@ -52,6 +52,20 @@ public class CategoryEntity extends CatalogUniqueCodeEntity {
     public static final String SUB_CATEGORIES = "subCategories";
 
     /**
+     * All products
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "PRODUCTS_CATEGORIES_LINK",
+            joinColumns = {
+                    @JoinColumn(name = "CATEGORY_UUID",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "PRODUCT_UUID",
+                            nullable = false, updatable = false)})
+    private Set<ProductEntity> products;
+    public static final String PRODUCTS = "products";
+
+    /**
      * Get sub categories
      * @return Set of categories
      */
@@ -97,5 +111,21 @@ public class CategoryEntity extends CatalogUniqueCodeEntity {
      */
     public void setMainSuperCategory(CategoryEntity mainSuperCategory) {
         this.mainSuperCategory = mainSuperCategory;
+    }
+
+    /**
+     * Get all products
+     * @return Set of products
+     */
+    public Set<ProductEntity> getProducts() {
+        return products;
+    }
+
+    /**
+     * Set products
+     * @param products Set of products
+     */
+    public void setProducts(Set<ProductEntity> products) {
+        this.products = products;
     }
 }

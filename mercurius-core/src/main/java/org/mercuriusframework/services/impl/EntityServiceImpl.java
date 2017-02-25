@@ -1,5 +1,10 @@
 package org.mercuriusframework.services.impl;
 
+import org.mercuriusframework.converters.Converter;
+import org.mercuriusframework.enums.LoadOptions;
+import org.mercuriusframework.services.query.ConvertiblePageableResult;
+import org.mercuriusframework.services.query.DefaultPageableResult;
+import org.mercuriusframework.services.query.PageableResult;
 import org.mercuriusframework.services.query.QueryParameter;
 import org.mercuriusframework.entities.AbstractEntity;
 import org.mercuriusframework.services.EntityService;
@@ -113,6 +118,100 @@ public class EntityServiceImpl implements EntityService {
             return (T) query.getSingleResult();
         } catch (NoResultException exception) {
             return null;
+        }
+    }
+
+    /**
+     * Get pageable result by query
+     *
+     * @param queryString           Query string
+     * @param totalCountQueryString Total count query string
+     * @param currentPage           Current page (count from 0)
+     * @param pageSize              Page size (entries on the page)
+     * @param classType             Class type
+     * @param parameters            Query parameters
+     * @return Pageable result
+     */
+    @Override
+    public <T> PageableResult<T> getPageableResultByQueries(String queryString, String totalCountQueryString, Integer currentPage, Integer pageSize, Class<T> classType, QueryParameter... parameters) {
+        Long totalCount = getSingleResultByQuery(totalCountQueryString, Long.class, parameters);
+        Integer currentPageResult = calculateCurrentPage(pageSize, currentPage, totalCount);
+        TypedQuery<T> query = entityManager.createQuery(queryString, classType);
+        if (parameters != null) {
+            for (QueryParameter parameter : parameters) {
+                query.setParameter(parameter.getKey(), parameter.getValue());
+            }
+        }
+        query.setFirstResult(currentPageResult * pageSize);
+        query.setFlushMode(FlushModeType.COMMIT);
+        query.setMaxResults(pageSize);
+        /** Create result */
+        return new DefaultPageableResult<T>(totalCount.intValue(), currentPageResult,
+                pageSize, getPagesCount(pageSize, totalCount), query.getResultList());
+    }
+
+    /**
+     * Get pageable result by query
+     *
+     * @param converter             Converter
+     * @param loadOptions           Load options
+     * @param queryString           Query string
+     * @param totalCountQueryString Total count query string
+     * @param currentPage           Current page (count from 0)
+     * @param pageSize              Page size (entries on the page)
+     * @param classType             Class type
+     * @param parameters            Query parameters
+     * @return Pageable result
+     */
+    @Override
+    public <T, RESULT> PageableResult<T> getPageableResultByQueries(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
+                                                                    String queryString, String totalCountQueryString, Integer currentPage, Integer pageSize,
+                                                                    Class<T> classType, QueryParameter... parameters) {
+        Long totalCount = getSingleResultByQuery(totalCountQueryString, Long.class, parameters);
+        Integer currentPageResult = calculateCurrentPage(pageSize, currentPage, totalCount);
+        TypedQuery<T> query = entityManager.createQuery(queryString, classType);
+        if (parameters != null) {
+            for (QueryParameter parameter : parameters) {
+                query.setParameter(parameter.getKey(), parameter.getValue());
+            }
+        }
+        query.setFirstResult(currentPageResult * pageSize);
+        query.setFlushMode(FlushModeType.COMMIT);
+        query.setMaxResults(pageSize);
+        /** Create result */
+        return new ConvertiblePageableResult<T, RESULT>(totalCount.intValue(), currentPageResult,
+                pageSize, getPagesCount(pageSize, totalCount), query.getResultList(), converter, loadOptions);
+    }
+
+    /**
+     * Calculate current page
+     * @param pageSize Page size
+     * @param currentPage Current page
+     * @param totalCount Total entries count
+     * @return Current Page
+     */
+    private Integer calculateCurrentPage(Integer pageSize, Integer currentPage, Long totalCount) {
+        if (currentPage == null || currentPage <= 0) {
+            return 0;
+        }
+        Long lastPage = ((totalCount- 1) / pageSize);
+        if (currentPage > lastPage) {
+            return lastPage.intValue();
+        } else {
+            return currentPage;
+        }
+    }
+    /**
+     * Get pages count
+     * @param pageSize Page size
+     * @param totalCount Total entries count
+     * @return Pages count
+     */
+    private Integer getPagesCount(Integer pageSize, Long totalCount) {
+        if (totalCount == 0) {
+            return 0;
+        } else {
+            return (int) ((totalCount - 1) / pageSize) + 1;
         }
     }
 
