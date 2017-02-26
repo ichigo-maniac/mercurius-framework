@@ -31,6 +31,20 @@ public interface EntityService {
     <T extends AbstractEntity> T save(T entity);
 
     /**
+     * Delete entity by uuid
+     * @param entityUuid Entity uuid
+     * @param entityClass Entity class
+     * @param <T> Entity Class
+     */
+    <T extends AbstractEntity> void delete(String entityUuid, Class<T> entityClass);
+
+    /**
+     * Delete entity
+     * @param entityObject Entity object
+     * @param <T> Entity ckass
+     */
+    <T extends AbstractEntity> void delete(T entityObject);
+    /**
      * Get list result by query
      *
      * @param queryString Query string

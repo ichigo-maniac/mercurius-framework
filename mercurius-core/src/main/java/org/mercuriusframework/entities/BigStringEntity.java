@@ -27,6 +27,24 @@ public class BigStringEntity extends CatalogUniqueCodeEntity {
     public static final String VALUE = "value";
 
     /**
+     * Default constructor
+     */
+    public BigStringEntity() {
+    }
+
+    /**
+     * Constructor
+     * @param value Text value
+     * @param name Name
+     * @param catalog Catalog
+     */
+    public BigStringEntity(String value, String name, CatalogEntity catalog) {
+        this.value = value;
+        this.setName(name);
+        this.setCatalog(catalog);
+    }
+
+    /**
      * Get big string value
      * @return Big string value
      */

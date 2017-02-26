@@ -82,6 +82,36 @@ public class EntityServiceImpl implements EntityService {
     }
 
     /**
+     * Delete entity by uuid
+     * @param entityUuid  Entity uuid
+     * @param entityClass Entity class
+     */
+    @Override
+    public <T extends AbstractEntity> void delete(String entityUuid, Class<T> entityClass) {
+        if (entityUuid == null) {
+            return;
+        }
+        T entityObject = entityManager.getReference(entityClass, entityUuid);
+        transactionOperations.execute(new TransactionCallback<T>() {
+            public T doInTransaction(TransactionStatus transactionStatus) {
+                entityManager.remove(entityObject);
+                return null;
+            }
+        });
+    }
+
+    /**
+     * Delete entity
+     * @param entityObject Entity object
+     */
+    @Override
+    public <T extends AbstractEntity> void delete(T entityObject) {
+        if (entityObject.getUuid() != null) {
+            delete(entityObject.getUuid(), entityObject.getClass());
+        }
+    }
+
+    /**
      * Get list result by query
      *
      * @param queryString Query string

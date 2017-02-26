@@ -18,7 +18,7 @@ public class CategoryEntity extends CatalogUniqueCodeEntity {
     /**
      * Description
      */
-    @OneToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "DESCRIPTION_UUID")
     private BigStringEntity description;
     public static final String DESCRIPTION = "description";
