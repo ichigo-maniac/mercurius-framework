@@ -32,12 +32,12 @@ public class UniqueCodeEntityServiceImpl implements UniqueCodeEntityService {
      * Entity service
      */
     @Autowired
-    private EntityService entityService;
+    protected EntityService entityService;
     /**
      * Code generation service
      */
     @Autowired
-    private CodeGenerationService codeGenerationService;
+    protected CodeGenerationService codeGenerationService;
 
     /**
      * Get unique code entity by code

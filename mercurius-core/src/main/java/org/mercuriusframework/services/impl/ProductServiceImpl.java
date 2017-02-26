@@ -27,25 +27,25 @@ public class ProductServiceImpl implements ProductService {
      * Entity service
      */
     @Autowired
-    private EntityService entityService;
+    protected EntityService entityService;
 
     /**
      * Category service
      */
     @Autowired
-    private CategoryService categoryService;
+    protected CategoryService categoryService;
 
     /**
      * Catalog unique code entity service
      */
     @Autowired
-    private CatalogUniqueCodeEntityService catalogUniqueCodeEntityService;
+    protected CatalogUniqueCodeEntityService catalogUniqueCodeEntityService;
 
     /**
      * Catalog facade
      */
     @Autowired
-    private CatalogFacade catalogFacade;
+    protected CatalogFacade catalogFacade;
 
     /**
      * Get all products (include low-level categories' products) (use default catalog)

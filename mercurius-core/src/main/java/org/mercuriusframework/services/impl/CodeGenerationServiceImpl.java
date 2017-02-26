@@ -21,7 +21,7 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
      * Entity service
      */
     @Autowired
-    private EntityService entityService;
+    protected EntityService entityService;
 
     /**
      * Generate unique code

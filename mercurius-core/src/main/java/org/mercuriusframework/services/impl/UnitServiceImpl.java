@@ -14,5 +14,5 @@ public class UnitServiceImpl implements UnitService {
      * Entity service
      */
     @Autowired
-    private EntityService entityService;
+    protected EntityService entityService;
 }

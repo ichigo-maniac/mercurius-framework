@@ -14,5 +14,5 @@ public class CatalogServiceImpl implements CatalogService {
      * Entity service
      */
     @Autowired
-    private EntityService entityService;
+    protected EntityService entityService;
 }

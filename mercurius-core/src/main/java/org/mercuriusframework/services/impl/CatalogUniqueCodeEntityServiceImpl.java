@@ -37,25 +37,25 @@ public class CatalogUniqueCodeEntityServiceImpl implements CatalogUniqueCodeEnti
      * Entity service
      */
     @Autowired
-    private EntityService entityService;
+    protected EntityService entityService;
 
     /**
      * Code generation service
      */
     @Autowired
-    private CodeGenerationService codeGenerationService;
+    protected CodeGenerationService codeGenerationService;
 
     /**
      * Unique code entity service
      */
     @Autowired
-    private UniqueCodeEntityService uniqueCodeEntityService;
+    protected UniqueCodeEntityService uniqueCodeEntityService;
 
     /**
      * Catalog facade
      */
     @Autowired
-    private CatalogFacade catalogFacade;
+    protected CatalogFacade catalogFacade;
 
     /**
      * Get catalog unique code entity by code and catalog (use default catalog)

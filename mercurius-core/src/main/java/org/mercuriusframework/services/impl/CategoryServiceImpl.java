@@ -25,19 +25,19 @@ public class CategoryServiceImpl implements CategoryService {
      * Entity service
      */
     @Autowired
-    private EntityService entityService;
+    protected EntityService entityService;
 
     /**
      * Catalog unique code entity service
      */
     @Autowired
-    private CatalogUniqueCodeEntityService catalogUniqueCodeEntityService;
+    protected CatalogUniqueCodeEntityService catalogUniqueCodeEntityService;
 
     /**
      * Catalog facade
      */
     @Autowired
-    private CatalogFacade catalogFacade;
+    protected CatalogFacade catalogFacade;
 
     /**
      * Get all categories without a main super category (use default catalog)
