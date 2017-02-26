@@ -2,10 +2,7 @@ package org.mercuriusframework.entities;
 
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Big string entity class (for lazy load)
@@ -25,6 +22,7 @@ public class BigStringEntity extends CatalogUniqueCodeEntity {
     @Lob
     @Type(type = "org.hibernate.type.StringClobType")
     @Basic(optional = false)
+    @Column(name = "text_value")
     private String value;
     public static final String VALUE = "value";
 

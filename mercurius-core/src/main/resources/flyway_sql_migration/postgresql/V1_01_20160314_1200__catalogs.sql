@@ -13,7 +13,7 @@ CREATE TABLE BIG_STRING (
   creationtime TIMESTAMP NOT NULL,
   modificationtime TIMESTAMP NOT NULL,
   catalog_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SHOP_CATALOG(uuid),
-  value TEXT NOT NULL
+  text_value TEXT NOT NULL
 );
 
 INSERT INTO SHOP_CATALOG(uuid, name, code, creationtime, modificationtime) VALUES (
