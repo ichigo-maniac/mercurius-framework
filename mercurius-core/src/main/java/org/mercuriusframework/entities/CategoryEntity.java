@@ -16,6 +16,14 @@ public class CategoryEntity extends CatalogUniqueCodeEntity {
     public static final String ENTITY_NAME = "Category";
 
     /**
+     * Description
+     */
+    @OneToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "DESCRIPTION_UUID")
+    private BigStringEntity description;
+    public static final String DESCRIPTION = "description";
+
+    /**
      * Main super category
      */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -64,6 +72,22 @@ public class CategoryEntity extends CatalogUniqueCodeEntity {
                             nullable = false, updatable = false)})
     private Set<ProductEntity> products;
     public static final String PRODUCTS = "products";
+
+    /**
+     * Get description
+     * @return Description
+     */
+    public BigStringEntity getDescription() {
+        return description;
+    }
+
+    /**
+     * Set description
+     * @param description Description
+     */
+    public void setDescription(BigStringEntity description) {
+        this.description = description;
+    }
 
     /**
      * Get sub categories

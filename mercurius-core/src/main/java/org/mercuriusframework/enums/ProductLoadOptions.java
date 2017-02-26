@@ -7,6 +7,7 @@ public enum ProductLoadOptions implements LoadOptions {
     /**
      * Values
      */
+    DESCRIPTION("DESCRIPTION"),
     BREAD_CRUMBS("BREAD_CRUMBS");
 
     /**

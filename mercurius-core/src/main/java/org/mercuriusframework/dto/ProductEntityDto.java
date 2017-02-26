@@ -8,6 +8,11 @@ import java.util.List;
 public class ProductEntityDto extends CatalogUniqueCodeEntityDto {
 
     /**
+     * Description
+     */
+    private String description;
+
+    /**
      * Short name
      */
     private String shortName;
@@ -16,6 +21,22 @@ public class ProductEntityDto extends CatalogUniqueCodeEntityDto {
      * Bread crumbs
      */
     private List<CategoryEntityDto> breadCrumbs;
+
+    /**
+     * Get description
+     * @return Description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Set description
+     * @param description Description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Get bread crumbs

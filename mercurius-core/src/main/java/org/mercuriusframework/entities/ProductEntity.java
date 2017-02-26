@@ -22,6 +22,14 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
     public static final String SHORT_NAME = "shortName";
 
     /**
+     * Description
+     */
+    @OneToOne(fetch = FetchType.LAZY, optional = true, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "DESCRIPTION_UUID")
+    private BigStringEntity description;
+    public static final String DESCRIPTION = "description";
+
+    /**
      * Main unit
      */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -79,6 +87,22 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
      */
     public void setShortName(String shortName) {
         this.shortName = shortName;
+    }
+
+    /**
+     * Get description
+     * @return Description
+     */
+    public BigStringEntity getDescription() {
+        return description;
+    }
+
+    /**
+     * Set description
+     * @param description Description
+     */
+    public void setDescription(BigStringEntity description) {
+        this.description = description;
     }
 
     /**

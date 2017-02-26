@@ -47,6 +47,10 @@ public class CategoryEntityFiller extends CatalogUniqueCodeEntityFiller<Category
         for (CategoryEntity temp : breadcrumbs) {
             buildUrl.append("/" + temp.getCode());
         }
+        /** Description */
+        if (ArrayUtils.contains(options, CategoryLoadOptions.DESCRIPTION)) {
+            categoryEntityDto.setDescription(categoryEntity.getDescription() != null ? categoryEntity.getDescription().getValue() : "");
+        }
         /** Breadcrumbs */
         if (ArrayUtils.contains(options, CategoryLoadOptions.BREAD_CRUMBS)) {
             categoryEntityDto.setBreadCrumbs(categoryEntityConverter.convertAll(breadcrumbs));

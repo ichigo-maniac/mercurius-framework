@@ -6,6 +6,12 @@ import java.util.List;
  * Category data transfer object
  */
 public class CategoryEntityDto extends CatalogUniqueCodeEntityDto {
+
+    /**
+     * Description
+     */
+    private String description;
+
     /**
      * Built url by bread crumbs
      */
@@ -15,6 +21,22 @@ public class CategoryEntityDto extends CatalogUniqueCodeEntityDto {
      * Bread crumbs
      */
     private List<CategoryEntityDto> breadCrumbs;
+
+    /**
+     * Get description
+     * @return Description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Set description
+     * @param description Description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Get built url

@@ -43,6 +43,10 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
     public void fillIn(ProductEntity productEntity, ProductEntityDto productEntityDto, LoadOptions... options) {
         super.fillIn(productEntity, productEntityDto, options);
         productEntityDto.setShortName(productEntity.getShortName());
+        /** Description */
+        if (ArrayUtils.contains(options, ProductLoadOptions.DESCRIPTION)) {
+            productEntityDto.setDescription(productEntity.getDescription() != null ? productEntity.getDescription().getValue() : "");
+        }
         /** Breadcrumbs */
         if (ArrayUtils.contains(options, ProductLoadOptions.BREAD_CRUMBS)) {
             List<CategoryEntity> breadcrumbs = categoryService.getBreadCrumbsByCategoryUuid(productEntity.getMainCategory().getUuid());
