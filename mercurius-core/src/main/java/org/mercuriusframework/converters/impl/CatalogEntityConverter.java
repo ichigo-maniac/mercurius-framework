@@ -20,7 +20,7 @@ public class CatalogEntityConverter implements Converter<CatalogEntity, CatalogE
      */
     @Autowired
     @Qualifier("catalogEntityFiller")
-    private CatalogEntityFiller catalogEntityFiller;
+    protected CatalogEntityFiller catalogEntityFiller;
 
     /**
      * Convert a source object to a result object

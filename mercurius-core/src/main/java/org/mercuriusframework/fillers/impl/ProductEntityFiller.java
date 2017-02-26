@@ -24,14 +24,14 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
      * Category service
      */
     @Autowired
-    private CategoryService categoryService;
+    protected CategoryService categoryService;
 
     /**
      * Category entity converter
      */
     @Autowired
     @Qualifier("categoryEntityConverter")
-    private CategoryEntityConverter categoryEntityConverter;
+    protected CategoryEntityConverter categoryEntityConverter;
 
     /**
      * Fill a result object from a source object

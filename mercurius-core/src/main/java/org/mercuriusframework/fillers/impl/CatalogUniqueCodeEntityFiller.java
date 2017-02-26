@@ -19,7 +19,7 @@ public class CatalogUniqueCodeEntityFiller<SOURCE extends CatalogUniqueCodeEntit
      */
     @Autowired
     @Qualifier("catalogEntityConverter")
-    private CatalogEntityConverter catalogEntityConverter;
+    protected CatalogEntityConverter catalogEntityConverter;
 
     /**
      * Fill a result object from a source object

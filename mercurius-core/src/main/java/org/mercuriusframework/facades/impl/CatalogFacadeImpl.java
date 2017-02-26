@@ -19,7 +19,7 @@ public class CatalogFacadeImpl implements CatalogFacade {
      * Session service
      */
     @Autowired
-    private SessionService sessionService;
+    protected SessionService sessionService;
 
     /**
      * Get default catalog

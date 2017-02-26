@@ -20,7 +20,7 @@ public class CategoryEntityConverter implements Converter<CategoryEntity, Catego
      */
     @Autowired
     @Qualifier("categoryEntityFiller")
-    private CategoryEntityFiller categoryEntityFiller;
+    protected CategoryEntityFiller categoryEntityFiller;
 
     /**
      * Convert a source object to a result object

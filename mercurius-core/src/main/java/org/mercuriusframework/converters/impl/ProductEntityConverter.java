@@ -20,7 +20,7 @@ public class ProductEntityConverter implements Converter<ProductEntity, ProductE
      */
     @Autowired
     @Qualifier("productEntityFiller")
-    private ProductEntityFiller productEntityFiller;
+    protected ProductEntityFiller productEntityFiller;
     /**
      * Convert a source object to a result object
      * @param productEntity Source object
