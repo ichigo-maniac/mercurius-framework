@@ -33,7 +33,7 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
      * Main unit
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MAIN_UNIT_UUID", referencedColumnName = "uuid", nullable = false)
+    @JoinColumn(name = "MAIN_UNIT_UUID", referencedColumnName = "uuid", nullable = true)
     private UnitEntity mainUnit;
     public static final String MAIN_UNIT = "mainUnit";
 
@@ -55,7 +55,7 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
      * Main category
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MAIN_CATEGORY_UUID", referencedColumnName = "UUID", nullable = false)
+    @JoinColumn(name = "MAIN_CATEGORY_UUID", referencedColumnName = "UUID", nullable = true)
     private CategoryEntity mainCategory;
     public static final String MAIN_CATEGORY = "mainCategory";
 
