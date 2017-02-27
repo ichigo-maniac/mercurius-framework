@@ -1,10 +1,11 @@
-package org.mercuriusframework.test;
+package org.mercuriusframework.test.services;
 
 import org.junit.Test;
 import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.CategoryEntity;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
 import org.mercuriusframework.services.UniqueCodeEntityService;
+import org.mercuriusframework.test.AbstractTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

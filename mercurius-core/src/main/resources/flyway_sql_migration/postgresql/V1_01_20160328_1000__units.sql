@@ -4,7 +4,7 @@ CREATE TABLE UNIT(
   code CHARACTER VARYING(255) NOT NULL,
   creationtime TIMESTAMP NOT NULL,
   modificationtime TIMESTAMP NOT NULL,
-  catalog_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SHOP_CATALOG(uuid)
+  catalog_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SHOP_CATALOG(uuid) ON DELETE RESTRICT
 );
 
 INSERT INTO UNIT(uuid, name, code, creationtime, modificationtime, catalog_uuid) VALUES(
