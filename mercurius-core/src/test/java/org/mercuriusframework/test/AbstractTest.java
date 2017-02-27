@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.mercuriusframework.configuration.test.TestDatabaseConnectionConfiguration;
 import org.mercuriusframework.constants.MercuriusConstants;
+import org.mercuriusframework.dto.EntityDto;
 import org.mercuriusframework.entities.AbstractEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,6 +32,19 @@ public abstract class AbstractTest extends Assert {
         List<String> result = new ArrayList<String>(entities.size());
         for (T entity : entities) {
             result.add(entity.getUuid());
+        }
+        return result;
+    }
+
+    /**
+     * Get entities uuids
+     * @param dtos List of entities dtos
+     * @return List of uuids
+     */
+    protected <T extends EntityDto> List<String> getUuidsFromDtos(List<T> dtos) {
+        List<String> result = new ArrayList<String>(dtos.size());
+        for (T dto : dtos) {
+            result.add(dto.getUuid());
         }
         return result;
     }

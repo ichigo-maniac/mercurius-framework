@@ -44,11 +44,18 @@ INSERT INTO PRODUCT(uuid, name, code, creationtime, modificationtime, catalog_uu
   (SELECT uuid FROM UNIT WHERE code ='pieces' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
 );
 
-INSERT INTO PRODUCT(uuid, name, code, creationtime, modificationtime, catalog_uuid, main_category_uuid, main_unit_uuid) VALUES (
-  'a1f1016c-fa94-11e6-b704-cb129d9d0314', 'Sword Art Online vol. 04', 'product_sao_04', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+INSERT INTO BIG_STRING(uuid, name, code, creationtime, modificationtime, catalog_uuid, text_value) VALUES (
+  '1116fb20-f065-11e6-9daf-a334a56d4444', 'Sword Art Online vol. 04 description', 'product_sao_04_description', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'),
+  'Test description - product'
+);
+
+INSERT INTO PRODUCT(uuid, name, shortName, code, creationtime, modificationtime, catalog_uuid, main_category_uuid, main_unit_uuid, description_uuid) VALUES (
+  'a1f1016c-fa94-11e6-b704-cb129d9d0314', 'Sword Art Online vol. 04', 'Reki Kawahara', 'product_sao_04', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
   (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'),
   (SELECT uuid FROM CATEGORY WHERE code ='fantasy_manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
-  (SELECT uuid FROM UNIT WHERE code ='pieces' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
+  (SELECT uuid FROM UNIT WHERE code ='pieces' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM BIG_STRING WHERE code ='product_sao_04_description' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
 );
 
 
