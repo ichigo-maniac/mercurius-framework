@@ -7,6 +7,10 @@ CREATE TABLE UNIT(
   catalog_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SHOP_CATALOG(uuid) ON DELETE RESTRICT
 );
 
+CREATE UNIQUE INDEX UNIT_UUID_IDX ON UNIT(uuid);
+CREATE INDEX UNIT_CODE_IDX ON UNIT(code);
+CREATE INDEX UNIT_NAME_IDX ON UNIT(name);
+
 INSERT INTO UNIT(uuid, name, code, creationtime, modificationtime, catalog_uuid) VALUES(
   uuid_generate_v1(), 'Pieces', 'pieces', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')
 );
