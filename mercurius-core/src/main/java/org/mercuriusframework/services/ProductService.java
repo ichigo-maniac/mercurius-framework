@@ -2,7 +2,7 @@ package org.mercuriusframework.services;
 
 import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.ProductEntity;
-import org.mercuriusframework.services.query.PageableResult
+import org.mercuriusframework.services.query.PageableResult;
 import java.util.List;
 
 /**
@@ -85,7 +85,7 @@ public interface ProductService {
      * @param pageSize Page size
      * @return Pageable products container
      */
-    PageableResult<ProductEntity> getAllProductByCategory(String categoryCode, Integer currentPage, Integer pageSize);
+    PageableResult<ProductEntity> getAllProductsByCategory(String categoryCode, Integer currentPage, Integer pageSize);
 
     /**
      * Get all products (include low-level categories' products)
@@ -95,7 +95,7 @@ public interface ProductService {
      * @param pageSize Page size
      * @return Pageable products container
      */
-    PageableResult<ProductEntity> getAllProductByCategory(String categoryCode, String catalogCode, Integer currentPage, Integer pageSize);
+    PageableResult<ProductEntity> getAllProductsByCategory(String categoryCode, String catalogCode, Integer currentPage, Integer pageSize);
 
     /**
      * Get all products (include low-level categories' products)
@@ -105,7 +105,7 @@ public interface ProductService {
      * @param pageSize Page size
      * @return Pageable products container
      */
-    PageableResult<ProductEntity> getAllProductByCategory(String categoryCode, CatalogEntity catalog, Integer currentPage, Integer pageSize);
+    PageableResult<ProductEntity> getAllProductsByCategory(String categoryCode, CatalogEntity catalog, Integer currentPage, Integer pageSize);
 
     /**
      * Get all products (include low-level categories' products)
@@ -114,5 +114,5 @@ public interface ProductService {
      * @param pageSize Page size
      * @return Pageable products container
      */
-    PageableResult<ProductEntity> getAllProductByCategoryUuid(String categoryUUid, Integer currentPage, Integer pageSize);
+    PageableResult<ProductEntity> getAllProductsByCategoryUuid(String categoryUUid, Integer currentPage, Integer pageSize);
 }

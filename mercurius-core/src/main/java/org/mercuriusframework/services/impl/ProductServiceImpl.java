@@ -198,7 +198,7 @@ public class ProductServiceImpl implements ProductService {
      * @return Pageable products container
      */
     @Override
-    public PageableResult<ProductEntity> getAllProductByCategory(String categoryCode, Integer currentPage, Integer pageSize) {
+    public PageableResult<ProductEntity> getAllProductsByCategory(String categoryCode, Integer currentPage, Integer pageSize) {
         CatalogEntityDto catalog = catalogFacade.getDefaultCatalog();
         if (catalog == null) {
             throw new DefaultCatalogPresetException();
@@ -207,7 +207,7 @@ public class ProductServiceImpl implements ProductService {
         if (category == null) {
             return null;
         }
-        return getAllProductByCategoryUuid(category.getUuid(), currentPage, pageSize);
+        return getAllProductsByCategoryUuid(category.getUuid(), currentPage, pageSize);
     }
 
     /**
@@ -219,12 +219,12 @@ public class ProductServiceImpl implements ProductService {
      * @return Pageable products container
      */
     @Override
-    public PageableResult<ProductEntity> getAllProductByCategory(String categoryCode, String catalogCode, Integer currentPage, Integer pageSize) {
+    public PageableResult<ProductEntity> getAllProductsByCategory(String categoryCode, String catalogCode, Integer currentPage, Integer pageSize) {
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, CategoryEntity.class);
         if (category == null) {
             return null;
         }
-        return getAllProductByCategoryUuid(category.getUuid(), currentPage, pageSize);
+        return getAllProductsByCategoryUuid(category.getUuid(), currentPage, pageSize);
     }
 
     /**
@@ -236,12 +236,12 @@ public class ProductServiceImpl implements ProductService {
      * @return Pageable products container
      */
     @Override
-    public PageableResult<ProductEntity> getAllProductByCategory(String categoryCode, CatalogEntity catalog, Integer currentPage, Integer pageSize) {
+    public PageableResult<ProductEntity> getAllProductsByCategory(String categoryCode, CatalogEntity catalog, Integer currentPage, Integer pageSize) {
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, CategoryEntity.class);
         if (category == null) {
             return null;
         }
-        return getAllProductByCategoryUuid(category.getUuid(), currentPage, pageSize);
+        return getAllProductsByCategoryUuid(category.getUuid(), currentPage, pageSize);
     }
 
     /**
@@ -252,7 +252,7 @@ public class ProductServiceImpl implements ProductService {
      * @return Pageable products container
      */
     @Override
-    public PageableResult<ProductEntity> getAllProductByCategoryUuid(String categoryUUid, Integer currentPage, Integer pageSize) {
+    public PageableResult<ProductEntity> getAllProductsByCategoryUuid(String categoryUUid, Integer currentPage, Integer pageSize) {
         /** Load categories */
         CategoryEntity categoryEntity = entityService.findByUuid(categoryUUid, CategoryEntity.class);
         if (categoryEntity == null) {

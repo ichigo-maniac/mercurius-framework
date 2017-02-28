@@ -100,30 +100,30 @@ public class ProductServiceTest extends AbstractTest {
     }
 
     /**
-     * Method test - productService.getAllProductByCategory
+     * Method test - productService.getAllProductsByCategory
      */
     @Test
     public void getAllProductByCategoryTest() {
-        PageableResult<ProductEntity> result = productService.getAllProductByCategoryUuid("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f", 0, 20);
+        PageableResult<ProductEntity> result = productService.getAllProductsByCategoryUuid("4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f", 0, 20);
         assertUuidListsEquals(ALL_PRODUCTS_UUIDS_LIST, getUuids(result.getEntries()));
     }
 
     /**
-     * Method test (second) - productService.getAllProductByCategory
+     * Method test (second) - productService.getAllProductsByCategory
      */
     @Test
     public void getAllProductByCategoryTest2() {
         CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
-        PageableResult<ProductEntity> result = productService.getAllProductByCategory("main_category", catalog, 0, 20);
+        PageableResult<ProductEntity> result = productService.getAllProductsByCategory("main_category", catalog, 0, 20);
         assertUuidListsEquals(ALL_PRODUCTS_UUIDS_LIST, getUuids(result.getEntries()));
     }
 
     /**
-     * Method test (third) - productService.getAllProductByCategory
+     * Method test (third) - productService.getAllProductsByCategory
      */
     @Test
     public void getAllProductByCategoryTest3() {
-        PageableResult<ProductEntity> result = productService.getAllProductByCategory("main_category", "master_catalog", 0, 20);
+        PageableResult<ProductEntity> result = productService.getAllProductsByCategory("main_category", "master_catalog", 0, 20);
         assertUuidListsEquals(ALL_PRODUCTS_UUIDS_LIST, getUuids(result.getEntries()));
     }
 }
