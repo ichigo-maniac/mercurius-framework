@@ -1,5 +1,7 @@
 package org.mercuriusframework.services.impl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mercuriusframework.dto.CatalogEntityDto;
 import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.CategoryEntity;
@@ -22,6 +24,17 @@ import java.util.List;
  */
 @Service("productService")
 public class ProductServiceImpl implements ProductService {
+
+    /**
+     * Message constants
+     */
+    private static final String NO_CATEGORY_BY_CODE_MESSAGE = "There is no category with code \"{}\" and catalog \"{}\"";
+    private static final String NO_CATEGORY_BY_UUID_MESSAGE = "There is no category with uuid \"{}\"";
+
+    /**
+     * Logger
+     */
+    private static final Logger LOGGER = LogManager.getRootLogger();
 
     /**
      * Entity service
@@ -60,6 +73,7 @@ public class ProductServiceImpl implements ProductService {
         }
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCode(categoryCode, CategoryEntity.class);
         if (category == null) {
+            LOGGER.error(NO_CATEGORY_BY_CODE_MESSAGE, categoryCode, catalog.getCode());
             return null;
         }
         return getProductsByCategoryUuid(category.getUuid());
@@ -80,6 +94,7 @@ public class ProductServiceImpl implements ProductService {
         }
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCode(categoryCode, CategoryEntity.class);
         if (category == null) {
+            LOGGER.error(NO_CATEGORY_BY_CODE_MESSAGE, categoryCode, catalog.getCode());
             return null;
         }
         return getProductsByCategoryUuid(category.getUuid(), currentPage, pageSize);
@@ -95,6 +110,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductEntity> getProductsByCategory(String categoryCode, String catalogCode) {
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, CategoryEntity.class);
         if (category == null) {
+            LOGGER.error(NO_CATEGORY_BY_CODE_MESSAGE, categoryCode, catalogCode);
             return null;
         }
         return getProductsByCategoryUuid(category.getUuid());
@@ -112,6 +128,7 @@ public class ProductServiceImpl implements ProductService {
     public PageableResult<ProductEntity> getProductsByCategory(String categoryCode, String catalogCode, Integer currentPage, Integer pageSize) {
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, CategoryEntity.class);
         if (category == null) {
+            LOGGER.error(NO_CATEGORY_BY_CODE_MESSAGE, categoryCode, catalogCode);
             return null;
         }
         return getProductsByCategoryUuid(category.getUuid(), currentPage, pageSize);
@@ -127,6 +144,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductEntity> getProductsByCategory(String categoryCode, CatalogEntity catalog) {
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, CategoryEntity.class);
         if (category == null) {
+            LOGGER.error(NO_CATEGORY_BY_CODE_MESSAGE, categoryCode, catalog.getCode());
             return null;
         }
         return getProductsByCategoryUuid(category.getUuid());
@@ -144,6 +162,7 @@ public class ProductServiceImpl implements ProductService {
     public PageableResult<ProductEntity> getProductsByCategory(String categoryCode, CatalogEntity catalog, Integer currentPage, Integer pageSize) {
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, CategoryEntity.class);
         if (category == null) {
+            LOGGER.error(NO_CATEGORY_BY_CODE_MESSAGE, categoryCode, catalog.getCode());
             return null;
         }
         return getProductsByCategoryUuid(category.getUuid(), currentPage, pageSize);
@@ -158,6 +177,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductEntity> getProductsByCategoryUuid(String categoryUUid) {
         CategoryEntity categoryEntity = entityService.findByUuid(categoryUUid, CategoryEntity.class);
         if (categoryEntity == null) {
+            LOGGER.error(NO_CATEGORY_BY_UUID_MESSAGE, categoryUUid);
             return null;
         }
         return entityService.getListResultByQuery("SELECT DISTINCT product FROM " + ProductEntity.ENTITY_NAME + " as product " +
@@ -179,6 +199,7 @@ public class ProductServiceImpl implements ProductService {
     public PageableResult<ProductEntity> getProductsByCategoryUuid(String categoryUUid, Integer currentPage, Integer pageSize) {
         CategoryEntity categoryEntity = entityService.findByUuid(categoryUUid, CategoryEntity.class);
         if (categoryEntity == null) {
+            LOGGER.error(NO_CATEGORY_BY_UUID_MESSAGE, categoryUUid);
             return null;
         }
         return entityService.getPageableResultByQueries("SELECT DISTINCT product FROM " + ProductEntity.ENTITY_NAME + " as product " +
@@ -205,6 +226,7 @@ public class ProductServiceImpl implements ProductService {
         }
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCode(categoryCode, CategoryEntity.class);
         if (category == null) {
+            LOGGER.error(NO_CATEGORY_BY_CODE_MESSAGE, categoryCode, catalog.getCode());
             return null;
         }
         return getAllProductsByCategoryUuid(category.getUuid(), currentPage, pageSize);
@@ -222,6 +244,7 @@ public class ProductServiceImpl implements ProductService {
     public PageableResult<ProductEntity> getAllProductsByCategory(String categoryCode, String catalogCode, Integer currentPage, Integer pageSize) {
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, CategoryEntity.class);
         if (category == null) {
+            LOGGER.error(NO_CATEGORY_BY_CODE_MESSAGE, categoryCode, catalogCode);
             return null;
         }
         return getAllProductsByCategoryUuid(category.getUuid(), currentPage, pageSize);
@@ -239,6 +262,7 @@ public class ProductServiceImpl implements ProductService {
     public PageableResult<ProductEntity> getAllProductsByCategory(String categoryCode, CatalogEntity catalog, Integer currentPage, Integer pageSize) {
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, CategoryEntity.class);
         if (category == null) {
+            LOGGER.error(NO_CATEGORY_BY_CODE_MESSAGE, categoryCode, catalog.getCode());
             return null;
         }
         return getAllProductsByCategoryUuid(category.getUuid(), currentPage, pageSize);
@@ -256,11 +280,12 @@ public class ProductServiceImpl implements ProductService {
         /** Load categories */
         CategoryEntity categoryEntity = entityService.findByUuid(categoryUUid, CategoryEntity.class);
         if (categoryEntity == null) {
+            LOGGER.error(NO_CATEGORY_BY_UUID_MESSAGE, categoryUUid);
             return null;
         }
         List<CategoryEntity> categories = categoryService.getAllSubCategoriesByCategoryUuid(categoryUUid);
         if (categories == null) {
-            return null;
+            return PageableResult.emptyPageableResult();
         }
         categories.add(categoryEntity);
         /** Load products */

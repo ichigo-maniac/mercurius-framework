@@ -1,5 +1,7 @@
 package org.mercuriusframework.services.impl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mercuriusframework.dto.CatalogEntityDto;
 import org.mercuriusframework.services.query.QueryParameter;
 import org.mercuriusframework.entities.CatalogEntity;
@@ -20,6 +22,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService {
+
+    /**
+     * Message constants
+     */
+    private static final String NO_CATEGORY_BY_CODE_MESSAGE = "There is no category with code \"{}\" and catalog \"{}\"";
+
+    /**
+     * Logger
+     */
+    private static final Logger LOGGER = LogManager.getRootLogger();
 
     /**
      * Entity service
@@ -208,6 +220,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCode(categoryCode, CategoryEntity.class);
         if (category == null) {
+            LOGGER.error(NO_CATEGORY_BY_CODE_MESSAGE, categoryCode, catalog.getCode());
             return null;
         }
         return getAllSubCategoriesByCategoryUuid(category.getUuid());
@@ -223,6 +236,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryEntity> getAllSubCategories(String categoryCode, String catalogCode) {
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, CategoryEntity.class);
         if (category == null) {
+            LOGGER.error(NO_CATEGORY_BY_CODE_MESSAGE, categoryCode, catalogCode);
             return null;
         }
         return getAllSubCategoriesByCategoryUuid(category.getUuid());
@@ -238,6 +252,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryEntity> getAllSubCategories(String categoryCode, CatalogEntity catalog) {
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, CategoryEntity.class);
         if (category == null) {
+            LOGGER.error(NO_CATEGORY_BY_CODE_MESSAGE, categoryCode, catalog.getCode());
             return null;
         }
         return getAllSubCategoriesByCategoryUuid(category.getUuid());
