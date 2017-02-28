@@ -58,6 +58,13 @@ INSERT INTO PRODUCT(uuid, name, shortName, code, creationtime, modificationtime,
   (SELECT uuid FROM BIG_STRING WHERE code ='product_sao_04_description' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
 );
 
+INSERT INTO PRODUCT(uuid, name, code, creationtime, modificationtime, catalog_uuid, main_category_uuid, main_unit_uuid) VALUES (
+  'a1f0b496-fa94-11e6-b701-b31dc35d6666', 'Prince of tennis vol. 01', 'product_prince_of_tennis_01', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'),
+  (SELECT uuid FROM CATEGORY WHERE code ='spokon_manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM UNIT WHERE code ='pieces' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
+);
+
 
 -- Links - units  --
 
@@ -81,6 +88,11 @@ INSERT INTO PRODUCTS_UNITS_LINK(product_uuid, unit_uuid) VALUES(
   (SELECT uuid FROM UNIT WHERE code ='pieces' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
 );
 
+INSERT INTO PRODUCTS_UNITS_LINK(product_uuid, unit_uuid) VALUES(
+  (SELECT uuid FROM PRODUCT WHERE code ='product_prince_of_tennis_01' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM UNIT WHERE code ='pieces' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
+);
+
 -- Link - categories --
 
 INSERT INTO PRODUCTS_CATEGORIES_LINK(product_uuid, category_uuid) VALUES(
@@ -101,5 +113,10 @@ INSERT INTO PRODUCTS_CATEGORIES_LINK(product_uuid, category_uuid) VALUES(
 INSERT INTO PRODUCTS_CATEGORIES_LINK(product_uuid, category_uuid) VALUES(
   (SELECT uuid FROM PRODUCT WHERE code ='product_sao_04' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
   (SELECT uuid FROM CATEGORY WHERE code ='fantasy_manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
+);
+
+INSERT INTO PRODUCTS_CATEGORIES_LINK(product_uuid, category_uuid) VALUES(
+  (SELECT uuid FROM PRODUCT WHERE code ='product_prince_of_tennis_01' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM CATEGORY WHERE code ='spokon_manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
 );
 

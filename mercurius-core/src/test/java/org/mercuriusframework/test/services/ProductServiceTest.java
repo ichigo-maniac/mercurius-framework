@@ -22,6 +22,12 @@ public class ProductServiceTest extends AbstractTest {
      */
     private static final List<String> ALL_PRODUCTS_UUIDS_LIST = Arrays.asList(
             "a1f05e10-fa94-11e6-b6ff-bf2400ed613a", "a1f0970e-fa94-11e6-b700-c3c4039ff350",
+            "a1f0b496-fa94-11e6-b701-b31dc35d1050", "a1f1016c-fa94-11e6-b704-cb129d9d0314",
+            "a1f0b496-fa94-11e6-b701-b31dc35d6666"
+    );
+
+    private static final List<String> PRODUCTS_UUIDS_LIST = Arrays.asList(
+            "a1f05e10-fa94-11e6-b6ff-bf2400ed613a", "a1f0970e-fa94-11e6-b700-c3c4039ff350",
             "a1f0b496-fa94-11e6-b701-b31dc35d1050", "a1f1016c-fa94-11e6-b704-cb129d9d0314"
     );
 
@@ -36,6 +42,62 @@ public class ProductServiceTest extends AbstractTest {
      */
     @Autowired
     private ProductService productService;
+
+    /**
+     * Method test - productService.getProductsByCategory
+     */
+    @Test
+    public void getProductsByCategoryTest() {
+        List<ProductEntity> result = productService.getProductsByCategory("fantasy_manga", "master_catalog");
+        assertUuidListsEquals(PRODUCTS_UUIDS_LIST, getUuids(result));
+    }
+
+    /**
+     * Method test (second) - productService.getProductsByCategory
+     */
+    @Test
+    public void getProductsByCategoryTest2() {
+        PageableResult<ProductEntity> result = productService.getProductsByCategory("fantasy_manga", "master_catalog", 0, 20);
+        assertUuidListsEquals(PRODUCTS_UUIDS_LIST, getUuids(result.getEntries()));
+    }
+
+    /**
+     * Method test (third) - productService.getProductsByCategory
+     */
+    @Test
+    public void getProductsByCategoryTest3() {
+        CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
+        List<ProductEntity> result = productService.getProductsByCategory("fantasy_manga", catalog);
+        assertUuidListsEquals(PRODUCTS_UUIDS_LIST, getUuids(result));
+    }
+
+    /**
+     * Method test (fourth) - productService.getProductsByCategory
+     */
+    @Test
+    public void getProductsByCategoryTest4() {
+        CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
+        PageableResult<ProductEntity> result = productService.getProductsByCategory("fantasy_manga", catalog, 0, 20);
+        assertUuidListsEquals(PRODUCTS_UUIDS_LIST, getUuids(result.getEntries()));
+    }
+
+    /**
+     * Method test (fifth) - productService.getProductsByCategory
+     */
+    @Test
+    public void getProductsByCategoryTest5() {
+        List<ProductEntity> result = productService.getProductsByCategoryUuid("1116fb20-f065-11e6-9daf-a334a56d2222");
+        assertUuidListsEquals(PRODUCTS_UUIDS_LIST, getUuids(result));
+    }
+
+    /**
+     * Method test (sixth) - productService.getProductsByCategory
+     */
+    @Test
+    public void getProductsByCategoryTest6() {
+        PageableResult<ProductEntity> result = productService.getProductsByCategoryUuid("1116fb20-f065-11e6-9daf-a334a56d2222", 0, 20);
+        assertUuidListsEquals(PRODUCTS_UUIDS_LIST, getUuids(result.getEntries()));
+    }
 
     /**
      * Method test - productService.getAllProductByCategory
