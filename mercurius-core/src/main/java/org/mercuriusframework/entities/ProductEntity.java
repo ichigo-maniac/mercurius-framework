@@ -1,6 +1,7 @@
 package org.mercuriusframework.entities;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -72,6 +73,13 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
                             nullable = false, updatable = false)})
     private Set<CategoryEntity> categories;
     public static final String CATEGORIES = "categories";
+
+    /**
+     * Stocks
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = StockEntity.WAREHOUSE)
+    private List<StockEntity> stocks;
+    public static final String STOCKS = "stocks";
 
     /**
      * Get short name
@@ -168,5 +176,21 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
      */
     public void setCategories(Set<CategoryEntity> categories) {
         this.categories = categories;
+    }
+
+    /**
+     * Get stocks
+     * @return Stocks
+     */
+    public List<StockEntity> getStocks() {
+        return stocks;
+    }
+
+    /**
+     * Set stocks
+     * @param stocks Stocks
+     */
+    public void setStocks(List<StockEntity> stocks) {
+        this.stocks = stocks;
     }
 }
