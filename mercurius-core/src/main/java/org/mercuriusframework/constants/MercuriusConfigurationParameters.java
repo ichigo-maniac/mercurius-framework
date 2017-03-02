@@ -27,6 +27,14 @@ public class MercuriusConfigurationParameters {
     }
 
     /**
+     * Redis
+     */
+    public class REDIS_PARAMETERS {
+        public static final String SESSION_REDIS_NODE = "mercurius.session.redis.node";
+        public static final String SESSION_REDIS_CLUSTER_NODES = "mercurius.session.redis.cluster.nodes";
+    }
+
+    /**
      * Web parameters
      */
     public class WEB_PARAMETERS {

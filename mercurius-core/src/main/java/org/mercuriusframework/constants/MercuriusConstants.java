@@ -17,7 +17,8 @@ public class MercuriusConstants {
      */
     public class PROFILES {
         public static final String DEVELOP_PROFILE = "mercurius_develop_profile";
-        public static final String TEST_PROFILE = "mercurius_test_profile1";
+        public static final String TEST_PROFILE = "mercurius_test_profile";
+        public static final String REDIS_SESSION_PROFILE = "mercurius_redis_session_profile";
     }
 
     /**

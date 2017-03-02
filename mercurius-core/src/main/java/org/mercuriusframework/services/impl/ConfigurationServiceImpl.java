@@ -17,7 +17,7 @@ import java.util.*;
  */
 @PropertySource(MercuriusConstants.COMMON.APPLICATION_PROPERTIES_PATH)
 @Service("configurationService")
-@Profile(MercuriusConstants.PROFILES.DEVELOP_PROFILE)
+@Profile({MercuriusConstants.PROFILES.DEVELOP_PROFILE, MercuriusConstants.PROFILES.REDIS_SESSION_PROFILE})
 public class ConfigurationServiceImpl implements ConfigurationService, ServletContextAware {
     /**
      * Server root path
