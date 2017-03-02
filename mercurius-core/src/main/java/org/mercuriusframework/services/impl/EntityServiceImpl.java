@@ -36,7 +36,7 @@ public class EntityServiceImpl implements EntityService {
      * Transaction operations
      */
     @Autowired
-    private TransactionOperations transactionOperations;
+    protected TransactionOperations transactionOperations;
 
     /**
      * Find entity by uuid

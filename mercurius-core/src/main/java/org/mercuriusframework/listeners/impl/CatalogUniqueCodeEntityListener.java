@@ -7,6 +7,7 @@ import org.mercuriusframework.listeners.PrePersistEntityListener;
 import org.mercuriusframework.listeners.PreUpdateEntityListener;
 import org.mercuriusframework.services.CodeGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,11 +15,13 @@ import org.springframework.stereotype.Service;
  */
 @Service("catalogUniqueCodeEntityListener")
 public class CatalogUniqueCodeEntityListener implements PrePersistEntityListener<CatalogUniqueCodeEntity>, PreUpdateEntityListener<CatalogUniqueCodeEntity> {
+
     /**
      * Code generation service
      */
     @Autowired
-    private CodeGenerationService codeGenerationService;
+    @Qualifier("codeGenerationService")
+    protected CodeGenerationService codeGenerationService;
 
     /**
      * "Pre-persist" handler

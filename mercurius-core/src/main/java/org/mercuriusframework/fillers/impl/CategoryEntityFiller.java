@@ -30,6 +30,7 @@ public class CategoryEntityFiller extends CatalogUniqueCodeEntityFiller<Category
      * Category service
      */
     @Autowired
+    @Qualifier("categoryService")
     protected CategoryService categoryService;
 
     /**

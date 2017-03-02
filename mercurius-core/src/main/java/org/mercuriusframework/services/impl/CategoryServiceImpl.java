@@ -12,6 +12,7 @@ import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
 import org.mercuriusframework.services.CategoryService;
 import org.mercuriusframework.services.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -37,18 +38,21 @@ public class CategoryServiceImpl implements CategoryService {
      * Entity service
      */
     @Autowired
+    @Qualifier("entityService")
     protected EntityService entityService;
 
     /**
      * Catalog unique code entity service
      */
     @Autowired
+    @Qualifier("catalogUniqueCodeEntityService")
     protected CatalogUniqueCodeEntityService catalogUniqueCodeEntityService;
 
     /**
      * Catalog facade
      */
     @Autowired
+    @Qualifier("catalogFacade")
     protected CatalogFacade catalogFacade;
 
     /**

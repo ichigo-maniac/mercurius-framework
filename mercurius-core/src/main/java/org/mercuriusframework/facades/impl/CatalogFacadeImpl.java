@@ -5,6 +5,7 @@ import org.mercuriusframework.dto.CatalogEntityDto;
 import org.mercuriusframework.facades.CatalogFacade;
 import org.mercuriusframework.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ public class CatalogFacadeImpl implements CatalogFacade {
      * Session service
      */
     @Autowired
+    @Qualifier("sessionService")
     protected SessionService sessionService;
 
     /**

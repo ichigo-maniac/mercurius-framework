@@ -24,6 +24,7 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
      * Category service
      */
     @Autowired
+    @Qualifier("categoryService")
     protected CategoryService categoryService;
 
     /**

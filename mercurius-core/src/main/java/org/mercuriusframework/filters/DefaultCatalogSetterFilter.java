@@ -7,7 +7,6 @@ import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.exceptions.CatalogAbsenceException;
 import org.mercuriusframework.facades.CatalogFacade;
 import org.mercuriusframework.services.ConfigurationService;
-import org.mercuriusframework.services.SessionService;
 import org.mercuriusframework.services.UniqueCodeEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,26 +31,29 @@ public class DefaultCatalogSetterFilter extends OncePerRequestFilter {
      * Unique code entity service
      */
     @Autowired
-    private UniqueCodeEntityService uniqueCodeEntityService;
+    @Qualifier("uniqueCodeEntityService")
+    protected UniqueCodeEntityService uniqueCodeEntityService;
 
     /**
      * Configuration service
      */
     @Autowired
-    private ConfigurationService configurationService;
+    @Qualifier("configurationService")
+    protected ConfigurationService configurationService;
 
     /**
      * Catalog entity converter
      */
     @Autowired
     @Qualifier("catalogEntityConverter")
-    private CatalogEntityConverter catalogEntityConverter;
+    protected CatalogEntityConverter catalogEntityConverter;
 
     /**
      * Catalog facade
      */
     @Autowired
-    private CatalogFacade catalogFacade;
+    @Qualifier("catalogFacade")
+    protected CatalogFacade catalogFacade;
 
     /**
      * Do filter internal

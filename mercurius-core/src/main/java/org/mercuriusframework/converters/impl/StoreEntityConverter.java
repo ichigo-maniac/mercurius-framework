@@ -20,7 +20,7 @@ public class StoreEntityConverter implements Converter<StoreEntity, StoreEntityD
      */
     @Autowired
     @Qualifier("storeEntityFiller")
-    private StoreEntityFiller storeEntityFiller;
+    protected StoreEntityFiller storeEntityFiller;
 
     /**
      * Convert a source object to a result object

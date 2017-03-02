@@ -15,6 +15,7 @@ import org.mercuriusframework.services.ProductService;
 import org.mercuriusframework.services.query.PageableResult;
 import org.mercuriusframework.services.query.QueryParameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,24 +41,28 @@ public class ProductServiceImpl implements ProductService {
      * Entity service
      */
     @Autowired
+    @Qualifier("entityService")
     protected EntityService entityService;
 
     /**
      * Category service
      */
     @Autowired
+    @Qualifier("categoryService")
     protected CategoryService categoryService;
 
     /**
      * Catalog unique code entity service
      */
     @Autowired
+    @Qualifier("catalogUniqueCodeEntityService")
     protected CatalogUniqueCodeEntityService catalogUniqueCodeEntityService;
 
     /**
      * Catalog facade
      */
     @Autowired
+    @Qualifier("catalogFacade")
     protected CatalogFacade catalogFacade;
 
     /**

@@ -7,6 +7,7 @@ import org.mercuriusframework.entities.UniqueCodeEntity;
 import org.mercuriusframework.services.CodeGenerationService;
 import org.mercuriusframework.services.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Entity;
@@ -22,6 +23,7 @@ public class CodeGenerationServiceImpl implements CodeGenerationService {
      * Entity service
      */
     @Autowired
+    @Qualifier("entityService")
     protected EntityService entityService;
 
     /**

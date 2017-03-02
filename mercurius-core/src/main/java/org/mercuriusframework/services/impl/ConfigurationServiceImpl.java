@@ -28,7 +28,7 @@ public class ConfigurationServiceImpl implements ConfigurationService, ServletCo
      * Spring environment bean
      */
     @Autowired
-    private Environment environment;
+    protected Environment environment;
 
     /**
      * Get server root path
