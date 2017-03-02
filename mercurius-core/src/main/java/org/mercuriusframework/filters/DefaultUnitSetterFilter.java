@@ -90,7 +90,7 @@ public class DefaultUnitSetterFilter extends OncePerRequestFilter {
                 if (defaultUnitCode != null) {
                     UnitEntity unitEntity = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(defaultUnitCode, defaultCatalog.getCode(), UnitEntity.class);
                     if (unitEntity != null) {
-                        unitFacade.setDefaultUnit(unitEntityConverter.convert(unitEntity));
+                        unitFacade.setDefaultUnit(httpServletRequest, unitEntityConverter.convert(unitEntity));
                     } else {
                         throw new UnitAbsenceException(defaultUnitCode);
                     }
@@ -103,7 +103,7 @@ public class DefaultUnitSetterFilter extends OncePerRequestFilter {
                     if (catalogCodeForUnit != null && defaultUnitCode != null) {
                         UnitEntity unitEntity = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(defaultUnitCode, catalogCodeForUnit, UnitEntity.class);
                         if (unitEntity != null) {
-                            unitFacade.setDefaultUnit(unitEntityConverter.convert(unitEntity));
+                            unitFacade.setDefaultUnit(httpServletRequest, unitEntityConverter.convert(unitEntity));
                         } else {
                             throw new UnitAbsenceException(defaultUnitCode, catalogCodeForUnit);
                         }
