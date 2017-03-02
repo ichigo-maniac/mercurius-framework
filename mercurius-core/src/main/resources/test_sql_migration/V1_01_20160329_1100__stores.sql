@@ -29,6 +29,21 @@ CREATE TABLE WAREHOUSE(
   store_uuid CHARACTER VARYING(36) NOT NULL REFERENCES STORE(uuid)
 );
 
+INSERT INTO WAREHOUSE(uuid, name, code, creationtime, modificationtime, disabled, store_uuid) VALUES (
+  '12345e10-fa94-22e6-b6ff-abd400ed1234', 'Warehouse 1', 'warehouse_1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE,
+  (SELECT uuid FROM STORE WHERE code = 'default_store')
+);
+
+INSERT INTO WAREHOUSE(uuid, name, code, creationtime, modificationtime, disabled, store_uuid) VALUES (
+  '12345e10-fa94-22e6-b6ff-abd400ed2222', 'Warehouse 2', 'warehouse_2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE,
+  (SELECT uuid FROM STORE WHERE code = 'default_store')
+);
+
+INSERT INTO WAREHOUSE(uuid, name, code, creationtime, modificationtime, disabled, store_uuid) VALUES (
+  '12345e10-fa94-22e6-b6ff-abd400ed3333', 'Warehouse 3', 'warehouse_3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE,
+  (SELECT uuid FROM STORE WHERE code = 'default_store')
+);
+
 CREATE TABLE STOCK(
   uuid CHARACTER VARYING(36) NOT NULL PRIMARY KEY,
   name CHARACTER VARYING(255) NOT NULL,

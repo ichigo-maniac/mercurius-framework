@@ -93,6 +93,11 @@ INSERT INTO PRODUCTS_UNITS_LINK(product_uuid, unit_uuid) VALUES(
   (SELECT uuid FROM UNIT WHERE code ='pieces' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
 );
 
+INSERT INTO PRODUCTS_UNITS_LINK(product_uuid, unit_uuid) VALUES(
+  (SELECT uuid FROM PRODUCT WHERE code ='product_prince_of_tennis_01' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM UNIT WHERE code ='boxes' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
+);
+
 -- Link - categories --
 
 INSERT INTO PRODUCTS_CATEGORIES_LINK(product_uuid, category_uuid) VALUES(
