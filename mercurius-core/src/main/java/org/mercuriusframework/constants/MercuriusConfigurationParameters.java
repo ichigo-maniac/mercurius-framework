@@ -39,5 +39,8 @@ public class MercuriusConfigurationParameters {
      */
     public class WEB_PARAMETERS {
         public static final String DEFAULT_CATALOG_CODE = "mercurius.default.catalog.code";
+        public static final String CURRENT_STORE_CODE = "mercurius.current.store.code";
+        public static final String DEFAULT_UNIT_CODE = "mercurius.default.unit.code";
+        public static final String CATALOG_CODE_FOR_DEFAULT_UNIT_CODE = "mercurius.catalog.code.for.default.unit.code";
     }
 }
