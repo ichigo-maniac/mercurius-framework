@@ -10,6 +10,8 @@ import java.util.Set;
 @Table(name = "CATEGORY")
 public class CategoryEntity extends CatalogUniqueCodeEntity {
 
+    private static final long serialVersionUID = -1108095657379342612L;
+
     /**
      * Entity name
      */

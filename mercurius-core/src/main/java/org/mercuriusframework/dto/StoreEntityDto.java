@@ -7,6 +7,8 @@ import java.util.List;
  */
 public class StoreEntityDto extends UniqueCodeEntityDto {
 
+    private static final long serialVersionUID = -5870110846350796493L;
+
     /**
      * Is a store enabled
      */

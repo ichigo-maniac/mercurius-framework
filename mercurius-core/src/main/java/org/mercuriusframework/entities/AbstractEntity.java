@@ -14,6 +14,8 @@ import java.util.Date;
 @EntityListeners({CommonAbstractEntityListener.class})
 public abstract class AbstractEntity implements Serializable {
 
+    private static final long serialVersionUID = 5918598253409759903L;
+
     /**
      * Entity id
      */

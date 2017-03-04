@@ -11,6 +11,8 @@ import javax.persistence.*;
 @Table(name = "BIG_STRING")
 public class BigStringEntity extends CatalogUniqueCodeEntity {
 
+    private static final long serialVersionUID = 8969015900186944644L;
+
     /**
      * Entity name
      */

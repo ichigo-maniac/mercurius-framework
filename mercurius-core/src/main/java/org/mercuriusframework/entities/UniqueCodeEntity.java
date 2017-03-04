@@ -10,6 +10,9 @@ import java.io.Serializable;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class UniqueCodeEntity extends AbstractEntity implements Serializable {
 
+
+    private static final long serialVersionUID = 1901365109058504410L;
+
     /**
      * Name
      */

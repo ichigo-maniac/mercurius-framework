@@ -10,6 +10,8 @@ import java.util.List;
 @Table(name = "WAREHOUSE")
 public class WarehouseEntity extends UniqueCodeEntity {
 
+    private static final long serialVersionUID = 4082941005457125655L;
+
     /**
      * Entity name
      */

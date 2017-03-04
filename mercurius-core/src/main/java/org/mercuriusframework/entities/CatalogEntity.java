@@ -8,6 +8,9 @@ import javax.persistence.*;
 @Entity(name = CatalogEntity.ENTITY_NAME)
 @Table(name = "SHOP_CATALOG")
 public class CatalogEntity extends UniqueCodeEntity {
+
+    private static final long serialVersionUID = -1426507420797305899L;
+
     /**
      * Entity name
      */

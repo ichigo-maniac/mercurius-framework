@@ -7,6 +7,8 @@ import java.util.List;
  */
 public class CategoryEntityDto extends CatalogUniqueCodeEntityDto {
 
+    private static final long serialVersionUID = -5276196213038282233L;
+
     /**
      * Description
      */

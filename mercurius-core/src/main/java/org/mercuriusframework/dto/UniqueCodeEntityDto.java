@@ -4,6 +4,9 @@ package org.mercuriusframework.dto;
  * Unique code entity data transfer object
  */
 public class UniqueCodeEntityDto extends EntityDto {
+
+    private static final long serialVersionUID = -791267560089627606L;
+
     /**
      * Name
      */

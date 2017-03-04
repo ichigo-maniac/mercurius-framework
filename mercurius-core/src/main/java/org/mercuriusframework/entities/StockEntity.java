@@ -9,10 +9,19 @@ import javax.persistence.*;
 @Table(name = "STOCK")
 public class StockEntity extends UniqueCodeEntity {
 
+    private static final long serialVersionUID = 7058020107791400365L;
+
     /**
      * Entity name
      */
     public static final String ENTITY_NAME = "Stock";
+
+    /**
+     * Is a stock enabled
+     */
+    @Basic(optional = true)
+    private Boolean enabled;
+    public static final String ENABLED = "enabled";
 
     /**
      * Product
@@ -45,6 +54,22 @@ public class StockEntity extends UniqueCodeEntity {
     @JoinColumn(name = "WAREHOUSE_UUID", referencedColumnName = "uuid", nullable = false)
     private WarehouseEntity warehouse;
     public static final String WAREHOUSE = "warehouse";
+
+    /**
+     * Get "Is a stock enabled"
+     * @return "Is a stock enabled" flag
+     */
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    /**
+     * Set "Is a stock enabled"
+     * @param enabled "Is a stock enabled" flag
+     */
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 
     /**
      * Get a product

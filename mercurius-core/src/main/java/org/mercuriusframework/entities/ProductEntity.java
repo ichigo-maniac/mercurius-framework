@@ -10,6 +10,9 @@ import java.util.Set;
 @Entity(name = ProductEntity.ENTITY_NAME)
 @Table(name = "PRODUCT")
 public class ProductEntity extends CatalogUniqueCodeEntity {
+
+    private static final long serialVersionUID = 3397412637120156482L;
+
     /**
      * Entity name
      */

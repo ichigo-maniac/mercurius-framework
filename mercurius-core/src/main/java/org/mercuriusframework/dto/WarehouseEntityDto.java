@@ -5,6 +5,8 @@ package org.mercuriusframework.dto;
  */
 public class WarehouseEntityDto extends UniqueCodeEntityDto {
 
+    private static final long serialVersionUID = 8542026491370013340L;
+
     /**
      * Is a store enabled
      */

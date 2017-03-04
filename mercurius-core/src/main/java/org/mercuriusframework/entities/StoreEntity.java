@@ -10,6 +10,8 @@ import java.util.List;
 @Table(name = "STORE")
 public class StoreEntity extends UniqueCodeEntity {
 
+    private static final long serialVersionUID = -1603142104877065483L;
+
     /**
      * Entity name
      */
@@ -41,7 +43,7 @@ public class StoreEntity extends UniqueCodeEntity {
      * Set "Is a store enabled"
      * @param enabled "Is a store enabled" flag
      */
-    public void setDisabled(Boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 

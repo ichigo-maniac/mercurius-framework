@@ -7,6 +7,9 @@ import java.util.Date;
  * Entity data transfer object
  */
 public class EntityDto implements Serializable {
+
+    private static final long serialVersionUID = -7398836737277111538L;
+
     /**
      * Entity id
      */
