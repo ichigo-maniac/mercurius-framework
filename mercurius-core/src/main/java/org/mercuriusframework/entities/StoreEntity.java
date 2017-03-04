@@ -16,11 +16,11 @@ public class StoreEntity extends UniqueCodeEntity {
     public static final String ENTITY_NAME = "Store";
 
     /**
-     * Is a store disabled
+     * Is a store enabled
      */
     @Basic(optional = true)
-    private Boolean disabled;
-    public static final String DISABLED = "disabled";
+    private Boolean enabled;
+    public static final String ENABLED = "enabled";
 
     /**
      * Warehouses
@@ -30,19 +30,19 @@ public class StoreEntity extends UniqueCodeEntity {
     public static final String WAREHOUSES = "warehouses";
 
     /**
-     * Get "Is a store disabled"
-     * @return "Is a store disabled" flag
+     * Get "Is a store enabled"
+     * @return "Is a store enabled" flag
      */
-    public Boolean getDisabled() {
-        return disabled;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
     /**
-     * Set "Is a store disabled"
-     * @param disabled "Is a store disabled" flag
+     * Set "Is a store enabled"
+     * @param enabled "Is a store enabled" flag
      */
-    public void setDisabled(Boolean disabled) {
-        this.disabled = disabled;
+    public void setDisabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     /**

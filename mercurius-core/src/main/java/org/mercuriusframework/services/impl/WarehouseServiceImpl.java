@@ -49,16 +49,16 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     /**
      * Get warehouses (use set current store)
-     * @param disabled Is warehouse disabled
+     * @param enabled Is warehouse enabled
      * @return List of warehoused
      */
     @Override
-    public List<WarehouseEntity> getWarehouses(boolean disabled) {
+    public List<WarehouseEntity> getWarehouses(boolean enabled) {
         StoreEntityDto store = storeFacade.getCurrentStore();
         if (store == null) {
             throw new CurrentStorePresetException();
         }
-        return getWarehousesByStoreUuid(store.getUuid(), disabled);
+        return getWarehousesByStoreUuid(store.getUuid(), enabled);
     }
 
     /**
@@ -76,15 +76,15 @@ public class WarehouseServiceImpl implements WarehouseService {
     /**
      * Get warehouses
      * @param storeUuid Store uuid
-     * @param disabled  Is warehouse disabled
+     * @param enabled  Is warehouse enabled
      * @return List of warehoused
      */
     @Override
-    public List<WarehouseEntity> getWarehousesByStoreUuid(String storeUuid, boolean disabled) {
+    public List<WarehouseEntity> getWarehousesByStoreUuid(String storeUuid, boolean enabled) {
         return entityService.getListResultByQuery("SELECT DISTINCT warehouse FROM " + WarehouseEntity.ENTITY_NAME + " as warehouse " +
                         "WHERE warehouse." + WarehouseEntity.STORE + "." + StoreEntity.UUID + " = :storeUuid " +
-                        "AND warehouse." + WarehouseEntity.DISABLED + " = :disabled",
-                WarehouseEntity.class, new QueryParameter("storeUuid", storeUuid), new QueryParameter("disabled", disabled));
+                        "AND warehouse." + WarehouseEntity.ENABLED + " = :enabled",
+                WarehouseEntity.class, new QueryParameter("storeUuid", storeUuid), new QueryParameter("enabled", enabled));
     }
 
     /**
@@ -102,15 +102,15 @@ public class WarehouseServiceImpl implements WarehouseService {
     /**
      * Get warehouses
      * @param storeCode Store code
-     * @param disabled  Is warehouse disabled
+     * @param enabled  Is warehouse enabled
      * @return List of warehoused
      */
     @Override
-    public List<WarehouseEntity> getWarehousesByStoreCode(String storeCode, boolean disabled) {
+    public List<WarehouseEntity> getWarehousesByStoreCode(String storeCode, boolean enabled) {
         return entityService.getListResultByQuery("SELECT DISTINCT warehouse FROM " + WarehouseEntity.ENTITY_NAME + " as warehouse " +
                         "WHERE warehouse." + WarehouseEntity.STORE + "." + StoreEntity.CODE + " = :storeCode " +
-                        "AND warehouse." + WarehouseEntity.DISABLED + " = :disabled",
-                WarehouseEntity.class, new QueryParameter("storeCode", storeCode), new QueryParameter("disabled", disabled));
+                        "AND warehouse." + WarehouseEntity.ENABLED + " = :enabled",
+                WarehouseEntity.class, new QueryParameter("storeCode", storeCode), new QueryParameter("enabled", enabled));
     }
 
     /**
@@ -128,14 +128,14 @@ public class WarehouseServiceImpl implements WarehouseService {
     /**
      * Get warehouses
      * @param store    Store
-     * @param disabled Is warehouse disabled
+     * @param enabled Is warehouse enabled
      * @return List of warehoused
      */
     @Override
-    public List<WarehouseEntity> getWarehousesByStore(StoreEntity store, boolean disabled) {
+    public List<WarehouseEntity> getWarehousesByStore(StoreEntity store, boolean enabled) {
         return entityService.getListResultByQuery("SELECT DISTINCT warehouse FROM " + WarehouseEntity.ENTITY_NAME + " as warehouse " +
                         "WHERE warehouse." + WarehouseEntity.STORE + " = :store " +
-                        "AND warehouse." + WarehouseEntity.DISABLED + " = :disabled",
-                WarehouseEntity.class, new QueryParameter("store", store), new QueryParameter("disabled", disabled));
+                        "AND warehouse." + WarehouseEntity.ENABLED + " = :enabled",
+                WarehouseEntity.class, new QueryParameter("store", store), new QueryParameter("enabled", enabled));
     }
 }

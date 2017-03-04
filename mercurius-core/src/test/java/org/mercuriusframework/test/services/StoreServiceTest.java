@@ -45,7 +45,7 @@ public class StoreServiceTest extends AbstractTest {
      */
     @Test
     public void getStoresTest2() {
-        List<StoreEntity> stores = storeService.getStores(true);
+        List<StoreEntity> stores = storeService.getStores(false);
         assertUuidListsEquals(DISABLED_STORES_UUIDS_LIST, getUuids(stores));
     }
 }

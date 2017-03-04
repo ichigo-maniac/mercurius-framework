@@ -35,13 +35,13 @@ public class StoreServiceImpl implements StoreService {
 
     /**
      * Get stores
-     * @param disabled Is stores disabled
+     * @param enabled Is stores enabled
      * @return List of stores
      */
     @Override
-    public List<StoreEntity> getStores(boolean disabled) {
+    public List<StoreEntity> getStores(boolean enabled) {
         return entityService.getListResultByQuery("SELECT DISTINCT store FROM " + StoreEntity.ENTITY_NAME + " as store " +
-                "WHERE store." + StoreEntity.DISABLED + " = :disableFlag",
-                StoreEntity.class, new QueryParameter("disableFlag", disabled));
+                "WHERE store." + StoreEntity.ENABLED + " = :enabledFlag",
+                StoreEntity.class, new QueryParameter("enabledFlag", enabled));
     }
 }

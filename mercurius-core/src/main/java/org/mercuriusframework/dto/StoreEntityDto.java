@@ -8,9 +8,9 @@ import java.util.List;
 public class StoreEntityDto extends UniqueCodeEntityDto {
 
     /**
-     * Is a store disabled
+     * Is a store enabled
      */
-    private Boolean disabled;
+    private Boolean enabled;
 
     /**
      * Warehouses
@@ -18,19 +18,19 @@ public class StoreEntityDto extends UniqueCodeEntityDto {
     private List<WarehouseEntityDto> warehouses;
 
     /**
-     * Get "Is a store disabled"
-     * @return "Is a store disabled" flag
+     * Get "Is a store enabled"
+     * @return "Is a store enabled" flag
      */
-    public Boolean getDisabled() {
-        return disabled;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
     /**
-     * Set "Is a store disabled"
-     * @param disabled "Is a store disabled" flag
+     * Set "Is a store enabled"
+     * @param enabled "Is a store enabled" flag
      */
-    public void setDisabled(Boolean disabled) {
-        this.disabled = disabled;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     /**

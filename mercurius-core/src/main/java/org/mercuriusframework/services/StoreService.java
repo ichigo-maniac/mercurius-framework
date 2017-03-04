@@ -16,8 +16,8 @@ public interface StoreService {
 
     /**
      * Get stores
-     * @param disabled Is stores disabled
+     * @param enabled Is stores enabled
      * @return List of stores
      */
-    List<StoreEntity> getStores(boolean disabled);
+    List<StoreEntity> getStores(boolean enabled);
 }

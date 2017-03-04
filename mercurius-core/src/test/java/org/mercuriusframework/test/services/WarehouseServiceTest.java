@@ -53,7 +53,7 @@ public class WarehouseServiceTest extends AbstractTest {
      */
     @Test
     public void getWarehousesByTest2() {
-        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreUuid("12345e10-fa94-11e6-b6ff-bf2400ed1234", false);
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreUuid("12345e10-fa94-11e6-b6ff-bf2400ed1234", true);
         assertUuidListsEquals(ENABLED_WAREHOUSES_UUIDS_LIST, getUuids(warehouses));
     }
 
@@ -71,7 +71,7 @@ public class WarehouseServiceTest extends AbstractTest {
      */
     @Test
     public void getWarehousesByTest4() {
-        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode("default_store", false);
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode("default_store", true);
         assertUuidListsEquals(ENABLED_WAREHOUSES_UUIDS_LIST, getUuids(warehouses));
     }
 
@@ -91,7 +91,7 @@ public class WarehouseServiceTest extends AbstractTest {
     @Test
     public void getWarehousesByTest6() {
         StoreEntity store = uniqueCodeEntityService.getEntityByCode("default_store", StoreEntity.class);
-        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStore(store, false);
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStore(store, true);
         assertUuidListsEquals(ENABLED_WAREHOUSES_UUIDS_LIST, getUuids(warehouses));
     }
 }

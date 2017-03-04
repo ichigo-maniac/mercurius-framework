@@ -18,10 +18,10 @@ public interface WarehouseService {
 
     /**
      * Get warehouses (use set current store)
-     * @param disabled Is warehouse disabled
+     * @param enabled Is warehouse enabled
      * @return List of warehoused
      */
-    List<WarehouseEntity> getWarehouses(boolean disabled);
+    List<WarehouseEntity> getWarehouses(boolean enabled);
     /**
      * Get warehouses
      * @param storeUuid Store uuid
@@ -32,10 +32,10 @@ public interface WarehouseService {
     /**
      * Get warehouses
      * @param storeUuid Store uuid
-     * @param disabled Is warehouse disabled
+     * @param enabled Is warehouse enabled
      * @return List of warehoused
      */
-    List<WarehouseEntity> getWarehousesByStoreUuid(String storeUuid, boolean disabled);
+    List<WarehouseEntity> getWarehousesByStoreUuid(String storeUuid, boolean enabled);
 
     /**
      * Get warehouses
@@ -47,10 +47,10 @@ public interface WarehouseService {
     /**
      * Get warehouses
      * @param storeCode Store code
-     * @param disabled Is warehouse disabled
+     * @param enabled Is warehouse enabled
      * @return List of warehoused
      */
-    List<WarehouseEntity> getWarehousesByStoreCode(String storeCode, boolean disabled);
+    List<WarehouseEntity> getWarehousesByStoreCode(String storeCode, boolean enabled);
 
     /**
      * Get warehouses
@@ -62,8 +62,8 @@ public interface WarehouseService {
     /**
      * Get warehouses
      * @param store Store
-     *  @param disabled Is warehouse disabled
+     *  @param enabled Is warehouse enabled
      * @return List of warehoused
      */
-    List<WarehouseEntity> getWarehousesByStore(StoreEntity store, boolean disabled);
+    List<WarehouseEntity> getWarehousesByStore(StoreEntity store, boolean enabled);
 }

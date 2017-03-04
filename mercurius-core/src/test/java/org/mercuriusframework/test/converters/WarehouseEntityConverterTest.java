@@ -33,6 +33,6 @@ public class WarehouseEntityConverterTest extends AbstractTest {
         WarehouseEntity warehouse = uniqueCodeEntityService.getEntityByCode("warehouse_1", WarehouseEntity.class);
         WarehouseEntityDto dto = warehouseEntityConverter.convert(warehouse);
         assertEquals(dto.getUuid().equals("12345e10-fa94-22e6-b6ff-abd400ed1234") && dto.getCode().equals("warehouse_1") &&
-        !dto.getDisabled() && dto.getName().equals("Warehouse 1"), true);
+        dto.getEnabled() && dto.getName().equals("Warehouse 1"), true);
     }
 }

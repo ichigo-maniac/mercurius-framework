@@ -34,6 +34,7 @@ public class StockEntity extends UniqueCodeEntity {
      * Product's count
      */
     @Basic(optional = false)
+    @Column(name = "product_count")
     private Long count;
     public static final String COUNT = "count";
 

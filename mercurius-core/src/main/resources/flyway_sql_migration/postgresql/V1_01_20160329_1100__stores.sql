@@ -4,15 +4,15 @@ CREATE TABLE STORE(
   code CHARACTER VARYING(255) NOT NULL UNIQUE,
   creationtime TIMESTAMP NOT NULL,
   modificationtime TIMESTAMP NOT NULL,
-  disabled BOOLEAN
+  enabled BOOLEAN
 );
 
 CREATE UNIQUE INDEX STORE_UUID_IDX ON STORE(uuid);
 CREATE UNIQUE INDEX STORE_CODE_IDX ON STORE(code);
 CREATE INDEX STORE_NAME_IDX ON STORE(name);
 
-INSERT INTO STORE(uuid, name, code, creationtime, modificationtime, disabled) VALUES (
-  uuid_generate_v1(), 'Default store', 'default_store', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, FALSE
+INSERT INTO STORE(uuid, name, code, creationtime, modificationtime, enabled) VALUES (
+  uuid_generate_v1(), 'Default store', 'default_store', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, TRUE
 );
 
 CREATE TABLE WAREHOUSE(
@@ -21,7 +21,7 @@ CREATE TABLE WAREHOUSE(
   code CHARACTER VARYING(255) NOT NULL UNIQUE,
   creationtime TIMESTAMP NOT NULL,
   modificationtime TIMESTAMP NOT NULL,
-  disabled BOOLEAN,
+  enabled BOOLEAN,
   store_uuid CHARACTER VARYING(36) NOT NULL REFERENCES STORE(uuid)
 );
 
@@ -36,6 +36,7 @@ CREATE TABLE STOCK(
   code CHARACTER VARYING(255) NOT NULL UNIQUE,
   creationtime TIMESTAMP NOT NULL,
   modificationtime TIMESTAMP NOT NULL,
+  product_count BIGINT NOT NULL,
   warehouse_uuid CHARACTER VARYING(36) NOT NULL REFERENCES WAREHOUSE(uuid),
   product_uuid CHARACTER VARYING(36) NOT NULL REFERENCES PRODUCT(uuid),
   unit_uuid CHARACTER VARYING(36) NOT NULL REFERENCES UNIT(uuid)

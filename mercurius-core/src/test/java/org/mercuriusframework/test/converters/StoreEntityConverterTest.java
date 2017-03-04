@@ -48,7 +48,7 @@ public class StoreEntityConverterTest extends AbstractTest {
         StoreEntity store = uniqueCodeEntityService.getEntityByCode("default_store", StoreEntity.class);
         StoreEntityDto dto = storeEntityConverter.convert(store);
         assertEquals(dto.getUuid().equals("12345e10-fa94-11e6-b6ff-bf2400ed1234") && dto.getCode().equals("default_store") &&
-        !dto.getDisabled() && dto.getName().equals("Default store"), true);
+        dto.getEnabled() && dto.getName().equals("Default store"), true);
     }
 
     /**
@@ -59,7 +59,7 @@ public class StoreEntityConverterTest extends AbstractTest {
         StoreEntity store = uniqueCodeEntityService.getEntityByCode("default_store", StoreEntity.class);
         StoreEntityDto dto = storeEntityConverter.convert(store, StoreLoadOptions.WAREHOUSES);
         assertEquals(dto.getUuid().equals("12345e10-fa94-11e6-b6ff-bf2400ed1234") && dto.getCode().equals("default_store") &&
-                !dto.getDisabled() && dto.getName().equals("Default store"), true);
+                dto.getEnabled() && dto.getName().equals("Default store"), true);
         assertUuidListsEquals(ALL_WAREHOUSES_UUIDS_LIST, getUuidsFromDtos(dto.getWarehouses()));
     }
 
@@ -71,7 +71,7 @@ public class StoreEntityConverterTest extends AbstractTest {
         StoreEntity store = uniqueCodeEntityService.getEntityByCode("default_store", StoreEntity.class);
         StoreEntityDto dto = storeEntityConverter.convert(store, StoreLoadOptions.ENABLED_WAREHOUSES);
         assertEquals(dto.getUuid().equals("12345e10-fa94-11e6-b6ff-bf2400ed1234") && dto.getCode().equals("default_store") &&
-                !dto.getDisabled() && dto.getName().equals("Default store"), true);
+                dto.getEnabled() && dto.getName().equals("Default store"), true);
         assertUuidListsEquals(ENABLED_WAREHOUSES_UUIDS_LIST, getUuidsFromDtos(dto.getWarehouses()));
     }
 }

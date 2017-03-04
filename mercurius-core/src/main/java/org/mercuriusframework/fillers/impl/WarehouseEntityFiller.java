@@ -21,6 +21,6 @@ public class WarehouseEntityFiller extends UniqueCodeEntityFiller<WarehouseEntit
     @Override
     public void fillIn(WarehouseEntity source, WarehouseEntityDto result, LoadOptions... options) {
         super.fillIn(source, result, options);
-        result.setDisabled(source.getDisabled());
+        result.setEnabled(source.getEnabled());
     }
 }

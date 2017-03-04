@@ -43,14 +43,14 @@ public class StoreEntityFiller extends UniqueCodeEntityFiller<StoreEntity, Store
     @Override
     public void fillIn(StoreEntity source, StoreEntityDto result, LoadOptions... options) {
         super.fillIn(source, result, options);
-        result.setDisabled(source.getDisabled());
+        result.setEnabled(source.getEnabled());
         /** Warehouses */
         if (ArrayUtils.contains(options, StoreLoadOptions.WAREHOUSES)) {
             List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStore(source);
             result.setWarehouses(warehouseEntityConverter.convertAll(warehouses));
         } else {
             if (ArrayUtils.contains(options, StoreLoadOptions.ENABLED_WAREHOUSES)) {
-                List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStore(source, false);
+                List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStore(source, true);
                 result.setWarehouses(warehouseEntityConverter.convertAll(warehouses));
             }
         }
