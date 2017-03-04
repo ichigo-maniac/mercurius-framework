@@ -71,6 +71,13 @@ INSERT INTO STOCK(uuid, name, code, creationtime, modificationtime, product_coun
   (SELECT uuid FROM UNIT WHERE code ='boxes' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
 );
 
+INSERT INTO STOCK(uuid, name, code, creationtime, modificationtime, enabled, product_count, warehouse_uuid, product_uuid, unit_uuid) VALUES (
+  '12345e10-0000-22e6-4444-abd422555333', 'Prince of tennis 01 - boxes', 'stock_prince_of_tennis_01_boxes_d', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 4,
+  (SELECT uuid FROM WAREHOUSE WHERE code = 'warehouse_1'),
+  (SELECT uuid FROM PRODUCT WHERE code ='product_prince_of_tennis_01' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM UNIT WHERE code ='boxes' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'))
+);
+
 INSERT INTO STOCK(uuid, name, code, creationtime, modificationtime, product_count, warehouse_uuid, product_uuid, unit_uuid) VALUES (
   '12345e10-0000-22e6-b6ff-abd422223333', 'Prince of tennis 01 - pieces', 'stock_prince_of_tennis_01_pieces - 2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 7,
   (SELECT uuid FROM WAREHOUSE WHERE code = 'warehouse_3'),

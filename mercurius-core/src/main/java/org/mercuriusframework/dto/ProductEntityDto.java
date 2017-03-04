@@ -33,7 +33,7 @@ public class ProductEntityDto extends CatalogUniqueCodeEntityDto {
     /**
      * Stocks map
      */
-    private Map<UnitEntityDto, List<StockTotalDto>> stocksMap;
+    private Map<UnitEntityDto, StockTotalDto> stocksMap;
 
     /**
      * Default stock (for default set unit)
@@ -108,7 +108,7 @@ public class ProductEntityDto extends CatalogUniqueCodeEntityDto {
      * Get stocks map
      * @return Stocks map
      */
-    public Map<UnitEntityDto, List<StockTotalDto>> getStocksMap() {
+    public Map<UnitEntityDto, StockTotalDto> getStocksMap() {
         return stocksMap;
     }
 
@@ -116,7 +116,7 @@ public class ProductEntityDto extends CatalogUniqueCodeEntityDto {
      * Set stocks map
      * @param stocksMap Stocks map
      */
-    public void setStocksMap(Map<UnitEntityDto, List<StockTotalDto>> stocksMap) {
+    public void setStocksMap(Map<UnitEntityDto, StockTotalDto> stocksMap) {
         this.stocksMap = stocksMap;
     }
 

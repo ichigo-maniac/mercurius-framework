@@ -24,7 +24,7 @@ public class StockServiceTest extends AbstractTest {
      */
     private static final List<String> ALL_STOCKS_UUIDS_LIST = Arrays.asList(
             "12345e10-1a94-22e6-b6ff-abd422223333", "12345e10-1594-22e6-b6ff-abd422555333",
-            "12345e10-0000-22e6-b6ff-abd422223333"
+            "12345e10-0000-22e6-b6ff-abd422223333", "12345e10-0000-22e6-4444-abd422555333"
     );
 
     private static final List<String> PIECES_STOCKS_UUIDS_LIST = Arrays.asList(
@@ -32,7 +32,8 @@ public class StockServiceTest extends AbstractTest {
     );
 
     private static final List<String> ALL_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST = Arrays.asList(
-            "12345e10-1a94-22e6-b6ff-abd422223333", "12345e10-1594-22e6-b6ff-abd422555333"
+            "12345e10-1a94-22e6-b6ff-abd422223333", "12345e10-1594-22e6-b6ff-abd422555333",
+            "12345e10-0000-22e6-4444-abd422555333"
     );
 
     private static final List<String> PIECES_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST = Arrays.asList(

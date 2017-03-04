@@ -3,6 +3,8 @@ package org.mercuriusframework.test.converters;
 import org.junit.Test;
 import org.mercuriusframework.converters.impl.ProductEntityConverter;
 import org.mercuriusframework.dto.ProductEntityDto;
+import org.mercuriusframework.dto.StockTotalDto;
+import org.mercuriusframework.dto.UnitEntityDto;
 import org.mercuriusframework.entities.ProductEntity;
 import org.mercuriusframework.enums.ProductLoadOptions;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Product entity converter test
@@ -23,6 +26,20 @@ public class ProductEntityConverterTest extends AbstractTest {
     private static final List<String> ORDERED_BREAD_CRUMBS_UUIDS_LIST = Arrays.asList(
             "4aa6bb9c-f065-11e6-9dad-9b2db2c47a0f", "4aa6fb20-f065-11e6-9daf-a334a56d0d4c", "1116fb20-f065-11e6-9daf-a334a56d2222"
     );
+
+    private static final List<String> ENABLED_STOCKS_UUIDS_LIST = Arrays.asList(
+            "12345e10-1a94-22e6-b6ff-abd422223333", "12345e10-1594-22e6-b6ff-abd422555333",
+            "12345e10-0000-22e6-4444-abd422555333"
+    );
+
+    private static final List<String> PIECES_STOCKS_UUIDS_LIST = Arrays.asList(
+            "12345e10-1a94-22e6-b6ff-abd422223333"
+    );
+
+    private static final List<String> BOXES_STOCKS_UUIDS_LIST = Arrays.asList(
+            "12345e10-1594-22e6-b6ff-abd422555333", "12345e10-0000-22e6-4444-abd422555333"
+    );
+
 
     /**
      * Product entity converter
@@ -78,5 +95,28 @@ public class ProductEntityConverterTest extends AbstractTest {
                 , true);
         assertEquals(productDto.getDescription().equals("Test description - product"), true);
         assertOrderedUuidListsEquals(ORDERED_BREAD_CRUMBS_UUIDS_LIST, getUuidsFromDtos(productDto.getBreadCrumbs()));
+    }
+
+    /**
+     * Method test - productEntityConverter.convert
+     */
+    @Test
+    public void convertTest4() {
+        ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("product_prince_of_tennis_01", "master_catalog",
+                ProductEntity.class, ProductEntity.DESCRIPTION, ProductEntity.MAIN_CATEGORY);
+        ProductEntityDto productDto = productEntityConverter.convert(product, ProductLoadOptions.ALL_STOCKS);
+        assertUuidListsEquals(ENABLED_STOCKS_UUIDS_LIST, getUuidsFromDtos(productDto.getStocks()));
+        for (Map.Entry<UnitEntityDto, StockTotalDto> entry : productDto.getStocksMap().entrySet()) {
+            if (entry.getKey().getCode().equals("pieces")) {
+                assertUuidListsEquals(PIECES_STOCKS_UUIDS_LIST, getUuidsFromDtos(entry.getValue().getStocks()));
+                assertEquals(entry.getValue().getTotalProductsCount() ==  15l &&
+                        entry.getValue().getAvailableProductsCount() ==  15l, true);
+            }
+            if (entry.getKey().getCode().equals("boxes")) {
+                assertUuidListsEquals(BOXES_STOCKS_UUIDS_LIST, getUuidsFromDtos(entry.getValue().getStocks()));
+                assertEquals(entry.getValue().getTotalProductsCount() ==  8l &&
+                        entry.getValue().getAvailableProductsCount() ==  4l, true);
+            }
+        }
     }
 }

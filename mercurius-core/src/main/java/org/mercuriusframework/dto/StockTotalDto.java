@@ -31,6 +31,30 @@ public class StockTotalDto implements Serializable {
     private Long availableProductsCount;
 
     /**
+     * Default constructor
+     */
+    public StockTotalDto() {
+    }
+
+    /**
+     * Constructor
+     * @param unit Units
+     * @param stocks Stocks
+     */
+    public StockTotalDto(UnitEntityDto unit, List<StockEntityDto> stocks) {
+        this.unit = unit;
+        this.stocks = stocks;
+        totalProductsCount = 0l;
+        availableProductsCount = 0l;
+        for (StockEntityDto stockEntityDto : stocks) {
+            totalProductsCount += stockEntityDto.getCount();
+            if (stockEntityDto.getEnabled() == null || stockEntityDto.getEnabled()) {
+                availableProductsCount += stockEntityDto.getCount();
+            }
+        }
+    }
+
+    /**
      * Get unit
      * @return Unit
      */
