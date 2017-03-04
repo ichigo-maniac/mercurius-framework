@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.mercuriusframework.entities.CatalogEntity;
 import org.mercuriusframework.entities.ProductEntity;
 import org.mercuriusframework.entities.StockEntity;
+import org.mercuriusframework.entities.UnitEntity;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
 import org.mercuriusframework.services.StockService;
 import org.mercuriusframework.services.UniqueCodeEntityService;
@@ -26,9 +27,18 @@ public class StockServiceTest extends AbstractTest {
             "12345e10-0000-22e6-b6ff-abd422223333"
     );
 
+    private static final List<String> PIECES_STOCKS_UUIDS_LIST = Arrays.asList(
+            "12345e10-1a94-22e6-b6ff-abd422223333", "12345e10-0000-22e6-b6ff-abd422223333"
+    );
+
     private static final List<String> ALL_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST = Arrays.asList(
             "12345e10-1a94-22e6-b6ff-abd422223333", "12345e10-1594-22e6-b6ff-abd422555333"
     );
+
+    private static final List<String> PIECES_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST = Arrays.asList(
+            "12345e10-1a94-22e6-b6ff-abd422223333"
+    );
+
 
     /**
      * Stock service
@@ -122,5 +132,89 @@ public class StockServiceTest extends AbstractTest {
         CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
         List<StockEntity> stocks = stockService.getStocksByProductCode("product_prince_of_tennis_01", catalog, true);
         assertUuidListsEquals(ALL_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test - stockService.getStocksByProductAndUnit...
+     */
+    @Test
+    public void getStocksByProductAndUnitTest() {
+        List<StockEntity> stocks = stockService.getStocksByProductAndUnitUuid("a1f0b496-fa94-11e6-b701-b31dc35d6666",
+                "a1e2ae50-fa94-11e6-b6f6-67b357732118");
+        assertUuidListsEquals(PIECES_STOCKS_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test - stockService.getStocksByProductAndUnit...
+     */
+    @Test
+    public void getStocksByProductAndUnitTest11() {
+        List<StockEntity> stocks = stockService.getStocksByProductAndUnitUuid("a1f0b496-fa94-11e6-b701-b31dc35d6666",
+                "a1e2ae50-fa94-11e6-b6f6-67b357732118", true);
+        assertUuidListsEquals(PIECES_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test - stockService.getStocksByProductAndUnit...
+     */
+    @Test
+    public void getStocksByProductAndUnitTest2() {
+        ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("product_prince_of_tennis_01", "master_catalog", ProductEntity.class);
+        UnitEntity unit = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("pieces", "master_catalog", UnitEntity.class);
+        List<StockEntity> stocks = stockService.getStocksByProductAndUnit(product, unit);
+        assertUuidListsEquals(PIECES_STOCKS_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test - stockService.getStocksByProductAndUnit...
+     */
+    @Test
+    public void getStocksByProductAndUnitTest22() {
+        ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("product_prince_of_tennis_01", "master_catalog", ProductEntity.class);
+        UnitEntity unit = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("pieces", "master_catalog", UnitEntity.class);
+        List<StockEntity> stocks = stockService.getStocksByProductAndUnit(product, unit, true);
+        assertUuidListsEquals(PIECES_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test - stockService.getStocksByProductAndUnit...
+     */
+    @Test
+    public void getStocksByProductAndUnitTest3() {
+        List<StockEntity> stocks = stockService.getStocksByProductCodeAndUnitCode("product_prince_of_tennis_01", "pieces",
+                "master_catalog");
+        assertUuidListsEquals(PIECES_STOCKS_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test - stockService.getStocksByProductAndUnit...
+     */
+    @Test
+    public void getStocksByProductAndUnitTest33() {
+        List<StockEntity> stocks = stockService.getStocksByProductCodeAndUnitCode("product_prince_of_tennis_01", "pieces",
+                "master_catalog", true);
+        assertUuidListsEquals(PIECES_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test - stockService.getStocksByProductAndUnit...
+     */
+    @Test
+    public void getStocksByProductAndUnitTest4() {
+        CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
+        List<StockEntity> stocks = stockService.getStocksByProductCodeAndUnitCode("product_prince_of_tennis_01", "pieces",
+                catalog);
+        assertUuidListsEquals(PIECES_STOCKS_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test - stockService.getStocksByProductAndUnit...
+     */
+    @Test
+    public void getStocksByProductAndUnitTest44() {
+        CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
+        List<StockEntity> stocks = stockService.getStocksByProductCodeAndUnitCode("product_prince_of_tennis_01", "pieces",
+                catalog, true);
+        assertUuidListsEquals(PIECES_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
     }
 }
