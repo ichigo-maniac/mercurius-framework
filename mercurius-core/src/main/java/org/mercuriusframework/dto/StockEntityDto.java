@@ -13,6 +13,11 @@ public class StockEntityDto extends UniqueCodeEntityDto {
     private Boolean enabled;
 
     /**
+     * Product's count
+     */
+    private Long count;
+
+    /**
      * Unit
      */
     private UnitEntityDto unit;
@@ -48,4 +53,21 @@ public class StockEntityDto extends UniqueCodeEntityDto {
     public void setUnit(UnitEntityDto unit) {
         this.unit = unit;
     }
+
+    /**
+     * Get product's count
+     * @return Product's count
+     */
+    public Long getCount() {
+        return count;
+    }
+
+    /**
+     * Set product's count
+     * @param count Product's count
+     */
+    public void setCount(Long count) {
+        this.count = count;
+    }
+
 }

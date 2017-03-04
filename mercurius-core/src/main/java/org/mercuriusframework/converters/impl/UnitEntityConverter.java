@@ -31,7 +31,7 @@ public class UnitEntityConverter implements Converter<UnitEntity, UnitEntityDto>
     @Override
     public UnitEntityDto convert(UnitEntity source, LoadOptions... options) {
         UnitEntityDto result = new UnitEntityDto();
-        unitEntityFiller.fillIn(source, result);
+        unitEntityFiller.fillIn(source, result, options);
         return result;
     }
 }
