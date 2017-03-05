@@ -3,20 +3,21 @@ package org.mercuriusframework.fillers.impl;
 import org.apache.commons.lang.ArrayUtils;
 import org.mercuriusframework.converters.impl.CategoryEntityConverter;
 import org.mercuriusframework.converters.impl.StockEntityConverter;
-import org.mercuriusframework.dto.ProductEntityDto;
-import org.mercuriusframework.dto.StockEntityDto;
-import org.mercuriusframework.dto.StockTotalDto;
-import org.mercuriusframework.dto.UnitEntityDto;
+import org.mercuriusframework.dto.*;
 import org.mercuriusframework.entities.CategoryEntity;
 import org.mercuriusframework.entities.ProductEntity;
 import org.mercuriusframework.entities.StockEntity;
+import org.mercuriusframework.entities.WarehouseEntity;
 import org.mercuriusframework.enums.LoadOptions;
 import org.mercuriusframework.enums.ProductLoadOptions;
 import org.mercuriusframework.enums.StockLoadOptions;
+import org.mercuriusframework.exceptions.CurrentStorePresetException;
 import org.mercuriusframework.exceptions.DefaultUnitPresetException;
+import org.mercuriusframework.facades.StoreFacade;
 import org.mercuriusframework.facades.UnitFacade;
 import org.mercuriusframework.services.CategoryService;
 import org.mercuriusframework.services.StockService;
+import org.mercuriusframework.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,20 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
     protected UnitFacade unitFacade;
 
     /**
+     * Store facade
+     */
+    @Autowired
+    @Qualifier("storeFacade")
+    private StoreFacade storeFacade;
+
+    /**
+     * Warehouse service
+     */
+    @Autowired
+    @Qualifier("warehouseService")
+    private WarehouseService warehouseService;
+
+    /**
      * Fill a result object from a source object
      * @param productEntity    Source object
      * @param productEntityDto Result object
@@ -105,6 +120,51 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
      */
     private void setAllStocks(ProductEntity productEntity, ProductEntityDto productEntityDto) {
         List<StockEntity> stockEntities = stockService.getStocksByProductUuid(productEntity.getUuid(), true);
+        setStocks(productEntity, productEntityDto, stockEntities);
+    }
+
+    /**
+     * Set all stocks
+     * @param productEntity Product entity
+     * @param productEntityDto Product entity data transfer object
+     */
+    private void setAllStocksForSetStore(ProductEntity productEntity, ProductEntityDto productEntityDto) {
+        StoreEntityDto store = storeFacade.getCurrentStore();
+        if (store == null) {
+            throw new CurrentStorePresetException();
+        }
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode(store.getCode(), true);
+        List<StockEntity> stockEntities = stockService.getStocksByProductUuidAndWarehouses(productEntity.getUuid(), warehouses);
+        setStocks(productEntity, productEntityDto, stockEntities);
+    }
+
+    /**
+     * Set all stocks
+     * @param productEntity Product entity
+     * @param productEntityDto Product entity data transfer object
+     */
+    private void setStocksForDefaultUnitAndSetStore(ProductEntity productEntity, ProductEntityDto productEntityDto) {
+        UnitEntityDto defaultUnit = unitFacade.getDefaultUnit();
+        if (defaultUnit == null) {
+            throw new DefaultUnitPresetException();
+        }
+        StoreEntityDto store = storeFacade.getCurrentStore();
+        if (store == null) {
+            throw new CurrentStorePresetException();
+        }
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode(store.getCode(), true);
+        List<StockEntity> stockEntities = stockService.getStocksByProductAndUnitUuidAndWarehouses(
+                productEntity.getUuid(), defaultUnit.getUuid(), warehouses);
+        setStocks(productEntity, productEntityDto, stockEntities);
+    }
+
+    /**
+     * Set stocks
+     * @param productEntity Product entity
+     * @param productEntityDto Product entity data transfer object
+     * @param stockEntities Stock entities
+     */
+    private void setStocks(ProductEntity productEntity, ProductEntityDto productEntityDto, List<StockEntity> stockEntities) {
         List<StockEntityDto> stockDtos = stockEntityConverter.convertAll(stockEntities, StockLoadOptions.UNIT);
         Set<UnitEntityDto> units = new HashSet<>();
         for (StockEntityDto stockEntityDto : stockDtos) {
@@ -130,15 +190,6 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
      * @param productEntity Product entity
      * @param productEntityDto Product entity data transfer object
      */
-    private void setAllStocksForSetStore(ProductEntity productEntity, ProductEntityDto productEntityDto) {
-
-    }
-
-    /**
-     * Set all stocks
-     * @param productEntity Product entity
-     * @param productEntityDto Product entity data transfer object
-     */
     private void setStocksForDefaultUnit(ProductEntity productEntity, ProductEntityDto productEntityDto) {
         final UnitEntityDto defaultUnit = unitFacade.getDefaultUnit();
         if (defaultUnit == null) {
@@ -154,17 +205,5 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
         /** Set stock map and default stock total */
         productEntityDto.setStocksMap(stockMap);
         productEntityDto.setDefaultStock(defaultStockTotal);
-    }
-
-    /**
-     * Set all stocks
-     * @param productEntity Product entity
-     * @param productEntityDto Product entity data transfer object
-     */
-    private void setStocksForDefaultUnitAndSetStore(ProductEntity productEntity, ProductEntityDto productEntityDto) {
-        UnitEntityDto defaultUnit = unitFacade.getDefaultUnit();
-        if (defaultUnit == null) {
-            throw new DefaultUnitPresetException();
-        }
     }
 }
