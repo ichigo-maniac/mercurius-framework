@@ -1,13 +1,11 @@
 package org.mercuriusframework.test.services;
 
 import org.junit.Test;
-import org.mercuriusframework.entities.CatalogEntity;
-import org.mercuriusframework.entities.ProductEntity;
-import org.mercuriusframework.entities.StockEntity;
-import org.mercuriusframework.entities.UnitEntity;
+import org.mercuriusframework.entities.*;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
 import org.mercuriusframework.services.StockService;
 import org.mercuriusframework.services.UniqueCodeEntityService;
+import org.mercuriusframework.services.WarehouseService;
 import org.mercuriusframework.test.AbstractTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -60,6 +58,12 @@ public class StockServiceTest extends AbstractTest {
     private UniqueCodeEntityService uniqueCodeEntityService;
 
     /**
+     * Warehouse service
+     */
+    @Autowired
+    private WarehouseService warehouseService;
+
+    /**
      * Method test - stockService.getStocksByProduct...
      */
     @Test
@@ -75,6 +79,16 @@ public class StockServiceTest extends AbstractTest {
     public void getStocksByProductTest11() {
         List<StockEntity> stocks = stockService.getStocksByProductUuid("a1f0b496-fa94-11e6-b701-b31dc35d6666", true);
         assertUuidListsEquals(ALL_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test - stockService.getStocksByProduct...
+     */
+    @Test
+    public void getStocksByProductTest111() {
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode("default_store");
+        List<StockEntity> stocks = stockService.getStocksByProductUuidAndWarehouses("a1f0b496-fa94-11e6-b701-b31dc35d6666", warehouses);
+        assertUuidListsEquals(ALL_STOCKS_UUIDS_LIST, getUuids(stocks));
     }
 
     /**
@@ -98,6 +112,17 @@ public class StockServiceTest extends AbstractTest {
     }
 
     /**
+     * Method test (second) - stockService.getStocksByProduct...
+     */
+    @Test
+    public void getStocksByProductTest222() {
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode("default_store", true);
+        ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("product_prince_of_tennis_01", "master_catalog", ProductEntity.class);
+        List<StockEntity> stocks = stockService.getStocksByProductAndWarehouses(product, warehouses);
+        assertUuidListsEquals(ALL_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
      * Method test (third)- stockService.getStocksByProduct...
      */
     @Test
@@ -112,6 +137,16 @@ public class StockServiceTest extends AbstractTest {
     @Test
     public void getStocksByProductTest33() {
         List<StockEntity> stocks = stockService.getStocksByProductCode("product_prince_of_tennis_01", "master_catalog", true);
+        assertUuidListsEquals(ALL_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test (third)- stockService.getStocksByProduct...
+     */
+    @Test
+    public void getStocksByProductTest333() {
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode("default_store", true);
+        List<StockEntity> stocks = stockService.getStocksByProductCodeAndWarehouses("product_prince_of_tennis_01", "master_catalog", warehouses);
         assertUuidListsEquals(ALL_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
     }
 
@@ -132,6 +167,17 @@ public class StockServiceTest extends AbstractTest {
     public void getStocksByProductTest44() {
         CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
         List<StockEntity> stocks = stockService.getStocksByProductCode("product_prince_of_tennis_01", catalog, true);
+        assertUuidListsEquals(ALL_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test (fourth) - stockService.getStocksByProduct...
+     */
+    @Test
+    public void getStocksByProductTest444() {
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode("default_store", true);
+        CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
+        List<StockEntity> stocks = stockService.getStocksByProductCodeAndWarehouses("product_prince_of_tennis_01", catalog, warehouses);
         assertUuidListsEquals(ALL_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
     }
 
@@ -159,6 +205,18 @@ public class StockServiceTest extends AbstractTest {
      * Method test - stockService.getStocksByProductAndUnit...
      */
     @Test
+    public void getStocksByProductAndUnitTest111() {
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode("default_store");
+        List<StockEntity> stocks = stockService.getStocksByProductAndUnitUuidAndWarehouses("a1f0b496-fa94-11e6-b701-b31dc35d6666",
+                "a1e2ae50-fa94-11e6-b6f6-67b357732118", warehouses);
+        assertUuidListsEquals(PIECES_STOCKS_UUIDS_LIST, getUuids(stocks));
+    }
+
+
+    /**
+     * Method test - stockService.getStocksByProductAndUnit...
+     */
+    @Test
     public void getStocksByProductAndUnitTest2() {
         ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("product_prince_of_tennis_01", "master_catalog", ProductEntity.class);
         UnitEntity unit = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("pieces", "master_catalog", UnitEntity.class);
@@ -175,6 +233,18 @@ public class StockServiceTest extends AbstractTest {
         UnitEntity unit = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("pieces", "master_catalog", UnitEntity.class);
         List<StockEntity> stocks = stockService.getStocksByProductAndUnit(product, unit, true);
         assertUuidListsEquals(PIECES_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test - stockService.getStocksByProductAndUnit...
+     */
+    @Test
+    public void getStocksByProductAndUnitTest222() {
+        ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("product_prince_of_tennis_01", "master_catalog", ProductEntity.class);
+        UnitEntity unit = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("pieces", "master_catalog", UnitEntity.class);
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode("default_store");
+        List<StockEntity> stocks = stockService.getStocksByProductAndUnitAndWarehouses(product, unit, warehouses);
+        assertUuidListsEquals(PIECES_STOCKS_UUIDS_LIST, getUuids(stocks));
     }
 
     /**
@@ -201,6 +271,17 @@ public class StockServiceTest extends AbstractTest {
      * Method test - stockService.getStocksByProductAndUnit...
      */
     @Test
+    public void getStocksByProductAndUnitTest333() {
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode("default_store", true);
+        List<StockEntity> stocks = stockService.getStocksByProductCodeAndUnitCodeAndWarehouses("product_prince_of_tennis_01", "pieces",
+                "master_catalog", warehouses);
+        assertUuidListsEquals(PIECES_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test - stockService.getStocksByProductAndUnit...
+     */
+    @Test
     public void getStocksByProductAndUnitTest4() {
         CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
         List<StockEntity> stocks = stockService.getStocksByProductCodeAndUnitCode("product_prince_of_tennis_01", "pieces",
@@ -217,5 +298,17 @@ public class StockServiceTest extends AbstractTest {
         List<StockEntity> stocks = stockService.getStocksByProductCodeAndUnitCode("product_prince_of_tennis_01", "pieces",
                 catalog, true);
         assertUuidListsEquals(PIECES_STOCKS_FROM_ENABLE_WAREHOUSES_UUIDS_LIST, getUuids(stocks));
+    }
+
+    /**
+     * Method test - stockService.getStocksByProductAndUnit...
+     */
+    @Test
+    public void getStocksByProductAndUnitTest444() {
+        List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode("default_store");
+        CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
+        List<StockEntity> stocks = stockService.getStocksByProductCodeAndUnitCodeAndWarehouses("product_prince_of_tennis_01", "pieces",
+                catalog, warehouses);
+        assertUuidListsEquals(PIECES_STOCKS_UUIDS_LIST, getUuids(stocks));
     }
 }

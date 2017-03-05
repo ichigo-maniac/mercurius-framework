@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -62,6 +63,24 @@ public class StockServiceImpl implements StockService {
     }
 
     /**
+     * Get stocks by product uuid and warehouses
+     * @param productUuid Product uuid
+     * @param warehouses  Warehouses
+     * @return List of stocks
+     */
+    @Override
+    public List<StockEntity> getStocksByProductUuidAndWarehouses(String productUuid, List<WarehouseEntity> warehouses) {
+        if (warehouses == null || warehouses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return entityService.getListResultByQuery("SELECT stock FROM " + StockEntity.ENTITY_NAME + " as stock " +
+                        "LEFT JOIN FETCH stock." + StockEntity.UNIT + " as unit " +
+                        "WHERE stock." + StockEntity.PRODUCT + "." + ProductEntity.UUID + " = :productUuid " +
+                        "AND stock." + StockEntity.WAREHOUSE + " IN :warehouses",
+                StockEntity.class, new QueryParameter("productUuid", productUuid), new QueryParameter("warehouses", warehouses));
+    }
+
+    /**
      * Get stocks by product and unit uuid
      * @param productUuid Product uuid
      * @param unitUuid    Unit uuid
@@ -95,6 +114,27 @@ public class StockServiceImpl implements StockService {
     }
 
     /**
+     * Get stocks by product uuid, unit uuid and warehouses
+     * @param productUuid Product uuid
+     * @param unitUuid    Unit uuid
+     * @param warehouses  Warehouses
+     * @return List of stocks
+     */
+    @Override
+    public List<StockEntity> getStocksByProductAndUnitUuidAndWarehouses(String productUuid, String unitUuid, List<WarehouseEntity> warehouses) {
+        if (warehouses == null || warehouses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return entityService.getListResultByQuery("SELECT stock FROM " + StockEntity.ENTITY_NAME + " as stock " +
+                        "LEFT JOIN FETCH stock." + StockEntity.UNIT + " as unit " +
+                        "WHERE stock." + StockEntity.PRODUCT + "." + ProductEntity.UUID + " = :productUuid " +
+                        "AND unit." + UnitEntity.UUID + " = :unitUuid " +
+                        "AND stock." + StockEntity.WAREHOUSE + " IN :warehouses",
+                StockEntity.class, new QueryParameter("productUuid", productUuid), new QueryParameter("unitUuid", unitUuid),
+                new QueryParameter("warehouses", warehouses));
+    }
+
+    /**
      * Get stocks by product
      * @param product Product
      * @return List of stocks
@@ -120,6 +160,24 @@ public class StockServiceImpl implements StockService {
                         "WHERE stock." + StockEntity.PRODUCT + " = :product " +
                         "AND stock." + StockEntity.WAREHOUSE + "." + WarehouseEntity.ENABLED + " = :enabledWarehouse",
                 StockEntity.class, new QueryParameter("product", product), new QueryParameter("enabledWarehouse", enabledWarehouse));
+    }
+
+    /**
+     * Get stocks by product and warehouses
+     * @param product    Product
+     * @param warehouses Warehouses
+     * @return List of stocks
+     */
+    @Override
+    public List<StockEntity> getStocksByProductAndWarehouses(ProductEntity product, List<WarehouseEntity> warehouses) {
+        if (warehouses == null || warehouses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return entityService.getListResultByQuery("SELECT stock FROM " + StockEntity.ENTITY_NAME + " as stock " +
+                        "LEFT JOIN FETCH stock." + StockEntity.UNIT + " as unit " +
+                        "WHERE stock." + StockEntity.PRODUCT + " = :product " +
+                        "AND stock." + StockEntity.WAREHOUSE + " IN :warehouses",
+                StockEntity.class, new QueryParameter("product", product), new QueryParameter("warehouses", warehouses));
     }
 
     /**
@@ -156,6 +214,27 @@ public class StockServiceImpl implements StockService {
     }
 
     /**
+     * Get stocks by product and unit and warehouses
+     * @param product    Product
+     * @param unit       Unit
+     * @param warehouses Warehouses
+     * @return List of stocks
+     */
+    @Override
+    public List<StockEntity> getStocksByProductAndUnitAndWarehouses(ProductEntity product, UnitEntity unit, List<WarehouseEntity> warehouses) {
+        if (warehouses == null || warehouses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return entityService.getListResultByQuery("SELECT stock FROM " + StockEntity.ENTITY_NAME + " as stock " +
+                        "LEFT JOIN FETCH stock." + StockEntity.UNIT + " as unit " +
+                        "WHERE stock." + StockEntity.PRODUCT + " = :product " +
+                        "AND unit = :unit " +
+                        "AND stock." + StockEntity.WAREHOUSE + " IN :warehouses",
+                StockEntity.class, new QueryParameter("product", product), new QueryParameter("unit", unit),
+                new QueryParameter("warehouses", warehouses));
+    }
+
+    /**
      * Get stocks by product code (use default catalog)
      * @param productCode Product code
      * @return List of stocks
@@ -182,6 +261,21 @@ public class StockServiceImpl implements StockService {
             throw new DefaultCatalogPresetException();
         }
         return getStocksByProductCode(productCode, catalog.getCode(), enabledWarehouse);
+    }
+
+    /**
+     * Get stocks by product code and warehouses (use default catalog)
+     * @param productCode Product code
+     * @param warehouses  Warehouses
+     * @return List of stocks
+     */
+    @Override
+    public List<StockEntity> getStocksByProductCodeAndWarehouses(String productCode, List<WarehouseEntity> warehouses) {
+        CatalogEntityDto catalog = catalogFacade.getDefaultCatalog();
+        if (catalog == null) {
+            throw new DefaultCatalogPresetException();
+        }
+        return getStocksByProductCodeAndWarehouses(productCode, catalog.getCode(), warehouses);
     }
 
     /**
@@ -214,6 +308,22 @@ public class StockServiceImpl implements StockService {
             throw new DefaultCatalogPresetException();
         }
         return getStocksByProductCodeAndUnitCode(productCode, unitCode, catalog.getCode(), enabledWarehouse);
+    }
+
+    /**
+     * Get stock by product code and unit code and warehouses (use default catalog)
+     * @param productCode Product code
+     * @param unitCode    Unit code
+     * @param warehouses  Warehouses
+     * @return Stock
+     */
+    @Override
+    public List<StockEntity> getStocksByProductCodeAndUnitCodeAndWarehouses(String productCode, String unitCode, List<WarehouseEntity> warehouses) {
+        CatalogEntityDto catalog = catalogFacade.getDefaultCatalog();
+        if (catalog == null) {
+            throw new DefaultCatalogPresetException();
+        }
+        return getStocksByProductCodeAndUnitCodeAndWarehouses(productCode, unitCode, catalog.getCode(), warehouses);
     }
 
     /**
@@ -252,7 +362,29 @@ public class StockServiceImpl implements StockService {
     }
 
     /**
-     * Get stock by product code and unit code (use default catalog)
+     * Get stocks by product code and warehouses
+     * @param productCode Product code
+     * @param catalogCode Catalog code
+     * @param warehouses  Warehouses
+     * @return List of stocks
+     */
+    @Override
+    public List<StockEntity> getStocksByProductCodeAndWarehouses(String productCode, String catalogCode, List<WarehouseEntity> warehouses) {
+        if (warehouses == null || warehouses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return entityService.getListResultByQuery("SELECT stock FROM " + StockEntity.ENTITY_NAME + " as stock " +
+                        "LEFT JOIN FETCH stock." + StockEntity.UNIT + " as unit " +
+                        "LEFT JOIN stock." + StockEntity.PRODUCT + " as product " +
+                        "WHERE product." + ProductEntity.CODE +" = :productCode " +
+                        "AND product." + ProductEntity.CATALOG + "." + CatalogEntity.CODE + " = :catalogCode " +
+                        "AND stock." + StockEntity.WAREHOUSE + " IN :warehouses",
+                StockEntity.class, new QueryParameter("productCode", productCode), new QueryParameter("catalogCode", catalogCode),
+                new QueryParameter("warehouses", warehouses));
+    }
+
+    /**
+     * Get stock by product code and unit code
      * @param productCode Product code
      * @param unitCode    Unit code
      * @param catalogCode Catalog code
@@ -271,8 +403,7 @@ public class StockServiceImpl implements StockService {
     }
 
     /**
-     * Get stock by product code and unit code (use default catalog)
-     *
+     * Get stock by product code and unit code
      * @param productCode      Product code
      * @param unitCode         Unit code
      * @param catalogCode      Catalog code
@@ -290,6 +421,30 @@ public class StockServiceImpl implements StockService {
                         "AND stock." + StockEntity.WAREHOUSE + "." + WarehouseEntity.ENABLED + " = :enabledWarehouse",
                 StockEntity.class, new QueryParameter("productCode", productCode), new QueryParameter("catalogCode", catalogCode),
                 new QueryParameter("enabledWarehouse", enabledWarehouse), new QueryParameter("unitCode", unitCode));
+    }
+
+    /**
+     * Get stock by product code and unit code and warehouses
+     * @param productCode Product code
+     * @param unitCode    Unit code
+     * @param catalogCode Catalog code
+     * @param warehouses  Warehouses
+     * @return Stock
+     */
+    @Override
+    public List<StockEntity> getStocksByProductCodeAndUnitCodeAndWarehouses(String productCode, String unitCode, String catalogCode, List<WarehouseEntity> warehouses) {
+        if (warehouses == null || warehouses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return entityService.getListResultByQuery("SELECT stock FROM " + StockEntity.ENTITY_NAME + " as stock " +
+                        "LEFT JOIN FETCH stock." + StockEntity.UNIT + " as unit " +
+                        "LEFT JOIN stock." + StockEntity.PRODUCT + " as product " +
+                        "WHERE product." + ProductEntity.CODE +" = :productCode " +
+                        "AND unit." + UnitEntity.CODE + " = :unitCode " +
+                        "AND product." + ProductEntity.CATALOG + "." + CatalogEntity.CODE + " = :catalogCode " +
+                        "AND stock." + StockEntity.WAREHOUSE + " IN :warehouses",
+                StockEntity.class, new QueryParameter("productCode", productCode), new QueryParameter("catalogCode", catalogCode),
+                new QueryParameter("unitCode", unitCode), new QueryParameter("warehouses", warehouses));
     }
 
     /**
@@ -328,7 +483,29 @@ public class StockServiceImpl implements StockService {
     }
 
     /**
-     * Get stock by product code and unit code (use default catalog)
+     * Get stocks by product code and warehouses
+     * @param productCode Product code
+     * @param catalog     Catalog
+     * @param warehouses  Warehouses
+     * @return List of stocks
+     */
+    @Override
+    public List<StockEntity> getStocksByProductCodeAndWarehouses(String productCode, CatalogEntity catalog, List<WarehouseEntity> warehouses) {
+        if (warehouses == null || warehouses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return entityService.getListResultByQuery("SELECT stock FROM " + StockEntity.ENTITY_NAME + " as stock " +
+                        "LEFT JOIN FETCH stock." + StockEntity.UNIT + " " +
+                        "LEFT JOIN stock." + StockEntity.PRODUCT + " as product " +
+                        "WHERE product." + ProductEntity.CODE +" = :productCode " +
+                        "AND product." + ProductEntity.CATALOG + " = :catalog " +
+                        "AND stock." + StockEntity.WAREHOUSE + " IN :warehouses",
+                StockEntity.class, new QueryParameter("productCode", productCode), new QueryParameter("catalog", catalog),
+                new QueryParameter("warehouses", warehouses));
+    }
+
+    /**
+     * Get stock by product code and unit code
      * @param productCode Product code
      * @param unitCode    Unit code
      * @param catalog     Catalog
@@ -347,7 +524,7 @@ public class StockServiceImpl implements StockService {
     }
 
     /**
-     * Get stock by product code and unit code (use default catalog)
+     * Get stock by product code and unit code
      * @param productCode      Product code
      * @param unitCode         Unit code
      * @param catalog          Catalog
@@ -365,5 +542,29 @@ public class StockServiceImpl implements StockService {
                         "AND stock." + StockEntity.WAREHOUSE + "." + WarehouseEntity.ENABLED + " = :enabledWarehouse",
                 StockEntity.class, new QueryParameter("productCode", productCode), new QueryParameter("catalog", catalog),
                 new QueryParameter("enabledWarehouse", enabledWarehouse), new QueryParameter("unitCode", unitCode));
+    }
+
+    /**
+     * Get stock by product code and unit code and warehouses
+     * @param productCode Product code
+     * @param unitCode    Unit code
+     * @param catalog     Catalog
+     * @param warehouses  Warehouses
+     * @return Stock
+     */
+    @Override
+    public List<StockEntity> getStocksByProductCodeAndUnitCodeAndWarehouses(String productCode, String unitCode, CatalogEntity catalog, List<WarehouseEntity> warehouses) {
+        if (warehouses == null || warehouses.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return entityService.getListResultByQuery("SELECT stock FROM " + StockEntity.ENTITY_NAME + " as stock " +
+                        "LEFT JOIN FETCH stock." + StockEntity.UNIT + " as unit " +
+                        "LEFT JOIN stock." + StockEntity.PRODUCT + " as product " +
+                        "WHERE product." + ProductEntity.CODE +" = :productCode " +
+                        "AND unit." + UnitEntity.CODE + " = :unitCode " +
+                        "AND product." + ProductEntity.CATALOG + " = :catalog " +
+                        "AND stock." + StockEntity.WAREHOUSE + " IN :warehouses",
+                StockEntity.class, new QueryParameter("productCode", productCode), new QueryParameter("catalog", catalog),
+                new QueryParameter("unitCode", unitCode), new QueryParameter("warehouses", warehouses));
     }
 }
