@@ -51,4 +51,31 @@ public class StockEntityConverterTest extends AbstractTest {
         assertEquals(dto.getUnit().getUuid().equals("a1e2ae50-fa94-11e6-b6f6-67b357732118") && dto.getUnit().getName().equals("Pieces") &&
                 dto.getUnit().getCode().equals("pieces"), true);
     }
+    /**
+     * Method test - stockEntityConverter.convert
+     */
+    @Test
+    public void convertTest3() {
+        StockEntity stock = uniqueCodeEntityService.getEntityByCode("stock_prince_of_tennis_01_pieces", StockEntity.class, StockEntity.PRODUCT);
+        StockEntityDto dto = stockEntityConverter.convert(stock, StockLoadOptions.PRODUCT);
+        assertEquals(dto.getCount().equals(15l) && dto.getUuid().equals("12345e10-1a94-22e6-b6ff-abd422223333") &&
+                dto.getCode().equals("stock_prince_of_tennis_01_pieces") && dto.getName().equals("Prince of tennis 01 - pieces") &&
+                dto.getEnabled().equals(true), true);
+        assertEquals(dto.getProduct().getUuid().equals("a1f0b496-fa94-11e6-b701-b31dc35d6666") && dto.getProduct().getName().equals("Prince of tennis vol. 01") &&
+                dto.getProduct().getCode().equals("product_prince_of_tennis_01"), true);
+    }
+
+    /**
+     * Method test - stockEntityConverter.convert
+     */
+    @Test
+    public void convertTest4() {
+        StockEntity stock = uniqueCodeEntityService.getEntityByCode("stock_prince_of_tennis_01_pieces", StockEntity.class, StockEntity.WAREHOUSE);
+        StockEntityDto dto = stockEntityConverter.convert(stock, StockLoadOptions.WAREHOUSE);
+        assertEquals(dto.getCount().equals(15l) && dto.getUuid().equals("12345e10-1a94-22e6-b6ff-abd422223333") &&
+                dto.getCode().equals("stock_prince_of_tennis_01_pieces") && dto.getName().equals("Prince of tennis 01 - pieces") &&
+                dto.getEnabled().equals(true), true);
+        assertEquals(dto.getWarehouse().getUuid().equals("12345e10-fa94-22e6-b6ff-abd400ed1234") && dto.getWarehouse().getName().equals("Warehouse 1") &&
+                dto.getWarehouse().getCode().equals("warehouse_1") && dto.getWarehouse().getEnabled(), true);
+    }
 }

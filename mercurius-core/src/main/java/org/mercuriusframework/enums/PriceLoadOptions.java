@@ -1,16 +1,15 @@
 package org.mercuriusframework.enums;
 
 /**
- * Stock load options
+ * Price load options
  */
-public enum  StockLoadOptions implements LoadOptions {
+public enum PriceLoadOptions implements LoadOptions {
 
     /**
      * Values
      */
     UNIT("UNIT"),
-    PRODUCT("PRODUCT"),
-    WAREHOUSE("WAREHOUSE");
+    PRODUCT("PRODUCT");
 
     /**
      * Enum value
@@ -21,7 +20,7 @@ public enum  StockLoadOptions implements LoadOptions {
      * Constructor
      * @param value Enum value
      */
-    StockLoadOptions(String value) {
+    PriceLoadOptions(String value) {
         this.value = value;
     }
 

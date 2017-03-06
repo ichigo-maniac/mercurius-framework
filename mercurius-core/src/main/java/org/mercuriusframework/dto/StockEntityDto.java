@@ -18,6 +18,16 @@ public class StockEntityDto extends UniqueCodeEntityDto {
     private Long count;
 
     /**
+     * Product
+     */
+    private ProductEntityDto product;
+
+    /**
+     * Warehouse
+     */
+    private WarehouseEntityDto warehouse;
+
+    /**
      * Unit
      */
     private UnitEntityDto unit;
@@ -36,6 +46,38 @@ public class StockEntityDto extends UniqueCodeEntityDto {
      */
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    /**
+     * Get product
+     * @return Product
+     */
+    public ProductEntityDto getProduct() {
+        return product;
+    }
+
+    /**
+     * Set product
+     * @param product Product
+     */
+    public void setProduct(ProductEntityDto product) {
+        this.product = product;
+    }
+
+    /**
+     * Get warehouse
+     * @return Warehouse
+     */
+    public WarehouseEntityDto getWarehouse() {
+        return warehouse;
+    }
+
+    /**
+     * Set warehouse
+     * @param warehouse Warehouse
+     */
+    public void setWarehouse(WarehouseEntityDto warehouse) {
+        this.warehouse = warehouse;
     }
 
     /**

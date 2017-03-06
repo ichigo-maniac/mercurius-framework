@@ -1,10 +1,32 @@
+CREATE TABLE CURRENCY(
+  uuid CHARACTER VARYING(36) NOT NULL PRIMARY KEY,
+  name CHARACTER VARYING(255) NOT NULL,
+  code CHARACTER VARYING(255) NOT NULL UNIQUE,
+  creationtime TIMESTAMP NOT NULL,
+  modificationtime TIMESTAMP NOT NULL,
+  symbol CHARACTER VARYING(255) NOT NULL
+);
+
+INSERT INTO CURRENCY(uuid, name, code, creationtime, modificationtime, symbol) VALUES (
+  '4a9b636e-f065-11e6-1123-0000def2f3a6', 'Russia ruble', 'rub', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'R'
+);
+INSERT INTO CURRENCY(uuid, name, code, creationtime, modificationtime, symbol) VALUES (
+  '4a9b636e-2222-11e6-7584-0000def2fa9b', 'Dollar USA', 'usd', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '$'
+);
+
 CREATE TABLE STORE(
   uuid CHARACTER VARYING(36) NOT NULL PRIMARY KEY,
   name CHARACTER VARYING(255) NOT NULL,
   code CHARACTER VARYING(255) NOT NULL UNIQUE,
   creationtime TIMESTAMP NOT NULL,
   modificationtime TIMESTAMP NOT NULL,
-  enabled BOOLEAN
+  enabled BOOLEAN,
+  default_currency_uuid CHARACTER VARYING(36) REFERENCES CURRENCY(uuid)
+);
+
+CREATE TABLE STORES_CURRENCIES_LINK(
+  store_uuid CHARACTER VARYING(36) NOT NULL REFERENCES STORE(uuid),
+  currency_uuid CHARACTER VARYING(36) NOT NULL REFERENCES CURRENCY(uuid)
 );
 
 INSERT INTO STORE(uuid, name, code, creationtime, modificationtime, enabled) VALUES (

@@ -1,7 +1,9 @@
 package org.mercuriusframework.fillers.impl;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.mercuriusframework.converters.impl.ProductEntityConverter;
 import org.mercuriusframework.converters.impl.UnitEntityConverter;
+import org.mercuriusframework.converters.impl.WarehouseEntityConverter;
 import org.mercuriusframework.dto.StockEntityDto;
 import org.mercuriusframework.entities.StockEntity;
 import org.mercuriusframework.enums.LoadOptions;
@@ -24,6 +26,21 @@ public class StockEntityFiller extends UniqueCodeEntityFiller<StockEntity, Stock
     private UnitEntityConverter unitEntityConverter;
 
     /**
+     * Warehouse entity converter
+     */
+    @Autowired
+    @Qualifier("warehouseEntityConverter")
+    private WarehouseEntityConverter warehouseEntityConverter;
+
+    /**
+     * Product entity converter
+     */
+    @Autowired
+    @Qualifier("productEntityConverter")
+    private ProductEntityConverter productEntityConverter;
+
+
+    /**
      * Fill a result object from a source object
      * @param stockEntity    Source object
      * @param stockEntityDto Result object
@@ -37,5 +54,12 @@ public class StockEntityFiller extends UniqueCodeEntityFiller<StockEntity, Stock
         if (ArrayUtils.contains(options, StockLoadOptions.UNIT)) {
             stockEntityDto.setUnit(unitEntityConverter.convert(stockEntity.getUnit()));
         }
+        if (ArrayUtils.contains(options, StockLoadOptions.PRODUCT)) {
+            stockEntityDto.setProduct(productEntityConverter.convert(stockEntity.getProduct()));
+        }
+        if (ArrayUtils.contains(options, StockLoadOptions.WAREHOUSE)) {
+            stockEntityDto.setWarehouse(warehouseEntityConverter.convert(stockEntity.getWarehouse()));
+        }
+
     }
 }

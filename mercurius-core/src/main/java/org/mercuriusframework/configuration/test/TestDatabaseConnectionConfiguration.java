@@ -44,7 +44,8 @@ public class TestDatabaseConnectionConfiguration {
                         "test_sql_migration/V1_01_20160328_1000__units.sql",
                         "test_sql_migration/V1_01_20160328_1100__categories.sql",
                         "test_sql_migration/V1_01_20160328_1200__products.sql",
-                        "test_sql_migration/V1_01_20160329_1100__stores.sql"
+                        "test_sql_migration/V1_01_20160329_1100__stores.sql",
+                        "test_sql_migration/V1_01_20160329_1200__prices.sql"
                 )
                 .build();
         return dataSource;
