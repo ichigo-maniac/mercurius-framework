@@ -7,6 +7,18 @@ CREATE TABLE CURRENCY(
   symbol CHARACTER VARYING(255) NOT NULL
 );
 
+INSERT INTO CURRENCY(uuid, name, code, creationtime, modificationtime, symbol) VALUES (
+  uuid_generate_v1(), 'Dollar USA', 'usd', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '$'
+);
+
+INSERT INTO CURRENCY(uuid, name, code, creationtime, modificationtime, symbol) VALUES (
+  uuid_generate_v1(), 'Euro', 'eur', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '€'
+);
+
+INSERT INTO CURRENCY(uuid, name, code, creationtime, modificationtime, symbol) VALUES (
+  uuid_generate_v1(), 'Russia ruble', 'rub', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'R'
+);
+
 CREATE UNIQUE INDEX CURRENCY_UUID_IDX ON CURRENCY(uuid);
 CREATE UNIQUE INDEX CURRENCY_CODE_IDX ON CURRENCY(code);
 CREATE INDEX CURRENCY_NAME_IDX ON CURRENCY(name);

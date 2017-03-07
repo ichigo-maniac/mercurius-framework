@@ -155,7 +155,15 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
         List<WarehouseEntity> warehouses = warehouseService.getWarehousesByStoreCode(store.getCode(), true);
         List<StockEntity> stockEntities = stockService.getStocksByProductAndUnitUuidAndWarehouses(
                 productEntity.getUuid(), defaultUnit.getUuid(), warehouses);
-        setStocks(productEntity, productEntityDto, stockEntities);
+        List<StockEntityDto> stockDtos = stockEntityConverter.convertAll(stockEntities, StockLoadOptions.UNIT);
+        productEntityDto.setStocks(stockDtos);
+        /** Create default stock total */
+        StockTotalDto defaultStockTotal = new StockTotalDto(defaultUnit, stockDtos);
+        Map<UnitEntityDto, StockTotalDto> stockMap = new HashMap<>();
+        stockMap.put(defaultUnit, defaultStockTotal);
+        /** Set stock map and default stock total */
+        productEntityDto.setStocksMap(stockMap);
+        productEntityDto.setDefaultStock(defaultStockTotal);
     }
 
     /**

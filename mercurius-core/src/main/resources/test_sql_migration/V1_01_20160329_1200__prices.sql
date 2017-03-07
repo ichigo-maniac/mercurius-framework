@@ -36,9 +36,33 @@ INSERT INTO PRICE(uuid, name, code, creationtime, modificationtime, priceValue, 
 );
 
 INSERT INTO PRICE(uuid, name, code, creationtime, modificationtime, priceValue, catalog_uuid, product_uuid, unit_uuid, currency_uuid) VALUES (
-  'a7478e10-fa94-11e6-5372-bf2400ed613a', 'Sword Art Online vol. 04 - price', 'product_sao_04_price_pieces', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 550.0,
+  'a7478e10-2345-11e6-5372-bf2400ed613a', 'Sword Art Online vol. 04 - price', 'product_sao_04_price_pieces', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 550.0,
   (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'),
   (SELECT uuid FROM PRODUCT WHERE code ='product_sao_04' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
   (SELECT uuid FROM UNIT WHERE code ='pieces' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
   (SELECT uuid FROM CURRENCY WHERE code = 'rub')
+);
+
+INSERT INTO PRICE(uuid, name, code, creationtime, modificationtime, priceValue, catalog_uuid, product_uuid, unit_uuid, currency_uuid) VALUES (
+  'a7478e10-fa94-0045-5372-bf2400ed613a', 'Sword Art Online vol. 04 - price', 'product_sao_04_price_boxes', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 550.0,
+  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'),
+  (SELECT uuid FROM PRODUCT WHERE code ='product_sao_04' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM UNIT WHERE code ='boxes' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM CURRENCY WHERE code = 'rub')
+);
+
+INSERT INTO PRICE(uuid, name, code, creationtime, modificationtime, priceValue, catalog_uuid, product_uuid, unit_uuid, currency_uuid) VALUES (
+  '07478e10-fa94-11e6-5372-bf2111ed613u', 'Sword Art Online vol. 04 - price', 'product_sao_04_price_pieces_usd', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 10.0,
+  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'),
+  (SELECT uuid FROM PRODUCT WHERE code ='product_sao_04' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM UNIT WHERE code ='pieces' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM CURRENCY WHERE code = 'usd')
+);
+
+INSERT INTO PRICE(uuid, name, code, creationtime, modificationtime, priceValue, catalog_uuid, product_uuid, unit_uuid, currency_uuid) VALUES (
+  'a7478e10-7423-11e6-5372-bf240073725a', 'Sword Art Online vol. 04 - price', 'product_sao_04_price_boxes_usd', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 10.0,
+  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'),
+  (SELECT uuid FROM PRODUCT WHERE code ='product_sao_04' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM UNIT WHERE code ='boxes' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
+  (SELECT uuid FROM CURRENCY WHERE code = 'usd')
 );
