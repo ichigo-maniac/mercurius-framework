@@ -2,20 +2,20 @@ package org.mercuriusframework.fillers.impl;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.mercuriusframework.converters.impl.CategoryEntityConverter;
+import org.mercuriusframework.converters.impl.PriceEntityConverter;
 import org.mercuriusframework.converters.impl.StockEntityConverter;
 import org.mercuriusframework.dto.*;
-import org.mercuriusframework.entities.CategoryEntity;
-import org.mercuriusframework.entities.ProductEntity;
-import org.mercuriusframework.entities.StockEntity;
-import org.mercuriusframework.entities.WarehouseEntity;
+import org.mercuriusframework.entities.*;
 import org.mercuriusframework.enums.LoadOptions;
 import org.mercuriusframework.enums.ProductLoadOptions;
 import org.mercuriusframework.enums.StockLoadOptions;
 import org.mercuriusframework.exceptions.CurrentStorePresetException;
 import org.mercuriusframework.exceptions.DefaultUnitPresetException;
+import org.mercuriusframework.facades.CurrencyFacade;
 import org.mercuriusframework.facades.StoreFacade;
 import org.mercuriusframework.facades.UnitFacade;
 import org.mercuriusframework.services.CategoryService;
+import org.mercuriusframework.services.PriceService;
 import org.mercuriusframework.services.StockService;
 import org.mercuriusframework.services.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,14 +70,35 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
      */
     @Autowired
     @Qualifier("storeFacade")
-    private StoreFacade storeFacade;
+    protected StoreFacade storeFacade;
 
     /**
      * Warehouse service
      */
     @Autowired
     @Qualifier("warehouseService")
-    private WarehouseService warehouseService;
+    protected WarehouseService warehouseService;
+
+    /**
+     * Currency facade
+     */
+    @Autowired
+    @Qualifier("currencyFacade")
+    protected CurrencyFacade currencyFacade;
+
+    /**
+     * Price service
+     */
+    @Autowired
+    @Qualifier("priceService")
+    protected PriceService priceService;
+
+    /**
+     * Price entity converter
+     */
+    @Autowired
+    @Qualifier("priceEntityConverter")
+    protected PriceEntityConverter priceEntityConverter;
 
     /**
      * Fill a result object from a source object
@@ -97,6 +118,22 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
         if (ArrayUtils.contains(options, ProductLoadOptions.BREAD_CRUMBS)) {
             List<CategoryEntity> breadcrumbs = categoryService.getBreadCrumbsByCategoryUuid(productEntity.getMainCategory().getUuid());
             productEntityDto.setBreadCrumbs(categoryEntityConverter.convertAll(breadcrumbs));
+        }
+        /** Prices */
+        if (ArrayUtils.contains(options, ProductLoadOptions.ALL_PRICES)) {
+            productEntityDto.setPrices(priceEntityConverter.convertAll(priceService.getPricesByProductUuid(productEntity.getUuid())));
+        }
+        if (ArrayUtils.contains(options, ProductLoadOptions.DEFAULT_CURRENCY_PRICES)) {
+            productEntityDto.setPrices(priceEntityConverter.convertAll(priceService.getPricesByProductCodeAndCurrencyCode(
+                    productEntity.getCode(), currencyFacade.getDefaultCurrency().getCode())));
+        }
+        if (ArrayUtils.contains(options, ProductLoadOptions.DEFAULT_UNIT_PRICES)) {
+            productEntityDto.setPrices(priceEntityConverter.convertAll(priceService.getPricesByProductUuidAndDefaultUnit(productEntity.getUuid())));
+        }
+        if (ArrayUtils.contains(options, ProductLoadOptions.DEFAULT_CURRENCY_AND_UNIT_PRICE)) {
+            List<PriceEntity> prices = priceService.getPricesByProductUuidAndUnitUuidAndCurrencyUuid(productEntity.getUuid(), unitFacade.getDefaultUnit().getUuid(),
+                    currencyFacade.getDefaultCurrency().getUuid());
+            productEntityDto.setPrice(prices.isEmpty() ? null : priceEntityConverter.convert(prices.get(0)));
         }
         /** Stocks */
         if (ArrayUtils.contains(options, ProductLoadOptions.ALL_STOCKS)) {

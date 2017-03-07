@@ -47,6 +47,48 @@ public interface PriceService {
     List<PriceEntity> getPricesByProductCode(String productCode, CatalogEntity catalog);
 
     /**
+     * Get prices by product uuid and currency uuid
+     * @param productUuid Product uuid
+     * @param currencyUuid Currency uuid
+     * @return List of prices
+     */
+    List<PriceEntity> getPricesByProductUuidAndCurrencyUuid(String productUuid, String currencyUuid);
+
+    /**
+     * Get prices by product and currency
+     * @param product Product
+     * @param currency Currency
+     * @return List of prices
+     */
+    List<PriceEntity> getPricesByProductAndCurrency(ProductEntity product, CurrencyEntity currency);
+
+    /**
+     * Get prices by product code and currency code (use default catalog)
+     * @param productCode Product code
+     * @param currencyCode Currency code
+     * @return List of prices
+     */
+    List<PriceEntity> getPricesByProductCodeAndCurrencyCode(String productCode, String currencyCode);
+
+    /**
+     * Get prices by product code and currency code
+     * @param productCode Product code
+     * @param currencyCode Currency code
+     * @param catalogCode Catalog code
+     * @return List of prices
+     */
+    List<PriceEntity> getPricesByProductCodeAndCurrencyCode(String productCode, String currencyCode, String catalogCode);
+
+    /**
+     * Get prices by product code and currency code
+     * @param productCode Product code
+     * @param currencyCode Currency code
+     * @param catalog Catalog
+     * @return List of prices
+     */
+    List<PriceEntity> getPricesByProductCodeAndCurrencyCode(String productCode, String currencyCode, CatalogEntity catalog);
+
+    /**
      * Get prices by product uuid and unit uuid
      * @param productUuid Product uuid
      * @param unitUuid Unit uuid

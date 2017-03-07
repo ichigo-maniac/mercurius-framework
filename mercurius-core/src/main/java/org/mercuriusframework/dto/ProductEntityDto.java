@@ -26,6 +26,16 @@ public class ProductEntityDto extends CatalogUniqueCodeEntityDto {
     private List<CategoryEntityDto> breadCrumbs;
 
     /**
+     * Price
+     */
+    private PriceEntityDto price;
+
+    /**
+     * Prices
+     */
+    private List<PriceEntityDto> prices;
+
+    /**
      * Stocks
      */
     private List<StockEntityDto> stocks;
@@ -70,6 +80,38 @@ public class ProductEntityDto extends CatalogUniqueCodeEntityDto {
      */
     public void setBreadCrumbs(List<CategoryEntityDto> breadCrumbs) {
         this.breadCrumbs = breadCrumbs;
+    }
+
+    /**
+     * Get price
+     * @return Price
+     */
+    public PriceEntityDto getPrice() {
+        return price;
+    }
+
+    /**
+     * Set price
+     * @param price Price
+     */
+    public void setPrice(PriceEntityDto price) {
+        this.price = price;
+    }
+
+    /**
+     * Get prices
+     * @return Prices
+     */
+    public List<PriceEntityDto> getPrices() {
+        return prices;
+    }
+
+    /**
+     * Set prices
+     * @param prices Prices
+     */
+    public void setPrices(List<PriceEntityDto> prices) {
+        this.prices = prices;
     }
 
     /**

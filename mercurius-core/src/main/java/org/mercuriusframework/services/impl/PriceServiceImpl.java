@@ -120,6 +120,86 @@ public class PriceServiceImpl implements PriceService {
     }
 
     /**
+     * Get prices by product uuid and currency uuid
+     * @param productUuid  Product uuid
+     * @param currencyUuid Currency uuid
+     * @return List of prices
+     */
+    @Override
+    public List<PriceEntity> getPricesByProductUuidAndCurrencyUuid(String productUuid, String currencyUuid) {
+        return entityService.getListResultByQuery("SELECT price FROM " + PriceEntity.ENTITY_NAME + " as price " +
+                        "WHERE price." + PriceEntity.PRODUCT + "." + ProductEntity.UUID + " = :productUuid " +
+                        "AND price." + PriceEntity.CURRENCY + "." + CurrencyEntity.UUID + " = :currencyUuid",
+                PriceEntity.class, new QueryParameter("productUuid", productUuid), new QueryParameter("currencyUuid", currencyUuid));
+    }
+
+    /**
+     * Get prices by product and currency
+     * @param product  Product
+     * @param currency Currency
+     * @return List of prices
+     */
+    @Override
+    public List<PriceEntity> getPricesByProductAndCurrency(ProductEntity product, CurrencyEntity currency) {
+        return entityService.getListResultByQuery("SELECT price FROM " + PriceEntity.ENTITY_NAME + " as price " +
+                        "WHERE price." + PriceEntity.PRODUCT + " = :product " +
+                        "AND price." + PriceEntity.CURRENCY + " = :currency",
+                PriceEntity.class, new QueryParameter("product", product), new QueryParameter("currency", currency));
+    }
+
+    /**
+     * Get prices by product code and currency code (use default catalog)
+     * @param productCode  Product code
+     * @param currencyCode Currency code
+     * @return List of prices
+     */
+    @Override
+    public List<PriceEntity> getPricesByProductCodeAndCurrencyCode(String productCode, String currencyCode) {
+        CatalogEntityDto catalog = catalogFacade.getDefaultCatalog();
+        if (catalog == null) {
+            throw new DefaultCatalogPresetException();
+        }
+        return getPricesByProductCodeAndCurrencyCode(productCode, currencyCode, catalog.getCode());
+    }
+
+    /**
+     * Get prices by product code and currency code
+     * @param productCode  Product code
+     * @param currencyCode Currency code
+     * @param catalogCode  Catalog code
+     * @return List of prices
+     */
+    @Override
+    public List<PriceEntity> getPricesByProductCodeAndCurrencyCode(String productCode, String currencyCode, String catalogCode) {
+        return entityService.getListResultByQuery("SELECT price FROM " + PriceEntity.ENTITY_NAME + " as price " +
+                        "LEFT JOIN price." + PriceEntity.PRODUCT + " as product " +
+                        "WHERE product." + ProductEntity.CODE + " = :productCode " +
+                        "AND price." + PriceEntity.CURRENCY + "." + CurrencyEntity.CODE + " = :currencyCode " +
+                        "AND product." + ProductEntity.CATALOG + "." + CatalogEntity.CODE + " = :catalogCode",
+                PriceEntity.class, new QueryParameter("productCode", productCode),
+                new QueryParameter("catalogCode", catalogCode), new QueryParameter("currencyCode", currencyCode));
+    }
+
+    /**
+     * Get prices by product code and currency code
+     *
+     * @param productCode  Product code
+     * @param currencyCode Currency code
+     * @param catalog      Catalog
+     * @return List of prices
+     */
+    @Override
+    public List<PriceEntity> getPricesByProductCodeAndCurrencyCode(String productCode, String currencyCode, CatalogEntity catalog) {
+        return entityService.getListResultByQuery("SELECT price FROM " + PriceEntity.ENTITY_NAME + " as price " +
+                        "LEFT JOIN price." + PriceEntity.PRODUCT + " as product " +
+                        "WHERE product." + ProductEntity.CODE + " = :productCode " +
+                        "AND price." + PriceEntity.CURRENCY + "." + CurrencyEntity.CODE + " = :currencyCode " +
+                        "AND product." + ProductEntity.CATALOG + " = :catalog",
+                PriceEntity.class, new QueryParameter("productCode", productCode),
+                new QueryParameter("catalog", catalog), new QueryParameter("currencyCode", currencyCode));
+    }
+
+    /**
      * Get prices by product uuid and unit uuid
      * @param productUuid Product uuid
      * @param unitUuid    Unit uuid

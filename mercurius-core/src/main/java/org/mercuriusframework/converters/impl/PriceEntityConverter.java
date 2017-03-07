@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 /**
  * Price entity converter
  */
-@Service("PriceEntityConverter")
+@Service("priceEntityConverter")
 public class PriceEntityConverter implements Converter <PriceEntity, PriceEntityDto> {
 
     /**
