@@ -10,7 +10,6 @@ import java.util.Date;
  * Abstract entity class
  */
 @MappedSuperclass
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @EntityListeners({CommonAbstractEntityListener.class})
 public abstract class AbstractEntity implements Serializable {
 

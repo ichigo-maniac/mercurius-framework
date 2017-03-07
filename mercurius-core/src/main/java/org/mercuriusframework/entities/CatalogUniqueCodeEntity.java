@@ -6,7 +6,6 @@ import javax.persistence.*;
  * Entity with unique code inside catalog class
  */
 @MappedSuperclass
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class CatalogUniqueCodeEntity extends AbstractEntity {
 
     private static final long serialVersionUID = -4880745943114820892L;
