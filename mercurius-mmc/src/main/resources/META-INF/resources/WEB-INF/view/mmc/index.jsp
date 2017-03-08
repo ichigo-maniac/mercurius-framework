@@ -6,5 +6,7 @@
 </head>
 <body>
 MMC-CONSOLE
+<%-- Javascript libraries --%>
+<jsp:include page="/WEB-INF/view/mmc/common/javascript_libraries.jsp"/>
 </body>
 </html>
