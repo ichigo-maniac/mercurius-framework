@@ -12,4 +12,12 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>mercurius-mmc</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.mercuriusframework</groupId>
+            <artifactId>mercurius-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 </project>
