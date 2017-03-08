@@ -7,9 +7,10 @@
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
-
+<link rel="stylesheet" href="/resources/mmc_app/css/material.min.css">
 <link rel="stylesheet" href="/resources/mmc_lib/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="/resources/mmc_lib/css/bootstrap-theme.min.css"/>
 <link rel="stylesheet" href="/resources/mmc_lib/css/bootstrap-select.min.css"/>
 <link rel="stylesheet" href="/resources/mmc_lib/css/bootstrap.alertify.min.css"/>
 <link rel="stylesheet" href="/resources/mmc_lib/css/alertify.min.css"/>
+<link rel="stylesheet" href="/resources/mmc_app/css/styles.css"/>
