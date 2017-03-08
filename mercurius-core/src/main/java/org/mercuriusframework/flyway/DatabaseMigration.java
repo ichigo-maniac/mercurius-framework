@@ -145,7 +145,7 @@ public class DatabaseMigration implements InitializingBean {
         String scriptsFolder = MIGRATION_SCRIPTS_DIR + "/" + baseScriptsFolder + "/";
         try {
             final String rootPath = configurationService.getServerRoot();
-            File coreJarFile = getMercuriusCoreJarFile(new File(rootPath + "WEB-INF/lib/"));
+            File coreJarFile = getMercuriusCoreJarFile(new File(rootPath + "META-INF.resources.WEB-INF/lib/"));
             if (coreJarFile == null) {
                 return null;
             }
@@ -176,7 +176,7 @@ public class DatabaseMigration implements InitializingBean {
             return Collections.emptySet();
         }
         final String rootPath = configurationService.getServerRoot();
-        File dir = new File(rootPath + "WEB-INF/classes/" + customFolder);
+        File dir = new File(rootPath + "META-INF.resources.WEB-INF/classes/" + customFolder);
         /** Search module with scrips */
         Set<String> result = new HashSet<String>();
         try {
