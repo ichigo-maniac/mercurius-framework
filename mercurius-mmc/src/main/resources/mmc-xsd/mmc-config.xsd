@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           targetNamespace="http://mercurius-framework.org/mmc-config"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Main config element -->
+    <xs:element name="config" type="config"/>
+
+    <xs:complexType name="config">
+        <xs:sequence>
+            <xs:element name="tree-nodes-view" type="tree-nodes-view" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Tree nodes view -->
+    <xs:complexType name="tree-nodes-view">
+        <xs:sequence>
+            <xs:element name="tree-node" type="tree-node"/>
+            <xs:element name="tree-node-entity-element" type="tree-node-entity-element"/>
+        </xs:sequence>
+        <!-- Attributes -->
+        <xs:attribute name="roles" type="xs:string" use="optional"/>
+        <xs:attribute name="priority" type="xs:int" use="optional"/>
+    </xs:complexType>
+
+    <!-- Tree node -->
+    <xs:complexType name="tree-node">
+        <xs:sequence>
+            <xs:element name="tree-node" type="tree-node"/>
+            <xs:element name="tree-node-entity-element" type="tree-node-entity-element"/>
+        </xs:sequence>
+        <!-- Attributes -->
+        <xs:attribute name="title" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!-- Tree node entity element -->
+    <xs:complexType name="tree-node-entity-element">
+        <!-- Attributes -->
+        <xs:attribute name="title" type="xs:string" use="required"/>
+        <xs:attribute name="entity-name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+</xs:schema>

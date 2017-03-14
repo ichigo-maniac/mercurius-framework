@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config xmlns="http://mercurius-framework.org/mmc-config">
+
+    <!-- Admin tree node view -->
+    <tree-nodes-view roles="ROLE_ADMIN" priority="0">
+        <!-- Catalog -->
+        <tree-node title="Catalog">
+            <tree-node-entity-element title="Catalogs" entity-name="Catalog"/>
+            <tree-node-entity-element title="Products" entity-name="Product"/>
+            <tree-node-entity-element title="Categories" entity-name="Category"/>
+            <tree-node-entity-element title="Units" entity-name="Unit"/>
+        </tree-node>
+        <!-- Store -->
+        <tree-node title="">
+            <tree-node-entity-element title="Stores" entity-name="Store"/>
+            <tree-node-entity-element title="Warehouses" entity-name="Warehouse"/>
+            <tree-node-entity-element title="Stocks" entity-name="Stock"/>
+        </tree-node>
+        <!-- Users -->
+        <tree-node title="">
+            <tree-node-entity-element title="Users" entity-name="AbstractUser"/>
+            <tree-node-entity-element title="Roles" entity-name="Role"/>
+        </tree-node>
+    </tree-nodes-view>
+
+    <!-- Other roles tree node view -->
+    <tree-nodes-view priority="0">
+        <!-- Catalog -->
+        <tree-node title="Catalog">
+            <tree-node-entity-element title="Products" entity-name="Product"/>
+            <tree-node-entity-element title="Categories" entity-name="Category"/>
+            <tree-node-entity-element title="Units" entity-name="Unit"/>
+        </tree-node>
+    </tree-nodes-view>
+
+</config>
