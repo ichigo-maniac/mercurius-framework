@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 /**
- * EmployeeEntity entity class
+ * Employee entity class
  */
 
 @Entity(name = EmployeeEntity.ENTITY_NAME)
@@ -19,7 +19,7 @@ public class EmployeeEntity extends AbstractUserEntity {
     /**
      * Roles
      */
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "EMPLOYEE_ROLE_LINK",
             joinColumns = {
                     @JoinColumn(name = "EMPLOYEE_UUID",
