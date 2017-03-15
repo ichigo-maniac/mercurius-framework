@@ -1,5 +1,7 @@
 package org.mercuriusframework.facades;
 
+import org.mercuriusframework.dto.UserEntityDto;
+
 /**
  * User facade interface
  */
@@ -18,4 +20,10 @@ public interface UserFacade {
      * @return Check result - Is current user employee
      */
     boolean isCurrentUserEmployee();
+
+    /**
+     * Get current user
+     * @return Current user
+     */
+    UserEntityDto getCurrentUser();
 }

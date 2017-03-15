@@ -1,15 +1,21 @@
 package org.mercuriusframework.facades.impl;
 
+import org.mercuriusframework.constants.MercuriusConstants;
+import org.mercuriusframework.converters.impl.EmployeeEntityConverter;
+import org.mercuriusframework.dto.UserEntityDto;
 import org.mercuriusframework.entities.EmployeeEntity;
+import org.mercuriusframework.enums.EmployeeLoadOptions;
 import org.mercuriusframework.facades.UserFacade;
 import org.mercuriusframework.security.EmployeeUserDetails;
 import org.mercuriusframework.services.EntityService;
+import org.mercuriusframework.services.SessionService;
 import org.mercuriusframework.services.UniqueCodeEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,7 +35,23 @@ public class UserFacadeImpl implements UserFacade {
      * Unique code entity service
      */
     @Autowired
-    private UniqueCodeEntityService uniqueCodeEntityService;
+    @Qualifier("uniqueCodeEntityService")
+    protected UniqueCodeEntityService uniqueCodeEntityService;
+
+    /**
+     * Session service
+     */
+    @Autowired
+    @Qualifier("sessionService")
+    protected SessionService sessionService;
+
+    /**
+     * Employee entity converter
+     */
+    @Autowired
+    @Qualifier("employeeEntityConverter")
+    protected EmployeeEntityConverter employeeEntityConverter;
+
 
     /**
      * Log in employee by password and username
@@ -49,6 +71,8 @@ public class UserFacadeImpl implements UserFacade {
         EmployeeUserDetails userDetails = new EmployeeUserDetails(employee);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        sessionService.setSessionAttribute(MercuriusConstants.SESSION_ATTRIBUTES.CURRENT_USER,
+                employeeEntityConverter.convert(employee, EmployeeLoadOptions.ROLES));
         return true;
     }
 
@@ -62,11 +86,30 @@ public class UserFacadeImpl implements UserFacade {
         if (authentication == null) {
             return false;
         }
-        if (authentication.getPrincipal() instanceof EmployeeUserDetails) {
-            EmployeeUserDetails userDetails = (EmployeeUserDetails) authentication.getPrincipal();
-            return userDetails.isEnabled();
+        return authentication.getPrincipal() instanceof EmployeeUserDetails;
+    }
+
+    /**
+     * Get current user
+     * @return Current user
+     */
+    @Override
+    public UserEntityDto getCurrentUser() {
+        UserEntityDto sessionUser = (UserEntityDto) sessionService.getSessionAttribute(MercuriusConstants.SESSION_ATTRIBUTES.CURRENT_USER);
+        if (sessionUser != null) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null) {
+                if (authentication.getDetails() instanceof UserDetails) {
+                    UserDetails userDetails = (UserDetails) authentication.getDetails();
+                    return sessionUser.getCode().equals(userDetails.getUsername()) ? sessionUser : null;
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
         } else {
-            return false;
+            return null;
         }
     }
 }
