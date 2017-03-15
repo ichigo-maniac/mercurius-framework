@@ -5,6 +5,8 @@ package org.mercuriusframework.dto;
  */
 public class RoleEntityDto extends UniqueCodeEntityDto {
 
+    private static final long serialVersionUID = 5666510654331457625L;
+
     /**
      * Get empty role
      * @return Empty role

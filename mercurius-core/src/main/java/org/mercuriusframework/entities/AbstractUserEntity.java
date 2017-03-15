@@ -30,7 +30,7 @@ public abstract class AbstractUserEntity extends UniqueCodeEntity {
      */
     @Basic(optional = true)
     private String password;
-    public static final String PASSWORD = "email";
+    public static final String PASSWORD = "password";
 
     /**
      * Get e-mail
