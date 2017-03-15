@@ -11,6 +11,8 @@ import java.util.Set;
 @DiscriminatorValue(EmployeeEntity.ENTITY_NAME)
 public class EmployeeEntity extends AbstractUserEntity {
 
+    private static final long serialVersionUID = 8229895947708518865L;
+
     /**
      * Entity name
      */

@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue(CustomerEntity.ENTITY_NAME)
 public class CustomerEntity extends AbstractUserEntity {
 
+    private static final long serialVersionUID = -50488937299917912L;
+
     /**
      * Entity name
      */
