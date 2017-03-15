@@ -29,5 +29,6 @@ public class MercuriusConstants {
         public static final String CURRENT_STORE = "currentStore";
         public static final String DEFAULT_UNIT = "defaultUnit";
         public static final String DEFAULT_CURRENCY = "defaultCurrency";
+        public static final String CURRENT_USER = "currentUser";
     }
 }
