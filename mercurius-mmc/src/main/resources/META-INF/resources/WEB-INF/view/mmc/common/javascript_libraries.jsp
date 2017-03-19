@@ -5,3 +5,4 @@
 <script src="/resources/mmc_lib/js/bootstrap-treenav.min.js"></script>
 <script src="/resources/mmc_lib/js/alertify.min.js"></script>
 <script src="/resources/mmc_lib/js/json2.js"></script>
+<script src="/resources/mmc_lib/js/angular.min.js"></script>

@@ -35,6 +35,7 @@
         <spring.version>4.2.1.RELEASE</spring.version>
         <spring.security.version>4.2.1.RELEASE</spring.security.version>
         <jackson.version>1.9.13</jackson.version>
+        <jackson.data.bind.version>2.5.0</jackson.data.bind.version>
         <google.guava.version>19.0</google.guava.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>
         <hibernate.version>4.3.9.Final</hibernate.version>
@@ -237,8 +238,18 @@
         <!-- Jackson dependencies -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.data.bind.version}</version>
         </dependency>
 
         <!-- Google guava -->

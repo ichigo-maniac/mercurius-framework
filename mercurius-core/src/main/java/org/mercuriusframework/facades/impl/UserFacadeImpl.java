@@ -99,8 +99,8 @@ public class UserFacadeImpl implements UserFacade {
         if (sessionUser != null) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null) {
-                if (authentication.getDetails() instanceof UserDetails) {
-                    UserDetails userDetails = (UserDetails) authentication.getDetails();
+                if (authentication.getPrincipal() instanceof UserDetails) {
+                    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
                     return sessionUser.getCode().equals(userDetails.getUsername()) ? sessionUser : null;
                 } else {
                     return null;

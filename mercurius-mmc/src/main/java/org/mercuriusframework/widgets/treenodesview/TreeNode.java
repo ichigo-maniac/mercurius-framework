@@ -1,4 +1,4 @@
-package org.mercuriusframework.widgetss;
+package org.mercuriusframework.widgets.treenodesview;
 
 /**
  * Tree node element interface

@@ -1,4 +1,4 @@
-package org.mercuriusframework.widgetss;
+package org.mercuriusframework.widgets.treenodesview;
 
 import org.mercuriusframework.constants.MercuriusMMCWidgetsConstants;
 import org.w3c.dom.Node;

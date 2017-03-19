@@ -1,4 +1,4 @@
-package org.mercuriusframework.widgetss;
+package org.mercuriusframework.widgets.treenodesview;
 
 import org.mercuriusframework.constants.MercuriusMMCWidgetsConstants;
 import org.w3c.dom.Node;
@@ -23,6 +23,19 @@ public class TreeNodeElement extends TreeNode {
     public TreeNodeElement(Node xmlElement) {
         this.title = xmlElement.getAttributes().getNamedItem(
                 MercuriusMMCWidgetsConstants.TreeNodesView.TreeNode.TITLE).getNodeValue();
+        this.nodes = new ArrayList<>();
+        /** Parse child elements */
+        if (xmlElement.getChildNodes() != null) {
+            for (int i = 0; i < xmlElement.getChildNodes().getLength(); i++) {
+                Node nodeElement = xmlElement.getChildNodes().item(i);
+                if (nodeElement.getNodeName().equals(MercuriusMMCWidgetsConstants.TreeNodesView.TreeNode.WIDGET_NAME)) {
+                    nodes.add(new TreeNodeElement(nodeElement));
+                }
+                if (nodeElement.getNodeName().equals(MercuriusMMCWidgetsConstants.TreeNodesView.TreeNodeEntityElement.WIDGET_NAME)) {
+                    nodes.add(new TreeNodeEntityElement(nodeElement));
+                }
+            }
+        }
     }
 
     /**
