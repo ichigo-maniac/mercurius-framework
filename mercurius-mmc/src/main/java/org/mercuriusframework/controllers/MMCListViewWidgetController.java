@@ -94,7 +94,7 @@ public class MMCListViewWidgetController {
         PageableResult<ProductEntity> loadedData = entityService.getPageableResultByCriteria(0, 20, entityClass);
         /** Transform widget */
         ListViewWidget listViewWidget = new ListViewWidget(xmlElement);
-        String rendererResult = renderListViewFragment(request, response, listViewWidget, loadedData);
+        String rendererResult = renderListViewFragment(request, response, entityName, listViewWidget, loadedData);
         if (StringUtils.isEmpty(rendererResult)) {
             return new LoadWidgetResult(LoadWidgetResultStatus.ERROR);
         } else {
@@ -107,6 +107,7 @@ public class MMCListViewWidgetController {
      * Render list view widget
      * @param request Http-request
      * @param response Http-response
+     * @param entityName Entity name
      * @param listViewWidget List view widget
      * @param dataResult Loaded data
      * @return Rendered html-fragment
@@ -114,9 +115,10 @@ public class MMCListViewWidgetController {
      * @throws IOException
      */
     private String renderListViewFragment(HttpServletRequest request, HttpServletResponse response,
-                                          ListViewWidget listViewWidget, PageableResult dataResult) throws ServletException, IOException {
+                                          String entityName, ListViewWidget listViewWidget, PageableResult dataResult) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_VIEW_TEMPLATE);
         CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
+        request.setAttribute("entityName", entityName);
         request.setAttribute("listView", listViewWidget);
         request.setAttribute("dataResult", dataResult);
         requestDispatcher.forward(request, customResponse);

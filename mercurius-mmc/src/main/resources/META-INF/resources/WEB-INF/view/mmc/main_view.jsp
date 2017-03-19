@@ -56,11 +56,7 @@
         </nav>
     </div>
     <%-- Main view --%>
-    <main class="mdl-layout__content mdl-color--grey-100">
-        <div class="panel panel-default" style="width: 100%;">
-            <div id="main_panel_container" class="panel-body">
-            </div>
-        </div>
+    <main id="main_panel_container" class="mdl-layout__content mdl-color--grey-100">
     </main>
 </div>
 <%-- Scripts --%>
