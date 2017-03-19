@@ -11,6 +11,7 @@
     <xs:complexType name="config">
         <xs:sequence>
             <xs:element name="tree-nodes-view" type="tree-nodes-view" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="list-view" type="list-view" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -40,6 +41,31 @@
         <!-- Attributes -->
         <xs:attribute name="title" type="xs:string" use="required"/>
         <xs:attribute name="entity-name" type="xs:string" use="required"/>
+    </xs:complexType>
+    
+    <!-- List view -->
+    <xs:complexType name="list-view">
+        <xs:sequence>
+            <xs:element name="table-view" type="table-view" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+        <!-- Attributes -->
+        <xs:attribute name="entity-name" type="xs:string" use="required"/>
+        <xs:attribute name="roles" type="xs:string" use="optional"/>
+        <xs:attribute name="priority" type="xs:int" use="optional"/>
+    </xs:complexType>
+    
+    <!-- Table view -->
+    <xs:complexType name="table-view">
+        <xs:sequence>
+            <xs:element name="column" type="table-view-column" minOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Table view column -->
+    <xs:complexType name="table-view-column">
+        <!-- Attributes -->
+        <xs:attribute name="title" type="xs:string" use="required"/>
+        <xs:attribute name="property" type="xs:string" use="required"/>
     </xs:complexType>
 
 </xs:schema>

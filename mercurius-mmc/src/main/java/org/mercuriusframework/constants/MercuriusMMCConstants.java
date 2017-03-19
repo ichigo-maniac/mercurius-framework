@@ -10,6 +10,7 @@ public class MercuriusMMCConstants {
     public class URLS {
         public static final String BASE_PATH = "/mmc/";
         public static final String BASE_APPLICATION_PATH = "/mmc/app_panel";
+        public static final String BASE_WIDGETS_PATH = "/mmc/widget/";
     }
 
     /**

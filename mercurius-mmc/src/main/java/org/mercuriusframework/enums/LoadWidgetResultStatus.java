@@ -1,15 +1,15 @@
 package org.mercuriusframework.enums;
 
 /**
- * Widget type
+ * Load widget status result
  */
-public enum WidgetType {
-
+public enum LoadWidgetResultStatus {
     /**
      * Values
      */
-    TREE_NODES_VIEW("TREE_NODES_VIEW"),
-    LIST_VIEW("LIST_VIEW");
+    CORRECT("CORRECT"),
+    NOT_FOUND("NOT_FOUND"),
+    ERROR("ERROR");
 
     /**
      * Enum value
@@ -20,7 +20,7 @@ public enum WidgetType {
      * Constructor
      * @param value Enum value
      */
-    WidgetType(String value) {
+    LoadWidgetResultStatus(String value) {
         this.value = value;
     }
 

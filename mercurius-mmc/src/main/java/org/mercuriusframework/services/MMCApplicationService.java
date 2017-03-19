@@ -26,6 +26,14 @@ public interface MMCApplicationService {
     Node getWidgetXmlElement(WidgetType widgetType);
 
     /**
+     * Get entity widget xml element
+     * @param widgetType Widget type
+     * @param entityName Entity name
+     * @return Widget xml element
+     */
+    Node getEntityWidgetXmlElement(WidgetType widgetType, String entityName);
+
+    /**
      * Is application has been build
      * @return Check result
      */

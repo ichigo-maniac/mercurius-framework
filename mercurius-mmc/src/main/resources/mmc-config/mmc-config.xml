@@ -12,14 +12,15 @@
             <tree-node-entity-element title="Units" entity-name="Unit"/>
         </tree-node>
         <!-- Store -->
-        <tree-node title="">
+        <tree-node title="Store">
             <tree-node-entity-element title="Stores" entity-name="Store"/>
             <tree-node-entity-element title="Warehouses" entity-name="Warehouse"/>
             <tree-node-entity-element title="Stocks" entity-name="Stock"/>
         </tree-node>
         <!-- Users -->
-        <tree-node title="">
-            <tree-node-entity-element title="Users" entity-name="AbstractUser"/>
+        <tree-node title="Users">
+            <tree-node-entity-element title="Employees" entity-name="Employee"/>
+            <tree-node-entity-element title="Customers" entity-name="Customer"/>
             <tree-node-entity-element title="Roles" entity-name="Role"/>
         </tree-node>
     </tree-nodes-view>

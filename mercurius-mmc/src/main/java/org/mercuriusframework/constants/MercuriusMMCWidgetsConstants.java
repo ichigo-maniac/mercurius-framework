@@ -39,4 +39,32 @@ public class MercuriusMMCWidgetsConstants {
         }
     }
 
+    /**
+     * List view (entities)
+     */
+    public class ListView {
+
+        public static final String WIDGET_NAME = "list-view";
+        public static final String ENTITY_NAME = "entity-name";
+        public static final String ROLES  = "roles";
+        public static final String PRIORITY = "priority";
+
+        /**
+         * Table view
+         */
+        public class TableView {
+
+            public static final String WIDGET_NAME = "table-view";
+
+            /**
+             * Table view column
+             */
+            public class Column {
+                public static final String WIDGET_NAME = "column";
+                public static final String TITLE = "title";
+                public static final String PROPERTY = "property";
+            }
+        }
+    }
+
 }
