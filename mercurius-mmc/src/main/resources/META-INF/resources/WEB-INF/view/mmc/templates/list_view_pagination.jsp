@@ -3,65 +3,67 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%-- Pagination --%>
-<div>
-
-    <c:if test="${productsResult.pagesCount > 1}">
+<div class=" pull-right" style="display: inline-block">
+    <%-- Entities count --%>
+    <span>
+        Total entities count : <b><c:out value="${dataResult.totalEntriesCount}"/></b>
+    </span>
+    <%-- Pages --%>
+    <c:if test="${dataResult.pagesCount > 1}">
         <c:choose>
             <%-- More than 6 pages --%>
-            <c:when test="${productsResult.pagesCount > 6}">
-                <ul class="pagination">
+            <c:when test="${dataResult.pagesCount > 6}">
+                <ul class="pagination pagination-sm">
                         <%-- First --%>
-                    <c:if test="${productsResult.currentPage != 0}">
+                    <c:if test="${dataResult.currentPage != 0}">
                         <li>
-                            <a href="<c:url value="${category.builtUrl}"><c:param name="page" value="0"/></c:url>" aria-label="First">
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', 0)" href="#" aria-label="First">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
                     </c:if>
                         <%-- Current page - 2 --%>
-                    <c:if test="${productsResult.currentPage - 1 > 0}">
+                    <c:if test="${dataResult.currentPage - 1 > 0}">
                         <li>
-                            <a href="<c:url value="${category.builtUrl}"><c:param name="page" value="${productsResult.currentPage - 2}"/></c:url>" aria-label="Current">
-                                <span>${productsResult.currentPage - 1}</span>
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage - 2})"  href="#" aria-label="Current">
+                                <span>${dataResult.currentPage - 1}</span>
                             </a>
                         </li>
                     </c:if>
                         <%-- Current page - 1 --%>
-                    <c:if test="${productsResult.currentPage  > 0}">
+                    <c:if test="${dataResult.currentPage  > 0}">
                         <li>
-                            <a href="<c:url value="${category.builtUrl}"><c:param name="page" value="${productsResult.currentPage - 1}"/></c:url>" aria-label="Current">
-                                <span>${productsResult.currentPage}</span>
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage - 1})" href="#" aria-label="Current">
+                                <span>${dataResult.currentPage}</span>
                             </a>
                         </li>
                     </c:if>
                         <%-- Current page --%>
                     <li class="active">
-                        <a href="<c:url value="${category.builtUrl}"><c:param name="page" value="${productsResult.currentPage}"/></c:url>" aria-label="Current">
-                            <span>${productsResult.currentPage + 1}</span>
+                        <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage})" href="#" aria-label="Current">
+                            <span>${dataResult.currentPage + 1}</span>
                         </a>
                     </li>
                         <%-- Current page + 1 --%>
-                    <c:if test="${productsResult.currentPage + 1 < productsResult.pagesCount - 1}">
+                    <c:if test="${dataResult.currentPage + 1 < dataResult.pagesCount - 1}">
                         <li>
-                            <a href="<c:url value="${category.builtUrl}"><c:param name="page" value="${productsResult.currentPage + 1}"/></c:url>" aria-label="Current">
-                                <span>${productsResult.currentPage + 2}</span>
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage + 1})" href="#" aria-label="Current">
+                                <span>${dataResult.currentPage + 2}</span>
                             </a>
                         </li>
                     </c:if>
                         <%-- Current page + 2 --%>
-                    <c:if test="${productsResult.currentPage + 2 < productsResult.pagesCount - 1}">
+                    <c:if test="${dataResult.currentPage + 2 < dataResult.pagesCount - 1}">
                         <li>
-                            <a href="<c:url value="${category.builtUrl}"><c:param name="page" value="${productsResult.currentPage + 2}"/></c:url>"
-                               aria-label="Current">
-                                <span>${productsResult.currentPage + 3}</span>
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage +2})" href="#" aria-label="Current">
+                                <span>${dataResult.currentPage + 3}</span>
                             </a>
                         </li>
                     </c:if>
                         <%-- Last --%>
-                    <c:if test="${productsResult.currentPage + 1 != productsResult.pagesCount}">
+                    <c:if test="${dataResult.currentPage + 1 != dataResult.pagesCount}">
                         <li>
-                            <a href="<c:url value="${category.builtUrl}"><c:param name="page" value="${productsResult.pagesCount - 1}"/></c:url>"
-                               aria-label="Last">
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.pagesCount - 1})" href="#" aria-label="Last">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -70,10 +72,10 @@
             </c:when>
             <%-- Lower than 6 pages --%>
             <c:otherwise>
-                <ul class="pagination">
-                    <c:forEach var="index" begin="0" end="${productsResult.pagesCount - 1}">
-                        <li <c:if test="${index == productsResult.currentPage}">class="active"</c:if>>
-                            <a href="<c:url value="${category.builtUrl}"><c:param name="page" value="${index}"/></c:url>">
+                <ul class="pagination pagination-sm">
+                    <c:forEach var="index" begin="0" end="${dataResult.pagesCount - 1}">
+                        <li <c:if test="${index == dataResult.currentPage}">class="active"</c:if>>
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${index})" href="#">
                                 <span aria-hidden="true">${index + 1}</span>
                             </a>
                         </li>

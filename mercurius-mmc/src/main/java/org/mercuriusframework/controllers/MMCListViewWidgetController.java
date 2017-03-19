@@ -17,10 +17,7 @@ import org.mercuriusframework.widgets.listview.ListViewWidget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.Node;
 
 import javax.servlet.RequestDispatcher;
@@ -72,13 +69,15 @@ public class MMCListViewWidgetController {
     /**
      * Load widget
      * @param entityName Entity name
+     * @param page Page
      * @param request Http-request
      * @param response Http-response
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = MercuriusMMCWidgetsConstants.ListView.WIDGET_NAME + "/{entityName}")
     @ResponseBody
-    public LoadWidgetResult loadWidget(@PathVariable String entityName, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public LoadWidgetResult loadWidget(@PathVariable String entityName, @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                       HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!userFacade.isCurrentUserEmployee()) {
             return new LoadWidgetResult(LoadWidgetResultStatus.ERROR);
         }
@@ -91,7 +90,7 @@ public class MMCListViewWidgetController {
         if (entityClass == null) {
             return new LoadWidgetResult(LoadWidgetResultStatus.NOT_FOUND);
         }
-        PageableResult<ProductEntity> loadedData = entityService.getPageableResultByCriteria(0, 20, entityClass);
+        PageableResult<ProductEntity> loadedData = entityService.getPageableResultByCriteria(page, 2, entityClass);
         /** Transform widget */
         ListViewWidget listViewWidget = new ListViewWidget(xmlElement);
         String rendererResult = renderListViewFragment(request, response, entityName, listViewWidget, loadedData);

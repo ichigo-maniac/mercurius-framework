@@ -5,6 +5,7 @@
     <%-- Header --%>
     <div class="panel-heading">
         <b style="font-size: 110%;"><c:out value="${entityName}"/></b>
+        <jsp:include page="/WEB-INF/view/mmc/templates/list_view_pagination.jsp"/>
     </div>
     <%-- Table view --%>
     <div class="panel-body" style="padding: 0px;">

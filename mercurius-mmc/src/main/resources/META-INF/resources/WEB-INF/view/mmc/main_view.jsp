@@ -62,26 +62,36 @@
 <%-- Scripts --%>
 <script>
     function loadEntityWidget(widgetName, entityName) {
-        $.get("/mmc/widget/" + widgetName + "/" + entityName, function(data) {
-            if (data != null) {
-                if (data.status == 'ERROR') {
-                    location.reload();
-                    return;
-                }
-                if (data.status == "NOT_FOUND") {
-                    alert("not found");
-                    return;
-                } else {
-                    $("#main_panel_container").empty();
-                    $("#main_panel_container").html(data.renderedWidget);
-                    return;
-                }
-            } else {
-                location.reload();
-            }
-        }).fail(function() {
+        $.get("/mmc/widget/" + widgetName + "/" + entityName, widgetLoadResponse).fail(function() {
             location.reload();
         });
+    }
+
+    function loadListView(entityName, currentPage) {
+        $.get("/mmc/widget/list-view/" + entityName, {
+            page : currentPage
+        }, widgetLoadResponse).fail(function() {
+            location.reload();
+        });
+    }
+
+    function widgetLoadResponse(data) {
+        if (data != null) {
+            if (data.status == 'ERROR') {
+                location.reload();
+                return;
+            }
+            if (data.status == "NOT_FOUND") {
+                alert("not found");
+                return;
+            } else {
+                $("#main_panel_container").empty();
+                $("#main_panel_container").html(data.renderedWidget);
+                return;
+            }
+        } else {
+            location.reload();
+        }
     }
 </script>
 <%-- Javascript libraries --%>
