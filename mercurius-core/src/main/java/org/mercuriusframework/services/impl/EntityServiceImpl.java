@@ -245,4 +245,67 @@ public class EntityServiceImpl implements EntityService {
         }
     }
 
+    /**
+     * Get pageable result by criteria
+     * @param currentPage Current page (count from 0)
+     * @param pageSize    Page size (entries on the page)
+     * @param classType   Class type
+     * @return Pageable result
+     */
+    @Override
+    public <T> PageableResult<T> getPageableResultByCriteria(Integer currentPage, Integer pageSize, Class<T> classType) {
+        Long totalCount = getCountByCriteria(classType);
+        Integer currentPageResult = calculateCurrentPage(pageSize, currentPage, totalCount);
+        /** Create criteria query */
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = builder.createQuery(classType);
+        Root<T> root = criteriaQuery.from(classType);
+        criteriaQuery = criteriaQuery.select(root);
+        TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+        typedQuery.setFirstResult(currentPageResult * pageSize);
+        typedQuery.setFlushMode(FlushModeType.COMMIT);
+        typedQuery.setMaxResults(pageSize);
+        /** Create result */
+        return new DefaultPageableResult<T>(totalCount.intValue(), currentPageResult,
+                pageSize, getPagesCount(pageSize, totalCount), typedQuery.getResultList());
+    }
+
+    /**
+     * Get entities count by criteria
+     * @param classType Class type
+     * @return Entities count
+     */
+    @Override
+    public <T> Long getCountByCriteria(Class<T> classType) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
+        criteriaQuery.select(builder.count(criteriaQuery.from(classType)));
+        return entityManager.createQuery(criteriaQuery).getSingleResult();
+    }
+
+    /**
+     * Get pageable result by criteria
+     * @param converter
+     * @param loadOptions
+     * @param currentPage Current page (count from 0)
+     * @param pageSize    Page size (entries on the page)
+     * @param classType   Class type    @return Pageable result
+     */
+    @Override
+    public <T, RESULT> PageableResult<T> getPageableResultByCriteria(Converter<T, RESULT> converter, LoadOptions[] loadOptions, Integer currentPage, Integer pageSize, Class<T> classType) {
+        Long totalCount = getCountByCriteria(classType);
+        Integer currentPageResult = calculateCurrentPage(pageSize, currentPage, totalCount);
+        /** Create criteria query */
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = builder.createQuery(classType);
+        Root<T> root = criteriaQuery.from(classType);
+        criteriaQuery = criteriaQuery.select(root);
+        TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+        typedQuery.setFirstResult(currentPageResult * pageSize);
+        typedQuery.setFlushMode(FlushModeType.COMMIT);
+        typedQuery.setMaxResults(pageSize);
+        /** Create result */
+        return new ConvertiblePageableResult<T, RESULT>(totalCount.intValue(), currentPageResult,
+                pageSize, getPagesCount(pageSize, totalCount), typedQuery.getResultList(), converter, loadOptions);
+    }
 }

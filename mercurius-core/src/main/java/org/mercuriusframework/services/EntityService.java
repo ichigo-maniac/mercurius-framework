@@ -92,4 +92,33 @@ public interface EntityService {
     <T, RESULT> PageableResult<T> getPageableResultByQueries(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
             String queryString, String totalCountQueryString, Integer currentPage, Integer pageSize,
             Class<T> classType, QueryParameter... parameters);
+
+    /**
+     * Get entities count by criteria
+     * @param classType Class type
+     * @param <T> Type
+     * @return Entities count
+     */
+    <T> Long getCountByCriteria(Class<T> classType);
+
+    /**
+     * Get pageable result by criteria
+     * @param currentPage Current page (count from 0)
+     * @param pageSize Page size (entries on the page)
+     * @param classType Class type
+     * @param <T> Type
+     * @return Pageable result
+     */
+    <T> PageableResult<T> getPageableResultByCriteria(Integer currentPage, Integer pageSize, Class<T> classType);
+
+    /**
+     * Get pageable result by criteria
+     * @param currentPage Current page (count from 0)
+     * @param pageSize Page size (entries on the page)
+     * @param classType Class type
+     * @param <T> Type
+     * @return Pageable result
+     */
+    <T, RESULT> PageableResult<T> getPageableResultByCriteria(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
+            Integer currentPage, Integer pageSize, Class<T> classType);
 }
