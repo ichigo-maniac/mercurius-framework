@@ -3,7 +3,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%-- Pagination --%>
-<div class=" pull-right" style="display: inline-block">
+<div class="pull-right">
     <%-- Entities count --%>
     <span>
         Total entities count : <b><c:out value="${dataResult.totalEntriesCount}"/></b>
@@ -13,7 +13,7 @@
         <c:choose>
             <%-- More than 6 pages --%>
             <c:when test="${dataResult.pagesCount > 6}">
-                <ul class="pagination pagination-sm">
+                <ul class="pagination pagination-sm" style="margin: 0px 0px 5px 15px; float: right">
                         <%-- First --%>
                     <c:if test="${dataResult.currentPage != 0}">
                         <li>
@@ -72,7 +72,7 @@
             </c:when>
             <%-- Lower than 6 pages --%>
             <c:otherwise>
-                <ul class="pagination pagination-sm">
+                <ul class="pagination pagination-sm" style="margin: 0px 0px 0px 15px; float: right">
                     <c:forEach var="index" begin="0" end="${dataResult.pagesCount - 1}">
                         <li <c:if test="${index == dataResult.currentPage}">class="active"</c:if>>
                             <a onclick="loadListView('<c:out value="${entityName}"/>', ${index})" href="#">
