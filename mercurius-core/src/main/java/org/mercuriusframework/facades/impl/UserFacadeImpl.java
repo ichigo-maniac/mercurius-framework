@@ -17,6 +17,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.ServletException;
 
 /**
  * User facade
@@ -111,5 +115,14 @@ public class UserFacadeImpl implements UserFacade {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Logout current user
+     */
+    @Override
+    public void logOutCurrentUser() throws ServletException {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        attr.getRequest().logout();
     }
 }

@@ -1,7 +1,7 @@
 package org.mercuriusframework.services;
 
 import org.mercuriusframework.enums.WidgetType;
-import org.w3c.dom.Node;
+import org.mercuriusframework.widgets.Widget;
 
 /**
  * MMC application service interface
@@ -23,7 +23,7 @@ public interface MMCApplicationService {
      * @param widgetType Widget type
      * @return Widget xml element
      */
-    Node getWidgetXmlElement(WidgetType widgetType);
+    Widget getWidgetXmlElement(WidgetType widgetType);
 
     /**
      * Get entity widget xml element
@@ -31,7 +31,7 @@ public interface MMCApplicationService {
      * @param entityName Entity name
      * @return Widget xml element
      */
-    Node getEntityWidgetXmlElement(WidgetType widgetType, String entityName);
+    Widget getEntityWidgetXmlElement(WidgetType widgetType, String entityName);
 
     /**
      * Is application has been build

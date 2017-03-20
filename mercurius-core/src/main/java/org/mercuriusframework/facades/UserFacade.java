@@ -2,6 +2,8 @@ package org.mercuriusframework.facades;
 
 import org.mercuriusframework.dto.UserEntityDto;
 
+import javax.servlet.ServletException;
+
 /**
  * User facade interface
  */
@@ -26,4 +28,9 @@ public interface UserFacade {
      * @return Current user
      */
     UserEntityDto getCurrentUser();
+
+    /**
+     * Logout current user
+     */
+    void logOutCurrentUser() throws ServletException;
 }

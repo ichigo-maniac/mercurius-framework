@@ -1,6 +1,7 @@
 package org.mercuriusframework.controllers;
 
 import org.apache.commons.lang.StringUtils;
+import org.mercuriusframework.constants.MercuriusMMCConfigurationParameters;
 import org.mercuriusframework.constants.MercuriusMMCConstants;
 import org.mercuriusframework.constants.MercuriusMMCWidgetsConstants;
 import org.mercuriusframework.controllers.response.CharArrayWriterResponse;
@@ -10,6 +11,7 @@ import org.mercuriusframework.enums.LoadWidgetResultStatus;
 import org.mercuriusframework.enums.WidgetType;
 import org.mercuriusframework.facades.UserFacade;
 import org.mercuriusframework.services.AnnotationService;
+import org.mercuriusframework.services.ConfigurationService;
 import org.mercuriusframework.services.EntityService;
 import org.mercuriusframework.services.MMCApplicationService;
 import org.mercuriusframework.services.query.PageableResult;
@@ -18,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.Node;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,6 +38,7 @@ public class MMCListViewWidgetController {
      * Constants
      */
     private static final String LIST_VIEW_TEMPLATE = "/WEB-INF/view/mmc/templates/list_view_template.jsp";
+    private static final Integer PAGE_SIZE = 20;
 
     /**
      * User facade
@@ -67,6 +69,13 @@ public class MMCListViewWidgetController {
     private AnnotationService annotationService;
 
     /**
+     * Configuration service
+     */
+    @Autowired
+    @Qualifier("configurationService")
+    private ConfigurationService configurationService;
+
+    /**
      * Load widget
      * @param entityName Entity name
      * @param page Page
@@ -81,8 +90,8 @@ public class MMCListViewWidgetController {
         if (!userFacade.isCurrentUserEmployee()) {
             return new LoadWidgetResult(LoadWidgetResultStatus.ERROR);
         }
-        Node xmlElement = mmcApplicationService.getEntityWidgetXmlElement(WidgetType.LIST_VIEW, entityName);
-        if (xmlElement == null) {
+        ListViewWidget listViewWidget = (ListViewWidget) mmcApplicationService.getEntityWidgetXmlElement(WidgetType.LIST_VIEW, entityName);
+        if (listViewWidget == null) {
             return new LoadWidgetResult(LoadWidgetResultStatus.NOT_FOUND);
         }
         /** Load data */
@@ -90,9 +99,9 @@ public class MMCListViewWidgetController {
         if (entityClass == null) {
             return new LoadWidgetResult(LoadWidgetResultStatus.NOT_FOUND);
         }
-        PageableResult<ProductEntity> loadedData = entityService.getPageableResultByCriteria(page, 2, entityClass);
+        Integer pageSize = configurationService.getIntParameter(MercuriusMMCConfigurationParameters.LIST_VIEW_PAGE_SIZE, PAGE_SIZE);
+        PageableResult<ProductEntity> loadedData = entityService.getPageableResultByCriteria(page, pageSize, entityClass);
         /** Transform widget */
-        ListViewWidget listViewWidget = new ListViewWidget(xmlElement);
         String rendererResult = renderListViewFragment(request, response, entityName, listViewWidget, loadedData);
         if (StringUtils.isEmpty(rendererResult)) {
             return new LoadWidgetResult(LoadWidgetResultStatus.ERROR);

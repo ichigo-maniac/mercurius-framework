@@ -1,6 +1,7 @@
 package org.mercuriusframework.widgets.treenodesview;
 
 import org.mercuriusframework.constants.MercuriusMMCWidgetsConstants;
+import org.mercuriusframework.widgets.Widget;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Tree nodes widget
  */
-public class TreeNodesViewWidget {
+public class TreeNodesViewWidget extends Widget {
 
     /**
      * Get nodes
@@ -18,8 +19,11 @@ public class TreeNodesViewWidget {
 
     /**
      * Constructor
+     * @param treeNode Tree node xml element
+     * @param priority Priority
      */
-    public TreeNodesViewWidget(Node treeNode) {
+    public TreeNodesViewWidget(Node treeNode, Integer priority) {
+        this.setPriority(priority);
         this.nodes = new ArrayList<>();
         /** Parse tree node */
         if (treeNode.getChildNodes() != null) {

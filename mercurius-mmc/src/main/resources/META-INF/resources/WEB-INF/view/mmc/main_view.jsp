@@ -21,7 +21,7 @@
                 <i class="material-icons">more_vert</i>
             </button>
             <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-                <li class="mdl-menu__item"><a href="<c:url value="/logout"/>">Log out</a></li>
+                <a href="<c:url value="/mmc/logout"/>"><li class="mdl-menu__item">Log out</li></a>
             </ul>
         </div>
     </header>

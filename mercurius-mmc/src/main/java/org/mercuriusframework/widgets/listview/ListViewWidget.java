@@ -1,13 +1,14 @@
 package org.mercuriusframework.widgets.listview;
 
 import org.mercuriusframework.constants.MercuriusMMCWidgetsConstants;
+import org.mercuriusframework.widgets.Widget;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
  * List view widget
  */
-public class ListViewWidget {
+public class ListViewWidget extends Widget {
 
     /**
      * Table view
@@ -17,8 +18,10 @@ public class ListViewWidget {
     /**
      * Constructor
      * @param listViewElement List view xml element
+     * @param priority Priority
      */
-    public ListViewWidget(Node listViewElement) {
+    public ListViewWidget(Node listViewElement, Integer priority) {
+        this.setPriority(priority);
         /** Table view */
         NodeList nodeList = listViewElement.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {

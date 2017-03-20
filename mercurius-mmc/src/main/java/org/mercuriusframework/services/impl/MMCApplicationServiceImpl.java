@@ -15,6 +15,9 @@ import org.mercuriusframework.facades.UserFacade;
 import org.mercuriusframework.services.AnnotationService;
 import org.mercuriusframework.services.MMCApplicationService;
 import org.mercuriusframework.services.UniqueCodeEntityService;
+import org.mercuriusframework.widgets.Widget;
+import org.mercuriusframework.widgets.listview.ListViewWidget;
+import org.mercuriusframework.widgets.treenodesview.TreeNodesViewWidget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -56,8 +59,12 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
     /**
      * Containers map
      */
-    private Map<RoleEntityDto, MMCWidgetContainer> treeNodesViewWidgets;
-    private Map<RoleEntityNameContainer, MMCWidgetContainer> listViewWidgets;
+    private Map<RoleEntityDto, MMCWidgetContainer> treeNodesViewWidgetsContainers;
+    private Map<RoleEntityNameContainer, MMCWidgetContainer> listViewWidgetsContainers;
+
+    /** Widgets map */
+    private Map<RoleEntityDto, Widget> treeNodesViewWidgets;
+    private Map<RoleEntityNameContainer, Widget> listViewWidgets;
 
     /**
      * Build status
@@ -101,11 +108,13 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
             return;
         }
         /** Init widgets map collections */
-        treeNodesViewWidgets = new ConcurrentHashMap<>();
-        listViewWidgets = new ConcurrentHashMap<>();
+        treeNodesViewWidgetsContainers = new ConcurrentHashMap<>();
+        listViewWidgetsContainers = new ConcurrentHashMap<>();
         /** Parse documents */
         List<Document> xmlDocuments = getXmlDocuments();
         xmlDocuments.parallelStream().forEach(xmlDocument -> parseDocument(xmlDocument));
+        /** Build widgets */
+        buildWidgets();
         this.buildStatus = true;
     }
 
@@ -116,6 +125,24 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
     public synchronized void rebuild() {
         this.buildStatus = false;
         build();
+    }
+
+    /**
+     * Build widgets
+     */
+    private void buildWidgets() {
+        treeNodesViewWidgets = new ConcurrentHashMap<>();
+        listViewWidgets = new ConcurrentHashMap<>();
+        /** Tree views */
+        for (RoleEntityDto role : treeNodesViewWidgetsContainers.keySet()) {
+            MMCWidgetContainer container = treeNodesViewWidgetsContainers.get(role);
+            treeNodesViewWidgets.put(role, new TreeNodesViewWidget(container.getXmlElement(), container.getPriority()));
+        }
+        /** List views */
+        for (RoleEntityNameContainer roleEntity : listViewWidgetsContainers.keySet()) {
+            MMCWidgetContainer container = listViewWidgetsContainers.get(roleEntity);
+            listViewWidgets.put(roleEntity, new ListViewWidget(container.getXmlElement(), container.getPriority()));
+        }
     }
 
     /**
@@ -200,7 +227,7 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
             Node rolesNode = treeViewNode.getAttributes().getNamedItem(MercuriusMMCWidgetsConstants.TreeNodesView.ROLES);
             String rolesValue = rolesNode != null ? rolesNode.getNodeValue() : null;
             /** Update map */
-            updateViewMap(rolesValue, treeNodesViewWidgets, new MMCWidgetContainer(treeViewNode, priority));
+            updateViewMap(rolesValue, treeNodesViewWidgetsContainers, new MMCWidgetContainer(treeViewNode, priority));
         }
     }
 
@@ -234,7 +261,7 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
                 }
             }
             /** Update map */
-            updateEntityViewMap(rolesValue, entityName, listViewWidgets, new MMCWidgetContainer(listViewNode, priority));
+            updateEntityViewMap(rolesValue, entityName, listViewWidgetsContainers, new MMCWidgetContainer(listViewNode, priority));
         }
     }
 
@@ -375,11 +402,11 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
      * @return Widget xml element
      */
     @Override
-    public Node getWidgetXmlElement(WidgetType widgetType) {
+    public Widget getWidgetXmlElement(WidgetType widgetType) {
         if (widgetType == null) {
             return null;
         }
-        Map<RoleEntityDto, MMCWidgetContainer> widgetContainerMap = getMapContainer(widgetType);
+        Map<RoleEntityDto, Widget> widgetContainerMap = getMapContainer(widgetType);
         if (widgetContainerMap == null) {
             return null;
         }
@@ -387,12 +414,12 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
         if (currentEmployee == null) {
             return null;
         }
-        List<MMCWidgetContainer> widgetContainers = getWidgetContainers(widgetContainerMap, currentEmployee.getRoles());
+        List<Widget> widgetContainers = getWidgetContainers(widgetContainerMap, currentEmployee.getRoles());
         if (widgetContainers.isEmpty()) {
             return null;
         } else {
-            Collections.sort(widgetContainers, (first, second) -> first.getPriority().compareTo(second.getPriority()));
-            return widgetContainers.get(0).getXmlElement();
+            widgetContainers.sort((first, second) -> first.getPriority().compareTo(second.getPriority()));
+            return widgetContainers.get(0);
         }
     }
 
@@ -403,11 +430,11 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
      * @return Widget xml element
      */
     @Override
-    public Node getEntityWidgetXmlElement(WidgetType widgetType, String entityName) {
+    public Widget getEntityWidgetXmlElement(WidgetType widgetType, String entityName) {
         if (widgetType == null) {
             return null;
         }
-        Map<RoleEntityNameContainer, MMCWidgetContainer> widgetContainerMap = getEntityMapContainer(widgetType);
+        Map<RoleEntityNameContainer, Widget> widgetContainerMap = getEntityMapContainer(widgetType);
         if (widgetContainerMap == null) {
             return null;
         }
@@ -415,12 +442,12 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
         if (currentEmployee == null) {
             return null;
         }
-        List<MMCWidgetContainer> widgetContainers = getEntityWidgetContainers(widgetContainerMap, entityName, currentEmployee.getRoles());
+        List<Widget> widgetContainers = getEntityWidgetContainers(widgetContainerMap, entityName, currentEmployee.getRoles());
         if (widgetContainers.isEmpty()) {
             return null;
         } else {
-            Collections.sort(widgetContainers, (first, second) -> first.getPriority().compareTo(second.getPriority()));
-            return widgetContainers.get(0).getXmlElement();
+            widgetContainers.sort((first, second) -> first.getPriority().compareTo(second.getPriority()));
+            return widgetContainers.get(0);
         }
     }
 
@@ -430,16 +457,16 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
      * @param roles List of roles
      * @return List of widget containers
      */
-    private List<MMCWidgetContainer> getWidgetContainers(Map<RoleEntityDto, MMCWidgetContainer> widgetContainerMap, List<RoleEntityDto> roles) {
-        List<MMCWidgetContainer> result = new ArrayList<>();
+    private List<Widget> getWidgetContainers(Map<RoleEntityDto, Widget> widgetContainerMap, List<RoleEntityDto> roles) {
+        List<Widget> result = new ArrayList<>();
         for (RoleEntityDto role : roles) {
-            MMCWidgetContainer widgetContainer = widgetContainerMap.get(role);
+            Widget widgetContainer = widgetContainerMap.get(role);
             if (widgetContainer != null) {
                 result.add(widgetContainer);
             }
         }
         if (result.isEmpty()) {
-            MMCWidgetContainer widgetContainer = widgetContainerMap.get(EMPTY_ROLE);
+            Widget widgetContainer = widgetContainerMap.get(EMPTY_ROLE);
             if (widgetContainer != null) {
                 result.add(widgetContainer);
             }
@@ -453,17 +480,17 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
      * @param roles List of roles
      * @return List of widget containers
      */
-    private List<MMCWidgetContainer> getEntityWidgetContainers(Map<RoleEntityNameContainer, MMCWidgetContainer> widgetContainerMap,
+    private List<Widget> getEntityWidgetContainers(Map<RoleEntityNameContainer, Widget> widgetContainerMap,
                                                          String entityName, List<RoleEntityDto> roles) {
-        List<MMCWidgetContainer> result = new ArrayList<>();
+        List<Widget> result = new ArrayList<>();
         for (RoleEntityDto role : roles) {
-            MMCWidgetContainer widgetContainer = widgetContainerMap.get(new RoleEntityNameContainer(role, entityName));
+            Widget widgetContainer = widgetContainerMap.get(new RoleEntityNameContainer(role, entityName));
             if (widgetContainer != null) {
                 result.add(widgetContainer);
             }
         }
         if (result.isEmpty()) {
-            MMCWidgetContainer widgetContainer = widgetContainerMap.get(new RoleEntityNameContainer(EMPTY_ROLE, entityName));
+            Widget widgetContainer = widgetContainerMap.get(new RoleEntityNameContainer(EMPTY_ROLE, entityName));
             if (widgetContainer != null) {
                 result.add(widgetContainer);
             }
@@ -477,7 +504,7 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
      * @param widgetType Widget type
      * @return Widget container map
      */
-    private Map<RoleEntityDto, MMCWidgetContainer> getMapContainer(WidgetType widgetType) {
+    private Map<RoleEntityDto, Widget> getMapContainer(WidgetType widgetType) {
         if (widgetType == WidgetType.TREE_NODES_VIEW) {
             return treeNodesViewWidgets;
         }
@@ -489,7 +516,7 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
      * @param widgetType Widget type
      * @return Widget container map
      */
-    private Map<RoleEntityNameContainer, MMCWidgetContainer> getEntityMapContainer(WidgetType widgetType) {
+    private Map<RoleEntityNameContainer, Widget> getEntityMapContainer(WidgetType widgetType) {
         if (widgetType == WidgetType.LIST_VIEW) {
             return listViewWidgets;
         }

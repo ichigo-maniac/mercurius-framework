@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.w3c.dom.Node;
 
 /**
  * Mercurius manager console application controller (mercurius-mmc)
@@ -46,10 +45,9 @@ public class MMCApplicationController {
         }
         mmcApplicationService.rebuild();
         /** Get necessary widgets */
-        Node treeView = mmcApplicationService.getWidgetXmlElement(WidgetType.TREE_NODES_VIEW);
+        TreeNodesViewWidget treeView = (TreeNodesViewWidget) mmcApplicationService.getWidgetXmlElement(WidgetType.TREE_NODES_VIEW);
         if (treeView != null) {
-            TreeNodesViewWidget treeNodesViewWidget = new TreeNodesViewWidget(treeView);
-            model.addAttribute("treeView", treeNodesViewWidget);
+            model.addAttribute("treeView", treeView);
         }
         return MercuriusMMCConstants.JSP_TEMPLATES.MAIN_VIEW_JSP;
     }

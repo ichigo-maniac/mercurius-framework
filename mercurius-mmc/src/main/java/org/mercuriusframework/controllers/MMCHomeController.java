@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletException;
+
 /**
  * Mercurius manager console home controller (mercurius-mmc)
  */
@@ -49,5 +51,15 @@ public class MMCHomeController {
             redirectAttributes.addAttribute("errorLogin", true);
             return "redirect:" + MercuriusMMCConstants.URLS.BASE_PATH;
         }
+    }
+
+    /**
+     * Logout employee
+     * @return View path
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/logout")
+    public String logOut() throws ServletException {
+        userFacade.logOutCurrentUser();
+        return "redirect:" + MercuriusMMCConstants.URLS.BASE_PATH;
     }
 }
