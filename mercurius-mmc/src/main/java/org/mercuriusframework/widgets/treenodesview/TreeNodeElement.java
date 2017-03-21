@@ -26,11 +26,7 @@ public class TreeNodeElement extends TreeNode {
         /** Title */
         String titleCode = xmlElement.getAttributes().getNamedItem(
                 MercuriusMMCWidgetsConstants.TreeNodesView.TreeNode.TITLE).getNodeValue();
-        try {
-            this.title = MessageSourceProvider.getMessage(titleCode);
-        } catch (NoSuchMessageException exception) {
-            this.title = "[" + titleCode + "]";
-        }
+        this.title = MessageSourceProvider.getMessage(titleCode);
         /** Nodes */
         this.nodes = new ArrayList<>();
         /** Parse child elements */

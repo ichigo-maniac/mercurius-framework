@@ -41,16 +41,12 @@ public class TableViewColumn {
                 MercuriusMMCWidgetsConstants.ListView.TableView.Column.TITLE) != null ?
                 columnXmlElement.getAttributes().getNamedItem(
                         MercuriusMMCWidgetsConstants.ListView.TableView.Column.TITLE).getNodeValue() : "";
-        try {
-            if (StringUtils.isEmpty(titleCode)) {
-                String entityName = parent.getParent().getEntityName();
-                titleCode = MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName +
-                        MercuriusConstants.LOCALIZATION.ENTITY_PROPERTY_SUFFIX + property;
-            }
-            this.title = MessageSourceProvider.getMessage(titleCode);
-        } catch (NoSuchMessageException exception) {
-            this.title = "[" + titleCode + "]";
+        if (StringUtils.isEmpty(titleCode)) {
+            String entityName = parent.getParent().getEntityName();
+            titleCode = MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName +
+                    MercuriusConstants.LOCALIZATION.ENTITY_PROPERTY_SUFFIX + property;
         }
+        this.title = MessageSourceProvider.getMessage(titleCode);
     }
 
     /**

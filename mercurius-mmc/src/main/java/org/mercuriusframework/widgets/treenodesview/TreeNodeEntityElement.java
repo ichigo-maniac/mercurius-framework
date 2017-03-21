@@ -30,14 +30,10 @@ public class TreeNodeEntityElement extends TreeNode {
                 MercuriusMMCWidgetsConstants.TreeNodesView.TreeNodeEntityElement.TITLE) != null ?
                 xmlElement.getAttributes().getNamedItem(
                         MercuriusMMCWidgetsConstants.TreeNodesView.TreeNodeEntityElement.TITLE).getNodeValue() : "";
-        try {
-            if (StringUtils.isEmpty(titleCode)) {
-                titleCode = MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName + MercuriusConstants.LOCALIZATION.ENTITY_SUFFIX;
-            }
-            this.title = MessageSourceProvider.getMessage(titleCode);
-        } catch (NoSuchMessageException exception) {
-            this.title = "[" + titleCode + "]";
+        if (StringUtils.isEmpty(titleCode)) {
+            titleCode = MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName + MercuriusConstants.LOCALIZATION.ENTITY_SUFFIX;
         }
+        this.title = MessageSourceProvider.getMessage(titleCode);
     }
 
     /**
