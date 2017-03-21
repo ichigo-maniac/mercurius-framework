@@ -31,4 +31,13 @@ public class MercuriusConstants {
         public static final String DEFAULT_CURRENCY = "defaultCurrency";
         public static final String CURRENT_USER = "currentUser";
     }
+
+    /**
+     * Localization constants
+     */
+    public class LOCALIZATION {
+        public static final String ENTITY_PREFIX = "entity.";
+        public static final String ENTITY_SUFFIX = ".title";
+        public static final String ENTITY_PROPERTY_SUFFIX = ".property.";
+    }
 }

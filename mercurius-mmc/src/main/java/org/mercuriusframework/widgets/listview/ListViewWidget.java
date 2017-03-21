@@ -16,18 +16,27 @@ public class ListViewWidget extends Widget {
     private TableView tableView;
 
     /**
+     * Entity name
+     */
+    private String entityName;
+
+    /**
      * Constructor
      * @param listViewElement List view xml element
      * @param priority Priority
      */
     public ListViewWidget(Node listViewElement, Integer priority) {
+        /** Entity name */
+        this.entityName = listViewElement.getAttributes().getNamedItem(
+                MercuriusMMCWidgetsConstants.ListView.ENTITY_NAME).getNodeValue();
+        /** Priority */
         this.setPriority(priority);
         /** Table view */
         NodeList nodeList = listViewElement.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node currentNode = nodeList.item(i);
             if (currentNode.getNodeName().equals(MercuriusMMCWidgetsConstants.ListView.TableView.WIDGET_NAME)) {
-                this.tableView = new TableView(currentNode);
+                this.tableView = new TableView(currentNode, this);
                 break;
             }
         }
@@ -47,5 +56,21 @@ public class ListViewWidget extends Widget {
      */
     public void setTableView(TableView tableView) {
         this.tableView = tableView;
+    }
+
+    /**
+     * Get entity name
+     * @return Entity name
+     */
+    public String getEntityName() {
+        return entityName;
+    }
+
+    /**
+     * Set entity name
+     * @param entityName Entity name
+     */
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 }

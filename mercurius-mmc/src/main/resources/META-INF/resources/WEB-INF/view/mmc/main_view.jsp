@@ -21,7 +21,7 @@
                 <i class="material-icons">more_vert</i>
             </button>
             <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-                <a href="<c:url value="/mmc/logout"/>"><li class="mdl-menu__item">Log out</li></a>
+                <a href="<c:url value="/mmc/logout"/>"><li class="mdl-menu__item"><spring:message code="mmc.logout.button.label"/></li></a>
             </ul>
         </div>
     </header>

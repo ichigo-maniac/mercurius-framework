@@ -39,7 +39,7 @@
     <!-- Tree node entity element -->
     <xs:complexType name="tree-node-entity-element">
         <!-- Attributes -->
-        <xs:attribute name="title" type="xs:string" use="required"/>
+        <xs:attribute name="title" type="xs:string" use="optional"/>
         <xs:attribute name="entity-name" type="xs:string" use="required"/>
     </xs:complexType>
     
@@ -64,7 +64,7 @@
     <!-- Table view column -->
     <xs:complexType name="table-view-column">
         <!-- Attributes -->
-        <xs:attribute name="title" type="xs:string" use="required"/>
+        <xs:attribute name="title" type="xs:string" use="optional"/>
         <xs:attribute name="property" type="xs:string" use="required"/>
     </xs:complexType>
 

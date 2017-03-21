@@ -1,6 +1,10 @@
 package org.mercuriusframework.widgets.treenodesview;
 
+import org.apache.commons.lang.StringUtils;
+import org.mercuriusframework.constants.MercuriusConstants;
 import org.mercuriusframework.constants.MercuriusMMCWidgetsConstants;
+import org.mercuriusframework.helpers.MessageSourceProvider;
+import org.springframework.context.NoSuchMessageException;
 import org.w3c.dom.Node;
 
 /**
@@ -18,10 +22,22 @@ public class TreeNodeEntityElement extends TreeNode {
      * @param xmlElement XML element
      */
     public TreeNodeEntityElement(Node xmlElement) {
-        this.title = xmlElement.getAttributes().getNamedItem(
-                MercuriusMMCWidgetsConstants.TreeNodesView.TreeNodeEntityElement.TITLE).getNodeValue();
+        /** Entity name */
         this.entityName = xmlElement.getAttributes().getNamedItem(
                 MercuriusMMCWidgetsConstants.TreeNodesView.TreeNodeEntityElement.ENTITY_NAME).getNodeValue();
+        /** Title */
+        String titleCode = xmlElement.getAttributes().getNamedItem(
+                MercuriusMMCWidgetsConstants.TreeNodesView.TreeNodeEntityElement.TITLE) != null ?
+                xmlElement.getAttributes().getNamedItem(
+                        MercuriusMMCWidgetsConstants.TreeNodesView.TreeNodeEntityElement.TITLE).getNodeValue() : "";
+        try {
+            if (StringUtils.isEmpty(titleCode)) {
+                titleCode = MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName + MercuriusConstants.LOCALIZATION.ENTITY_SUFFIX;
+            }
+            this.title = MessageSourceProvider.getMessage(titleCode);
+        } catch (NoSuchMessageException exception) {
+            this.title = "[" + titleCode + "]";
+        }
     }
 
     /**

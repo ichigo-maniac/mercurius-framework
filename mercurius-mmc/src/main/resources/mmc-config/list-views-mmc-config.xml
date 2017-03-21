@@ -4,83 +4,83 @@
 
     <list-view entity-name="Catalog" priority="0">
         <table-view>
-            <column title="UUID" property="uuid"/>
-            <column title="Code" property="code"/>
-            <column title="Name" property="name"/>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
         </table-view>
     </list-view>
 
     <list-view entity-name="Product" priority="0">
         <table-view>
-            <column title="UUID" property="uuid"/>
-            <column title="Code" property="code"/>
-            <column title="Name" property="name"/>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
         </table-view>
     </list-view>
 
     <list-view entity-name="Category" priority="0">
         <table-view>
-            <column title="UUID" property="uuid"/>
-            <column title="Code" property="code"/>
-            <column title="Name" property="name"/>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
         </table-view>
     </list-view>
 
     <list-view entity-name="Unit" priority="0">
         <table-view>
-            <column title="UUID" property="uuid"/>
-            <column title="Code" property="code"/>
-            <column title="Name" property="name"/>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
         </table-view>
     </list-view>
 
     <list-view entity-name="Store" priority="0">
         <table-view>
-            <column title="UUID" property="uuid"/>
-            <column title="Code" property="code"/>
-            <column title="Name" property="name"/>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
         </table-view>
     </list-view>
 
     <list-view entity-name="Warehouse" priority="0">
         <table-view>
-            <column title="UUID" property="uuid"/>
-            <column title="Code" property="code"/>
-            <column title="Name" property="name"/>
-            <column title="Is warehouse enabled" property="enabled"/>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
+            <column property="enabled"/>
         </table-view>
     </list-view>
 
     <list-view entity-name="Stock" priority="0">
         <table-view>
-            <column title="UUID" property="uuid"/>
-            <column title="Code" property="code"/>
-            <column title="Name" property="name"/>
-            <column title="Count" property="count"/>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
+            <column property="count"/>
         </table-view>
     </list-view>
 
     <list-view entity-name="Employee" priority="0">
         <table-view>
-            <column title="UUID" property="uuid"/>
-            <column title="Code" property="code"/>
-            <column title="Name" property="name"/>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
         </table-view>
     </list-view>
 
     <list-view entity-name="Customer" priority="0">
         <table-view>
-            <column title="UUID" property="uuid"/>
-            <column title="Code" property="code"/>
-            <column title="Name" property="name"/>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
         </table-view>
     </list-view>
 
     <list-view entity-name="Role" priority="0">
         <table-view>
-            <column title="UUID" property="uuid"/>
-            <column title="Code" property="code"/>
-            <column title="Name" property="name"/>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
         </table-view>
     </list-view>
 

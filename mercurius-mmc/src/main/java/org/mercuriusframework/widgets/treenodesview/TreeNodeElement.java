@@ -1,6 +1,8 @@
 package org.mercuriusframework.widgets.treenodesview;
 
 import org.mercuriusframework.constants.MercuriusMMCWidgetsConstants;
+import org.mercuriusframework.helpers.MessageSourceProvider;
+import org.springframework.context.NoSuchMessageException;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
@@ -21,8 +23,15 @@ public class TreeNodeElement extends TreeNode {
      * @param xmlElement XML element
      */
     public TreeNodeElement(Node xmlElement) {
-        this.title = xmlElement.getAttributes().getNamedItem(
+        /** Title */
+        String titleCode = xmlElement.getAttributes().getNamedItem(
                 MercuriusMMCWidgetsConstants.TreeNodesView.TreeNode.TITLE).getNodeValue();
+        try {
+            this.title = MessageSourceProvider.getMessage(titleCode);
+        } catch (NoSuchMessageException exception) {
+            this.title = "[" + titleCode + "]";
+        }
+        /** Nodes */
         this.nodes = new ArrayList<>();
         /** Parse child elements */
         if (xmlElement.getChildNodes() != null) {
