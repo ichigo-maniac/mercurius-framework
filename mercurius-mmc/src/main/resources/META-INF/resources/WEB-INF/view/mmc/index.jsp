@@ -20,13 +20,19 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <div class="panel panel-primary">
+                    <div <c:choose>
+                            <c:when test="${param.errorLogin}">class="panel panel-danger"</c:when>
+                            <c:otherwise>class="panel panel-primary"</c:otherwise>
+                         </c:choose>>
                         <div class="panel-heading"><spring:message code="mmc.login.title"/></div>
                         <%-- Form --%>
                         <div class="panel-body">
                             <form:form method="POST" action="/mmc/login">
                                 <div class="form-group">
-                                    <label for="username"><spring:message code="mmc.login.username"/></label>
+                                    <label for="username">
+                                        <spring:message code="mmc.login.username"/>
+                                        <c:if test="${param.errorLogin}"><span style="color: red"> - <spring:message code="mmc.login.error.label"/></span></c:if>
+                                    </label>
                                     <input type="text" class="form-control" id="username" name="username">
                                 </div>
                                 <div class="form-group">
