@@ -23,7 +23,8 @@
             <c:forEach var="item" items="${dataResult.entries}">
                 <tr>
                     <c:forEach var="currentColumn" items="${listView.tableView.columns}">
-                        <td><c:out value="${item[currentColumn.property]}"/>
+                        <td>
+                            <c:out value="${item[currentColumn.property]}"/>
                         </td>
                     </c:forEach>
                 </tr>

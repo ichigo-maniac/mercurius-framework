@@ -6,7 +6,7 @@
 <div class="pull-right">
     <%-- Entities count --%>
     <span>
-        Total entities count : <b><c:out value="${dataResult.totalEntriesCount}"/></b>
+        <spring:message code="mmc.list.view.total.count.label"/> : <b><c:out value="${dataResult.totalEntriesCount}"/></b>
     </span>
     <%-- Pages --%>
     <c:if test="${dataResult.pagesCount > 1}">

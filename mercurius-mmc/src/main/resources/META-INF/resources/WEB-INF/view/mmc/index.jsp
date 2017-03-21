@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    <title>Mercurius manager console</title>
+    <title><spring:message code="mmc.login.title"/></title>
     <jsp:include page="/WEB-INF/view/mmc/common/css_style_libraries.jsp"/>
     <link rel="stylesheet" href="/resources/mmc_app/css/styles.css"/>
 </head>
@@ -21,20 +21,20 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <div class="panel panel-primary">
-                        <div class="panel-heading">Mercurius manager console login</div>
+                        <div class="panel-heading"><spring:message code="mmc.login.title"/></div>
                         <%-- Form --%>
                         <div class="panel-body">
                             <form:form method="POST" action="/mmc/login">
                                 <div class="form-group">
-                                    <label for="username">Username</label>
+                                    <label for="username"><spring:message code="mmc.login.username"/></label>
                                     <input type="text" class="form-control" id="username" name="username">
                                 </div>
                                 <div class="form-group">
-                                    <label for="password">Password</label>
+                                    <label for="password"><spring:message code="mmc.login.password"/></label>
                                     <input type="password" class="form-control" id="password" name="password">
                                 </div>
                                 <div class="form-group" style="text-align: right">
-                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="submit" class="btn btn-success"><spring:message code="mmc.login.button.label"/></button>
                                 </div>
                             </form:form>
                         </div>

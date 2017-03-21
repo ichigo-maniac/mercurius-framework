@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    <title>Mercurius manager console</title>
+    <title><spring:message code="mmc.login.title"/></title>
     <jsp:include page="/WEB-INF/view/mmc/common/css_style_libraries.jsp"/>
     <link rel="stylesheet" href="/resources/mmc_app/css/mmc-styles.css"/>
 </head>
