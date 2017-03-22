@@ -19,7 +19,8 @@ public class LocalizationConfiguration {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasenames(
                 "classpath:localization/mercurius-core-labels",
-                "classpath:localization/mercurius-mmc-labels"
+                "classpath:localization/mercurius-mmc-labels",
+                "classpath:localization/mercurius-data-import-labels"
         );
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
