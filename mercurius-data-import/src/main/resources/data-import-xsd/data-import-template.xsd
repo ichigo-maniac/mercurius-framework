@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           targetNamespace="http://mercurius-framework.org/data-import"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Main element -->
+    <xs:element name="data-import" type="data-import"/>
+
+    <xs:complexType name="data-import">
+        <xs:sequence>
+            <xs:element name="insert" type="insert" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Insert element -->
+    <xs:complexType name="insert">
+        <xs:sequence>
+            <xs:element name="values" type="insert-values" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="common-values" type="insert-common-values" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <!-- Attributes -->
+        <xs:attribute name="entity-name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!-- Common insert values element -->
+    <xs:complexType name="insert-common-values">
+        <xs:sequence>
+            <xs:sequence>
+                <xs:element name="column" type="entity-column" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Insert value element -->
+    <xs:complexType name="insert-values">
+        <xs:sequence>
+            <xs:element name="value" type="insert-value" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Insert value (entity) element -->
+    <xs:complexType name="insert-value">
+        <xs:sequence>
+            <xs:element name="column" type="entity-column" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Entity column element -->
+    <xs:complexType name="entity-column">
+        <!-- Attributes -->
+        <xs:attribute name="property" type="xs:string" use="required"/>
+        <xs:attribute name="value-import-bean" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+
+</xs:schema>
