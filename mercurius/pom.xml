@@ -13,6 +13,7 @@
     <modules>
         <module>../mercurius-core</module>
         <module>../mercurius-mmc</module>
+        <module>../mercurius-data-import</module>
     </modules>
 
     <!-- Properties -->

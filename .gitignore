@@ -9,3 +9,9 @@ mercurius-core/target
 mercurius-mmc/.idea
 mercurius-mmc/*.iml
 mercurius-mmc/target
+
+mercurius-data-import/.idea
+mercurius-data-import/*.iml
+mercurius-data-import/target
+
+
