@@ -17,5 +17,6 @@ public class MercuriusDataImportConstants {
      */
     public class JSP_TEMPLATES {
         public static final String HOME_JSP = "dataimport/index";
+        public static final String MAIN_VIEW_JSP = "dataimport/main_view";
     }
 }
