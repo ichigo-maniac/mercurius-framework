@@ -1,4 +1,4 @@
-package org.mercuriusframework.constants;
+package org.mercuriusframework.dataimport.constants;
 
 /**
  * Mercurius data import component constants

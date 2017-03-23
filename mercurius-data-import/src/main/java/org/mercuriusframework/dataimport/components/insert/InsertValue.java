@@ -1,6 +1,6 @@
-package org.mercuriusframework.components.insert;
+package org.mercuriusframework.dataimport.components.insert;
 
-import org.mercuriusframework.components.common.ImportColumn;
+import org.mercuriusframework.dataimport.components.common.ImportColumn;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 

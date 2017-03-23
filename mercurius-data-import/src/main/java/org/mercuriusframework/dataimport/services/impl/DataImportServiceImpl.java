@@ -1,12 +1,12 @@
-package org.mercuriusframework.services.impl;
+package org.mercuriusframework.dataimport.services.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.mercuriusframework.components.AbstractImportComponent;
-import org.mercuriusframework.components.insert.InsertImportComponent;
-import org.mercuriusframework.constants.MercuriusDataImportComponentConstants;
+import org.mercuriusframework.dataimport.components.AbstractImportComponent;
+import org.mercuriusframework.dataimport.components.insert.InsertImportComponent;
+import org.mercuriusframework.dataimport.constants.MercuriusDataImportComponentConstants;
+import org.mercuriusframework.dataimport.services.DataImportService;
 import org.mercuriusframework.services.AnnotationService;
-import org.mercuriusframework.services.DataImportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

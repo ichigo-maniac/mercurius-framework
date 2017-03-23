@@ -1,6 +1,6 @@
-package org.mercuriusframework.components.common;
+package org.mercuriusframework.dataimport.components.common;
 
-import org.mercuriusframework.constants.MercuriusDataImportComponentConstants;
+import org.mercuriusframework.dataimport.constants.MercuriusDataImportComponentConstants;
 import org.w3c.dom.Node;
 
 /**

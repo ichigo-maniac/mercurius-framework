@@ -1,4 +1,4 @@
-package org.mercuriusframework.components;
+package org.mercuriusframework.dataimport.components;
 
 /**
  * Abstract import component

@@ -1,8 +1,8 @@
-package org.mercuriusframework.controllers;
+package org.mercuriusframework.dataimport.controllers;
 
-import org.mercuriusframework.constants.MercuriusDataImportConstants;
+import org.mercuriusframework.dataimport.constants.MercuriusDataImportConstants;
+import org.mercuriusframework.dataimport.services.DataImportService;
 import org.mercuriusframework.facades.UserFacade;
-import org.mercuriusframework.services.DataImportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package org.mercuriusframework.services;
+package org.mercuriusframework.dataimport.services;
 
 /**
  * Data import service interface
