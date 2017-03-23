@@ -33,8 +33,10 @@ public class TableView {
         NodeList nodeList = tableViewXmlElement.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node currentNode = nodeList.item(i);
-            if (currentNode.getNodeName().equals(MercuriusMMCWidgetsConstants.ListView.TableView.Column.WIDGET_NAME)) {
-                columns.add(new TableViewColumn(currentNode, this));
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+                if (currentNode.getNodeName().equals(MercuriusMMCWidgetsConstants.ListView.TableView.Column.WIDGET_NAME)) {
+                    columns.add(new TableViewColumn(currentNode, this));
+                }
             }
         }
     }

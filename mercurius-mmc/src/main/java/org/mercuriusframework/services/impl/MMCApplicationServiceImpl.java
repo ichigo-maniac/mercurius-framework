@@ -219,15 +219,17 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
         NodeList treeViews = configElement.getElementsByTagName(MercuriusMMCWidgetsConstants.TreeNodesView.WIDGET_NAME);
         for (int i = 0; i < treeViews.getLength(); i++) {
             Node treeViewNode = treeViews.item(i);
-            /** Priority */
-            Node priorityNode = treeViewNode.getAttributes().getNamedItem(MercuriusMMCWidgetsConstants.TreeNodesView.PRIORITY);
-            String priorityValue = priorityNode != null ? priorityNode.getNodeValue() : "0";
-            Integer priority = Integer.valueOf(priorityValue);
-            /** Roles */
-            Node rolesNode = treeViewNode.getAttributes().getNamedItem(MercuriusMMCWidgetsConstants.TreeNodesView.ROLES);
-            String rolesValue = rolesNode != null ? rolesNode.getNodeValue() : null;
-            /** Update map */
-            updateViewMap(rolesValue, treeNodesViewWidgetsContainers, new MMCWidgetContainer(treeViewNode, priority));
+            if (treeViewNode.getNodeType() == Node.ELEMENT_NODE) {
+                /** Priority */
+                Node priorityNode = treeViewNode.getAttributes().getNamedItem(MercuriusMMCWidgetsConstants.TreeNodesView.PRIORITY);
+                String priorityValue = priorityNode != null ? priorityNode.getNodeValue() : "0";
+                Integer priority = Integer.valueOf(priorityValue);
+                /** Roles */
+                Node rolesNode = treeViewNode.getAttributes().getNamedItem(MercuriusMMCWidgetsConstants.TreeNodesView.ROLES);
+                String rolesValue = rolesNode != null ? rolesNode.getNodeValue() : null;
+                /** Update map */
+                updateViewMap(rolesValue, treeNodesViewWidgetsContainers, new MMCWidgetContainer(treeViewNode, priority));
+            }
         }
     }
 
@@ -239,29 +241,31 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
         NodeList listViews = configElement.getElementsByTagName(MercuriusMMCWidgetsConstants.ListView.WIDGET_NAME);
         for (int i = 0; i < listViews.getLength(); i++) {
             Node listViewNode = listViews.item(i);
-            /** Priority */
-            Node priorityNode = listViewNode.getAttributes().getNamedItem(MercuriusMMCWidgetsConstants.ListView.PRIORITY);
-            String priorityValue = priorityNode != null ? priorityNode.getNodeValue() : "0";
-            Integer priority = Integer.valueOf(priorityValue);
-            /** Roles */
-            Node rolesNode = listViewNode.getAttributes().getNamedItem(MercuriusMMCWidgetsConstants.ListView.ROLES);
-            String rolesValue = rolesNode != null ? rolesNode.getNodeValue() : null;
-            /** Entity name */
-            Node entityNameNode = listViewNode.getAttributes().getNamedItem(MercuriusMMCWidgetsConstants.ListView.ENTITY_NAME);
-            String entityName = entityNameNode != null ? entityNameNode.getNodeValue() : null;
-            if (StringUtils.isEmpty(entityName)) {
-                LOGGER.error("MMC CONFIG ERROR - element \"{}\"  must have \"{}\" attribute ",
-                        MercuriusMMCWidgetsConstants.ListView.WIDGET_NAME, MercuriusMMCWidgetsConstants.ListView.ENTITY_NAME);
-                continue;
-            } else {
-                if (!annotationService.isEntityClassExist(entityName)) {
-                    LOGGER.error("MMC CONFIG ERROR - entity \"{}\" doesn't exist (no class with annotation @Entity(name = \"{}\") ",
-                            entityName, entityName);
+            if (listViewNode.getNodeType() == Node.ELEMENT_NODE) {
+                /** Priority */
+                Node priorityNode = listViewNode.getAttributes().getNamedItem(MercuriusMMCWidgetsConstants.ListView.PRIORITY);
+                String priorityValue = priorityNode != null ? priorityNode.getNodeValue() : "0";
+                Integer priority = Integer.valueOf(priorityValue);
+                /** Roles */
+                Node rolesNode = listViewNode.getAttributes().getNamedItem(MercuriusMMCWidgetsConstants.ListView.ROLES);
+                String rolesValue = rolesNode != null ? rolesNode.getNodeValue() : null;
+                /** Entity name */
+                Node entityNameNode = listViewNode.getAttributes().getNamedItem(MercuriusMMCWidgetsConstants.ListView.ENTITY_NAME);
+                String entityName = entityNameNode != null ? entityNameNode.getNodeValue() : null;
+                if (StringUtils.isEmpty(entityName)) {
+                    LOGGER.error("MMC CONFIG ERROR - element \"{}\"  must have \"{}\" attribute ",
+                            MercuriusMMCWidgetsConstants.ListView.WIDGET_NAME, MercuriusMMCWidgetsConstants.ListView.ENTITY_NAME);
                     continue;
+                } else {
+                    if (!annotationService.isEntityClassExist(entityName)) {
+                        LOGGER.error("MMC CONFIG ERROR - entity \"{}\" doesn't exist (no class with annotation @Entity(name = \"{}\") ",
+                                entityName, entityName);
+                        continue;
+                    }
                 }
+                /** Update map */
+                updateEntityViewMap(rolesValue, entityName, listViewWidgetsContainers, new MMCWidgetContainer(listViewNode, priority));
             }
-            /** Update map */
-            updateEntityViewMap(rolesValue, entityName, listViewWidgetsContainers, new MMCWidgetContainer(listViewNode, priority));
         }
     }
 

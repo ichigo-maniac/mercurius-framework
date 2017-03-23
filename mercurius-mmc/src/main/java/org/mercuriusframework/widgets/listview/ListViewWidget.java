@@ -35,9 +35,11 @@ public class ListViewWidget extends Widget {
         NodeList nodeList = listViewElement.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node currentNode = nodeList.item(i);
-            if (currentNode.getNodeName().equals(MercuriusMMCWidgetsConstants.ListView.TableView.WIDGET_NAME)) {
-                this.tableView = new TableView(currentNode, this);
-                break;
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+                if (currentNode.getNodeName().equals(MercuriusMMCWidgetsConstants.ListView.TableView.WIDGET_NAME)) {
+                    this.tableView = new TableView(currentNode, this);
+                    break;
+                }
             }
         }
     }

@@ -26,9 +26,9 @@ public class TreeNodesViewWidget extends Widget {
         this.setPriority(priority);
         this.nodes = new ArrayList<>();
         /** Parse tree node */
-        if (treeNode.getChildNodes() != null) {
-            for (int i = 0; i < treeNode.getChildNodes().getLength(); i++) {
-                Node nodeElement = treeNode.getChildNodes().item(i);
+        for (int i = 0; i < treeNode.getChildNodes().getLength(); i++) {
+            Node nodeElement = treeNode.getChildNodes().item(i);
+            if (nodeElement.getNodeType() == Node.ELEMENT_NODE) {
                 if (nodeElement.getNodeName().equals(MercuriusMMCWidgetsConstants.TreeNodesView.TreeNode.WIDGET_NAME)) {
                     nodes.add(new TreeNodeElement(nodeElement));
                 }

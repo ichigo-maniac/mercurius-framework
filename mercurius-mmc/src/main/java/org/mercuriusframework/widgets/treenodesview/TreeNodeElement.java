@@ -30,9 +30,9 @@ public class TreeNodeElement extends TreeNode {
         /** Nodes */
         this.nodes = new ArrayList<>();
         /** Parse child elements */
-        if (xmlElement.getChildNodes() != null) {
-            for (int i = 0; i < xmlElement.getChildNodes().getLength(); i++) {
-                Node nodeElement = xmlElement.getChildNodes().item(i);
+        for (int i = 0; i < xmlElement.getChildNodes().getLength(); i++) {
+            Node nodeElement = xmlElement.getChildNodes().item(i);
+            if (nodeElement.getNodeType() == Node.ELEMENT_NODE) {
                 if (nodeElement.getNodeName().equals(MercuriusMMCWidgetsConstants.TreeNodesView.TreeNode.WIDGET_NAME)) {
                     nodes.add(new TreeNodeElement(nodeElement));
                 }
