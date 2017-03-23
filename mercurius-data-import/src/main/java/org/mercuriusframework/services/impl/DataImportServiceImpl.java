@@ -5,7 +5,10 @@ import org.apache.logging.log4j.Logger;
 import org.mercuriusframework.components.AbstractImportComponent;
 import org.mercuriusframework.components.insert.InsertImportComponent;
 import org.mercuriusframework.constants.MercuriusDataImportComponentConstants;
+import org.mercuriusframework.services.AnnotationService;
 import org.mercuriusframework.services.DataImportService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,6 +36,13 @@ public class DataImportServiceImpl implements DataImportService {
     private static final Logger LOGGER = LogManager.getRootLogger();
 
     /**
+     * Annotation service
+     */
+    @Autowired
+    @Qualifier("annotationService")
+    protected AnnotationService annotationService;
+
+    /**
      * Import data
      * @param xmlStringValue Xml string value
      * @return Log result
@@ -47,7 +57,7 @@ public class DataImportServiceImpl implements DataImportService {
             xmlBuilder = dbFactory.newDocumentBuilder();
         } catch (ParserConfigurationException exception) {
             LOGGER.error(exception);
-            return exception.getMessage();
+            return "IMPORT ERROR - " + exception.getMessage();
         }
         /** Parse string value */
         Document document = null;
@@ -55,10 +65,10 @@ public class DataImportServiceImpl implements DataImportService {
             document = xmlBuilder.parse(inputStream);
         } catch (SAXException exception) {
             LOGGER.error(exception);
-            return exception.getMessage();
+            return "IMPORT ERROR - " + exception.getMessage();
         } catch (IOException exception) {
             LOGGER.error(exception);
-            return exception.getMessage();
+            return "IMPORT ERROR - " + exception.getMessage();
         }
         /** Import data */
         return importDocument(document);
@@ -83,7 +93,15 @@ public class DataImportServiceImpl implements DataImportService {
             if (childNodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
                 AbstractImportComponent component = parseNode(childNodes.item(i), log);
                 if (component != null) {
-                    components.add(component);
+                    if (!annotationService.isEntityClassExist(component.getEntityName())) {
+                        LOGGER.error("IMPORT ERROR - entity \"{}\" doesn't exist (no class with annotation @Entity(name = \"{}\")",
+                                component.getEntityName(), component.getEntityName());
+                        log.append("IMPORT ERROR - entity \"" + component.getEntityName() + "\" doesn't exist (no class with annotation" +
+                                " @Entity(name = \"" + component.getEntityName() + "\")\n");
+                        continue;
+                    } else {
+                        components.add(component);
+                    }
                 }
             }
         }
@@ -107,7 +125,7 @@ public class DataImportServiceImpl implements DataImportService {
             return null;
         }
         LOGGER.error("IMPORT ERROR - no available import configuration \"{}\"", xmlElement.getNodeName());
-        log.append("IMPORT ERROR - no available import configuration \"" + xmlElement.getNodeName() + "\"");
+        log.append("IMPORT ERROR - no available import configuration \"" + xmlElement.getNodeName() + "\"\n");
         return null;
     }
 }
