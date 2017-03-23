@@ -1,5 +1,5 @@
 <%@tag body-content="empty" trimDirectiveWhitespaces="true" %>
-<%@attribute name="treeNode" required="true" type="org.mercuriusframework.widgets.treenodesview.TreeNodeEntityElement" %>
+<%@attribute name="treeNode" required="true" type="org.mercuriusframework.mmc.widgets.treenodesview.TreeNodeEntityElement" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%-- Tree element --%>

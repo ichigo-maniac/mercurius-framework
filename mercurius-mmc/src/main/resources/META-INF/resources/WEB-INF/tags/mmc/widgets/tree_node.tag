@@ -1,5 +1,5 @@
 <%@tag body-content="empty" trimDirectiveWhitespaces="true" %>
-<%@attribute name="treeNode" required="true" type="org.mercuriusframework.widgets.treenodesview.TreeNodeElement" %>
+<%@attribute name="treeNode" required="true" type="org.mercuriusframework.mmc.widgets.treenodesview.TreeNodeElement" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="widgets" tagdir="/WEB-INF/tags/mmc/widgets"%>
 
