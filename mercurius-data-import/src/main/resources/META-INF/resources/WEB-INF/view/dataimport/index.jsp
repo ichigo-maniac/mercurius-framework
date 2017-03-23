@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    <title>Data import</title>
+    <title><spring:message code="dataimport.login.title"/></title>
     <jsp:include page="/WEB-INF/view/dataimport/common/css_style_libraries.jsp"/>
     <link rel="stylesheet" href="/resources/dataimport_app/css/styles.css"/>
 </head>

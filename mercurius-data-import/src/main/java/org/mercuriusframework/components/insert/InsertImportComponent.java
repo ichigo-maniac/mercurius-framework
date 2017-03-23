@@ -39,23 +39,31 @@ public class InsertImportComponent extends AbstractImportComponent {
         NodeList childNodes = xmlElement.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node node = childNodes.item(i);
-            if (node.getNodeName().equals(MercuriusDataImportComponentConstants.Insert.COMMON_VALUES)) {
-                NodeList commonValuesNodeList = node.getChildNodes();
-                for (int j = 0; j < commonValuesNodeList.getLength(); i++) {
-                    commonColumns.add(new ImportColumn(commonValuesNodeList.item(j)));
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                if (node.getNodeName().equals(MercuriusDataImportComponentConstants.Insert.COMMON_VALUES)) {
+                    NodeList commonValuesNodeList = node.getChildNodes();
+                    for (int j = 0; j < commonValuesNodeList.getLength(); j++) {
+                        if (commonValuesNodeList.item(j).getNodeType() == Node.ELEMENT_NODE) {
+                            commonColumns.add(new ImportColumn(commonValuesNodeList.item(j)));
+                        }
+                    }
+                    break;
                 }
-                break;
             }
         }
         /** Parse values */
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node node = childNodes.item(i);
-            if (node.getNodeName().equals(MercuriusDataImportComponentConstants.Insert.VALUES)) {
-                NodeList valuesNodeList = node.getChildNodes();
-                for (int j = 0; j < valuesNodeList.getLength(); i++) {
-                    values.add(new InsertValue(valuesNodeList.item(j)));
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                if (node.getNodeName().equals(MercuriusDataImportComponentConstants.Insert.VALUES)) {
+                    NodeList valuesNodeList = node.getChildNodes();
+                    for (int j = 0; j < valuesNodeList.getLength(); j++) {
+                        if (valuesNodeList.item(j).getNodeType() == Node.ELEMENT_NODE) {
+                            values.add(new InsertValue(valuesNodeList.item(j)));
+                        }
+                    }
+                    break;
                 }
-                break;
             }
         }
     }

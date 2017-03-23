@@ -25,7 +25,9 @@ public class InsertValue {
         /** Parse columns */
         NodeList nodeList = xmlElement.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
-            columns.add(new ImportColumn(xmlElement));
+            if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                columns.add(new ImportColumn(nodeList.item(i)));
+            }
         }
     }
 
