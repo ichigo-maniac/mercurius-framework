@@ -32,6 +32,7 @@
         <common.lang.version>2.6</common.lang.version>
         <javassist.version>3.19.0-GA</javassist.version>
         <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
+        <ostermiller.utils.version>1.07.00</ostermiller.utils.version>
         <!-- Libraries -->
         <spring.version>4.2.1.RELEASE</spring.version>
         <spring.security.version>4.2.1.RELEASE</spring.security.version>
@@ -109,6 +110,12 @@
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>${common.lang.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ostermiller</groupId>
+            <artifactId>utils</artifactId>
+            <version>${ostermiller.utils.version}</version>
         </dependency>
 
         <dependency>

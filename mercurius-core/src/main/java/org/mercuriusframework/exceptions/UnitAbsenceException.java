@@ -1,5 +1,7 @@
 package org.mercuriusframework.exceptions;
 
+import com.Ostermiller.util.StringHelper;
+
 /**
  * Unit absence exception
  */
@@ -10,7 +12,7 @@ public class UnitAbsenceException extends RuntimeException {
      * @param unitCode Not-existing unit code
      */
     public UnitAbsenceException(String unitCode) {
-        super("Unit with code \"" + unitCode + "\" doesn't exist");
+        super("Unit with code \"" + StringHelper.escapeHTML(unitCode) + "\" doesn't exist");
     }
 
     /**
@@ -19,6 +21,6 @@ public class UnitAbsenceException extends RuntimeException {
      * @param catalogCode  Not-existing catalog code
      */
     public UnitAbsenceException(String unitCode, String catalogCode) {
-        super("Unit with code \"" + unitCode + "\" and catalog \"" + catalogCode + "\"doesn't exist");
+        super("Unit with code \"" + StringHelper.escapeHTML(unitCode) + "\" and catalog \"" + StringHelper.escapeHTML(catalogCode) + "\"doesn't exist");
     }
 }

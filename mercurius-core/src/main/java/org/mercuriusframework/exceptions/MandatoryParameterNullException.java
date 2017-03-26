@@ -1,5 +1,7 @@
 package org.mercuriusframework.exceptions;
 
+import com.Ostermiller.util.StringHelper;
+
 /**
  * Mandatory parameter null exception
  */
@@ -10,6 +12,6 @@ public class MandatoryParameterNullException extends RuntimeException {
      * @param paramName Mandatory parameter name
      */
     public MandatoryParameterNullException(Class classType, String paramName) {
-        super("Mandatory parameter is null (class type - " + classType.getSimpleName() + ", parameter - " + paramName +  ")");
+        super("Mandatory parameter is null (class type - " + classType.getSimpleName() + ", parameter - " + StringHelper.escapeHTML(paramName) +  ")");
     }
 }

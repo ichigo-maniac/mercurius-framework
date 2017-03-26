@@ -1,5 +1,7 @@
 package org.mercuriusframework.exceptions;
 
+import com.Ostermiller.util.StringHelper;
+
 /**
  * Unique code constraint violation exception
  */
@@ -12,7 +14,7 @@ public class UniqueCodeConstraintViolationException extends RuntimeException {
      */
     public UniqueCodeConstraintViolationException(Class classType, String code) {
         super("Unique code constraint violation exception " +
-                "(entity - " + classType.getSimpleName() + ", code - " + code + ")");
+                "(entity - " + classType.getSimpleName() + ", code - " + StringHelper.escapeHTML(code) + ")");
     }
 
     /**
@@ -23,6 +25,7 @@ public class UniqueCodeConstraintViolationException extends RuntimeException {
      */
     public UniqueCodeConstraintViolationException(Class classType, String code, String catalogCode) {
         super("Unique code constraint violation exception " +
-                "(entity - " + classType.getSimpleName() + ", code - " + code + ", catalog code - " + catalogCode + ")");
+                "(entity - " + classType.getSimpleName() + ", code - " + StringHelper.escapeHTML(code) + ", catalog code - " +
+                StringHelper.escapeHTML(catalogCode) + ")");
     }
 }
