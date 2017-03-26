@@ -329,12 +329,6 @@ a {
     padding-top: 16px;
 }
 
-.mercurius-customized-section-image {
-    background: url('/resources/app/images/attack_on_titan.jpg') center top no-repeat;
-    background-size: cover;
-    height: 400px;
-}
-
 .mercurius-more-section {
     padding: 40px 0;
     max-width: 1044px;
@@ -506,5 +500,5 @@ a {
 }
 
 .mercurius-content {
-    background: url("/resources/app/images/background.jpg");
+    background: url("/resources/mmc_app/images/background.jpg");
 }
