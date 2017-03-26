@@ -2,6 +2,8 @@ package org.mercuriusframework.facades.impl;
 
 import org.mercuriusframework.constants.MercuriusConstants;
 import org.mercuriusframework.converters.impl.EmployeeEntityConverter;
+import org.mercuriusframework.dto.EmployeeEntityDto;
+import org.mercuriusframework.dto.RoleEntityDto;
 import org.mercuriusframework.dto.UserEntityDto;
 import org.mercuriusframework.entities.EmployeeEntity;
 import org.mercuriusframework.enums.EmployeeLoadOptions;
@@ -115,6 +117,26 @@ public class UserFacadeImpl implements UserFacade {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Does current user have a role
+     * @param roleCode Role code
+     * @return Check result
+     */
+    @Override
+    public boolean hasCurrentUserRole(String roleCode) {
+        UserEntityDto currentUser = getCurrentUser();
+        if (currentUser == null && !(currentUser instanceof EmployeeEntityDto)) {
+            return false;
+        }
+        EmployeeEntityDto employee = (EmployeeEntityDto) currentUser;
+        for (RoleEntityDto role : employee.getRoles()) {
+            if (role.getCode().equals(roleCode)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

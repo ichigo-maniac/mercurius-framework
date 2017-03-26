@@ -30,6 +30,9 @@ INSERT INTO ROLES(uuid, name, code, creationtime, modificationtime) VALUES (
   uuid_generate_v1(), 'Admin role', 'ROLE_ADMIN', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 );
 INSERT INTO ROLES(uuid, name, code, creationtime, modificationtime) VALUES (
+  uuid_generate_v1(), 'Data import access role', 'ROLE_DATA_IMPORT', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+INSERT INTO ROLES(uuid, name, code, creationtime, modificationtime) VALUES (
   uuid_generate_v1(), 'Dummy role', 'ROLE_DUMMY', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
 );
 
@@ -40,5 +43,9 @@ INSERT INTO EMPLOYEE_ROLE_LINK(employee_uuid, role_uuid) VALUES(
 INSERT INTO EMPLOYEE_ROLE_LINK(employee_uuid, role_uuid) VALUES(
   (SELECT uuid FROM USERS WHERE code = 'admin'),
   (SELECT uuid FROM ROLES WHERE code = 'ROLE_DUMMY')
+);
+INSERT INTO EMPLOYEE_ROLE_LINK(employee_uuid, role_uuid) VALUES(
+  (SELECT uuid FROM USERS WHERE code = 'admin'),
+  (SELECT uuid FROM ROLES WHERE code = 'ROLE_DATA_IMPORT')
 );
 

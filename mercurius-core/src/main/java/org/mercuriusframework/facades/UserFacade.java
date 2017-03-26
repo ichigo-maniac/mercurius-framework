@@ -30,6 +30,13 @@ public interface UserFacade {
     UserEntityDto getCurrentUser();
 
     /**
+     * Does current user have a role
+     * @param roleCode Role code
+     * @return Check result
+     */
+    boolean hasCurrentUserRole(String roleCode);
+
+    /**
      * Logout current user
      */
     void logOutCurrentUser() throws ServletException;

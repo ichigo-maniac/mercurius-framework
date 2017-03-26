@@ -5,11 +5,18 @@ package org.mercuriusframework.dataimport.constants;
  */
 public class MercuriusDataImportConstants {
     /**
+     * Common constants
+     */
+    public class COMMON {
+        public static final String DATA_IMPORT_ROLE_CODE = "ROLE_DATA_IMPORT";
+    }
+    /**
      * URL constants
      */
     public class URLS {
         public static final String BASE_PATH = "/dataimport/";
         public static final String BASE_APPLICATION_PATH = "/dataimport/app_panel";
+        public static final String HOME_PATH = "/";
     }
 
     /**

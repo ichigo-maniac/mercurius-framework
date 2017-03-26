@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Data import application controller
  */
@@ -44,6 +46,9 @@ public class DataImportApplicationController {
         if (!userFacade.isCurrentUserEmployee()) {
             return "redirect:" + MercuriusDataImportConstants.URLS.BASE_PATH;
         }
+        if (!userFacade.hasCurrentUserRole(MercuriusDataImportConstants.COMMON.DATA_IMPORT_ROLE_CODE)) {
+            return "redirect:" + MercuriusDataImportConstants.URLS.HOME_PATH;
+        }
         return MercuriusDataImportConstants.JSP_TEMPLATES.MAIN_VIEW_JSP;
     }
 
@@ -57,6 +62,9 @@ public class DataImportApplicationController {
     public String importData(@RequestParam String rawText, RedirectAttributes model) {
         if (!userFacade.isCurrentUserEmployee()) {
             return "redirect:" + MercuriusDataImportConstants.URLS.BASE_PATH;
+        }
+        if (!userFacade.hasCurrentUserRole(MercuriusDataImportConstants.COMMON.DATA_IMPORT_ROLE_CODE)) {
+            return "redirect:" + MercuriusDataImportConstants.URLS.HOME_PATH;
         }
         String errorLog = dataImportService.importData(rawText.trim());
         if (!StringUtils.isEmpty(errorLog)) {
