@@ -19,8 +19,12 @@ public class AbstractEntityListener implements PrePersistEntityListener<Abstract
      */
     @Override
     public void prePersist(AbstractEntity entityObject) {
-        entityObject.setCreationTime(new Date());
-        entityObject.setModificationTime(new Date());
+        if (entityObject.getCreationTime() == null) {
+            entityObject.setCreationTime(new Date());
+        }
+        if (entityObject.getModificationTime() == null) {
+            entityObject.setModificationTime(new Date());
+        }
     }
 
     /**

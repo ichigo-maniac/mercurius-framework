@@ -3,6 +3,7 @@ package org.mercuriusframework.entities;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Big string entity class (for lazy load)
@@ -32,6 +33,17 @@ public class BigStringEntity extends CatalogUniqueCodeEntity {
      * Default constructor
      */
     public BigStringEntity() {
+    }
+
+    /**
+     * Constructor
+     * @param value Value
+     * @param catalog Catalog
+     */
+    public BigStringEntity(String value, CatalogEntity catalog) {
+        this.value = value;
+        this.setName(ENTITY_NAME + new Date().getTime());
+        this.setCatalog(catalog);
     }
 
     /**

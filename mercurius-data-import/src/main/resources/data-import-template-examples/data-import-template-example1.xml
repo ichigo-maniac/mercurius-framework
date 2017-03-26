@@ -26,6 +26,18 @@
                 <column property="name">Sword Art Online vol. 09</column>
                 <column property="code">product_sao_09</column>
             </value>
+            <value>
+                <column property="name">Sword Art Online vol. 11</column>
+                <column property="code">product_sao_12</column>
+                <column property="description" value-import-bean="bigStringImportBean">master_catalog::
+                    After Kirigaya Kazuto (Kirito) was attacked by Kanamoto Atsushi (Johnny Black), an old player of Sword Art Online (SAO), he was rushed to the hospital. He fell into a coma due to his injuries, and then mysteriously disappeared from the hospital. Asuna tried to find his location with help from her daughter Yui and Koujiro Rinko, the deceased Kayaba Akihiko's lover.
+                    They discovered that he was currently in the custody of Kikuoka Seijirou and Takeru Higa, who was currently experimenting with Soul Translator, the fourth generation FullDive technology.
+                    Meanwhile, Kirito and Eugeo journeyed south to the town of Zakkaria in order to find the location of the abducted Alice.
+                </column>
+                <column property="creationTime" value-import-bean="dateTimeImportBean">
+                    dd.MM.yyyy HH:mm:ss::18.07.1990 12:00:00
+                </column>
+            </value>
         </values>
     </insert>
 
