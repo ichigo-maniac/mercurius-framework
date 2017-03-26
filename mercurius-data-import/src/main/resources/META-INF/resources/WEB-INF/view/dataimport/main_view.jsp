@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/resources/dataimport_app/css/data-import-styles.css"/>
 </head>
 
-<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+<body class="mdl-data-import mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
     <%-- Header --%>
