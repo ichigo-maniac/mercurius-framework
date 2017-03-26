@@ -49,12 +49,37 @@
                             </div>
                             <div class="form-group">
                                 <div class="pull-right">
-                                    <button type="submit" class="btn btn-primary" style="margin-right: 20px;">
+                                    <button type="submit" class="btn btn-primary" style="margin-right: 20px; width: 100px;">
                                         <spring:message code="dataimport.import.console.send.button.label"/>
                                     </button>
                                 </div>
                             </div>
                         </form:form>
+                        <%-- Error log --%>
+                        <c:if test="${importFinish}">
+                            <c:choose>
+                                <c:when test="${not empty errorLog}">
+                                    <div class="panel panel-danger">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><spring:message code="dataimport.import.console.result.panel.label"/></h3>
+                                        </div>
+                                        <div class="panel-body" style="font-size: 110%; color: black">
+                                            ${errorLog}
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="panel panel-success">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><spring:message code="dataimport.import.console.result.panel.label"/></h3>
+                                        </div>
+                                        <div class="panel-body" style="font-size: 110%; color: black">
+                                            <spring:message code="dataimport.import.console.result.panel.success.result"/>
+                                        </div>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:if>
                     </div>
                 </div>
             </section>

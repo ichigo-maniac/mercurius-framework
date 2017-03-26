@@ -34,7 +34,7 @@ public class ImportColumn {
                 MercuriusDataImportComponentConstants.ImportColumn.VALUE_IMPORT_BEAN) != null ?
                 xmlElement.getAttributes().getNamedItem(
                         MercuriusDataImportComponentConstants.ImportColumn.VALUE_IMPORT_BEAN).getNodeValue() : null;
-        this.rawValue = xmlElement.getNodeValue();
+        this.rawValue = xmlElement.getTextContent();
     }
 
     /**

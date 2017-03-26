@@ -1,17 +1,17 @@
 package org.mercuriusframework.dataimport.services;
 
-import org.mercuriusframework.entities.AbstractEntity;
+import java.lang.reflect.Method;
 
 /**
  *  Value import bean service
  */
-public interface ValueImportBean<T extends AbstractEntity> {
+public interface ValueImportBean {
 
     /**
      * Find value by string
      * @param value String value
-     * @param classType Class type
+     * @param setMethod Set method
      * @return Found object
      */
-    Object findValueByString(String value, Class<T> classType);
+    Object findValueByString(String value, Method setMethod);
 }
