@@ -12,9 +12,9 @@
 </head>
 
 <body ng-app>
-<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+<div class="mmc-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <%-- Toolbar --%>
-    <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+    <header class="mmc-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
             <div class="mdl-layout-spacer"></div>
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
@@ -26,11 +26,11 @@
         </div>
     </header>
     <%-- Navigation --%>
-    <div class="demo-drawer mdl-layout__drawer mdl-color--light-green-800 mdl-color-text--blue-grey-50">
+    <div class="mmc-drawer mdl-layout__drawer mdl-color--light-green-800 mdl-color-text--blue-grey-50">
         <%-- Navigation header --%>
-        <header class="demo-drawer-header" style="padding-bottom: 5px;">
-            <img src="/resources/mmc_lib/images/user.jpg" class="demo-avatar">
-            <div class="demo-avatar-dropdown" style="padding: 10px 0px 5px 5px;">
+        <header class="mmc-drawer-header" style="padding-bottom: 5px;">
+            <img src="/resources/mmc_lib/images/user.jpg" class="mmc-avatar">
+            <div class="mmc-avatar-dropdown" style="padding: 10px 0px 5px 5px;">
                 <span style="font-weight: bold;">
                     <c:out value="${sessionScope.currentUser.name} [${sessionScope.currentUser.code}]"/>
                 </span>
@@ -38,7 +38,7 @@
             </div>
         </header>
         <%-- Tree-view --%>
-        <nav class="demo-navigation mdl-navigation mdl-color--grey-300">
+        <nav class="mmc-navigation mdl-navigation mdl-color--grey-300">
             <c:if test="${treeView != null}">
                 <ul class="nav nav-pills nav-stacked nav-tree" id="main-nav-tree" data-toggle="nav-tree">
                     <c:forEach var="treeNode" items="${treeView.nodes}">
