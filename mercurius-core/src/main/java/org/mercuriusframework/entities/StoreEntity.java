@@ -27,7 +27,7 @@ public class StoreEntity extends UniqueCodeEntity {
     /**
      * Warehouses
      */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = WarehouseEntity.STORE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = WarehouseEntity.STORE, cascade = CascadeType.ALL)
     private List<WarehouseEntity> warehouses;
     public static final String WAREHOUSES = "warehouses";
 

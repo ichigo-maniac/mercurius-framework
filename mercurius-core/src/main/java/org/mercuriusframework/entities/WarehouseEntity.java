@@ -27,7 +27,7 @@ public class WarehouseEntity extends UniqueCodeEntity {
     /**
      * Store
      */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STORE_UUID", referencedColumnName = "uuid", nullable = false)
     private StoreEntity store;
     public static final String STORE = "store";
