@@ -85,6 +85,13 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
     public static final String STOCKS = "stocks";
 
     /**
+     * Feature values
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = FeatureValueEntity.PRODUCT)
+    private List<FeatureValueEntity> featureValues;
+    public static final String FEATURE_VALUES = "featureValues";
+
+    /**
      * Get short name
      * @return Short name
      */
@@ -195,5 +202,21 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
      */
     public void setStocks(List<StockEntity> stocks) {
         this.stocks = stocks;
+    }
+
+    /**
+     * Get feature values
+     * @return Feature values
+     */
+    public List<FeatureValueEntity> getFeatureValues() {
+        return featureValues;
+    }
+
+    /**
+     * Set feature values
+     * @param featureValues Feature values
+     */
+    public void setFeatureValues(List<FeatureValueEntity> featureValues) {
+        this.featureValues = featureValues;
     }
 }
