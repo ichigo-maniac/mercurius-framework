@@ -32,4 +32,13 @@ public enum CategoryLoadOptions implements LoadOptions {
         return value;
     }
 
+    /**
+     * Get enum value
+     * @return Array of values
+     */
+    @Override
+    public LoadOptions[] getValues() {
+        return values();
+    }
+
 }

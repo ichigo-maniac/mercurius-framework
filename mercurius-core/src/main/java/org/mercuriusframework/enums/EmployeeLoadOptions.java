@@ -31,4 +31,16 @@ public enum  EmployeeLoadOptions implements LoadOptions {
     public String getValue() {
         return value;
     }
+
+    /**
+     * Get enum value
+     *
+     * @return Array of values
+     */
+    @Override
+    public LoadOptions[] getValues() {
+        return values();
+    }
+
+
 }
