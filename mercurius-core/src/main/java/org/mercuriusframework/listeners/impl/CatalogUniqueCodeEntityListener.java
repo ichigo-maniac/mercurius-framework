@@ -31,7 +31,7 @@ public class CatalogUniqueCodeEntityListener implements PrePersistEntityListener
     @Override
     public void prePersist(CatalogUniqueCodeEntity entityObject) {
         if (entityObject.getName() == null) {
-            throw new MandatoryParameterNullException(entityObject.getClass(), "name");
+            entityObject.setName("");
         }
         if (entityObject.getCatalog() == null) {
             throw new MandatoryParameterNullException(entityObject.getClass(), "catalog");

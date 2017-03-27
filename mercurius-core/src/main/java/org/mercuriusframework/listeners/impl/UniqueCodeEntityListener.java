@@ -30,7 +30,7 @@ public class UniqueCodeEntityListener implements PrePersistEntityListener<Unique
     @Override
     public void prePersist(UniqueCodeEntity entityObject) {
         if (entityObject.getName() == null) {
-            throw new MandatoryParameterNullException(entityObject.getClass(), "name");
+            entityObject.setName("");
         }
         if (entityObject.getCode() == null) {
             entityObject.setCode(codeGenerationService.generateUniqueCode(entityObject.getClass()));
