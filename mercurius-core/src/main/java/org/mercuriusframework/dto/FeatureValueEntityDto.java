@@ -5,6 +5,8 @@ package org.mercuriusframework.dto;
  */
 public class FeatureValueEntityDto extends CatalogUniqueCodeEntityDto {
 
+    private static final long serialVersionUID = 8376983853185713945L;
+
     /**
      * Feature
      */
