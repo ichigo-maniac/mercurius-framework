@@ -80,14 +80,21 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
     /**
      * Stocks
      */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = StockEntity.WAREHOUSE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = StockEntity.PRODUCT, cascade = CascadeType.ALL)
     private List<StockEntity> stocks;
     public static final String STOCKS = "stocks";
 
     /**
+     * Prices
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = PriceEntity.PRODUCT, cascade = CascadeType.ALL)
+    private List<PriceEntity> prices;
+    public static final String PRICES = "prices";
+
+    /**
      * Feature values
      */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = FeatureValueEntity.PRODUCT)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = FeatureValueEntity.PRODUCT, cascade = CascadeType.ALL)
     private List<FeatureValueEntity> featureValues;
     public static final String FEATURE_VALUES = "featureValues";
 
@@ -202,6 +209,22 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
      */
     public void setStocks(List<StockEntity> stocks) {
         this.stocks = stocks;
+    }
+
+    /**
+     * Get prices
+     * @return Prices
+     */
+    public List<PriceEntity> getPrices() {
+        return prices;
+    }
+
+    /**
+     * Set prices
+     * @param prices Prices
+     */
+    public void setPrices(List<PriceEntity> prices) {
+        this.prices = prices;
     }
 
     /**

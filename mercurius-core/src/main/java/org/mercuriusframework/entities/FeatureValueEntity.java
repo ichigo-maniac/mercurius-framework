@@ -21,7 +21,7 @@ public class FeatureValueEntity extends CatalogUniqueCodeEntity {
     /**
      * Feature
      */
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "FEATURE_UUID", referencedColumnName = "uuid", nullable = false)
     private FeatureEntity feature;
     public static final String FEATURE = "feature";
@@ -29,7 +29,7 @@ public class FeatureValueEntity extends CatalogUniqueCodeEntity {
     /**
      * Product
      */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_UUID", referencedColumnName = "uuid", nullable = false)
     private ProductEntity product;
     public static final String PRODUCT = "product";

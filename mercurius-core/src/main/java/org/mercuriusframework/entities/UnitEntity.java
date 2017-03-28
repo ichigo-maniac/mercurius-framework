@@ -1,6 +1,7 @@
 package org.mercuriusframework.entities;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -32,6 +33,20 @@ public class UnitEntity extends CatalogUniqueCodeEntity {
     public static final String PRODUCTS = "products";
 
     /**
+     * Stocks
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = StockEntity.UNIT, cascade = CascadeType.ALL)
+    private List<StockEntity> stocks;
+    public static final String STOCKS = "stocks";
+
+    /**
+     * Prices
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = PriceEntity.UNIT, cascade = CascadeType.ALL)
+    private List<PriceEntity> prices;
+    public static final String PRICES = "prices";
+
+    /**
      * Get products
      * @return Products
      */
@@ -45,5 +60,37 @@ public class UnitEntity extends CatalogUniqueCodeEntity {
      */
     public void setProducts(Set<ProductEntity> products) {
         this.products = products;
+    }
+
+    /**
+     * Get stocks
+     * @return Stocks
+     */
+    public List<StockEntity> getStocks() {
+        return stocks;
+    }
+
+    /**
+     * Set stocks
+     * @param stocks Stocks
+     */
+    public void setStocks(List<StockEntity> stocks) {
+        this.stocks = stocks;
+    }
+
+    /**
+     * Get prices
+     * @return Prices
+     */
+    public List<PriceEntity> getPrices() {
+        return prices;
+    }
+
+    /**
+     * Set prices
+     * @param prices Prices
+     */
+    public void setPrices(List<PriceEntity> prices) {
+        this.prices = prices;
     }
 }

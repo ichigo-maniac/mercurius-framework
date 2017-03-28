@@ -26,7 +26,7 @@ public class StockEntity extends UniqueCodeEntity {
     /**
      * Product
      */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_UUID", referencedColumnName = "uuid", nullable = false)
     private ProductEntity product;
     public static final String PRODUCT = "product";
@@ -50,7 +50,7 @@ public class StockEntity extends UniqueCodeEntity {
     /**
      * Warehouse
      */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "WAREHOUSE_UUID", referencedColumnName = "uuid", nullable = false)
     private WarehouseEntity warehouse;
     public static final String WAREHOUSE = "warehouse";

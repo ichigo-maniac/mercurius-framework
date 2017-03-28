@@ -19,7 +19,7 @@ public class PriceEntity extends CatalogUniqueCodeEntity {
     /**
      * Unit
      */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UNIT_UUID", referencedColumnName = "uuid", nullable = false)
     private UnitEntity unit;
     public static final String UNIT = "unit";
@@ -27,7 +27,7 @@ public class PriceEntity extends CatalogUniqueCodeEntity {
     /**
      * Product
      */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PRODUCT_UUID", referencedColumnName = "uuid", nullable = false)
     private ProductEntity product;
     public static final String PRODUCT = "product";
@@ -42,7 +42,7 @@ public class PriceEntity extends CatalogUniqueCodeEntity {
     /**
      * Currency
      */
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CURRENCY_UUID", referencedColumnName = "uuid", nullable = false)
     private CurrencyEntity currency;
     public static final String CURRENCY = "currency";

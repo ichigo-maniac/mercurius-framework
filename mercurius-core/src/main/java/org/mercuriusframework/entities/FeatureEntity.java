@@ -5,6 +5,7 @@ import org.mercuriusframework.entities.converters.FeatureEnumClassConverter;
 import org.mercuriusframework.enums.FeatureType;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Feature entity class
@@ -37,6 +38,13 @@ public class FeatureEntity extends CatalogUniqueCodeEntity {
     public static final String FEATURE_TYPE = "featureType";
 
     /**
+     * Feature values
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = FeatureValueEntity.FEATURE, cascade = CascadeType.ALL)
+    private List<FeatureValueEntity> featureValues;
+    public static final String FEATURE_VALUES= "featureValues";
+
+    /**
      * Get enum class
      * @return Enum class
      */
@@ -66,5 +74,21 @@ public class FeatureEntity extends CatalogUniqueCodeEntity {
      */
     public void setFeatureType(FeatureType featureType) {
         this.featureType = featureType;
+    }
+
+    /**
+     * Get feature values
+     * @return Feature values
+     */
+    public List<FeatureValueEntity> getFeatureValues() {
+        return featureValues;
+    }
+
+    /**
+     * Set feature values
+     * @param featureValues Feature values
+     */
+    public void setFeatureValues(List<FeatureValueEntity> featureValues) {
+        this.featureValues = featureValues;
     }
 }
