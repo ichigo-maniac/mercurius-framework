@@ -47,11 +47,24 @@
     <xs:complexType name="list-view">
         <xs:sequence>
             <xs:element name="table-view" type="table-view" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="fetch-properties" type="list-view-fetch-properties" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <!-- Attributes -->
         <xs:attribute name="entity-name" type="xs:string" use="required"/>
         <xs:attribute name="roles" type="xs:string" use="optional"/>
         <xs:attribute name="priority" type="xs:int" use="optional"/>
+    </xs:complexType>
+
+    <!-- List view fetch columns -->
+    <xs:complexType name="list-view-fetch-properties">
+        <xs:sequence>
+            <xs:element name="entity-property" type="entity-property"  minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="entity-property">
+        <!-- Attributes -->
+        <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
     
     <!-- Table view -->

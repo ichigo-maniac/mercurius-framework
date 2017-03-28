@@ -43,6 +43,9 @@
     </list-view>
 
     <list-view entity-name="Warehouse" priority="0">
+        <fetch-properties>
+            <entity-property name="store"/>
+        </fetch-properties>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
