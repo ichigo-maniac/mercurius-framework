@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+
+    <tlib-version>1.0</tlib-version>
+    <short-name>mmc-tags</short-name>
+    <uri>/tlds/mmc-tags</uri>
+
+    <!-- Table view column renderer tag -->
+    <tag>
+        <description>Table view column renderer tag</description>
+        <name>table-view-column-renderer</name>
+        <tag-class>org.mercuriusframework.mmc.tags.TableViewColumnRendererTagHandler</tag-class>
+        <body-content>empty</body-content>
+
+        <!-- Attributes -->
+        <attribute>
+            <description>Parent object</description>
+            <name>parentObject</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Object</type>
+        </attribute>
+
+        <attribute>
+            <description>Property object</description>
+            <name>propertyObject</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.Object</type>
+        </attribute>
+
+        <attribute>
+            <description>Column renderer bean</description>
+            <name>columnRenderer</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>org.mercuriusframework.mmc.renderers.TableViewColumnRenderer</type>
+        </attribute>
+
+    </tag>
+</taglib>
