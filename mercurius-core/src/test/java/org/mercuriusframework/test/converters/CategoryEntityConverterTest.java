@@ -57,7 +57,7 @@ public class CategoryEntityConverterTest extends AbstractTest {
      */
     @Test
     public void convertTest2() {
-        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("fantasy_manga", "master_catalog",
+        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch("fantasy_manga", "master_catalog",
                 CategoryEntity.class, CategoryEntity.DESCRIPTION);
         CategoryEntityDto categoryDto = categoryEntityConverter.convert(category, CategoryLoadOptions.DESCRIPTION);
         assertEquals(categoryDto.getCode().equals("fantasy_manga") && categoryDto.getName().equals("Fantasy manga") &&
@@ -72,7 +72,7 @@ public class CategoryEntityConverterTest extends AbstractTest {
      */
     @Test
     public void convertTest3() {
-        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("fantasy_manga", "master_catalog",
+        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch("fantasy_manga", "master_catalog",
                 CategoryEntity.class, CategoryEntity.DESCRIPTION);
         CategoryEntityDto categoryDto = categoryEntityConverter.convert(category, CategoryLoadOptions.DESCRIPTION, CategoryLoadOptions.BREAD_CRUMBS);
         assertEquals(categoryDto.getCode().equals("fantasy_manga") && categoryDto.getName().equals("Fantasy manga") &&

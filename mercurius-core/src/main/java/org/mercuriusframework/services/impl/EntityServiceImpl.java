@@ -249,11 +249,12 @@ public class EntityServiceImpl implements EntityService {
      * Get pageable result by criteria
      * @param currentPage Current page (count from 0)
      * @param pageSize    Page size (entries on the page)
+     * @param fetchFields Fetch fields
      * @param classType   Class type
      * @return Pageable result
      */
     @Override
-    public <T> PageableResult<T> getPageableResultByCriteria(Integer currentPage, Integer pageSize, Class<T> classType) {
+    public <T> PageableResult<T> getPageableResultByCriteria(Integer currentPage, Integer pageSize, String[] fetchFields, Class<T> classType) {
         Long totalCount = getCountByCriteria(classType);
         Integer currentPageResult = calculateCurrentPage(pageSize, currentPage, totalCount);
         /** Create criteria query */
@@ -261,6 +262,9 @@ public class EntityServiceImpl implements EntityService {
         CriteriaQuery<T> criteriaQuery = builder.createQuery(classType);
         Root<T> root = criteriaQuery.from(classType);
         criteriaQuery = criteriaQuery.select(root);
+        for (String fetchField : fetchFields) {
+            root.fetch(fetchField, JoinType.LEFT);
+        }
         TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
         typedQuery.setFirstResult(currentPageResult * pageSize);
         typedQuery.setFlushMode(FlushModeType.COMMIT);
@@ -289,10 +293,12 @@ public class EntityServiceImpl implements EntityService {
      * @param loadOptions
      * @param currentPage Current page (count from 0)
      * @param pageSize    Page size (entries on the page)
+     * @param fetchFields Fetch fields
      * @param classType   Class type    @return Pageable result
      */
     @Override
-    public <T, RESULT> PageableResult<T> getPageableResultByCriteria(Converter<T, RESULT> converter, LoadOptions[] loadOptions, Integer currentPage, Integer pageSize, Class<T> classType) {
+    public <T, RESULT> PageableResult<T> getPageableResultByCriteria(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
+                                                                     Integer currentPage, Integer pageSize, String[] fetchFields, Class<T> classType) {
         Long totalCount = getCountByCriteria(classType);
         Integer currentPageResult = calculateCurrentPage(pageSize, currentPage, totalCount);
         /** Create criteria query */
@@ -300,6 +306,9 @@ public class EntityServiceImpl implements EntityService {
         CriteriaQuery<T> criteriaQuery = builder.createQuery(classType);
         Root<T> root = criteriaQuery.from(classType);
         criteriaQuery = criteriaQuery.select(root);
+        for (String fetchField : fetchFields) {
+            root.fetch(fetchField, JoinType.LEFT);
+        }
         TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
         typedQuery.setFirstResult(currentPageResult * pageSize);
         typedQuery.setFlushMode(FlushModeType.COMMIT);

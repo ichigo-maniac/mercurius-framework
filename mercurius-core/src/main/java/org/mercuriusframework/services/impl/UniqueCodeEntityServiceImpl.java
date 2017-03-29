@@ -47,17 +47,38 @@ public class UniqueCodeEntityServiceImpl implements UniqueCodeEntityService {
      * Get unique code entity by code
      * @param code  Entity code
      * @param clazz Entity class
-     * @param fetchFields Fetch fields
      * @return Unique code entity
      */
     @Override
-    public <T extends UniqueCodeEntity> T getEntityByCode(String code, Class<T> clazz, String... fetchFields) {
+    public <T extends UniqueCodeEntity> T getEntityByCode(String code, Class<T> clazz) {
         try {
             Class classValue = codeGenerationService.getSuperUniqueCodeClass(clazz);
 
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<T> criteriaQuery = builder.createQuery(classValue);
             Root<T> root = criteriaQuery.from(classValue);
+            criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(UniqueCodeEntity.CODE), code));
+            TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+            return typedQuery.getSingleResult();
+        } catch (NoResultException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * Get unique code entity by code
+     *
+     * @param code        Entity code
+     * @param clazz       Entity class
+     * @param fetchFields Fetch fields
+     * @return Unique code entity
+     */
+    @Override
+    public <T extends UniqueCodeEntity> T getEntityByCodeWithFetch(String code, Class<T> clazz, String... fetchFields) {
+        try {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
+            Root<T> root = criteriaQuery.from(clazz);
             for (String fetchField : fetchFields) {
                 root.fetch(fetchField, JoinType.LEFT);
             }

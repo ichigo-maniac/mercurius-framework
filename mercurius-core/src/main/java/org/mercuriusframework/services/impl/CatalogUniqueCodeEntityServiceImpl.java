@@ -75,7 +75,7 @@ public class CatalogUniqueCodeEntityServiceImpl implements CatalogUniqueCodeEnti
         if (catalog == null) {
             throw new DefaultCatalogPresetException();
         }
-        return getEntityByCodeAndCatalogCode(code, catalog.getCode(), clazz, fetchFields);
+        return getEntityByCodeAndCatalogCodeWithFetch(code, catalog.getCode(), clazz, fetchFields);
     }
 
     /**
@@ -83,17 +83,39 @@ public class CatalogUniqueCodeEntityServiceImpl implements CatalogUniqueCodeEnti
      * @param code    Entity code
      * @param catalog Catalog
      * @param clazz   Entity class
-     * @param fetchFields Fetch fields
      * @return Catalog unique code entity
      */
     @Override
-    public <T extends CatalogUniqueCodeEntity> T getEntityByCodeAndCatalog(String code, CatalogEntity catalog, Class<T> clazz, String... fetchFields) {
+    public <T extends CatalogUniqueCodeEntity> T getEntityByCodeAndCatalog(String code, CatalogEntity catalog, Class<T> clazz) {
         try {
             Class classValue = codeGenerationService.getSuperCatalogUniqueCodeClass(clazz);
 
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<T> criteriaQuery = builder.createQuery(classValue);
             Root<T> root = criteriaQuery.from(classValue);
+            criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(CatalogUniqueCodeEntity.CODE), code),
+                    builder.and(builder.equal(root.get(CatalogUniqueCodeEntity.CATALOG), catalog)));
+            TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+            return typedQuery.getSingleResult();
+        } catch (NoResultException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * Get catalog unique code entity by code and catalog
+     * @param code        Entity code
+     * @param catalog     Catalog
+     * @param clazz       Entity class
+     * @param fetchFields Fetch fields
+     * @return Catalog unique code entity
+     */
+    @Override
+    public <T extends CatalogUniqueCodeEntity> T getEntityByCodeAndCatalogWithFetch(String code, CatalogEntity catalog, Class<T> clazz, String... fetchFields) {
+        try {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
+            Root<T> root = criteriaQuery.from(clazz);
             for (String fetchField : fetchFields) {
                 root.fetch(fetchField, JoinType.LEFT);
             }
@@ -111,17 +133,40 @@ public class CatalogUniqueCodeEntityServiceImpl implements CatalogUniqueCodeEnti
      * @param code        Entity code
      * @param catalogCode Catalog code
      * @param clazz       Entity class
-     * @param fetchFields Fetch fields
      * @return Catalog unique code entity
      */
     @Override
-    public <T extends CatalogUniqueCodeEntity> T getEntityByCodeAndCatalogCode(String code, String catalogCode, Class<T> clazz, String... fetchFields) {
+    public <T extends CatalogUniqueCodeEntity> T getEntityByCodeAndCatalogCode(String code, String catalogCode, Class<T> clazz) {
         try {
             Class classValue = codeGenerationService.getSuperCatalogUniqueCodeClass(clazz);
 
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<T> criteriaQuery = builder.createQuery(classValue);
             Root<T> root = criteriaQuery.from(classValue);
+            criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(CatalogUniqueCodeEntity.CODE), code),
+                    builder.and(builder.equal(root.get(CatalogUniqueCodeEntity.CATALOG),
+                            uniqueCodeEntityService.getEntityByCode(catalogCode, CatalogEntity.class))));
+            TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+            return typedQuery.getSingleResult();
+        } catch (NoResultException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * Get catalog unique code entity by code and catalog code
+     * @param code        Entity code
+     * @param catalogCode Catalog code
+     * @param clazz       Entity class
+     * @param fetchFields Fetch fields
+     * @return Catalog unique code entity
+     */
+    @Override
+    public <T extends CatalogUniqueCodeEntity> T getEntityByCodeAndCatalogCodeWithFetch(String code, String catalogCode, Class<T> clazz, String... fetchFields) {
+        try {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
+            Root<T> root = criteriaQuery.from(clazz);
             for (String fetchField : fetchFields) {
                 root.fetch(fetchField, JoinType.LEFT);
             }

@@ -105,20 +105,22 @@ public interface EntityService {
      * Get pageable result by criteria
      * @param currentPage Current page (count from 0)
      * @param pageSize Page size (entries on the page)
+     * @param fetchFields Fetch fields
      * @param classType Class type
      * @param <T> Type
      * @return Pageable result
      */
-    <T> PageableResult<T> getPageableResultByCriteria(Integer currentPage, Integer pageSize, Class<T> classType);
+    <T> PageableResult<T> getPageableResultByCriteria(Integer currentPage, Integer pageSize, String[] fetchFields, Class<T> classType);
 
     /**
      * Get pageable result by criteria
      * @param currentPage Current page (count from 0)
      * @param pageSize Page size (entries on the page)
+     * @param fetchFields Fetch fields
      * @param classType Class type
      * @param <T> Type
      * @return Pageable result
      */
     <T, RESULT> PageableResult<T> getPageableResultByCriteria(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
-            Integer currentPage, Integer pageSize, Class<T> classType);
+            Integer currentPage, Integer pageSize, String[] fetchFields, Class<T> classType);
 }

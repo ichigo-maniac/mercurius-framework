@@ -31,7 +31,7 @@ public class CatalogUniqueCodeEntityServiceTest extends AbstractTest {
     @Test
     public void getEntityByCodeAndCatalogTest() {
         CatalogEntity catalog = uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class);
-        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalog("manga", catalog, CategoryEntity.class,
+        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogWithFetch("manga", catalog, CategoryEntity.class,
                 CategoryEntity.MAIN_SUPER_CATEGORY);
         assertEquals(
                 category.getUuid().equals("4aa6fb20-f065-11e6-9daf-a334a56d0d4c")
@@ -43,7 +43,7 @@ public class CatalogUniqueCodeEntityServiceTest extends AbstractTest {
      */
     @Test
     public void getEntityByCodeAndCatalogCodeTest() {
-        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("bluray", "master_catalog",
+        CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch("bluray", "master_catalog",
                 CategoryEntity.class, CategoryEntity.MAIN_SUPER_CATEGORY);
         assertEquals(
                 category.getUuid().equals("4aa6e108-f065-11e6-9dae-774f2dfc5358")

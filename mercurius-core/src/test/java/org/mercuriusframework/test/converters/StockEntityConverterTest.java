@@ -43,7 +43,7 @@ public class StockEntityConverterTest extends AbstractTest {
      */
     @Test
     public void convertTest2() {
-        StockEntity stock = uniqueCodeEntityService.getEntityByCode("stock_prince_of_tennis_01_pieces", StockEntity.class, StockEntity.UNIT);
+        StockEntity stock = uniqueCodeEntityService.getEntityByCodeWithFetch("stock_prince_of_tennis_01_pieces", StockEntity.class, StockEntity.UNIT);
         StockEntityDto dto = stockEntityConverter.convert(stock, StockLoadOptions.UNIT);
         assertEquals(dto.getCount().equals(15l) && dto.getUuid().equals("12345e10-1a94-22e6-b6ff-abd422223333") &&
                 dto.getCode().equals("stock_prince_of_tennis_01_pieces") && dto.getName().equals("Prince of tennis 01 - pieces") &&
@@ -56,7 +56,7 @@ public class StockEntityConverterTest extends AbstractTest {
      */
     @Test
     public void convertTest3() {
-        StockEntity stock = uniqueCodeEntityService.getEntityByCode("stock_prince_of_tennis_01_pieces", StockEntity.class, StockEntity.PRODUCT);
+        StockEntity stock = uniqueCodeEntityService.getEntityByCodeWithFetch("stock_prince_of_tennis_01_pieces", StockEntity.class, StockEntity.PRODUCT);
         StockEntityDto dto = stockEntityConverter.convert(stock, StockLoadOptions.PRODUCT);
         assertEquals(dto.getCount().equals(15l) && dto.getUuid().equals("12345e10-1a94-22e6-b6ff-abd422223333") &&
                 dto.getCode().equals("stock_prince_of_tennis_01_pieces") && dto.getName().equals("Prince of tennis 01 - pieces") &&
@@ -70,7 +70,7 @@ public class StockEntityConverterTest extends AbstractTest {
      */
     @Test
     public void convertTest4() {
-        StockEntity stock = uniqueCodeEntityService.getEntityByCode("stock_prince_of_tennis_01_pieces", StockEntity.class, StockEntity.WAREHOUSE);
+        StockEntity stock = uniqueCodeEntityService.getEntityByCodeWithFetch("stock_prince_of_tennis_01_pieces", StockEntity.class, StockEntity.WAREHOUSE);
         StockEntityDto dto = stockEntityConverter.convert(stock, StockLoadOptions.WAREHOUSE);
         assertEquals(dto.getCount().equals(15l) && dto.getUuid().equals("12345e10-1a94-22e6-b6ff-abd422223333") &&
                 dto.getCode().equals("stock_prince_of_tennis_01_pieces") && dto.getName().equals("Prince of tennis 01 - pieces") &&

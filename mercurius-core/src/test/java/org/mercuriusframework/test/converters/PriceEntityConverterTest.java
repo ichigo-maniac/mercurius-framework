@@ -44,7 +44,7 @@ public class PriceEntityConverterTest extends AbstractTest {
      */
     @Test
     public void convertTest2() {
-        PriceEntity price = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("product_sao_01_price_pieces", "master_catalog",
+        PriceEntity price = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch("product_sao_01_price_pieces", "master_catalog",
                 PriceEntity.class, PriceEntity.PRODUCT);
         PriceEntityDto dto = priceEntityConverter.convert(price, PriceLoadOptions.PRODUCT);
         assertEquals(dto.getUuid().equals("a7478e10-fa94-11e6-b6ff-bf2400ed613a") && dto.getName().equals("Sword Art Online vol. 01 - price") &&
@@ -63,7 +63,7 @@ public class PriceEntityConverterTest extends AbstractTest {
      */
     @Test
     public void convertTest3() {
-        PriceEntity price = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("product_sao_01_price_pieces", "master_catalog",
+        PriceEntity price = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch("product_sao_01_price_pieces", "master_catalog",
                 PriceEntity.class, PriceEntity.UNIT);
         PriceEntityDto dto = priceEntityConverter.convert(price, PriceLoadOptions.UNIT);
         assertEquals(dto.getUuid().equals("a7478e10-fa94-11e6-b6ff-bf2400ed613a") && dto.getName().equals("Sword Art Online vol. 01 - price") &&

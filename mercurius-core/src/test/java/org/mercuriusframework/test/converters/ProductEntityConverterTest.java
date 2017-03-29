@@ -71,7 +71,7 @@ public class ProductEntityConverterTest extends AbstractTest {
      */
     @Test
     public void convertTest2() {
-        ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("product_sao_04", "master_catalog",
+        ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch("product_sao_04", "master_catalog",
                 ProductEntity.class, ProductEntity.DESCRIPTION);
         ProductEntityDto productDto = productEntityConverter.convert(product, ProductLoadOptions.DESCRIPTION);
         assertEquals(productDto.getCode().equals("product_sao_04") && productDto.getName().equals("Sword Art Online vol. 04") &&
@@ -86,7 +86,7 @@ public class ProductEntityConverterTest extends AbstractTest {
      */
     @Test
     public void convertTest3() {
-        ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("product_sao_04", "master_catalog",
+        ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch("product_sao_04", "master_catalog",
                 ProductEntity.class, ProductEntity.DESCRIPTION, ProductEntity.MAIN_CATEGORY);
         ProductEntityDto productDto = productEntityConverter.convert(product, ProductLoadOptions.DESCRIPTION, ProductLoadOptions.BREAD_CRUMBS);
         assertEquals(productDto.getCode().equals("product_sao_04") && productDto.getName().equals("Sword Art Online vol. 04") &&
@@ -102,7 +102,7 @@ public class ProductEntityConverterTest extends AbstractTest {
      */
     @Test
     public void convertTest4() {
-        ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("product_prince_of_tennis_01", "master_catalog",
+        ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch("product_prince_of_tennis_01", "master_catalog",
                 ProductEntity.class, ProductEntity.DESCRIPTION, ProductEntity.MAIN_CATEGORY);
         ProductEntityDto productDto = productEntityConverter.convert(product, ProductLoadOptions.ALL_STOCKS);
         assertUuidListsEquals(ENABLED_STOCKS_UUIDS_LIST, getUuidsFromDtos(productDto.getStocks()));

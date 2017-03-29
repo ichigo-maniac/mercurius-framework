@@ -26,6 +26,17 @@ public class ApplicationContextProvider implements ApplicationContextAware {
     /**
      * Get spring bean
      * @param beanName Bean name
+     * @param beanClass Bean class
+     * @param <T> Type
+     * @return Spring bean
+     */
+    public static <T> T getBean(String beanName, Class<T> beanClass) {
+        return context.getBean(beanName, beanClass);
+    }
+
+    /**
+     * Get spring bean
+     * @param beanName Bean name
      * @return Spring bean
      */
     public static Object getBean(String beanName) {

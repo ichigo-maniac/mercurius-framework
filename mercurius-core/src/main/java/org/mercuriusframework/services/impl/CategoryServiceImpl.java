@@ -113,7 +113,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of categories (ordered)
      */
     public List<CategoryEntity> getBreadCrumbs(String categoryCode, String catalogCode) {
-        return getBreadCrumbsByCategory(catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode(categoryCode, catalogCode, CategoryEntity.class,
+        return getBreadCrumbsByCategory(catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch(categoryCode, catalogCode, CategoryEntity.class,
                 CategoryEntity.MAIN_SUPER_CATEGORY));
     }
 
@@ -124,7 +124,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of categories (ordered)
      */
     public List<CategoryEntity> getBreadCrumbs(String categoryCode, CatalogEntity catalog) {
-        return getBreadCrumbsByCategory(catalogUniqueCodeEntityService.getEntityByCodeAndCatalog(categoryCode, catalog, CategoryEntity.class,
+        return getBreadCrumbsByCategory(catalogUniqueCodeEntityService.getEntityByCodeAndCatalogWithFetch(categoryCode, catalog, CategoryEntity.class,
                 CategoryEntity.MAIN_SUPER_CATEGORY));
     }
 
