@@ -50,6 +50,22 @@ public class MercuriusMMCWidgetsConstants {
         public static final String PRIORITY = "priority";
 
         /**
+         * Fetch properties
+         */
+        public class FetchProperties {
+
+            public static final String WIDGET_NAME = "fetch-properties";
+
+            /**
+             * Entity property
+             */
+            public class EntityProperty {
+                public static final String WIDGET_NAME = "entity-property";
+                public static final String NAME = "name";
+            }
+        }
+
+        /**
          * Table view
          */
         public class TableView {
@@ -63,6 +79,7 @@ public class MercuriusMMCWidgetsConstants {
                 public static final String WIDGET_NAME = "column";
                 public static final String TITLE = "title";
                 public static final String PROPERTY = "property";
+                public static final String RENDERER_BEAN = "rendererBean";
             }
         }
     }

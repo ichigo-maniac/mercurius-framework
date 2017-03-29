@@ -42,7 +42,7 @@ public class FeatureEntity extends CatalogUniqueCodeEntity {
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = FeatureValueEntity.FEATURE, cascade = CascadeType.ALL)
     private List<FeatureValueEntity> featureValues;
-    public static final String FEATURE_VALUES= "featureValues";
+    public static final String FEATURE_VALUES = "featureValues";
 
     /**
      * Get enum class

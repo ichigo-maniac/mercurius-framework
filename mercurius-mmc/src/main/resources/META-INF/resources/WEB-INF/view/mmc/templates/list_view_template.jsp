@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="mmc-tags" uri="/WEB-INF/tlds/mmc-tags.tld" %>
 
 <div class="panel panel-info" style="width: 100%;">
     <%-- Header --%>
@@ -24,7 +25,15 @@
                 <tr>
                     <c:forEach var="currentColumn" items="${listView.tableView.columns}">
                         <td>
-                            <c:out value="${item[currentColumn.property]}"/>
+                            <c:choose>
+                                <c:when test="${currentColumn.rendererBean != null}">
+                                    <mmc-tags:table-view-column-renderer parentObject="${item}" propertyObject="${item[currentColumn.property]}"
+                                                                         columnRenderer="${currentColumn.rendererBean}"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:out value="${item[currentColumn.property]}"/>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                     </c:forEach>
                 </tr>

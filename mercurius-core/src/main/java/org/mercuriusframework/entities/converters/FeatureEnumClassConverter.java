@@ -19,7 +19,11 @@ public class FeatureEnumClassConverter implements AttributeConverter<FeatureEnum
      */
     @Override
     public String convertToDatabaseColumn(FeatureEnumClass featureEnumClass) {
-        return featureEnumClass.getClassValue().toGenericString();
+        if (featureEnumClass == null) {
+            return null;
+        } else {
+            return featureEnumClass.getClassValue().toGenericString();
+        }
     }
 
     /**

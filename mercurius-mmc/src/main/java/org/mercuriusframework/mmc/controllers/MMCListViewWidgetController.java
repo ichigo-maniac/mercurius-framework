@@ -100,7 +100,7 @@ public class MMCListViewWidgetController {
             return new LoadWidgetResult(LoadWidgetResultStatus.NOT_FOUND);
         }
         Integer pageSize = configurationService.getIntParameter(MercuriusMMCConfigurationParameters.LIST_VIEW_PAGE_SIZE, PAGE_SIZE);
-        PageableResult<ProductEntity> loadedData = entityService.getPageableResultByCriteria(page, pageSize, entityClass);
+        PageableResult<ProductEntity> loadedData = entityService.getPageableResultByCriteria(page, pageSize, listViewWidget.getFetchFields(), entityClass);
         /** Transform widget */
         String rendererResult = renderListViewFragment(request, response, entityName, listViewWidget, loadedData);
         if (StringUtils.isEmpty(rendererResult)) {

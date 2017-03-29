@@ -15,6 +15,7 @@
             <column property="uuid"/>
             <column property="code"/>
             <column property="name"/>
+            <column property="catalog" rendererBean="uniqueCodeTableViewColumnRenderer"/>
         </table-view>
     </list-view>
 
@@ -23,6 +24,7 @@
             <column property="uuid"/>
             <column property="code"/>
             <column property="name"/>
+            <column property="catalog" rendererBean="uniqueCodeTableViewColumnRenderer"/>
         </table-view>
     </list-view>
 
@@ -34,11 +36,21 @@
         </table-view>
     </list-view>
 
+    <list-view entity-name="Feature" priority="0">
+        <table-view>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
+            <column property="featureType"/>
+        </table-view>
+    </list-view>
+
     <list-view entity-name="Store" priority="0">
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
             <column property="name"/>
+            <column property="enabled"/>
         </table-view>
     </list-view>
 
@@ -50,16 +62,36 @@
             <column property="uuid"/>
             <column property="code"/>
             <column property="name"/>
+            <column property="store" rendererBean="uniqueCodeTableViewColumnRenderer"/>
             <column property="enabled"/>
         </table-view>
     </list-view>
 
     <list-view entity-name="Stock" priority="0">
+        <fetch-properties>
+            <entity-property name="product"/>
+            <entity-property name="unit"/>
+        </fetch-properties>
         <table-view>
             <column property="uuid"/>
-            <column property="code"/>
-            <column property="name"/>
+            <column property="product" rendererBean="catalogUniqueCodeTableViewColumnRenderer"/>
+            <column property="unit" rendererBean="catalogUniqueCodeTableViewColumnRenderer"/>
             <column property="count"/>
+            <column property="enabled"/>
+        </table-view>
+    </list-view>
+
+    <list-view entity-name="Price" priority="0">
+        <fetch-properties>
+            <entity-property name="product"/>
+            <entity-property name="unit"/>
+        </fetch-properties>
+        <table-view>
+            <column property="uuid"/>
+            <column property="priceValue"/>
+            <column property="currency" rendererBean="uniqueCodeTableViewColumnRenderer"/>
+            <column property="product" rendererBean="catalogUniqueCodeTableViewColumnRenderer"/>
+            <column property="unit" rendererBean="catalogUniqueCodeTableViewColumnRenderer"/>
         </table-view>
     </list-view>
 
@@ -68,6 +100,7 @@
             <column property="uuid"/>
             <column property="code"/>
             <column property="name"/>
+            <column property="email"/>
         </table-view>
     </list-view>
 
@@ -76,6 +109,7 @@
             <column property="uuid"/>
             <column property="code"/>
             <column property="name"/>
+            <column property="email"/>
         </table-view>
     </list-view>
 

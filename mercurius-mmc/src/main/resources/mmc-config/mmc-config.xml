@@ -10,12 +10,19 @@
             <tree-node-entity-element entity-name="Product"/>
             <tree-node-entity-element entity-name="Category"/>
             <tree-node-entity-element entity-name="Unit"/>
+            <tree-node title="mmc.tree.view.catalog.features.label">
+                <tree-node-entity-element entity-name="Feature"/>
+            </tree-node>
         </tree-node>
         <!-- Store -->
         <tree-node title="mmc.tree.view.store.label">
             <tree-node-entity-element entity-name="Store"/>
             <tree-node-entity-element entity-name="Warehouse"/>
             <tree-node-entity-element entity-name="Stock"/>
+        </tree-node>
+        <!-- Prices -->
+        <tree-node title="mmc.tree.view.prices.label">
+            <tree-node-entity-element entity-name="Price"/>
         </tree-node>
         <!-- Users -->
         <tree-node title="mmc.tree.view.users.label">

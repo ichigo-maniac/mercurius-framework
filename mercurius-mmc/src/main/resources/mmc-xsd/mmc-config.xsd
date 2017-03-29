@@ -79,6 +79,7 @@
         <!-- Attributes -->
         <xs:attribute name="title" type="xs:string" use="optional"/>
         <xs:attribute name="property" type="xs:string" use="required"/>
+        <xs:attribute name="rendererBean" type="xs:string" use="optional"/>
     </xs:complexType>
 
 </xs:schema>

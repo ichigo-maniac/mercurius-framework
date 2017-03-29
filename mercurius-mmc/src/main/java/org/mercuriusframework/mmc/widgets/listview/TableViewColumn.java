@@ -2,8 +2,10 @@ package org.mercuriusframework.mmc.widgets.listview;
 
 import org.apache.commons.lang.StringUtils;
 import org.mercuriusframework.constants.MercuriusConstants;
+import org.mercuriusframework.helpers.ApplicationContextProvider;
 import org.mercuriusframework.mmc.constants.MercuriusMMCWidgetsConstants;
 import org.mercuriusframework.helpers.MessageSourceProvider;
+import org.mercuriusframework.mmc.renderers.TableViewColumnRenderer;
 import org.w3c.dom.Node;
 
 /**
@@ -20,6 +22,11 @@ public class TableViewColumn {
      * Property
      */
     private String property;
+
+    /**
+     * Renderer bean
+     */
+    private TableViewColumnRenderer rendererBean;
 
     /**
      * Parent view
@@ -46,6 +53,14 @@ public class TableViewColumn {
                     MercuriusConstants.LOCALIZATION.ENTITY_PROPERTY_SUFFIX + property;
         }
         this.title = MessageSourceProvider.getMessage(titleCode);
+        /** Renderer bean */
+        String rendererBeanName = columnXmlElement.getAttributes().getNamedItem(
+                MercuriusMMCWidgetsConstants.ListView.TableView.Column.RENDERER_BEAN) != null ?
+                columnXmlElement.getAttributes().getNamedItem(
+                        MercuriusMMCWidgetsConstants.ListView.TableView.Column.RENDERER_BEAN).getNodeValue() : null;
+        if (rendererBeanName != null) {
+            rendererBean = ApplicationContextProvider.getBean(rendererBeanName.trim(), TableViewColumnRenderer.class);
+        }
     }
 
     /**
@@ -78,6 +93,22 @@ public class TableViewColumn {
      */
     public void setProperty(String property) {
         this.property = property;
+    }
+
+    /**
+     * Get renderer bean
+     * @return Renderer bean
+     */
+    public TableViewColumnRenderer getRendererBean() {
+        return rendererBean;
+    }
+
+    /**
+     * Set renderer bean
+     * @param rendererBean Renderer bean
+     */
+    public void setRendererBean(TableViewColumnRenderer rendererBean) {
+        this.rendererBean = rendererBean;
     }
 
     /**
