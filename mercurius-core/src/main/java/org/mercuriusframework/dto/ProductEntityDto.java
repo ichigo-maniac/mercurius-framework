@@ -51,6 +51,16 @@ public class ProductEntityDto extends CatalogUniqueCodeEntityDto {
     private StockTotalDto defaultStock;
 
     /**
+     * Feature values
+     */
+    private List<FeatureValueEntityDto> featureValues;
+
+    /**
+     * Feature values map (by group name)
+     */
+    private Map<String, List<FeatureValueEntityDto>> featureValuesMap;
+
+    /**
      * Get description
      * @return Description
      */
@@ -176,5 +186,37 @@ public class ProductEntityDto extends CatalogUniqueCodeEntityDto {
      */
     public void setDefaultStock(StockTotalDto defaultStock) {
         this.defaultStock = defaultStock;
+    }
+
+    /**
+     * Get feature values
+     * @return Feature values
+     */
+    public List<FeatureValueEntityDto> getFeatureValues() {
+        return featureValues;
+    }
+
+    /**
+     * Set feature values
+     * @param featureValues Feature values
+     */
+    public void setFeatureValues(List<FeatureValueEntityDto> featureValues) {
+        this.featureValues = featureValues;
+    }
+
+    /**
+     * Get feature values map (by group name)
+     * @return Feature values map (by group name)
+     */
+    public Map<String, List<FeatureValueEntityDto>> getFeatureValuesMap() {
+        return featureValuesMap;
+    }
+
+    /**
+     * Set feature values map (by group name)
+     * @param featureValuesMap Feature values map (by group name)
+     */
+    public void setFeatureValuesMap(Map<String, List<FeatureValueEntityDto>> featureValuesMap) {
+        this.featureValuesMap = featureValuesMap;
     }
 }

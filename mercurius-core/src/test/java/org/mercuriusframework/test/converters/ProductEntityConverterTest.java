@@ -40,6 +40,11 @@ public class ProductEntityConverterTest extends AbstractTest {
             "12345e10-1594-22e6-b6ff-abd422555333", "12345e10-0000-22e6-4444-abd422555333"
     );
 
+    private static final List<String> FEATURE_VALUES_UUIDS_LIST = Arrays.asList(
+            "12345e10-1a94-22e6-0000-abd000223330", "12345e10-1a94-22e6-0000-777000223337",
+            "00045e10-1a94-22e6-0000-abd000223111", "11115e0-1a94-22e6-0000-ccbd000223111"
+    );
+
 
     /**
      * Product entity converter
@@ -118,5 +123,21 @@ public class ProductEntityConverterTest extends AbstractTest {
                         entry.getValue().getAvailableProductsCount() ==  4l, true);
             }
         }
+    }
+
+    /**
+     * Method test - productEntityConverter.convert
+     */
+    @Test
+    public void convertTest5() {
+        ProductEntity product = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch("product_sao_01", "master_catalog",
+                ProductEntity.class, ProductEntity.FEATURE_VALUES);
+        ProductEntityDto productDto = productEntityConverter.convert(product, ProductLoadOptions.FEATURE_VALUES);
+        assertEquals(productDto.getCode().equals("product_sao_01") && productDto.getName().equals("Sword Art Online vol. 01") &&
+                        productDto.getShortName() == null &&
+                        productDto.getUuid().equals("a1f05e10-fa94-11e6-b6ff-bf2400ed613a")
+                , true);
+
+        assertOrderedUuidListsEquals(FEATURE_VALUES_UUIDS_LIST, getUuidsFromDtos(productDto.getFeatureValues()));
     }
 }

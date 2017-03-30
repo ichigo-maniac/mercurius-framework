@@ -12,6 +12,7 @@
             <tree-node-entity-element entity-name="Unit"/>
             <tree-node title="mmc.tree.view.catalog.features.label">
                 <tree-node-entity-element entity-name="Feature"/>
+                <tree-node-entity-element entity-name="FeatureValue"/>
             </tree-node>
         </tree-node>
         <!-- Store -->

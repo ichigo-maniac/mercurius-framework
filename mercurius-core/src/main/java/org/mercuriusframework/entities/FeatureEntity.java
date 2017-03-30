@@ -22,14 +22,6 @@ public class FeatureEntity extends CatalogUniqueCodeEntity {
     public static final String ENTITY_NAME = "Feature";
 
     /**
-     * Enum class
-     */
-    @Convert(converter = FeatureEnumClassConverter.class)
-    @Basic(optional = true)
-    private FeatureEnumClass enumClass;
-    public static final String ENUM_CLASS = "enumClass";
-
-    /**
      * Feature type
      */
     @Basic(optional = false)
@@ -43,22 +35,6 @@ public class FeatureEntity extends CatalogUniqueCodeEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = FeatureValueEntity.FEATURE, cascade = CascadeType.ALL)
     private List<FeatureValueEntity> featureValues;
     public static final String FEATURE_VALUES = "featureValues";
-
-    /**
-     * Get enum class
-     * @return Enum class
-     */
-    public FeatureEnumClass getEnumClass() {
-        return enumClass;
-    }
-
-    /**
-     * Set enum class
-     * @param enumClass Enum class
-     */
-    public void setEnumClass(FeatureEnumClass enumClass) {
-        this.enumClass = enumClass;
-    }
 
     /**
      * Get feature type

@@ -41,7 +41,19 @@
             <column property="uuid"/>
             <column property="code"/>
             <column property="name"/>
-            <column property="featureType"/>
+            <column property="featureType" rendererBean="enumTableViewColumnRenderer"/>
+        </table-view>
+    </list-view>
+
+    <list-view entity-name="FeatureValue" priority="0">
+        <fetch-properties>
+            <entity-property name="product"/>
+        </fetch-properties>
+        <table-view>
+            <column property="uuid"/>
+            <column property="product" rendererBean="catalogUniqueCodeTableViewColumnRenderer"/>
+            <column property="feature" rendererBean="catalogUniqueCodeTableViewColumnRenderer"/>
+            <column property="value"/>
         </table-view>
     </list-view>
 

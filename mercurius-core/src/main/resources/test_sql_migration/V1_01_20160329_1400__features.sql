@@ -5,28 +5,27 @@ CREATE TABLE FEATURE(
   creationtime TIMESTAMP NOT NULL,
   modificationtime TIMESTAMP NOT NULL,
   catalog_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SHOP_CATALOG(uuid) ON DELETE RESTRICT,
-  enumClass CHARACTER VARYING(255),
   featureType CHARACTER VARYING(255) NOT NULL
 );
 
-INSERT INTO FEATURE(uuid, name, code, creationtime, modificationtime, catalog_uuid, enumClass, featureType) VALUES (
+INSERT INTO FEATURE(uuid, name, code, creationtime, modificationtime, catalog_uuid, featureType) VALUES (
   'b1f05e10-5522-11e6-4221-bf2400ed613a', 'Pages count', 'book_pages_feature', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
-  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'), null, 'NUMERIC_TYPE'
+  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'), 'NUMERIC_TYPE'
 );
 
-INSERT INTO FEATURE(uuid, name, code, creationtime, modificationtime, catalog_uuid, enumClass, featureType) VALUES (
+INSERT INTO FEATURE(uuid, name, code, creationtime, modificationtime, catalog_uuid, featureType) VALUES (
   'b1f05e10-5522-5311-4221-bf2400ed613a', 'Cover type', 'book_cover_type_feature', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
-  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'), null, 'STRING_TYPE'
+  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'), 'STRING_TYPE'
 );
 
-INSERT INTO FEATURE(uuid, name, code, creationtime, modificationtime, catalog_uuid, enumClass, featureType) VALUES (
+INSERT INTO FEATURE(uuid, name, code, creationtime, modificationtime, catalog_uuid, featureType) VALUES (
   'b1001250-5522-5311-4221-bf2400ed613a', 'Weight', 'book_weight', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
-  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'), null, 'FLOAT_NUMERIC_TYPE'
+  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'), 'FLOAT_NUMERIC_TYPE'
 );
 
-INSERT INTO FEATURE(uuid, name, code, creationtime, modificationtime, catalog_uuid, enumClass, featureType) VALUES (
+INSERT INTO FEATURE(uuid, name, code, creationtime, modificationtime, catalog_uuid, featureType) VALUES (
   'b1001250-1111-5311-0012-bf2400ed613a', 'For adult', 'book_for_adult', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
-  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'), null, 'BOOLEAN_TYPE'
+  (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'), 'BOOLEAN_TYPE'
 );
 
 CREATE TABLE FEATURE_VALUE(
@@ -47,7 +46,7 @@ INSERT INTO FEATURE_VALUE(uuid, name, code, creationtime, modificationtime, cata
   (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'),
   (SELECT uuid FROM FEATURE WHERE code ='book_pages_feature' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
   (SELECT uuid FROM PRODUCT WHERE code ='product_sao_01' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
-  'NUMERIC_TYPE:::256', 'Common'
+  'NUMERIC_TYPE::256', 'Common'
 );
 
 INSERT INTO FEATURE_VALUE(uuid, name, code, creationtime, modificationtime, catalog_uuid, feature_uuid, product_uuid, featureValue, groupName) VALUES (
@@ -55,7 +54,7 @@ INSERT INTO FEATURE_VALUE(uuid, name, code, creationtime, modificationtime, cata
   (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'),
   (SELECT uuid FROM FEATURE WHERE code ='book_weight' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
   (SELECT uuid FROM PRODUCT WHERE code ='product_sao_01' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
-  'FLOAT_NUMERIC_TYPE:::1.5', 'Common'
+  'FLOAT_NUMERIC_TYPE::1.5', 'Common'
 );
 
 INSERT INTO FEATURE_VALUE(uuid, name, code, creationtime, modificationtime, catalog_uuid, feature_uuid, product_uuid, featureValue, groupName) VALUES (
@@ -63,7 +62,7 @@ INSERT INTO FEATURE_VALUE(uuid, name, code, creationtime, modificationtime, cata
   (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'),
   (SELECT uuid FROM FEATURE WHERE code ='book_cover_type_feature' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
   (SELECT uuid FROM PRODUCT WHERE code ='product_sao_01' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
-  'STRING_TYPE:::Paperback', 'Common'
+  'STRING_TYPE::Paperback', 'Common'
 );
 
 INSERT INTO FEATURE_VALUE(uuid, name, code, creationtime, modificationtime, catalog_uuid, feature_uuid, product_uuid, featureValue, groupName) VALUES (
@@ -71,5 +70,5 @@ INSERT INTO FEATURE_VALUE(uuid, name, code, creationtime, modificationtime, cata
   (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog'),
   (SELECT uuid FROM FEATURE WHERE code ='book_for_adult' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
   (SELECT uuid FROM PRODUCT WHERE code ='product_sao_01' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOG WHERE code = 'master_catalog')),
-  'BOOLEAN_TYPE:::FALSE', 'Common'
+  'BOOLEAN_TYPE::FALSE', 'Common'
 );

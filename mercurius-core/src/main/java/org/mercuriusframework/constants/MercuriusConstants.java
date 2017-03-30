@@ -39,5 +39,6 @@ public class MercuriusConstants {
         public static final String ENTITY_PREFIX = "entity.";
         public static final String ENTITY_SUFFIX = ".title";
         public static final String ENTITY_PROPERTY_SUFFIX = ".property.";
+        public static final String ENUM_PREFIX = "enum.";
     }
 }

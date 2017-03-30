@@ -2,6 +2,7 @@ package org.mercuriusframework.fillers.impl;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.mercuriusframework.converters.impl.CategoryEntityConverter;
+import org.mercuriusframework.converters.impl.FeatureValueEntityConverter;
 import org.mercuriusframework.converters.impl.PriceEntityConverter;
 import org.mercuriusframework.converters.impl.StockEntityConverter;
 import org.mercuriusframework.dto.*;
@@ -101,6 +102,13 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
     protected PriceEntityConverter priceEntityConverter;
 
     /**
+     * Feature value entity converter
+     */
+    @Autowired
+    @Qualifier("featureValueEntityConverter")
+    protected FeatureValueEntityConverter featureValueEntityConverter;
+
+    /**
      * Fill a result object from a source object
      * @param productEntity    Source object
      * @param productEntityDto Result object
@@ -147,6 +155,10 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
         }
         if (ArrayUtils.contains(options, ProductLoadOptions.DEFAULT_UNIT_STOCKS_FOR_SET_STORE)) {
             setStocksForDefaultUnitAndSetStore(productEntity, productEntityDto);
+        }
+        /** Features */
+        if (ArrayUtils.contains(options, ProductLoadOptions.FEATURE_VALUES)) {
+            setFeatureValues(productEntity, productEntityDto);
         }
     }
 
@@ -250,5 +262,27 @@ public class ProductEntityFiller extends CatalogUniqueCodeEntityFiller<ProductEn
         /** Set stock map and default stock total */
         productEntityDto.setStocksMap(stockMap);
         productEntityDto.setDefaultStock(defaultStockTotal);
+    }
+
+    /**
+     * Set feature values
+     * @param productEntity Product entity
+     * @param productEntityDto Product entity data transfer object
+     */
+    private void setFeatureValues(ProductEntity productEntity, ProductEntityDto productEntityDto) {
+        List<FeatureValueEntity> featureValues = productEntity.getFeatureValues();
+        productEntityDto.setFeatureValues(featureValueEntityConverter.convertAll(featureValues));
+        /** Create feature values map */
+        Map<String, List<FeatureValueEntityDto>> featureValuesMap = new HashMap<>();
+        for (FeatureValueEntityDto featureValue : productEntityDto.getFeatureValues()) {
+            if (featureValuesMap.containsKey(featureValue.getGroupName())) {
+                featureValuesMap.get(featureValue.getGroupName()).add(featureValue);
+            } else {
+                List<FeatureValueEntityDto> currentList = new ArrayList<>();
+                currentList.add(featureValue);
+                featureValuesMap.put(featureValue.getGroupName(), currentList);
+            }
+        }
+        productEntityDto.setFeatureValuesMap(featureValuesMap);
     }
 }

@@ -29,11 +29,6 @@ public class FeatureValue {
     private Boolean booleanValue;
 
     /**
-     * Enum value
-     */
-    private FeatureValueEnum enumValue;
-
-    /**
      * Constructor
      * @param stringValue String value
      */
@@ -66,14 +61,6 @@ public class FeatureValue {
     }
 
     /**
-     * Constructor
-     * @param enumValue Enum value
-     */
-    public FeatureValue(FeatureValueEnum enumValue) {
-        this.enumValue = enumValue;
-    }
-
-    /**
      * Get feature value
      * @return Value
      */
@@ -89,9 +76,6 @@ public class FeatureValue {
         }
         if (booleanValue != null) {
             return booleanValue;
-        }
-        if (enumValue != null) {
-            return enumValue;
         }
         return null;
     }
@@ -113,9 +97,15 @@ public class FeatureValue {
         if (booleanValue != null) {
             return FeatureType.BOOLEAN_TYPE;
         }
-        if (enumValue != null) {
-            return FeatureType.ENUM_TYPE;
-        }
         return null;
+    }
+
+    /**
+     * To string
+     * @return String representation
+     */
+    @Override
+    public String toString() {
+        return getValue() != null ? getValue().toString() : "";
     }
 }
