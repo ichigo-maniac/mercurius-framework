@@ -25,8 +25,8 @@
         </div>
         <%-- Tabs --%>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-            <a href="#" class="mdl-layout__tab is-active"><spring:message code="dataimport.import.console.tab.label"/></a>
-            <a href="<c:url value="/dataimport/app_panel/import_files_data"/>" class="mdl-layout__tab">
+            <a href="<c:url value="/dataimport/app_panel"/>" class="mdl-layout__tab"><spring:message code="dataimport.import.console.tab.label"/></a>
+            <a href="#" class="mdl-layout__tab is-active">
                 <spring:message code="dataimport.import.files.import.tab.label"/>
             </a>
             <a href="<c:url value="/dataimport/logout"/>" class="mdl-layout__tab">
@@ -41,15 +41,21 @@
             <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                 <div class="mdl-card mdl-cell mdl-cell--12-col">
                     <div class="mdl-card__supporting-text">
-                        <h4 style="color: black; font-weight: bold"><spring:message code="dataimport.import.console.panel.label"/></h4>
+                        <h4 style="color: black; font-weight: bold"><spring:message code="dataimport.import.files.import.panel.label"/></h4>
                         <%-- Import form --%>
-                        <form:form action="/dataimport/app_panel/import_string_data" method="POST"
-                                 onsubmit="return $('#rawText').val().trim().length != 0" class="form-horizontal">
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <textarea id="rawText" name="rawText" style="min-height: 400px;" class="form-control"></textarea>
+                        <form:form action="/dataimport/app_panel/import_files_data?${_csrf.parameterName}=${_csrf.token}" method="POST"
+                                   enctype="multipart/form-data"
+                                   class="form-inline">
+                            <%-- Files input --%>
+                            <div class="form-group" style="font-size: 150%">
+                                <label for="importFiles" class="col-sm-2 control-label" style="color: black">
+                                    <spring:message code="dataimport.import.files.files.label"/>
+                                </label>
+                                <div class="col-sm-10">
+                                    <input id="importFiles" name="importFiles" type="file" multiple="true">
                                 </div>
                             </div>
+                            <%-- Submit --%>
                             <div class="form-group">
                                 <div class="pull-right">
                                     <button type="submit" class="btn btn-primary" style="margin-right: 20px; width: 100px;">
@@ -67,7 +73,7 @@
                                             <h3 class="panel-title"><spring:message code="dataimport.import.console.result.panel.label"/></h3>
                                         </div>
                                         <div class="panel-body" style="font-size: 110%; color: black">
-                                            ${errorLog}
+                                                ${errorLog}
                                         </div>
                                     </div>
                                 </c:when>
@@ -89,7 +95,6 @@
         </div>
     </main>
 </div>
-
 <%-- Javascript libraries --%>
 <jsp:include page="/WEB-INF/view/dataimport/common/javascript_libraries.jsp"/>
 </body>

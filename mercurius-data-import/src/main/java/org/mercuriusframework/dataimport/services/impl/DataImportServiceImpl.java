@@ -17,6 +17,7 @@ import org.mercuriusframework.services.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,6 +29,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -74,6 +76,33 @@ public class DataImportServiceImpl implements DataImportService {
     @Override
     public String importData(String xmlStringValue) {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(xmlStringValue.getBytes());
+        return importData(inputStream);
+    }
+
+    /**
+     * Import data
+     * @param file Import data file
+     * @return Log result
+     */
+    @Override
+    public String importData(MultipartFile file) {
+        ByteArrayInputStream inputStream = null;
+        try {
+            inputStream = new ByteArrayInputStream(file.getBytes());
+            return importData(inputStream);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            return IMPORT_ERROR_PREFIX + exception.getMessage() + "<br>";
+        }
+    }
+
+    /**
+     * Import data
+     * @param stream Import stream
+     * @return Log result
+     */
+    @Override
+    public String importData(InputStream stream) {
         /** Create xml builder */
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder xmlBuilder = null;
@@ -82,20 +111,20 @@ public class DataImportServiceImpl implements DataImportService {
         } catch (ParserConfigurationException exception) {
             exception.printStackTrace();
             LOGGER.error(exception);
-            return IMPORT_ERROR_PREFIX + exception.getMessage();
+            return IMPORT_ERROR_PREFIX + exception.getMessage() + "<br>";
         }
         /** Parse string value */
         Document document = null;
         try {
-            document = xmlBuilder.parse(inputStream);
+            document = xmlBuilder.parse(stream);
         } catch (SAXException exception) {
             exception.printStackTrace();
             LOGGER.error(exception);
-            return IMPORT_ERROR_PREFIX + exception.getMessage();
+            return IMPORT_ERROR_PREFIX + exception.getMessage() + "<br>";
         } catch (IOException exception) {
             exception.printStackTrace();
             LOGGER.error(exception);
-            return IMPORT_ERROR_PREFIX + exception.getMessage();
+            return IMPORT_ERROR_PREFIX + exception.getMessage() + "<br>";
         }
         /** Import data */
         return importDocument(document);
@@ -110,7 +139,7 @@ public class DataImportServiceImpl implements DataImportService {
         Element configElement = xmlDocument.getDocumentElement();
         if (!configElement.getNodeName().equals(MercuriusDataImportComponentConstants.DataImport.COMPONENT_NAME)) {
             LOGGER.error(IMPORT_ERROR_PREFIX + "root element must be \"{}\"", MercuriusDataImportComponentConstants.DataImport.COMPONENT_NAME);
-            return IMPORT_ERROR_PREFIX + "root element must be \"" + MercuriusDataImportComponentConstants.DataImport.COMPONENT_NAME + "\"";
+            return IMPORT_ERROR_PREFIX + "root element must be \"" + MercuriusDataImportComponentConstants.DataImport.COMPONENT_NAME + "<br>";
         }
         /** Create components */
         List<AbstractImportComponent> components = new ArrayList<>(configElement.getChildNodes().getLength());
