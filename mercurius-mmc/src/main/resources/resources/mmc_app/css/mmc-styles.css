@@ -220,3 +220,12 @@ _:-ms-input-placeholder, :root .mmc-graph {
     -webkit-font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
 }
+
+.icon-button {
+    opacity: 0.8;
+}
+
+.icon-button:hover {
+    opacity: 1;
+    cursor: pointer;
+}

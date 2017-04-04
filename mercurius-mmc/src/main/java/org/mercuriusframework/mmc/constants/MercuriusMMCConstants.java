@@ -5,6 +5,13 @@ package org.mercuriusframework.mmc.constants;
  */
 public class MercuriusMMCConstants {
     /**
+     * Common constants
+     */
+    public class COMMON {
+        public static final String ADMIN_ROLE_CODE = "ROLE_ADMIN";
+    }
+
+    /**
      * URL constants
      */
     public class URLS {

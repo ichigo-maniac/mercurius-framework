@@ -4,6 +4,10 @@
 
     <!-- Admin tree node view -->
     <tree-nodes-view roles="ROLE_ADMIN" priority="0">
+        <!-- Solr search -->
+        <tree-node title="mmc.tree.view.solr.search.label">
+            <tree-node-entity-element entity-name="SolrIndexTask"/>
+        </tree-node>
         <!-- Catalog -->
         <tree-node title="mmc.tree.view.catalog.label">
             <tree-node-entity-element entity-name="Catalog"/>

@@ -17,12 +17,31 @@
     <header class="mmc-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
             <div class="mdl-layout-spacer"></div>
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
-                <i class="material-icons">more_vert</i>
-            </button>
-            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
-                <a href="<c:url value="/mmc/logout"/>"><li class="mdl-menu__item"><spring:message code="mmc.logout.button.label"/></li></a>
-            </ul>
+            <%-- Solr tasks --%>
+            <c:if test="${not empty solrTasks}">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" id="solr"
+                   aria-expanded="false">
+                    <spring:message code="mmc.panel.solr.tasks.label"/>
+                    <span class="caret"></span>
+                </a>
+                <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="solr">
+                    <c:forEach var="solrTask" items="${solrTasks}">
+                        <c:choose>
+                            <c:when test="${solrTask.enabled}">
+                                <li class="mdl-menu__item">
+                                    <c:out value="${solrTask.name} - ${solrTask.code}"/>
+                                    <img class="icon-button" style="margin-left: 5px;" src="/resources/mmc_app/images/play.png" width="16"/>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li disabled class="mdl-menu__item"><c:out value="${solrTask.name} - ${solrTask.code}"/></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </ul>
+            </c:if>
+            <%-- Log out --%>
+            <a style="margin-left: 20px;" href="<c:url value="/mmc/logout"/>"><spring:message code="mmc.logout.button.label"/></a>
         </div>
     </header>
     <%-- Navigation --%>

@@ -5,6 +5,7 @@ import org.mercuriusframework.facades.UserFacade;
 import org.mercuriusframework.mmc.constants.MercuriusMMCConstants;
 import org.mercuriusframework.mmc.services.MMCApplicationService;
 import org.mercuriusframework.mmc.widgets.treenodesview.TreeNodesViewWidget;
+import org.mercuriusframework.services.SolrIndexTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,13 @@ public class MMCApplicationController {
     private MMCApplicationService mmcApplicationService;
 
     /**
+     * Solr index task service
+     */
+    @Autowired
+    @Qualifier("solrIndexTaskService")
+    private SolrIndexTaskService solrIndexTaskService;
+
+    /**
      * Main panel view
      * @param model View model
      * @return View path
@@ -48,6 +56,10 @@ public class MMCApplicationController {
         TreeNodesViewWidget treeView = (TreeNodesViewWidget) mmcApplicationService.getWidgetXmlElement(WidgetType.TREE_NODES_VIEW);
         if (treeView != null) {
             model.addAttribute("treeView", treeView);
+        }
+        /** Solr tasks */
+        if (userFacade.hasCurrentUserRole(MercuriusMMCConstants.COMMON.ADMIN_ROLE_CODE)) {
+            model.addAttribute("solrTasks", solrIndexTaskService.getAllTasks());
         }
         return MercuriusMMCConstants.JSP_TEMPLATES.MAIN_VIEW_JSP;
     }

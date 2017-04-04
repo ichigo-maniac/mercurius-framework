@@ -133,4 +133,13 @@
         </table-view>
     </list-view>
 
+    <list-view entity-name="SolrIndexTask" priority="0">
+        <table-view>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
+            <column property="enabled"/>
+        </table-view>
+    </list-view>
+
 </config>
