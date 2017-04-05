@@ -6,6 +6,11 @@ CREATE TABLE TASKS(
   modificationtime TIMESTAMP NOT NULL,
   query CHARACTER VARYING(2500),
   enabled BOOLEAN,
+  status CHARACTER VARYING(255) NOT NULL,
+  taskRunBeanName CHARACTER VARYING(255) NOT NULL,
+  laststarttime TIMESTAMP,
+  lastfinishtime TIMESTAMP,
+  indexEntityName CHARACTER VARYING(255),
   task_type CHARACTER VARYING(255) NOT NULL
 );
 

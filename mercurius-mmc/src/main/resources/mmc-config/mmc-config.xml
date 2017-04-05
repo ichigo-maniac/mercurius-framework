@@ -5,8 +5,11 @@
     <!-- Admin tree node view -->
     <tree-nodes-view roles="ROLE_ADMIN" priority="0">
         <!-- Solr search -->
-        <tree-node title="mmc.tree.view.solr.search.label">
-            <tree-node-entity-element entity-name="SolrIndexTask"/>
+        <tree-node title="mmc.tree.view.system.label">
+            <tree-node-entity-element entity-name="Task"/>
+            <tree-node title="mmc.tree.view.solr.search.label">
+                <tree-node-entity-element entity-name="SolrIndexTask"/>
+            </tree-node>
         </tree-node>
         <!-- Catalog -->
         <tree-node title="mmc.tree.view.catalog.label">

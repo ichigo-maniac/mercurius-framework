@@ -17,11 +17,34 @@ public class SolrIndexTaskEntity extends TaskEntity {
     public static final String ENTITY_NAME = "SolrIndexTask";
 
     /**
+     * Index entity name
+     */
+    @Basic(optional = false)
+    private String indexEntityName;
+    public static final String INDEX_ENTITY_NAME = "indexEntityName";
+
+    /**
      * Query string (hql)
      */
     @Column(nullable = false, length = 2500)
     private String query;
     public static final String QUERY = "query";
+
+    /**
+     * Get index entity name
+     * @return Index entity name
+     */
+    public String getIndexEntityName() {
+        return indexEntityName;
+    }
+
+    /**
+     * Set index entity name
+     * @param indexEntityName Index entity name
+     */
+    public void setIndexEntityName(String indexEntityName) {
+        this.indexEntityName = indexEntityName;
+    }
 
     /**
      * Get query string (hql)
