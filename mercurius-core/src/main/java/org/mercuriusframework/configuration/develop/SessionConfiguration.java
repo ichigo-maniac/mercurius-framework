@@ -21,7 +21,7 @@ import java.util.Set;
  */
 @EnableRedisHttpSession
 @Configuration
-@Profile({MercuriusConstants.PROFILES.REDIS_SESSION_PROFILE})
+@Profile(MercuriusConstants.PROFILES.REDIS_SESSION_PROFILE)
 public class SessionConfiguration {
 
     /**

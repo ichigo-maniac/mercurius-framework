@@ -27,11 +27,18 @@ public class MercuriusConfigurationParameters {
     }
 
     /**
-     * Redis
+     * Redis parameters
      */
     public class REDIS_PARAMETERS {
         public static final String SESSION_REDIS_NODE = "mercurius.session.redis.node";
         public static final String SESSION_REDIS_CLUSTER_NODES = "mercurius.session.redis.cluster.nodes";
+    }
+
+    /**
+     * Solr parameters
+     */
+    public class SOLR_PARAMETERS {
+        public static final String SOLR_HTTP_PATH = "mercurius.solr.http.path";
     }
 
     /**

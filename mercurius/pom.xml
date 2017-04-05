@@ -36,6 +36,7 @@
         <!-- Libraries -->
         <spring.version>4.2.1.RELEASE</spring.version>
         <spring.security.version>4.2.1.RELEASE</spring.security.version>
+        <spring.data.solr.version>2.1.1.RELEASE</spring.data.solr.version>
         <jackson.version>1.9.13</jackson.version>
         <jackson.data.bind.version>2.5.0</jackson.data.bind.version>
         <google.guava.version>19.0</google.guava.version>
@@ -47,6 +48,8 @@
         <!-- Database drivers -->
         <postgre.sql.driver.version>9.0-801.jdbc4</postgre.sql.driver.version>
         <mysql.sql.driver.version>5.1.6</mysql.sql.driver.version>
+        <!-- Solr -->
+        <solr.version>6.5.0</solr.version>
         <!-- Testing -->
         <junit.version>4.12</junit.version>
         <h2.database.version>1.4.193</h2.database.version>
@@ -172,6 +175,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-solr</artifactId>
+            <version>${spring.data.solr.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>biz.paluch.redis</groupId>
             <artifactId>lettuce</artifactId>
             <version>${redis.lettuce.version}</version>
@@ -258,6 +267,19 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.data.bind.version}</version>
+        </dependency>
+
+        <!-- Solr -->
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+            <version>${solr.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-core</artifactId>
+            <version>${solr.version}</version>
         </dependency>
 
         <!-- Google guava -->

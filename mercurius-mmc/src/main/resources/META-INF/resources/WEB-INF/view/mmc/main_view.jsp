@@ -18,28 +18,7 @@
         <div class="mdl-layout__header-row">
             <div class="mdl-layout-spacer"></div>
             <%-- Solr tasks --%>
-            <c:if test="${not empty solrTasks}">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" id="solr"
-                   aria-expanded="false">
-                    <spring:message code="mmc.panel.solr.tasks.label"/>
-                    <span class="caret"></span>
-                </a>
-                <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="solr">
-                    <c:forEach var="solrTask" items="${solrTasks}">
-                        <c:choose>
-                            <c:when test="${solrTask.enabled}">
-                                <li class="mdl-menu__item">
-                                    <c:out value="${solrTask.name} - ${solrTask.code}"/>
-                                    <img class="icon-button" style="margin-left: 5px;" src="/resources/mmc_app/images/play.png" width="16"/>
-                                </li>
-                            </c:when>
-                            <c:otherwise>
-                                <li disabled class="mdl-menu__item"><c:out value="${solrTask.name} - ${solrTask.code}"/></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </ul>
-            </c:if>
+            <jsp:include page="/WEB-INF/view/mmc/tasks/solr_tasks_fragment.jsp"/>
             <%-- Log out --%>
             <a style="margin-left: 20px;" href="<c:url value="/mmc/logout"/>"><spring:message code="mmc.logout.button.label"/></a>
         </div>
