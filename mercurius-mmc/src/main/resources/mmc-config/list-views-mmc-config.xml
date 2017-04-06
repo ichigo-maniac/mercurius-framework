@@ -153,4 +153,28 @@
         </table-view>
     </list-view>
 
+    <list-view entity-name="SolrIndexTaskProperty" priority="0">
+        <table-view>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
+            <column property="solrCollectionName"/>
+            <column property="indexEntityName"/>
+        </table-view>
+    </list-view>
+
+    <list-view entity-name="SolrIndexField" priority="0">
+        <fetch-properties>
+            <entity-property name="solrIndexProperty"/>
+        </fetch-properties>
+        <table-view>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="solrDocumentFieldName"/>
+            <column property="entityFieldName"/>
+            <column property="solrFieldConverterBeanName"/>
+            <column property="solrIndexProperty" rendererBean="uniqueCodeTableViewColumnRenderer"/>
+        </table-view>
+    </list-view>
+
 </config>

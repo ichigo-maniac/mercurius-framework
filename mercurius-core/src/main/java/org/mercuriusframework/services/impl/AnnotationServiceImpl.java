@@ -18,7 +18,6 @@ import java.util.Set;
  * Annotation service
  */
 @Service("annotationService")
-@Profile({MercuriusConstants.PROFILES.DEVELOP_PROFILE, MercuriusConstants.PROFILES.REDIS_SESSION_PROFILE})
 public class AnnotationServiceImpl implements AnnotationService {
 
     /**

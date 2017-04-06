@@ -23,6 +23,7 @@
 
         <!-- Common -->
         <log4j2.version>2.8</log4j2.version>
+        <slf4j.version>1.7.25</slf4j.version>
         <servlet.api.version>3.1.0</servlet.api.version>
         <jsp.api.version>2.1</jsp.api.version>
         <jstl.version>1.2</jstl.version>
@@ -64,10 +65,23 @@
             <artifactId>log4j-api</artifactId>
             <version>${log4j2.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>${log4j2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <!-- Servlet Api -->

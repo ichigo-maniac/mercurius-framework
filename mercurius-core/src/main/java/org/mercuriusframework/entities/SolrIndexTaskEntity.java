@@ -17,48 +17,26 @@ public class SolrIndexTaskEntity extends TaskEntity {
     public static final String ENTITY_NAME = "SolrIndexTask";
 
     /**
-     * Index entity name
+     * Solr index property
      */
-    @Basic(optional = false)
-    private String indexEntityName;
-    public static final String INDEX_ENTITY_NAME = "indexEntityName";
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "SOLR_INDEX_PROPERTY_UUID")
+    private SolrIndexTaskPropertyEntity indexProperty;
+    public static final String INDEX_PROPERTY = "indexProperty";
 
     /**
-     * Query string (hql)
+     * Get solr index property
+     * @return solr index property
      */
-    @Column(nullable = false, length = 2500)
-    private String query;
-    public static final String QUERY = "query";
-
-    /**
-     * Get index entity name
-     * @return Index entity name
-     */
-    public String getIndexEntityName() {
-        return indexEntityName;
+    public SolrIndexTaskPropertyEntity getIndexProperty() {
+        return indexProperty;
     }
 
     /**
-     * Set index entity name
-     * @param indexEntityName Index entity name
+     * Set solr index property
+     * @param indexProperty solr index property
      */
-    public void setIndexEntityName(String indexEntityName) {
-        this.indexEntityName = indexEntityName;
-    }
-
-    /**
-     * Get query string (hql)
-     * @return Query string (hql)
-     */
-    public String getQuery() {
-        return query;
-    }
-
-    /**
-     * Set query string (hql)
-     * @param query Query string (hql)
-     */
-    public void setQuery(String query) {
-        this.query = query;
+    public void setIndexProperty(SolrIndexTaskPropertyEntity indexProperty) {
+        this.indexProperty = indexProperty;
     }
 }

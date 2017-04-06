@@ -1,6 +1,7 @@
 package org.mercuriusframework.facades.impl;
 
 import org.mercuriusframework.entities.TaskEntity;
+import org.mercuriusframework.exceptions.NoEnabledTaskException;
 import org.mercuriusframework.facades.TaskFacade;
 import org.mercuriusframework.helpers.ApplicationContextProvider;
 import org.mercuriusframework.services.UniqueCodeEntityService;
@@ -37,11 +38,11 @@ public class TaskFacadeImpl implements TaskFacade {
                     Thread thread = new Thread(taskRunner);
                     thread.start();
                 } else {
-
+                    throw new NoEnabledTaskException(taskCode);
                 }
             }
         } else {
-
+            throw new NoEnabledTaskException(taskCode);
         }
     }
 }
