@@ -1,4 +1,4 @@
-package org.mercuriusframework.helpers;
+package org.mercuriusframework.providers;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;

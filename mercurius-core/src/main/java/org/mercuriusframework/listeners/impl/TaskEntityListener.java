@@ -4,7 +4,7 @@ import org.mercuriusframework.entities.TaskEntity;
 import org.mercuriusframework.enums.TaskStatus;
 import org.mercuriusframework.exceptions.MandatoryParameterNullException;
 import org.mercuriusframework.exceptions.NoSuchSpecialBeanException;
-import org.mercuriusframework.helpers.ApplicationContextProvider;
+import org.mercuriusframework.providers.ApplicationContextProvider;
 import org.mercuriusframework.listeners.PrePersistEntityListener;
 import org.mercuriusframework.listeners.PreUpdateEntityListener;
 import org.mercuriusframework.tasks.AbstractTaskRunner;

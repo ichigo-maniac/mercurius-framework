@@ -1,7 +1,7 @@
 package org.mercuriusframework.mmc.renderers.impl;
 
 import org.mercuriusframework.constants.MercuriusConstants;
-import org.mercuriusframework.helpers.MessageSourceProvider;
+import org.mercuriusframework.providers.MessageSourceProvider;
 import org.mercuriusframework.mmc.renderers.TableViewColumnRenderer;
 import org.springframework.stereotype.Service;
 

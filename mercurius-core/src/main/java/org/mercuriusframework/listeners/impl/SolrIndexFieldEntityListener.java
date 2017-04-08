@@ -2,7 +2,7 @@ package org.mercuriusframework.listeners.impl;
 
 import org.mercuriusframework.entities.SolrIndexFieldEntity;
 import org.mercuriusframework.exceptions.NoSuchSpecialBeanException;
-import org.mercuriusframework.helpers.ApplicationContextProvider;
+import org.mercuriusframework.providers.ApplicationContextProvider;
 import org.mercuriusframework.listeners.PrePersistEntityListener;
 import org.mercuriusframework.listeners.PreUpdateEntityListener;
 import org.mercuriusframework.services.solr.SolrFieldConverter;

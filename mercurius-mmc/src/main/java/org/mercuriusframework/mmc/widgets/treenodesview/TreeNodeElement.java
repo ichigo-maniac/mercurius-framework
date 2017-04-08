@@ -1,7 +1,7 @@
 package org.mercuriusframework.mmc.widgets.treenodesview;
 
 import org.mercuriusframework.mmc.constants.MercuriusMMCWidgetsConstants;
-import org.mercuriusframework.helpers.MessageSourceProvider;
+import org.mercuriusframework.providers.MessageSourceProvider;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;

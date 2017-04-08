@@ -9,7 +9,7 @@ import org.mercuriusframework.entities.AbstractEntity;
 import org.mercuriusframework.entities.SolrIndexFieldEntity;
 import org.mercuriusframework.entities.SolrIndexTaskEntity;
 import org.mercuriusframework.entities.SolrIndexTaskPropertyEntity;
-import org.mercuriusframework.helpers.ApplicationContextProvider;
+import org.mercuriusframework.providers.ApplicationContextProvider;
 import org.mercuriusframework.services.AnnotationService;
 import org.mercuriusframework.services.solr.SolrFieldConverter;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@ package org.mercuriusframework.facades.impl;
 import org.mercuriusframework.entities.TaskEntity;
 import org.mercuriusframework.exceptions.NoEnabledTaskException;
 import org.mercuriusframework.facades.TaskFacade;
-import org.mercuriusframework.helpers.ApplicationContextProvider;
+import org.mercuriusframework.providers.ApplicationContextProvider;
 import org.mercuriusframework.services.UniqueCodeEntityService;
 import org.mercuriusframework.tasks.AbstractTaskRunner;
 import org.springframework.beans.factory.annotation.Autowired;

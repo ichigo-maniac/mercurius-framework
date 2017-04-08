@@ -1,7 +1,7 @@
 package org.mercuriusframework.listeners;
 
 import org.mercuriusframework.entities.AbstractEntity;
-import org.mercuriusframework.helpers.EntityListenerProvider;
+import org.mercuriusframework.providers.EntityListenerProvider;
 
 import javax.persistence.*;
 import java.util.Set;

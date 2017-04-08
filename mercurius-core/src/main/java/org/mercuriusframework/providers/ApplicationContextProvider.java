@@ -1,4 +1,4 @@
-package org.mercuriusframework.helpers;
+package org.mercuriusframework.providers;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

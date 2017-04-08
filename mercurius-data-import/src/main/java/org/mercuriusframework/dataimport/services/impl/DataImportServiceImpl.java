@@ -11,7 +11,7 @@ import org.mercuriusframework.dataimport.constants.MercuriusDataImportComponentC
 import org.mercuriusframework.dataimport.services.DataImportService;
 import org.mercuriusframework.dataimport.services.ValueImportBean;
 import org.mercuriusframework.entities.AbstractEntity;
-import org.mercuriusframework.helpers.ApplicationContextProvider;
+import org.mercuriusframework.providers.ApplicationContextProvider;
 import org.mercuriusframework.services.AnnotationService;
 import org.mercuriusframework.services.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;

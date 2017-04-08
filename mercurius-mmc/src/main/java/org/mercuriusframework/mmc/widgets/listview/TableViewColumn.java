@@ -2,9 +2,9 @@ package org.mercuriusframework.mmc.widgets.listview;
 
 import org.apache.commons.lang.StringUtils;
 import org.mercuriusframework.constants.MercuriusConstants;
-import org.mercuriusframework.helpers.ApplicationContextProvider;
+import org.mercuriusframework.providers.ApplicationContextProvider;
 import org.mercuriusframework.mmc.constants.MercuriusMMCWidgetsConstants;
-import org.mercuriusframework.helpers.MessageSourceProvider;
+import org.mercuriusframework.providers.MessageSourceProvider;
 import org.mercuriusframework.mmc.renderers.TableViewColumnRenderer;
 import org.w3c.dom.Node;
 

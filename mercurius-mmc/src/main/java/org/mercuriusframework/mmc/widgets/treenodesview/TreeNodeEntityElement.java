@@ -3,7 +3,7 @@ package org.mercuriusframework.mmc.widgets.treenodesview;
 import org.apache.commons.lang.StringUtils;
 import org.mercuriusframework.constants.MercuriusConstants;
 import org.mercuriusframework.mmc.constants.MercuriusMMCWidgetsConstants;
-import org.mercuriusframework.helpers.MessageSourceProvider;
+import org.mercuriusframework.providers.MessageSourceProvider;
 import org.w3c.dom.Node;
 
 /**
