@@ -3,7 +3,7 @@ package org.mercuriusframework.listeners.impl;
 import org.mercuriusframework.entities.TaskEntity;
 import org.mercuriusframework.enums.TaskStatus;
 import org.mercuriusframework.exceptions.MandatoryParameterNullException;
-import org.mercuriusframework.exceptions.NoSuchTaskRunnerBeanException;
+import org.mercuriusframework.exceptions.NoSuchSpecialBeanException;
 import org.mercuriusframework.helpers.ApplicationContextProvider;
 import org.mercuriusframework.listeners.PrePersistEntityListener;
 import org.mercuriusframework.listeners.PreUpdateEntityListener;
@@ -61,10 +61,10 @@ public class TaskEntityListener implements PrePersistEntityListener<TaskEntity>,
             AbstractTaskRunner taskRunnerBean = (AbstractTaskRunner) ApplicationContextProvider.getBean(
                     entityObject.getTaskRunBeanName(), AbstractTaskRunner.class);
             if (taskRunnerBean == null) {
-                throw new NoSuchTaskRunnerBeanException(entityObject.getTaskRunBeanName());
+                throw new NoSuchSpecialBeanException(entityObject.getTaskRunBeanName(), AbstractTaskRunner.class);
             }
         } catch (Exception exception) {
-            throw new NoSuchTaskRunnerBeanException(entityObject.getTaskRunBeanName());
+            throw new NoSuchSpecialBeanException(entityObject.getTaskRunBeanName(), AbstractTaskRunner.class);
         }
     }
 }

@@ -1,13 +1,17 @@
 package org.mercuriusframework.tasks;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.solr.common.SolrInputDocument;
 import org.mercuriusframework.constants.MercuriusConstants;
 import org.mercuriusframework.entities.AbstractEntity;
 import org.mercuriusframework.entities.SolrIndexFieldEntity;
 import org.mercuriusframework.entities.SolrIndexTaskEntity;
 import org.mercuriusframework.entities.SolrIndexTaskPropertyEntity;
+import org.mercuriusframework.helpers.ApplicationContextProvider;
 import org.mercuriusframework.services.AnnotationService;
+import org.mercuriusframework.services.solr.SolrFieldConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
@@ -24,6 +28,11 @@ import java.util.List;
 @Service("solrIndexTaskRunner")
 @Profile(MercuriusConstants.PROFILES.SOLR_SEARCH_PROFILES)
 public class SolrIndexTaskRunner extends AbstractTaskRunner {
+
+    /**
+     * Logger
+     */
+    private static final Logger LOGGER = LogManager.getRootLogger();
 
     /**
      * Constants
@@ -62,7 +71,10 @@ public class SolrIndexTaskRunner extends AbstractTaskRunner {
             solrInputDocument.addField(DOCUMENT_ID, indexObject.getUuid());
             for (SolrIndexFieldEntity indexField : indexProperty.getIndexFields()) {
                 if (indexField.getSolrFieldConverterBeanName() != null) {
-                    // bean logic
+                    SolrFieldConverter fieldConverter = ApplicationContextProvider.getBean(
+                        indexField.getSolrFieldConverterBeanName(), SolrFieldConverter.class
+                    );
+                    solrInputDocument.addField(indexField.getSolrDocumentFieldName(), fieldConverter.convertField(indexField, indexObject));
                 } else {
                     solrInputDocument.addField(indexField.getSolrDocumentFieldName(), getFieldValue(indexObject, indexField.getEntityFieldName()));
                 }
@@ -82,14 +94,17 @@ public class SolrIndexTaskRunner extends AbstractTaskRunner {
         try {
             Method getterMethod = entityObject.getClass().getMethod(GET_METHOD_PREFIX + StringUtils.capitalize(fieldName));
             return getterMethod.invoke(entityObject);
-        } catch (NoSuchMethodException e) {
-            // log
+        } catch (NoSuchMethodException exception) {
+            exception.printStackTrace();
+            LOGGER.error(exception);
             return null;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException exception) {
+            exception.printStackTrace();
+            LOGGER.error(exception);
             return null;
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (InvocationTargetException exception) {
+            exception.printStackTrace();
+            LOGGER.error(exception);
             return null;
         }
     }

@@ -2,7 +2,7 @@ package org.mercuriusframework.listeners.impl;
 
 import org.mercuriusframework.entities.SolrIndexTaskEntity;
 import org.mercuriusframework.exceptions.MandatoryParameterNullException;
-import org.mercuriusframework.exceptions.NoSuchSolrIndexTaskRunnerBeanException;
+import org.mercuriusframework.exceptions.NoSuchSpecialBeanException;
 import org.mercuriusframework.helpers.ApplicationContextProvider;
 import org.mercuriusframework.listeners.PrePersistEntityListener;
 import org.mercuriusframework.listeners.PreUpdateEntityListener;
@@ -54,10 +54,10 @@ public class SolrIndexTaskEntityListener implements PrePersistEntityListener<Sol
             SolrIndexTaskRunner taskRunnerBean = (SolrIndexTaskRunner) ApplicationContextProvider.getBean(
                     entityObject.getTaskRunBeanName(), SolrIndexTaskRunner.class);
             if (taskRunnerBean == null) {
-                throw new NoSuchSolrIndexTaskRunnerBeanException(entityObject.getTaskRunBeanName());
+                throw new NoSuchSpecialBeanException(entityObject.getTaskRunBeanName(), SolrIndexTaskRunner.class);
             }
         } catch (Exception exception) {
-            throw new NoSuchSolrIndexTaskRunnerBeanException(entityObject.getTaskRunBeanName());
+            throw new NoSuchSpecialBeanException(entityObject.getTaskRunBeanName(), SolrIndexTaskRunner.class);
         }
     }
 }

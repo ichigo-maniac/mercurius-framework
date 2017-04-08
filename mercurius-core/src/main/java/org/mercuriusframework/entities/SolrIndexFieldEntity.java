@@ -1,6 +1,7 @@
 package org.mercuriusframework.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Solr index field entity class
@@ -36,12 +37,18 @@ public class SolrIndexFieldEntity extends UniqueCodeEntity {
     public static final String SOLR_FIELD_CONVERTER_BEAN_NAME = "solrFieldConverterBeanName";
 
     /**
-     * Solr index property
+     * Solr index properties
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SOLR_INDEX_PROPERTY_UUID", referencedColumnName = "uuid", nullable = false)
-    private SolrIndexTaskPropertyEntity solrIndexProperty;
-    public static final String SOLR_INDEX_PROPERTY = "solrIndexProperty";
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "SOLR_INDEX_PROPERTIES_FIELDS_LINK",
+            joinColumns = {
+                    @JoinColumn(name = "FIELD_UUID",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "PROPERTY_UUID",
+                            nullable = false, updatable = false)})
+    private List<SolrIndexTaskPropertyEntity> indexProperties;
+    public static final String INDEX_PROPERTIES = "indexProperties";
 
     /**
      * Get solr document field name
@@ -92,18 +99,18 @@ public class SolrIndexFieldEntity extends UniqueCodeEntity {
     }
 
     /**
-     * Get solr index property
-     * @return Solr index property
+     * Get solr index properties
+     * @return Solr index properties
      */
-    public SolrIndexTaskPropertyEntity getSolrIndexProperty() {
-        return solrIndexProperty;
+    public List<SolrIndexTaskPropertyEntity> getIndexProperties() {
+        return indexProperties;
     }
 
     /**
-     * Set solr index property
-     * @param solrIndexProperty Solr index property
+     * Set solr index properties
+     * @param indexProperties Solr index properties
      */
-    public void setSolrIndexProperty(SolrIndexTaskPropertyEntity solrIndexProperty) {
-        this.solrIndexProperty = solrIndexProperty;
+    public void setIndexProperties(List<SolrIndexTaskPropertyEntity> indexProperties) {
+        this.indexProperties = indexProperties;
     }
 }

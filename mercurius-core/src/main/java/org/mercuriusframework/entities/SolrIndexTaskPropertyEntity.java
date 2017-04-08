@@ -39,7 +39,14 @@ public class SolrIndexTaskPropertyEntity extends UniqueCodeEntity {
     /**
      * Index fields
      */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = SolrIndexFieldEntity.SOLR_INDEX_PROPERTY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "SOLR_INDEX_PROPERTIES_FIELDS_LINK",
+            joinColumns = {
+                    @JoinColumn(name = "PROPERTY_UUID",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "FIELD_UUID",
+                            nullable = false, updatable = false)})
     private List<SolrIndexFieldEntity> indexFields;
     public static final String INDEX_FIELDS = "indexFields";
 
