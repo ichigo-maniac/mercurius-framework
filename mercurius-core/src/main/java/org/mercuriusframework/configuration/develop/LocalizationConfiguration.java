@@ -1,6 +1,7 @@
 package org.mercuriusframework.configuration.develop;
 
 import org.mercuriusframework.constants.MercuriusConstants;
+import org.mercuriusframework.facades.impl.WildcardReloadableResourceBundleMessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -19,12 +20,7 @@ public class LocalizationConfiguration {
      */
     @Bean(name = "messageSource")
     public ReloadableResourceBundleMessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasenames(
-                "classpath:localization/mercurius-core-labels",
-                "classpath:localization/mercurius-mmc-labels",
-                "classpath:localization/mercurius-data-import-labels"
-        );
+        WildcardReloadableResourceBundleMessageSource messageSource = new WildcardReloadableResourceBundleMessageSource();
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
