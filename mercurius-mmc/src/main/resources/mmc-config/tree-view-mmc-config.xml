@@ -10,6 +10,7 @@
             <tree-node title="mmc.tree.view.solr.search.label">
                 <tree-node-entity-element entity-name="SolrIndexTask"/>
                 <tree-node-entity-element entity-name="SolrIndexTaskProperty"/>
+                <tree-node-entity-element entity-name="SolrSearchResolver"/>
                 <tree-node-entity-element entity-name="SolrIndexField"/>
             </tree-node>
         </tree-node>

@@ -10,6 +10,8 @@ import java.util.List;
 @Table(name = "SOLR_INDEX_FIELD")
 public class SolrIndexFieldEntity extends UniqueCodeEntity {
 
+    private static final long serialVersionUID = 4195367163211127367L;
+
     /**
      * Entity name
      */
@@ -37,6 +39,13 @@ public class SolrIndexFieldEntity extends UniqueCodeEntity {
     public static final String SOLR_FIELD_CONVERTER_BEAN_NAME = "solrFieldConverterBeanName";
 
     /**
+     * Case insensitive
+     */
+    @Basic(optional = true)
+    private Boolean caseInsensitive;
+    public static final String CASE_INSENSITIVE = "caseInsensitive";
+
+    /**
      * Solr index properties
      */
     @ManyToMany(fetch = FetchType.LAZY)
@@ -49,6 +58,19 @@ public class SolrIndexFieldEntity extends UniqueCodeEntity {
                             nullable = false, updatable = false)})
     private List<SolrIndexTaskPropertyEntity> indexProperties;
     public static final String INDEX_PROPERTIES = "indexProperties";
+
+    /**
+     * Solr search resolvers
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "SOLR_INDEX_PROPERTIES_FIELDS_LINK",
+            joinColumns = {
+                    @JoinColumn(name = "FIELD_UUID",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "RESOLVER_UUID",
+                            nullable = false, updatable = false)})
+    private List<SolrSearchResolverEntity> searchResolvers;
 
     /**
      * Get solr document field name
@@ -99,6 +121,22 @@ public class SolrIndexFieldEntity extends UniqueCodeEntity {
     }
 
     /**
+     * Get case insensitive flag
+     * @return Case insensitive flag
+     */
+    public Boolean getCaseInsensitive() {
+        return caseInsensitive;
+    }
+
+    /**
+     * Set case insensitive flag
+     * @param caseInsensitive case insensitive flag
+     */
+    public void setCaseInsensitive(Boolean caseInsensitive) {
+        this.caseInsensitive = caseInsensitive;
+    }
+
+    /**
      * Get solr index properties
      * @return Solr index properties
      */
@@ -112,5 +150,21 @@ public class SolrIndexFieldEntity extends UniqueCodeEntity {
      */
     public void setIndexProperties(List<SolrIndexTaskPropertyEntity> indexProperties) {
         this.indexProperties = indexProperties;
+    }
+
+    /**
+     * Get Solr search resolvers
+     * @return Solr search resolvers
+     */
+    public List<SolrSearchResolverEntity> getSearchResolvers() {
+        return searchResolvers;
+    }
+
+    /**
+     * Set Solr search resolvers
+     * @param searchResolvers Solr search resolvers
+     */
+    public void setSearchResolvers(List<SolrSearchResolverEntity> searchResolvers) {
+        this.searchResolvers = searchResolvers;
     }
 }

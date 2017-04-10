@@ -70,14 +70,21 @@ public class SolrIndexTaskRunner extends AbstractTaskRunner {
             SolrInputDocument solrInputDocument = new SolrInputDocument();
             solrInputDocument.addField(DOCUMENT_ID, indexObject.getUuid());
             for (SolrIndexFieldEntity indexField : indexProperty.getIndexFields()) {
+                Object fieldValue = null;
                 if (indexField.getSolrFieldConverterBeanName() != null) {
                     SolrFieldConverter fieldConverter = ApplicationContextProvider.getBean(
                         indexField.getSolrFieldConverterBeanName(), SolrFieldConverter.class
                     );
-                    solrInputDocument.addField(indexField.getSolrDocumentFieldName(), fieldConverter.convertField(indexField, indexObject));
+                    fieldValue = fieldConverter.convertField(indexField, indexObject);
                 } else {
-                    solrInputDocument.addField(indexField.getSolrDocumentFieldName(), getFieldValue(indexObject, indexField.getEntityFieldName()));
+                    fieldValue = getFieldValue(indexObject, indexField.getEntityFieldName());
                 }
+                if (fieldValue != null && fieldValue instanceof String) {
+                    if (indexField.getCaseInsensitive() != null && indexField.getCaseInsensitive()) {
+                        fieldValue = ((String) fieldValue).toLowerCase();
+                    }
+                }
+                solrInputDocument.addField(indexField.getSolrDocumentFieldName(), fieldValue);
             }
             solrTemplate.saveDocument(indexProperty.getSolrCollectionName(), solrInputDocument);
         }

@@ -4,18 +4,18 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * Solr index task property entity class
+ * Solr search resolver entity class
  */
-@Entity(name = SolrIndexTaskPropertyEntity.ENTITY_NAME)
-@Table(name = "SOLR_INDEX_TASK_PROPERTY")
-public class SolrIndexTaskPropertyEntity extends UniqueCodeEntity {
+@Entity(name = SolrSearchResolverEntity.ENTITY_NAME)
+@Table(name = "SOLR_SEARCH_RESOLVER")
+public class SolrSearchResolverEntity extends UniqueCodeEntity {
 
-    private static final long serialVersionUID = -2780187780417142560L;
+    private static final long serialVersionUID = -1774888047395626339L;
 
     /**
      * Entity name
      */
-    public static final String ENTITY_NAME = "SolrIndexTaskProperty";
+    public static final String ENTITY_NAME = "SolrSearchResolver";
 
     /**
      * Solr collection name
@@ -32,25 +32,25 @@ public class SolrIndexTaskPropertyEntity extends UniqueCodeEntity {
     public static final String INDEX_ENTITY_NAME = "indexEntityName";
 
     /**
-     * Query string (hql)
+     * Page size
      */
-    @Column(nullable = false, length = 2500)
-    private String query;
-    public static final String QUERY = "query";
+    @Basic(optional = false)
+    private Integer pageSize;
+    public static final String PAGE_SIZE = "pageSize";
 
     /**
-     * Index fields
+     * Text search fields
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "SOLR_INDEX_PROPERTIES_FIELDS_LINK",
+    @JoinTable(name = "SOLR_SEARCH_RESOLVERS_TEXT_FIELDS_LINK",
             joinColumns = {
-                    @JoinColumn(name = "PROPERTY_UUID",
+                    @JoinColumn(name = "RESOLVER_UUID",
                             nullable = false, updatable = false)},
             inverseJoinColumns = {
                     @JoinColumn(name = "FIELD_UUID",
                             nullable = false, updatable = false)})
-    private List<SolrIndexFieldEntity> indexFields;
-    public static final String INDEX_FIELDS = "indexFields";
+    private List<SolrIndexFieldEntity> textSearchFields;
+    public static final String TEXT_SEARCH_FIELDS = "textSearchFields";
 
     /**
      * Get solr collection name
@@ -85,34 +85,34 @@ public class SolrIndexTaskPropertyEntity extends UniqueCodeEntity {
     }
 
     /**
-     * Get query string (hql)
-     * @return Query string (hql)
+     * Get page size
+     * @return Page size
      */
-    public String getQuery() {
-        return query;
+    public Integer getPageSize() {
+        return pageSize;
     }
 
     /**
-     * Set query string (hql)
-     * @param query Query string (hql)
+     * Set page size
+     * @param pageSize Page size
      */
-    public void setQuery(String query) {
-        this.query = query;
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
     /**
-     * Get index fields
-     * @return Index fields
+     * Get text search fields
+     * @return Text search fields
      */
-    public List<SolrIndexFieldEntity> getIndexFields() {
-        return indexFields;
+    public List<SolrIndexFieldEntity> getTextSearchFields() {
+        return textSearchFields;
     }
 
     /**
-     * Set index fields
-     * @param indexFields Index fields
+     * Set text search fields
+     * @param textSearchFields Text search fields
      */
-    public void setIndexFields(List<SolrIndexFieldEntity> indexFields) {
-        this.indexFields = indexFields;
+    public void setTextSearchFields(List<SolrIndexFieldEntity> textSearchFields) {
+        this.textSearchFields = textSearchFields;
     }
 }

@@ -163,13 +163,23 @@
         </table-view>
     </list-view>
 
-    <list-view entity-name="SolrIndexField" priority="0">
+    <list-view entity-name="SolrSearchResolver" priority="0">
         <table-view>
             <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
+            <column property="solrCollectionName"/>
+            <column property="indexEntityName"/>
+        </table-view>
+    </list-view>
+
+    <list-view entity-name="SolrIndexField" priority="0">
+        <table-view>
             <column property="code"/>
             <column property="solrDocumentFieldName"/>
             <column property="entityFieldName"/>
             <column property="solrFieldConverterBeanName"/>
+            <column property="caseInsensitive"/>
         </table-view>
     </list-view>
 
