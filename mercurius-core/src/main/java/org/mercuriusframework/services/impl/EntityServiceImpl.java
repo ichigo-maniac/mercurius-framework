@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionOperations;
+import org.springframework.util.CollectionUtils;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -56,6 +58,33 @@ public class EntityServiceImpl implements EntityService {
             criteriaQuery = criteriaQuery.select(root).where(builder.equal(root.get(AbstractEntity.UUID), entityUUid));
             TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
             return typedQuery.getSingleResult();
+        } catch (NoResultException exception) {
+            return null;
+        }
+    }
+
+    /**
+     * Find entities by uuid
+     * @param entityUuids Entity uuids
+     * @param entityClass Entity class
+     * @param fetchFields Fetch fields
+     * @return Entities
+     */
+    @Override
+    public <T extends AbstractEntity> List<T> findByUuids(List<String> entityUuids, Class<T> entityClass, String... fetchFields) {
+        if (CollectionUtils.isEmpty(entityUuids)) {
+            return Collections.emptyList();
+        }
+        try {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<T> criteriaQuery = builder.createQuery(entityClass);
+            Root<T> root = criteriaQuery.from(entityClass);
+            for (String fetchField : fetchFields) {
+                root.fetch(fetchField, JoinType.LEFT);
+            }
+            criteriaQuery = criteriaQuery.select(root).where(root.get(AbstractEntity.UUID).in(entityUuids));
+            TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+            return typedQuery.getResultList();
         } catch (NoResultException exception) {
             return null;
         }

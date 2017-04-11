@@ -21,9 +21,19 @@ public interface EntityService {
      * @return Entity
      */
     <T extends AbstractEntity> T findByUuid(String entityUUid, Class<T> entityClass, String... fetchFields);
+
+    /**
+     * Find entities by uuid
+     * @param entityUuids Entity uuids
+     * @param entityClass Entity class
+     * @param fetchFields Fetch fields
+     * @param <T> Entity Class
+     * @return Entities
+     */
+    <T extends AbstractEntity> List<T> findByUuids(List<String> entityUuids, Class<T> entityClass, String... fetchFields);
+
     /**
      * Save entity
-     *
      * @param entity Entity
      * @param <T>    Entity class
      * @return Saved entity
