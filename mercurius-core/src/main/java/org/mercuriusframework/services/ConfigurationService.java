@@ -93,4 +93,17 @@ public interface ConfigurationService {
      * @return Check result
      */
     boolean containParameter(String name);
+
+    /**
+     * Get active profiles
+     * @return Array of active profiles
+     */
+    String[] getActiveProfiles();
+
+    /**
+     * Check is profile active
+     * @param profile Profile
+     * @return Check result
+     */
+    boolean isProfileActive(String profile);
 }

@@ -1,6 +1,7 @@
 package org.mercuriusframework.services.impl;
 
 import com.google.common.base.Splitter;
+import org.apache.commons.lang.ArrayUtils;
 import org.mercuriusframework.constants.MercuriusConstants;
 import org.mercuriusframework.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.*;
  */
 @PropertySource(MercuriusConstants.COMMON.APPLICATION_PROPERTIES_PATH)
 @Service("configurationService")
-@Profile({MercuriusConstants.PROFILES.DEVELOP_PROFILE, MercuriusConstants.PROFILES.REDIS_SESSION_PROFILE})
+@Profile(MercuriusConstants.PROFILES.DEVELOP_PROFILE)
 public class ConfigurationServiceImpl implements ConfigurationService, ServletContextAware {
     /**
      * Server root path
@@ -148,12 +149,35 @@ public class ConfigurationServiceImpl implements ConfigurationService, ServletCo
 
     /**
      * Check existing of parameter with given name
-     *
      * @param name Parameter name
      * @return Check result
      */
     public boolean containParameter(String name) {
         return environment.containsProperty(name);
+    }
+
+    /**
+     * Get active profiles
+     * @return Array of active profiles
+     */
+    @Override
+    public String[] getActiveProfiles() {
+        return environment.getActiveProfiles();
+    }
+
+    /**
+     * Check is profile active
+     * @param profile Profile
+     * @return Check result
+     */
+    @Override
+    public boolean isProfileActive(String profile) {
+        String[] activeProfiles = environment.getActiveProfiles();
+        if (activeProfiles != null) {
+            return ArrayUtils.contains(activeProfiles, profile);
+        } else {
+            return false;
+        }
     }
 
     /**

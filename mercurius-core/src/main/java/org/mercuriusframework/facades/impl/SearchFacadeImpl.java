@@ -157,9 +157,9 @@ public class SearchFacadeImpl implements SearchFacade {
             for (SolrIndexFieldEntity textField : resolver.getTextSearchFields()) {
                 Criteria tempTextCriteria = new Criteria(textField.getSolrDocumentFieldName());
                 if (textField.getCaseInsensitive() != null && textField.getCaseInsensitive()) {
-                    tempTextCriteria = tempTextCriteria.contains(textQuery.toLowerCase());
+                    tempTextCriteria = tempTextCriteria.contains(textQuery.toLowerCase().split(" "));
                 } else {
-                    tempTextCriteria = tempTextCriteria.contains(textQuery);
+                    tempTextCriteria = tempTextCriteria.contains(textQuery.split(" "));
                 }
                 /** Add temp text criteria to text criteria */
                 if (textCriteria == null) {
