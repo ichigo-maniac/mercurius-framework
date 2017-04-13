@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<data-import xmlns="http://mercurius-framework.org/data-import">
+
+    <update entity-name="Product">
+        <!-- Common criterias -->
+        <common-search>
+            <criteria property="catalog">
+                <values>
+                    <value type="EQUAL" value-import-bean="uniqueCodeImportBean">master_catalog</value>
+                </values>
+            </criteria>
+        </common-search>
+        <!-- Common values -->
+        <common-values>
+            <column property="mainCategory" value-import-bean="catalogUniqueCodeImportBean">master_catalog::ranobe_sci_fi</column>
+            <column property="categories" value-import-bean="multiCatalogUniqueCodeImportBean">master_catalog::ranobe_sci_fi</column>
+        </common-values>
+        <!-- Values -->
+        <values>
+            <!-- Criteria update values -->
+            <value>
+                <search>
+                    <criteria property="code">
+                        <values>
+                            <value type="EQUALS">product_sao_01</value>
+                        </values>
+                    </criteria>
+                </search>
+                <column property="name">Sword Art Online vol. 01 - test</column>
+            </value>
+            <!-- Text query -->
+            <value>
+                <search>
+                    <text-query>
+                        select product from Product as product where product.code in ('product_sao_02', 'product_sao_03')
+                    </text-query>
+                </search>
+                <column property="description" value-import-bean="bigStringImportBean">master_catalog::
+                    Test description
+                </column>
+            </value>
+        </values>
+    </update>
+
+</data-import>

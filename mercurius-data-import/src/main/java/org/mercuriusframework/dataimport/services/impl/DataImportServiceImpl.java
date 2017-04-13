@@ -4,9 +4,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mercuriusframework.dataimport.components.AbstractImportComponent;
+import org.mercuriusframework.dataimport.components.common.CriteriaComponent;
 import org.mercuriusframework.dataimport.components.common.ImportColumn;
 import org.mercuriusframework.dataimport.components.insert.InsertImportComponent;
 import org.mercuriusframework.dataimport.components.insert.InsertValue;
+import org.mercuriusframework.dataimport.components.update.UpdateImportComponent;
+import org.mercuriusframework.dataimport.components.update.UpdateValue;
 import org.mercuriusframework.dataimport.constants.MercuriusDataImportComponentConstants;
 import org.mercuriusframework.dataimport.services.DataImportService;
 import org.mercuriusframework.dataimport.services.ValueImportBean;
@@ -35,6 +38,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -179,6 +183,10 @@ public class DataImportServiceImpl implements DataImportService {
             if (xmlElement.getNodeName().equals(MercuriusDataImportComponentConstants.Insert.COMPONENT_NAME)) {
                 return new InsertImportComponent(xmlElement);
             }
+            if (xmlElement.getNodeName().equals(MercuriusDataImportComponentConstants.Update.COMPONENT_NAME)) {
+                return new UpdateImportComponent(xmlElement);
+            }
+
         } catch (Exception exception) {
             exception.printStackTrace();
             LOGGER.error(exception);
@@ -199,6 +207,10 @@ public class DataImportServiceImpl implements DataImportService {
         try {
             if (importComponent instanceof InsertImportComponent) {
                 insertComponent((InsertImportComponent) importComponent, log);
+                return;
+            }
+            if (importComponent instanceof UpdateImportComponent) {
+                updateComponent((UpdateImportComponent) importComponent, log);
                 return;
             }
         } catch (IllegalAccessException exception) {
@@ -222,31 +234,102 @@ public class DataImportServiceImpl implements DataImportService {
         Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
         Method[] methods = entityClass.getMethods();
         for (InsertValue insertValue : importComponent.getValues()) {
-            try {
-                Object entity = entityClass.newInstance();
-                /** Common columns */
-                for (ImportColumn commonImportColumn : importComponent.getCommonColumns()) {
-                    setPropertyValue(commonImportColumn, entity, methods);
+            Object entityObject = entityClass.newInstance();
+            List<ImportColumn> importColumns = new ArrayList<>(importComponent.getCommonColumns());
+            importColumns.addAll(insertValue.getColumns());
+            populateObject(entityObject, importColumns, methods, log);
+            entityService.save((AbstractEntity) entityObject);
+        }
+    }
+
+    /**
+     * Update component
+     * @param importComponent Insert import component
+     * @param log Log
+     */
+    private void updateComponent(UpdateImportComponent importComponent, StringBuilder log) {
+        Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
+        Method[] methods = entityClass.getMethods();
+        /** Load data */
+        if (importComponent.getValues().isEmpty()) {
+            List<AbstractEntity> updatingData = loadUpdatingData(importComponent, null);
+            List<ImportColumn> importColumns = new ArrayList<>(importComponent.getCommonColumns());
+            /** Populate object */
+            for (AbstractEntity entityObject : updatingData) {
+                populateObject(entityObject, importColumns, methods, log);
+//                entityService.save(entityObject);
+            }
+        } else {
+            for (UpdateValue updateValue : importComponent.getValues()) {
+                List<ImportColumn> importColumns = new ArrayList<>(importComponent.getCommonColumns());
+                importColumns.addAll(updateValue.getColumns());
+                List<AbstractEntity> updatingData = loadUpdatingData(importComponent, updateValue);
+                /** Populate objects */
+                for (AbstractEntity entityObject : updatingData) {
+                    populateObject(entityObject, importColumns, methods, log);
+//                    entityService.save(entityObject);
                 }
-                /** Import columns */
-                for (ImportColumn importColumn : insertValue.getColumns()) {
-                    setPropertyValue(importColumn, entity, methods);
-                }
-                entityService.save((AbstractEntity) entity);
-            } catch (NoSuchMethodException exception) {
-                exception.printStackTrace();
-                log.append(IMPORT_ERROR_PREFIX + exception.getMessage() + "<br>");
-                LOGGER.error(exception);
-            } catch (SecurityException exception) {
-                exception.printStackTrace();
-                log.append(IMPORT_ERROR_PREFIX + exception.getMessage() + "<br>");
-                LOGGER.error(exception);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-                log.append(IMPORT_ERROR_PREFIX + exception.getMessage() + "<br>");
-                LOGGER.error(exception);
             }
         }
+    }
+
+    /**
+     * Populate object
+     * @param entityObject Entity object
+     * @param importColumns Import column
+     * @param methods Methods
+     * @param log Log
+     * @return Populated object
+     */
+    private Object populateObject(Object entityObject, List<ImportColumn> importColumns, Method[] methods, StringBuilder log) {
+        try {
+            for (ImportColumn importColumn : importColumns) {
+                setPropertyValue(importColumn, entityObject, methods);
+            }
+        } catch (NoSuchMethodException exception) {
+            exception.printStackTrace();
+            log.append(IMPORT_ERROR_PREFIX + exception.getMessage() + "<br>");
+            LOGGER.error(exception);
+        } catch (SecurityException exception) {
+            exception.printStackTrace();
+            log.append(IMPORT_ERROR_PREFIX + exception.getMessage() + "<br>");
+            LOGGER.error(exception);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            log.append(IMPORT_ERROR_PREFIX + exception.getMessage() + "<br>");
+            LOGGER.error(exception);
+        }
+        return entityObject;
+    }
+
+    /**
+     * Load updating data
+     * @param importComponent Import component
+     * @param updateValue Update value
+     * @return Updating data
+     */
+    private List<AbstractEntity> loadUpdatingData(UpdateImportComponent importComponent, UpdateValue updateValue) {
+        Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
+        List<CriteriaComponent> criteriaValues = new ArrayList<>();
+        /** Check common search */
+        if (importComponent.getCommonSearch() != null) {
+            if (importComponent.getCommonSearch().getTextQuery() != null) {
+                return entityService.getListResultByQuery(importComponent.getCommonSearch().getTextQuery(), entityClass);
+            } else {
+                criteriaValues.addAll(importComponent.getCommonSearch().getCriterias());
+            }
+        }
+        /** Check value */
+        if (updateValue != null) {
+            if (updateValue.getSearch() != null) {
+                if (updateValue.getSearch().getTextQuery() != null) {
+                    return entityService.getListResultByQuery(updateValue.getSearch().getTextQuery(), entityClass);
+                } else {
+                    criteriaValues.addAll(updateValue.getSearch().getCriterias());
+                }
+            }
+        }
+        return Collections.emptyList();
     }
 
     /**

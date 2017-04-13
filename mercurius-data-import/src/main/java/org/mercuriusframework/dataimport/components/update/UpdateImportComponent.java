@@ -1,7 +1,8 @@
-package org.mercuriusframework.dataimport.components.insert;
+package org.mercuriusframework.dataimport.components.update;
 
 import org.mercuriusframework.dataimport.components.AbstractImportComponent;
 import org.mercuriusframework.dataimport.components.common.ImportColumn;
+import org.mercuriusframework.dataimport.components.common.SearchComponent;
 import org.mercuriusframework.dataimport.constants.MercuriusDataImportComponentConstants;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -10,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Insert import component
+ * Update import component
  */
-public class InsertImportComponent extends AbstractImportComponent {
+public class UpdateImportComponent extends AbstractImportComponent {
 
     /**
      * Common import columns
@@ -20,15 +21,20 @@ public class InsertImportComponent extends AbstractImportComponent {
     private List<ImportColumn> commonColumns;
 
     /**
-     * Import values
+     * Common search
      */
-    private List<InsertValue> values;
+    private SearchComponent commonSearch;
+
+    /**
+     * Values
+     */
+    private List<UpdateValue> values;
 
     /**
      * Constructor
      * @param xmlElement Xml element
      */
-    public InsertImportComponent(Node xmlElement) {
+    public UpdateImportComponent(Node xmlElement) {
         super(xmlElement);
         /** Columns */
         this.commonColumns = new ArrayList<>();
@@ -38,7 +44,7 @@ public class InsertImportComponent extends AbstractImportComponent {
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node node = childNodes.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
-                if (node.getNodeName().equals(MercuriusDataImportComponentConstants.Insert.COMMON_VALUES)) {
+                if (node.getNodeName().equals(MercuriusDataImportComponentConstants.Update.COMMON_VALUES)) {
                     NodeList commonValuesNodeList = node.getChildNodes();
                     for (int j = 0; j < commonValuesNodeList.getLength(); j++) {
                         if (commonValuesNodeList.item(j).getNodeType() == Node.ELEMENT_NODE) {
@@ -55,15 +61,25 @@ public class InsertImportComponent extends AbstractImportComponent {
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node node = childNodes.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
-                if (node.getNodeName().equals(MercuriusDataImportComponentConstants.Insert.VALUES)) {
+                if (node.getNodeName().equals(MercuriusDataImportComponentConstants.Update.VALUES)) {
                     NodeList valuesNodeList = node.getChildNodes();
                     for (int j = 0; j < valuesNodeList.getLength(); j++) {
                         if (valuesNodeList.item(j).getNodeType() == Node.ELEMENT_NODE) {
                             if (valuesNodeList.item(j).getNodeName().equals(MercuriusDataImportComponentConstants.Value.COMPONENT_NAME)) {
-                                values.add(new InsertValue(valuesNodeList.item(j)));
+                                values.add(new UpdateValue(valuesNodeList.item(j)));
                             }
                         }
                     }
+                    break;
+                }
+            }
+        }
+        /** Parse common search */
+        for (int i = 0; i < childNodes.getLength(); i++) {
+            Node node = childNodes.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                if (node.getNodeName().equals(MercuriusDataImportComponentConstants.Update.COMMON_SEARCH)) {
+                    commonSearch = new SearchComponent(node);
                     break;
                 }
             }
@@ -87,18 +103,34 @@ public class InsertImportComponent extends AbstractImportComponent {
     }
 
     /**
-     * Get import values
-     * @return Import values
+     * Get common search
+     * @return Common search
      */
-    public List<InsertValue> getValues() {
+    public SearchComponent getCommonSearch() {
+        return commonSearch;
+    }
+
+    /**
+     * Set common search
+     * @param commonSearch Common search
+     */
+    public void setCommonSearch(SearchComponent commonSearch) {
+        this.commonSearch = commonSearch;
+    }
+
+    /**
+     * Get values
+     * @return Values
+     */
+    public List<UpdateValue> getValues() {
         return values;
     }
 
     /**
-     * Set import values
-     * @param values Import values
+     * Set values
+     * @param values Values
      */
-    public void setValues(List<InsertValue> values) {
+    public void setValues(List<UpdateValue> values) {
         this.values = values;
     }
 }

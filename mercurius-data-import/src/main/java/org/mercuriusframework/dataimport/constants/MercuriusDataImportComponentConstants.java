@@ -12,6 +12,13 @@ public class MercuriusDataImportComponentConstants {
     }
 
     /**
+     * Import component
+     */
+    public class ImportComponent {
+        public static final String ENTITY_NAME = "entity-name";
+    }
+
+    /**
      * Data insert component
      */
     public class Insert {
@@ -22,11 +29,56 @@ public class MercuriusDataImportComponentConstants {
     }
 
     /**
+     * Data update components
+     */
+    public class Update {
+        public static final String COMPONENT_NAME = "update";
+        public static final String ENTITY_NAME = "entity-name";
+        public static final String VALUES = "values";
+        public static final String COMMON_VALUES = "common-values";
+        public static final String COMMON_SEARCH = "common-search";
+    }
+
+    /**
      * Import column component
      */
     public class ImportColumn {
         public static final String COMPONENT_NAME = "column";
         public static final String PROPERTY = "property";
+        public static final String VALUE_IMPORT_BEAN = "value-import-bean";
+    }
+
+    /**
+     * Value component
+     */
+    public class Value {
+        public static final String COMPONENT_NAME = "value";
+    }
+
+    /**
+     * Search component
+     */
+    public class SearchComponent {
+        public static final String COMPONENT_NAME = "search";
+        public static final String TEXT_QUERY = "text-query";
+    }
+
+    /**
+     * Criteria component
+     */
+    public class CriteriaComponent {
+        public static final String COMPONENT_NAME = "criteria";
+        public static final String PROPERTY = "property";
+        public static final String VALUES = "values";
+
+    }
+
+    /**
+     * Criteria value component
+     */
+    public class CriteriaValue {
+        public static final String COMPONENT_NAME = "value";
+        public static final String TYPE = "type";
         public static final String VALUE_IMPORT_BEAN = "value-import-bean";
     }
 }

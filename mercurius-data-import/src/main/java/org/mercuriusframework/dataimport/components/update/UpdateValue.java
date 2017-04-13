@@ -1,8 +1,8 @@
-package org.mercuriusframework.dataimport.components.insert;
+package org.mercuriusframework.dataimport.components.update;
 
 import org.mercuriusframework.dataimport.components.common.ImportColumn;
+import org.mercuriusframework.dataimport.components.common.SearchComponent;
 import org.mercuriusframework.dataimport.constants.MercuriusDataImportComponentConstants;
-import org.mercuriusframework.dataimport.constants.MercuriusDataImportConstants;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -10,19 +10,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Insert value component
+ * Update value component
  */
-public class InsertValue {
+public class UpdateValue {
+
     /**
      * Import columns
      */
     private List<ImportColumn> columns;
 
     /**
+     * Search component
+     */
+    private SearchComponent search;
+
+    /**
      * Constructor
      * @param xmlElement Xml element
      */
-    public InsertValue(Node xmlElement) {
+    public UpdateValue(Node xmlElement) {
         this.columns = new ArrayList<>();
         /** Parse columns */
         NodeList nodeList = xmlElement.getChildNodes();
@@ -30,6 +36,14 @@ public class InsertValue {
             if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
                 if (nodeList.item(i).getNodeName().equals(MercuriusDataImportComponentConstants.ImportColumn.COMPONENT_NAME)) {
                     columns.add(new ImportColumn(nodeList.item(i)));
+                }
+            }
+        }
+        /** Parse search */
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                if (nodeList.item(i).getNodeName().equals(MercuriusDataImportComponentConstants.SearchComponent.COMPONENT_NAME)) {
+                    search = new SearchComponent(nodeList.item(i));
                 }
             }
         }
@@ -49,5 +63,21 @@ public class InsertValue {
      */
     public void setColumns(List<ImportColumn> columns) {
         this.columns = columns;
+    }
+
+    /**
+     * Get search component
+     * @return Search component
+     */
+    public SearchComponent getSearch() {
+        return search;
+    }
+
+    /**
+     * Set search component
+     * @param search Search component
+     */
+    public void setSearch(SearchComponent search) {
+        this.search = search;
     }
 }
