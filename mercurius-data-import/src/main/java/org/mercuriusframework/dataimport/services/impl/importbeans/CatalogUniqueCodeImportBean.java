@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 
 /**
  * Catalog unique code entity import bean
@@ -30,14 +30,15 @@ public class CatalogUniqueCodeImportBean implements ValueImportBean {
     private CatalogUniqueCodeEntityService catalogUniqueCodeEntityService;
 
     /**
-     * Find value by string
-     * @param value     String value
-     * @param setMethod Set method
+     * Get value by string
+     * @param value        String value
+     * @param field        Field
+     * @param sourceObject Source object
      * @return Found object
      */
     @Override
-    public Object findValueByString(String value, Method setMethod) {
-        Class classType = setMethod.getParameterTypes()[0];
+    public Object getValueByString(String value, Field field, Object sourceObject) {
+        Class classType = field.getType();
         String values[] = value.split(SPLITTER);
         if (values.length != 2) {
             throw new WrongImportDataValueFormatException("<catalog_code>" + SPLITTER + "<entity_code>");

@@ -1,6 +1,7 @@
 package org.mercuriusframework.dataimport.components.common;
 
 import org.mercuriusframework.dataimport.constants.MercuriusDataImportComponentConstants;
+import org.mercuriusframework.services.query.CriteriaParameter;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -20,7 +21,7 @@ public class CriteriaComponent {
     /**
      * Criteria values
      */
-    private List<CriteriaValue> criteriaValues;
+    private List<CriteriaValueComponent> criteriaValues;
 
     /**
      * Constructor
@@ -38,8 +39,8 @@ public class CriteriaComponent {
                     NodeList valuesNodeList = nodeList.item(i).getChildNodes();
                     for (int j = 0; j < valuesNodeList.getLength(); j++) {
                         if (valuesNodeList.item(j).getNodeType() == Node.ELEMENT_NODE) {
-                            if (valuesNodeList.item(j).getNodeName() == MercuriusDataImportComponentConstants.CriteriaValue.COMPONENT_NAME) {
-                                criteriaValues.add(new CriteriaValue(valuesNodeList.item(j)));
+                            if (valuesNodeList.item(j).getNodeName() == MercuriusDataImportComponentConstants.CriteriaValueComponent.COMPONENT_NAME) {
+                                criteriaValues.add(new CriteriaValueComponent(valuesNodeList.item(j)));
                             }
                         }
                     }
@@ -68,7 +69,7 @@ public class CriteriaComponent {
      * Get criteria values
      * @return Criteria values
      */
-    public List<CriteriaValue> getCriteriaValues() {
+    public List<CriteriaValueComponent> getCriteriaValues() {
         return criteriaValues;
     }
 
@@ -76,7 +77,7 @@ public class CriteriaComponent {
      * Set criteria values
      * @param criteriaValues Criteria values
      */
-    public void setCriteriaValues(List<CriteriaValue> criteriaValues) {
+    public void setCriteriaValues(List<CriteriaValueComponent> criteriaValues) {
         this.criteriaValues = criteriaValues;
     }
 }

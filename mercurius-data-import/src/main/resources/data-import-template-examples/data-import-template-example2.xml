@@ -21,9 +21,9 @@
             <!-- Criteria update values -->
             <value>
                 <search>
-                    <criteria property="code">
+                    <criteria property="mainCategory">
                         <values>
-                            <value type="EQUALS">product_sao_01</value>
+                            <value type="IN" value-import-bean="multiCatalogUniqueCodeImportBean">master_catalog::ranobe_sci_fi;ranobe_fantasy</value>
                         </values>
                     </criteria>
                 </search>

@@ -2,6 +2,7 @@ package org.mercuriusframework.services;
 
 import org.mercuriusframework.converters.Converter;
 import org.mercuriusframework.enums.LoadOptions;
+import org.mercuriusframework.services.query.CriteriaParameter;
 import org.mercuriusframework.services.query.PageableResult;
 import org.mercuriusframework.services.query.QueryParameter;
 import org.mercuriusframework.entities.AbstractEntity;
@@ -104,12 +105,23 @@ public interface EntityService {
             Class<T> classType, QueryParameter... parameters);
 
     /**
+     * Get list of entities by criteria
+     * @param classType Class type
+     * @param fetchFields Fetch fields
+     * @param criteriaParameters Criteria parameters
+     * @param <T> Class type
+     * @return List of entities
+     */
+    <T> List<T> getListResultByCriteria(Class<T> classType, String[] fetchFields, CriteriaParameter... criteriaParameters);
+
+    /**
      * Get entities count by criteria
      * @param classType Class type
+     * @param criteriaParameters Criteria parameters
      * @param <T> Type
      * @return Entities count
      */
-    <T> Long getCountByCriteria(Class<T> classType);
+    <T> Long getCountByCriteria(Class<T> classType, CriteriaParameter... criteriaParameters);
 
     /**
      * Get pageable result by criteria
@@ -117,10 +129,12 @@ public interface EntityService {
      * @param pageSize Page size (entries on the page)
      * @param fetchFields Fetch fields
      * @param classType Class type
+     * @param criteriaParameters Criteria parameters
      * @param <T> Type
      * @return Pageable result
      */
-    <T> PageableResult<T> getPageableResultByCriteria(Integer currentPage, Integer pageSize, String[] fetchFields, Class<T> classType);
+    <T> PageableResult<T> getPageableResultByCriteria(Integer currentPage, Integer pageSize, String[] fetchFields,
+                                                      Class<T> classType, CriteriaParameter... criteriaParameters);
 
     /**
      * Get pageable result by criteria
@@ -128,9 +142,10 @@ public interface EntityService {
      * @param pageSize Page size (entries on the page)
      * @param fetchFields Fetch fields
      * @param classType Class type
+     * @param criteriaParameters Criteria parameters
      * @param <T> Type
      * @return Pageable result
      */
     <T, RESULT> PageableResult<T> getPageableResultByCriteria(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
-            Integer currentPage, Integer pageSize, String[] fetchFields, Class<T> classType);
+            Integer currentPage, Integer pageSize, String[] fetchFields, Class<T> classType, CriteriaParameter... criteriaParameters);
 }

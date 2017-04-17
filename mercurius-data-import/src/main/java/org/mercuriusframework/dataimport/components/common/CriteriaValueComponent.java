@@ -1,12 +1,17 @@
 package org.mercuriusframework.dataimport.components.common;
 
 import org.mercuriusframework.dataimport.constants.MercuriusDataImportComponentConstants;
+import org.mercuriusframework.dataimport.services.ValueImportBean;
+import org.mercuriusframework.enums.CriteriaValueType;
+import org.mercuriusframework.providers.ApplicationContextProvider;
+import org.mercuriusframework.services.query.CriteriaParameter;
+import org.mercuriusframework.services.query.CriteriaValue;
 import org.w3c.dom.Node;
 
 /**
  * Criteria value component
  */
-public class CriteriaValue {
+public class CriteriaValueComponent {
 
     /**
      * Value import bean name
@@ -27,13 +32,13 @@ public class CriteriaValue {
      * Constructor
      * @param xmlElement Xml element
      */
-    public CriteriaValue(Node xmlElement) {
+    public CriteriaValueComponent(Node xmlElement) {
         this.type = xmlElement.getAttributes().getNamedItem(
-                MercuriusDataImportComponentConstants.CriteriaValue.TYPE).getNodeValue();
+                MercuriusDataImportComponentConstants.CriteriaValueComponent.TYPE).getNodeValue();
         this.valueImportBeanName = xmlElement.getAttributes().getNamedItem(
-                MercuriusDataImportComponentConstants.CriteriaValue.VALUE_IMPORT_BEAN) != null ?
+                MercuriusDataImportComponentConstants.CriteriaValueComponent.VALUE_IMPORT_BEAN) != null ?
                 xmlElement.getAttributes().getNamedItem(
-                        MercuriusDataImportComponentConstants.CriteriaValue.VALUE_IMPORT_BEAN).getNodeValue() : null;
+                        MercuriusDataImportComponentConstants.CriteriaValueComponent.VALUE_IMPORT_BEAN).getNodeValue() : null;
         this.rawValue = xmlElement.getTextContent();
     }
 

@@ -1,5 +1,7 @@
 package org.mercuriusframework.enums;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Criteria value type
  */
@@ -10,8 +12,7 @@ public enum CriteriaValueType {
      */
     EQUAL("EQUAL"),
     NOT_EQUAL("NOT_EQUAL"),
-    IN("IN"),
-    NOT_IN("NOT_IN");
+    IN("IN");
     /**
      * Enum value
      */
@@ -31,5 +32,22 @@ public enum CriteriaValueType {
      */
     public String getValue() {
         return value;
+    }
+
+    /**
+     * Get value from string
+     * @param value String value
+     * @return Enum value
+     */
+    public static CriteriaValueType valueFromString(String value) {
+        if (StringUtils.isEmpty(value)) {
+            return null;
+        }
+        for (CriteriaValueType valueType : CriteriaValueType.values()) {
+            if (valueType.getValue().equalsIgnoreCase(value.toLowerCase())) {
+                return valueType;
+            }
+        }
+        return null;
     }
 }

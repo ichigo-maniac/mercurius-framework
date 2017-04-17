@@ -76,7 +76,7 @@ public class MercuriusDataImportComponentConstants {
     /**
      * Criteria value component
      */
-    public class CriteriaValue {
+    public class CriteriaValueComponent {
         public static final String COMPONENT_NAME = "value";
         public static final String TYPE = "type";
         public static final String VALUE_IMPORT_BEAN = "value-import-bean";

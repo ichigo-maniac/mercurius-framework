@@ -1,11 +1,9 @@
 package org.mercuriusframework.services.impl;
 
 import org.mercuriusframework.converters.Converter;
+import org.mercuriusframework.enums.CriteriaValueType;
 import org.mercuriusframework.enums.LoadOptions;
-import org.mercuriusframework.services.query.ConvertiblePageableResult;
-import org.mercuriusframework.services.query.DefaultPageableResult;
-import org.mercuriusframework.services.query.PageableResult;
-import org.mercuriusframework.services.query.QueryParameter;
+import org.mercuriusframework.services.query.*;
 import org.mercuriusframework.entities.AbstractEntity;
 import org.mercuriusframework.services.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +13,8 @@ import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionOperations;
 import org.springframework.util.CollectionUtils;
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -275,15 +271,47 @@ public class EntityServiceImpl implements EntityService {
     }
 
     /**
+     * Get list of entities by criteria
+     * @param classType          Class type
+     * @param fetchFields        Fetch fields
+     * @param criteriaParameters Criteria parameters
+     * @return List of entities
+     */
+    @Override
+    public <T> List<T> getListResultByCriteria(Class<T> classType, String[] fetchFields, CriteriaParameter... criteriaParameters) {
+        /** Create criteria query */
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = builder.createQuery(classType);
+        Root<T> root = criteriaQuery.from(classType);
+        criteriaQuery = criteriaQuery.select(root);
+        for (String fetchField : fetchFields) {
+            root.fetch(fetchField, JoinType.LEFT);
+        }
+        /** Build restrictions */
+        if (criteriaParameters.length > 0) {
+            Expression restrictionExpression = buildRestrictionExpression(root, criteriaParameters);
+            if (restrictionExpression != null) {
+                criteriaQuery = criteriaQuery.where(restrictionExpression);
+            }
+        }
+        TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+        typedQuery.setFlushMode(FlushModeType.COMMIT);
+        /** Create result */
+        return typedQuery.getResultList();
+    }
+
+    /**
      * Get pageable result by criteria
      * @param currentPage Current page (count from 0)
      * @param pageSize    Page size (entries on the page)
      * @param fetchFields Fetch fields
      * @param classType   Class type
+     * @param criteriaParameters Criteria parameters
      * @return Pageable result
      */
     @Override
-    public <T> PageableResult<T> getPageableResultByCriteria(Integer currentPage, Integer pageSize, String[] fetchFields, Class<T> classType) {
+    public <T> PageableResult<T> getPageableResultByCriteria(Integer currentPage, Integer pageSize, String[] fetchFields,
+                                                             Class<T> classType, CriteriaParameter... criteriaParameters) {
         Long totalCount = getCountByCriteria(classType);
         Integer currentPageResult = calculateCurrentPage(pageSize, currentPage, totalCount);
         /** Create criteria query */
@@ -293,6 +321,13 @@ public class EntityServiceImpl implements EntityService {
         criteriaQuery = criteriaQuery.select(root);
         for (String fetchField : fetchFields) {
             root.fetch(fetchField, JoinType.LEFT);
+        }
+        /** Build restrictions */
+        if (criteriaParameters.length > 0) {
+            Expression restrictionExpression = buildRestrictionExpression(root, criteriaParameters);
+            if (restrictionExpression != null) {
+                criteriaQuery = criteriaQuery.where(restrictionExpression);
+            }
         }
         TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
         typedQuery.setFirstResult(currentPageResult * pageSize);
@@ -306,13 +341,22 @@ public class EntityServiceImpl implements EntityService {
     /**
      * Get entities count by criteria
      * @param classType Class type
+     * @param criteriaParameters Criteria parameters
      * @return Entities count
      */
     @Override
-    public <T> Long getCountByCriteria(Class<T> classType) {
+    public <T> Long getCountByCriteria(Class<T> classType, CriteriaParameter... criteriaParameters) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> criteriaQuery = builder.createQuery(Long.class);
-        criteriaQuery.select(builder.count(criteriaQuery.from(classType)));
+        Root<T> root = criteriaQuery.from(classType);
+        criteriaQuery = criteriaQuery.select(builder.count(root));
+        /** Build restrictions */
+        if (criteriaParameters.length > 0) {
+            Expression restrictionExpression = buildRestrictionExpression(root, criteriaParameters);
+            if (restrictionExpression != null) {
+                criteriaQuery = criteriaQuery.where(restrictionExpression);
+            }
+        }
         return entityManager.createQuery(criteriaQuery).getSingleResult();
     }
 
@@ -323,11 +367,14 @@ public class EntityServiceImpl implements EntityService {
      * @param currentPage Current page (count from 0)
      * @param pageSize    Page size (entries on the page)
      * @param fetchFields Fetch fields
-     * @param classType   Class type    @return Pageable result
+     * @param classType   Class type
+     * @param criteriaParameters Criteria parameters
+     * @return Pageable result
      */
     @Override
     public <T, RESULT> PageableResult<T> getPageableResultByCriteria(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
-                                                                     Integer currentPage, Integer pageSize, String[] fetchFields, Class<T> classType) {
+                                                                     Integer currentPage, Integer pageSize, String[] fetchFields,
+                                                                     Class<T> classType, CriteriaParameter... criteriaParameters) {
         Long totalCount = getCountByCriteria(classType);
         Integer currentPageResult = calculateCurrentPage(pageSize, currentPage, totalCount);
         /** Create criteria query */
@@ -338,6 +385,13 @@ public class EntityServiceImpl implements EntityService {
         for (String fetchField : fetchFields) {
             root.fetch(fetchField, JoinType.LEFT);
         }
+        /** Build restrictions */
+        if (criteriaParameters.length > 0) {
+            Expression restrictionExpression = buildRestrictionExpression(root, criteriaParameters);
+            if (restrictionExpression != null) {
+                criteriaQuery = criteriaQuery.where(restrictionExpression);
+            }
+        }
         TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
         typedQuery.setFirstResult(currentPageResult * pageSize);
         typedQuery.setFlushMode(FlushModeType.COMMIT);
@@ -345,5 +399,51 @@ public class EntityServiceImpl implements EntityService {
         /** Create result */
         return new ConvertiblePageableResult<T, RESULT>(totalCount.intValue(), currentPageResult,
                 pageSize, getPagesCount(pageSize, totalCount), typedQuery.getResultList(), converter, loadOptions);
+    }
+
+    /**
+     * Build restriction expression
+     * @param root Root
+     * @param criteriaParameters Criteria parameters
+     * @return Restriction expression
+     */
+    private Expression buildRestrictionExpression(Root root, CriteriaParameter[] criteriaParameters) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        Expression expression = null;
+        for (CriteriaParameter criteriaParameter : criteriaParameters) {
+            Expression parameterExpression = null;
+            if (criteriaParameter.getValues().length > 0) {
+                for (CriteriaValue criteriaValue : criteriaParameter.getValues()) {
+                    /** Create current value expression */
+                    Expression currentValueExpression = null;
+                    if (criteriaValue.getType() == CriteriaValueType.EQUAL) {
+                        currentValueExpression = builder.equal(root.get(criteriaParameter.getProperty()), criteriaValue.getValue());
+                    }
+                    if (criteriaValue.getType() == CriteriaValueType.NOT_EQUAL) {
+                        currentValueExpression = builder.notEqual(root.get(criteriaParameter.getProperty()), criteriaValue.getValue());
+                    }
+                    if (criteriaValue.getType() == CriteriaValueType.IN) {
+                        if (criteriaValue.getValue() instanceof Collection && !((Collection)criteriaValue.getValue()).isEmpty()) {
+                            currentValueExpression = root.get(criteriaParameter.getProperty()).in(criteriaValue.getValue());
+                        }
+                    }
+                    /** Add current value expression */
+                    if (parameterExpression != null) {
+                        parameterExpression = builder.or(parameterExpression, currentValueExpression);
+                    } else {
+                        parameterExpression = currentValueExpression;
+                    }
+                }
+            }
+            /** Add parameter expression */
+            if (parameterExpression != null) {
+                if (expression != null) {
+                    expression = builder.and(expression, parameterExpression);
+                } else {
+                    expression = parameterExpression;
+                }
+            }
+        }
+        return expression;
     }
 }

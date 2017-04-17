@@ -4,7 +4,7 @@ import org.mercuriusframework.dataimport.exceptions.WrongImportDataValueFormatEx
 import org.mercuriusframework.dataimport.services.ValueImportBean;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -20,13 +20,14 @@ public class DateTimeImportBean implements ValueImportBean {
     private static final String SPLITTER = "::";
 
     /**
-     * Find value by string
-     * @param value     String value
-     * @param setMethod Set method
+     * Get value by string
+     * @param value        String value
+     * @param field        Field
+     * @param sourceObject Source object
      * @return Found object
      */
     @Override
-    public Object findValueByString(String value, Method setMethod) {
+    public Object getValueByString(String value, Field field, Object sourceObject) {
         String values[] = value.split(SPLITTER);
         if (values.length != 2) {
             throw new WrongImportDataValueFormatException("<date_time_format>" + SPLITTER + "<date_time_string>");

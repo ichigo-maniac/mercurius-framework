@@ -9,7 +9,8 @@ import org.mercuriusframework.services.UniqueCodeEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import java.lang.reflect.Method;
+
+import java.lang.reflect.Field;
 
 /**
  * Big string entity import bean
@@ -30,13 +31,14 @@ public class BigStringImportBean implements ValueImportBean {
     private UniqueCodeEntityService uniqueCodeEntityService;
 
     /**
-     * Find value by string
-     * @param value     String value
-     * @param setMethod Set method
+     * Get value by string
+     * @param value        String value
+     * @param field        Field
+     * @param sourceObject Source object
      * @return Found object
      */
     @Override
-    public Object findValueByString(String value, Method setMethod) {
+    public Object getValueByString(String value, Field field, Object sourceObject) {
         String values[] = value.split(SPLITTER);
         if (values.length != 2) {
             throw new WrongImportDataValueFormatException("<catalog_code>" + SPLITTER + "<big_string_value>");
