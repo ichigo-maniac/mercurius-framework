@@ -9,6 +9,11 @@ import org.w3c.dom.Node;
 public class ImportColumn {
 
     /**
+     * Include in search
+     */
+    private boolean includeInSearch;
+
+    /**
      * Property
      */
     private String property;
@@ -35,6 +40,26 @@ public class ImportColumn {
                 xmlElement.getAttributes().getNamedItem(
                         MercuriusDataImportComponentConstants.ImportColumn.VALUE_IMPORT_BEAN).getNodeValue() : null;
         this.rawValue = xmlElement.getTextContent();
+        this.includeInSearch = xmlElement.getAttributes().getNamedItem(
+                MercuriusDataImportComponentConstants.ImportColumn.INCLUDE_IN_SEARCH) != null ?
+                Boolean.valueOf(xmlElement.getAttributes().getNamedItem(
+                        MercuriusDataImportComponentConstants.ImportColumn.INCLUDE_IN_SEARCH).getNodeValue()) : false;
+    }
+
+    /**
+     * Get include in search
+     * @return Include in search flag
+     */
+    public boolean isIncludeInSearch() {
+        return includeInSearch;
+    }
+
+    /**
+     * Set include in search flag
+     * @param includeInSearch Include in search flag
+     */
+    public void setIncludeInSearch(boolean includeInSearch) {
+        this.includeInSearch = includeInSearch;
     }
 
     /**

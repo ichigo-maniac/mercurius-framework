@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -33,26 +33,33 @@ public class MultiCatalogUniqueCodeImportBean implements ValueImportBean {
     private CatalogUniqueCodeEntityService catalogUniqueCodeEntityService;
 
     /**
-     * Find value by string
+     * Get value by string
      *
      * @param value     String value
-     * @param setMethod Set method
+     * @param field        Field
+     * @param sourceObject Source object
      * @return Found object
      */
     @Override
-    public Object findValueByString(String value, Method setMethod) {
-        Class classType = setMethod.getParameterTypes()[0];
+    public Object getValueByString(String value, Field field, Object sourceObject) {
+        Class classType = field.getType();
         /** Set */
         if (classType.isAssignableFrom(Set.class)) {
             Set<CatalogUniqueCodeEntity> result = new HashSet<>();
-            Class entityClass = getEntityClass(setMethod);
+            Class entityClass = getCollectionTypeClass(field);
             setDataToCollection(result, value, entityClass);
             return result;
         }
         /** List */
         if (classType.isAssignableFrom(List.class)) {
             List<CatalogUniqueCodeEntity> result = new ArrayList<>();
-            Class entityClass = getEntityClass(setMethod);
+            Class entityClass = getCollectionTypeClass(field);
+            setDataToCollection(result, value, entityClass);
+            return result;
+        }
+        if (!classType.isAssignableFrom(Collection.class)) {
+            List<CatalogUniqueCodeEntity> result = new ArrayList<>();
+            Class entityClass = field.getType();
             setDataToCollection(result, value, entityClass);
             return result;
         }
@@ -81,21 +88,6 @@ public class MultiCatalogUniqueCodeImportBean implements ValueImportBean {
             } else {
                 throw new CatalogUniqueCodeEntityAbsenceException(entityClass.getName(), entityCode.trim(), catalogCode);
             }
-        }
-    }
-
-    /**
-     * Get entity class
-     * @param setMethod Set method
-     * @return Entity class
-     */
-    private Class getEntityClass(Method setMethod) {
-        String signature = setMethod.toGenericString();
-        String className = signature.substring(signature.indexOf("<") + 1, signature.lastIndexOf(">"));
-        try {
-            return Class.forName(className);
-        } catch (ClassNotFoundException exception) {
-            throw new RuntimeException(exception);
         }
     }
 }

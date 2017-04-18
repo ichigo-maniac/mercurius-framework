@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mercuriusframework.dataimport.components.AbstractImportComponent;
 import org.mercuriusframework.dataimport.components.common.CriteriaComponent;
+import org.mercuriusframework.dataimport.components.common.CriteriaValueComponent;
 import org.mercuriusframework.dataimport.components.common.ImportColumn;
 import org.mercuriusframework.dataimport.components.insert.InsertImportComponent;
 import org.mercuriusframework.dataimport.components.insert.InsertValue;
@@ -14,9 +15,12 @@ import org.mercuriusframework.dataimport.constants.MercuriusDataImportComponentC
 import org.mercuriusframework.dataimport.services.DataImportService;
 import org.mercuriusframework.dataimport.services.ValueImportBean;
 import org.mercuriusframework.entities.AbstractEntity;
+import org.mercuriusframework.enums.CriteriaValueType;
 import org.mercuriusframework.providers.ApplicationContextProvider;
 import org.mercuriusframework.services.AnnotationService;
 import org.mercuriusframework.services.EntityService;
+import org.mercuriusframework.services.query.CriteriaParameter;
+import org.mercuriusframework.services.query.CriteriaValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -33,12 +37,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -232,12 +236,11 @@ public class DataImportServiceImpl implements DataImportService {
      */
     private void insertComponent(InsertImportComponent importComponent, StringBuilder log) throws IllegalAccessException, InstantiationException {
         Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
-        Method[] methods = entityClass.getMethods();
         for (InsertValue insertValue : importComponent.getValues()) {
             Object entityObject = entityClass.newInstance();
             List<ImportColumn> importColumns = new ArrayList<>(importComponent.getCommonColumns());
             importColumns.addAll(insertValue.getColumns());
-            populateObject(entityObject, importColumns, methods, log);
+            populateObject(entityObject, importColumns, entityClass, log);
             entityService.save((AbstractEntity) entityObject);
         }
     }
@@ -249,15 +252,14 @@ public class DataImportServiceImpl implements DataImportService {
      */
     private void updateComponent(UpdateImportComponent importComponent, StringBuilder log) {
         Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
-        Method[] methods = entityClass.getMethods();
         /** Load data */
         if (importComponent.getValues().isEmpty()) {
             List<AbstractEntity> updatingData = loadUpdatingData(importComponent, null);
             List<ImportColumn> importColumns = new ArrayList<>(importComponent.getCommonColumns());
             /** Populate object */
             for (AbstractEntity entityObject : updatingData) {
-                populateObject(entityObject, importColumns, methods, log);
-//                entityService.save(entityObject);
+                populateObject(entityObject, importColumns, entityClass, log);
+                entityService.save(entityObject);
             }
         } else {
             for (UpdateValue updateValue : importComponent.getValues()) {
@@ -266,8 +268,8 @@ public class DataImportServiceImpl implements DataImportService {
                 List<AbstractEntity> updatingData = loadUpdatingData(importComponent, updateValue);
                 /** Populate objects */
                 for (AbstractEntity entityObject : updatingData) {
-                    populateObject(entityObject, importColumns, methods, log);
-//                    entityService.save(entityObject);
+                    populateObject(entityObject, importColumns, entityClass, log);
+                    entityService.save(entityObject);
                 }
             }
         }
@@ -277,14 +279,16 @@ public class DataImportServiceImpl implements DataImportService {
      * Populate object
      * @param entityObject Entity object
      * @param importColumns Import column
-     * @param methods Methods
+     * @param entityClass Entity class
      * @param log Log
      * @return Populated object
      */
-    private Object populateObject(Object entityObject, List<ImportColumn> importColumns, Method[] methods, StringBuilder log) {
+    private Object populateObject(Object entityObject, List<ImportColumn> importColumns, Class entityClass, StringBuilder log) {
         try {
             for (ImportColumn importColumn : importColumns) {
-                setPropertyValue(importColumn, entityObject, methods);
+                Field field = getField(entityClass, importColumn.getProperty());
+                Method setMethod = getSetMethod(entityClass, importColumn.getProperty());
+                setPropertyValue(importColumn, entityObject, field, setMethod);
             }
         } catch (NoSuchMethodException exception) {
             exception.printStackTrace();
@@ -300,6 +304,22 @@ public class DataImportServiceImpl implements DataImportService {
             LOGGER.error(exception);
         }
         return entityObject;
+    }
+
+    /**
+     * Get set method
+     * @param entityClass Entity class
+     * @param property Entity property
+     */
+    private Method getSetMethod(Class entityClass, String property) throws NoSuchMethodException {
+        for (Method method : entityClass.getMethods()) {
+            if (method.getName().equals(SET_METHOD_PREFIX +  StringUtils.capitalize(property))) {
+                if (method.getParameterCount() == 1) {
+                    return method;
+                }
+            }
+        }
+        throw new NoSuchMethodException(SET_METHOD_PREFIX +  StringUtils.capitalize(property));
     }
 
     /**
@@ -329,39 +349,85 @@ public class DataImportServiceImpl implements DataImportService {
                 }
             }
         }
-        return Collections.emptyList();
+        /** Check import columns */
+        for (ImportColumn commonImportColumn : importComponent.getCommonColumns()) {
+            if (commonImportColumn.isIncludeInSearch()) {
+                criteriaValues.add(new CriteriaComponent(commonImportColumn.getProperty(),
+                        new CriteriaValueComponent(commonImportColumn.getValueImportBeanName(),
+                                commonImportColumn.getRawValue(), CriteriaValueType.EQUAL.getValue()))
+                );
+            }
+        }
+        for (ImportColumn importColumn : updateValue.getColumns()) {
+            if (importColumn.isIncludeInSearch()) {
+                criteriaValues.add(new CriteriaComponent(importColumn.getProperty(),
+                        new CriteriaValueComponent(importColumn.getValueImportBeanName(),
+                                importColumn.getRawValue(), CriteriaValueType.EQUAL.getValue()))
+                );
+            }
+        }
+        /** Search updating data */
+        return entityService.getListResultByCriteria(entityClass, new String[]{},
+                buildCriteriaParameters(entityClass, criteriaValues));
+
     }
 
     /**
-     * Get method
-     * @param methods Available methods
-     * @param property Entity property
+     * Build criteria parameters
+     * @param entityClass Entity class
+     * @param criteriaComponents Criteria components
+     * @return Array of criteria values
      */
-    private Method getMethod(Method[] methods, String property) throws NoSuchMethodException {
-        for (Method method : methods) {
-            if (method.getName().equals(SET_METHOD_PREFIX +  StringUtils.capitalize(property))) {
-                if (method.getParameterCount() == 1) {
-                    return method;
+    private CriteriaParameter[] buildCriteriaParameters(Class entityClass, List<CriteriaComponent> criteriaComponents) {
+        List<CriteriaParameter> criteriaParameters = new ArrayList<>();
+
+        for (CriteriaComponent criteriaComponent : criteriaComponents) {
+            if (!criteriaComponent.getCriteriaValues().isEmpty()) {
+                List<CriteriaValue> criteriaValues = new ArrayList<>();
+                /** Create criteria values */
+                for (CriteriaValueComponent criteriaValueComponent : criteriaComponent.getCriteriaValues()) {
+                    CriteriaValueType criteriaValueType = CriteriaValueType.valueFromString(criteriaValueComponent.getType());
+                    if (criteriaValueType != null) {
+                        try {
+                            if (criteriaValueComponent.getValueImportBeanName() != null) {
+                                Field field = getField(entityClass, criteriaComponent.getProperty());
+                                ValueImportBean valueImportBean = ApplicationContextProvider.getBean(criteriaValueComponent.getValueImportBeanName(),
+                                        ValueImportBean.class);
+                                criteriaValues.add(new CriteriaValue(criteriaValueType,
+                                        valueImportBean.getValueByString(criteriaValueComponent.getRawValue(), field, null)));
+                            } else {
+                                Field field = getField(entityClass, criteriaComponent.getProperty());
+                                criteriaValues.add(new CriteriaValue(criteriaValueType,
+                                        getPrimitiveValue(field.getType(), criteriaValueComponent.getRawValue())));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                /** Create criteria parameter */
+                if (!criteriaValues.isEmpty()) {
+                    criteriaParameters.add(new CriteriaParameter(criteriaComponent.getProperty(), criteriaValues));
                 }
             }
         }
-        throw new NoSuchMethodException(SET_METHOD_PREFIX +  StringUtils.capitalize(property));
+        return criteriaParameters.toArray(new CriteriaParameter[criteriaParameters.size()]);
     }
 
     /**
      * Set property value
      * @param importColumn Import column
      * @param entity Entity value
-     * @param methods Available methods
+     * @param field Property field
+     * @param method Set method
      */
-    private void setPropertyValue(ImportColumn importColumn, Object entity, Method[] methods) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method method = getMethod(methods, importColumn.getProperty());
-        Class parameterType = method.getParameterTypes()[0];
+    private void setPropertyValue(ImportColumn importColumn, Object entity, Field field, Method method) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Class parameterType = field.getType();
         /** Insert value to the object */
         if (importColumn.getValueImportBeanName() != null) {
-            setCompositeValue(importColumn.getRawValue(), entity, method, importColumn.getValueImportBeanName());
+            setCompositeValue(importColumn.getRawValue(), entity, field, method, importColumn.getValueImportBeanName());
         } else {
-            setPrimitiveValue(parameterType, importColumn.getRawValue(), entity, method);
+            setPrimitiveValue(parameterType, importColumn.getRawValue(), entity, field, method);
         }
     }
 
@@ -370,69 +436,96 @@ public class DataImportServiceImpl implements DataImportService {
      * @param valueClass Value class
      * @param rawValue Raw value (string)
      * @param entityObject Entity object
-     * @param setMethod Set method
+     * @param field Property field
+     * @param method Set method
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    private void setPrimitiveValue(Class valueClass, String rawValue, Object entityObject, Method setMethod) throws InvocationTargetException, IllegalAccessException {
+    private void setPrimitiveValue(Class valueClass, String rawValue, Object entityObject, Field field, Method method) throws InvocationTargetException, IllegalAccessException {
+        method.invoke(entityObject, getPrimitiveValue(valueClass, rawValue));
+    }
+
+    /**
+     * Get primitive value
+     * @param valueClass Value class
+     * @param rawValue Raw value
+     * @return Primitive object
+     */
+    private Object getPrimitiveValue(Class valueClass, String rawValue) {
         /** String value */
         if (valueClass.equals(String.class)) {
-            setMethod.invoke(entityObject, rawValue);
-            return;
+            return rawValue;
         }
         /** Long value */
         if (valueClass.equals(Long.class)) {
-            setMethod.invoke(entityObject, Long.valueOf(rawValue));
-            return;
+            return Long.valueOf(rawValue);
         }
         /** Integer value */
         if (valueClass.equals(Integer.class)) {
-            setMethod.invoke(entityObject, Integer.valueOf(rawValue));
-            return;
+            return Integer.valueOf(rawValue);
         }
         /** Short value */
         if (valueClass.equals(Short.class)) {
-            setMethod.invoke(entityObject, Short.valueOf(rawValue));
-            return;
+            return Short.valueOf(rawValue);
         }
         /** Float value */
         if (valueClass.equals(Float.class)) {
-            setMethod.invoke(entityObject, Float.valueOf(rawValue));
-            return;
+            return Float.valueOf(rawValue);
         }
         /** Double value */
         if (valueClass.equals(Double.class)) {
-            setMethod.invoke(entityObject, Double.valueOf(rawValue));
-            return;
+            return Double.valueOf(rawValue);
         }
         /** Boolean value */
         if (valueClass.equals(Boolean.class)) {
-            setMethod.invoke(entityObject, Boolean.valueOf(rawValue));
-            return;
+            return Boolean.valueOf(rawValue);
         }
         /** Big integer value */
         if (valueClass.equals(BigInteger.class)) {
-            setMethod.invoke(entityObject, new BigInteger(rawValue));
-            return;
+            return new BigInteger(rawValue);
         }
         /** Big decimal value */
         if (valueClass.equals(BigDecimal.class)) {
-            setMethod.invoke(entityObject, new BigDecimal(rawValue));
-            return;
+            return new BigDecimal(rawValue);
         }
+        throw new IllegalArgumentException("Class " + valueClass.getCanonicalName() + " is not supported " +
+                "as a primitive type value");
     }
 
     /**
      * Set primitive value
      * @param rawValue Raw value (string)
      * @param entityObject Entity object
-     * @param setMethod Set method
+     * @param field Property field
+     * @param method Set method
      * @param beanName Bean name
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    private void setCompositeValue(String rawValue, Object entityObject, Method setMethod, String beanName) throws InvocationTargetException, IllegalAccessException {
+    private void setCompositeValue(String rawValue, Object entityObject, Field field, Method method, String beanName) throws InvocationTargetException, IllegalAccessException {
         ValueImportBean valueImportBean = (ValueImportBean) ApplicationContextProvider.getBean(beanName);
-        setMethod.invoke(entityObject, valueImportBean.findValueByString(rawValue, setMethod));
+        method.invoke(entityObject, valueImportBean.getValueByString(rawValue, field, entityObject));
+    }
+
+    /**
+     * Get field
+     * @param type Class
+     * @param fieldName Field name
+     * @return Class
+     */
+    private Field getField(Class type, String fieldName) throws NoSuchFieldException {
+        Class currentClass = type;
+        while (currentClass != null && currentClass != Object.class) {
+            try {
+                Field field = currentClass.getDeclaredField(fieldName);
+                if (field != null) {
+                    return field;
+                }
+            } catch (NoSuchFieldException e) {
+            } finally {
+                currentClass = currentClass.getSuperclass();
+            }
+        }
+        throw new NoSuchFieldException(fieldName);
     }
 }

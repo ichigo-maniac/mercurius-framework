@@ -17,8 +17,11 @@
     <header class="mmc-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
             <div class="mdl-layout-spacer"></div>
-            <%-- Solr tasks --%>
-            <jsp:include page="/WEB-INF/view/mmc/tasks/solr_tasks_fragment.jsp"/>
+            <%-- Admin actions --%>
+            <security:authorize access="hasRole('ROLE_ADMIN')">
+                <a href="<c:url value="/mmc/app_panel/rebuild"/>"><spring:message code="mmc.rebuild.button.label"/></a>
+                <jsp:include page="/WEB-INF/view/mmc/tasks/solr_tasks_fragment.jsp"/>
+            </security:authorize>
             <%-- Log out --%>
             <a style="margin-left: 20px;" href="<c:url value="/mmc/logout"/>"><spring:message code="mmc.logout.button.label"/></a>
         </div>
@@ -76,11 +79,15 @@
     function widgetLoadResponse(data) {
         if (data != null) {
             if (data.status == 'ERROR') {
-                location.reload();
+                $("#alert_dialog_title").text("Error");
+                $("#alert_dialog_error_message").html(data.errorMessage);
+                $("#alert_dialog").modal("show");
                 return;
             }
             if (data.status == "NOT_FOUND") {
-                alert("not found");
+                $("#alert_dialog_title").text("Warning");
+                $("#alert_dialog_error_message").html(data.errorMessage);
+                $("#alert_dialog").modal("show");
                 return;
             } else {
                 $("#main_panel_container").empty();

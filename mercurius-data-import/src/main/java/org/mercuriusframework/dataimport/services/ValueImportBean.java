@@ -1,6 +1,8 @@
 package org.mercuriusframework.dataimport.services;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Set;
 
 /**
  *  Value import bean service
@@ -8,10 +10,30 @@ import java.lang.reflect.Method;
 public interface ValueImportBean {
 
     /**
-     * Find value by string
+     * Get value by string
      * @param value String value
-     * @param setMethod Set method
+     * @param field Field
+     * @param sourceObject Source object
      * @return Found object
      */
-    Object findValueByString(String value, Method setMethod);
+    Object getValueByString(String value, Field field, Object sourceObject);
+
+    /**
+     * Get collection type class
+     * @param field Field
+     * @return
+     */
+    default Class getCollectionTypeClass(Field field) {
+        Class valueClass = field.getType();
+        if (!valueClass.isAssignableFrom(Set.class) && !valueClass.isAssignableFrom(List.class)) {
+            return null;
+        }
+        String signature = field.toGenericString();
+        String className = signature.substring(signature.indexOf("<") + 1, signature.lastIndexOf(">"));
+        try {
+            return Class.forName(className);
+        } catch (ClassNotFoundException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
 }

@@ -19,6 +19,11 @@ public class LoadWidgetResult implements Serializable {
     private LoadWidgetResultStatus status;
 
     /**
+     * Error message
+     */
+    private String errorMessage;
+
+    /**
      * Constructor
      * @param renderedWidget Rendered widget
      * @param status Load status
@@ -35,6 +40,16 @@ public class LoadWidgetResult implements Serializable {
     public LoadWidgetResult(LoadWidgetResultStatus status) {
         this.status = status;
         this.renderedWidget = "";
+    }
+
+    /**
+     * Constructor
+     * @param status Load status
+     * @param errorMessage Error message
+     */
+    public LoadWidgetResult(LoadWidgetResultStatus status, String errorMessage) {
+        this.status = status;
+        this.errorMessage = errorMessage;
     }
 
     /**
@@ -67,5 +82,21 @@ public class LoadWidgetResult implements Serializable {
      */
     public void setStatus(LoadWidgetResultStatus status) {
         this.status = status;
+    }
+
+    /**
+     * Get error message
+     * @return Error message
+     */
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    /**
+     * Set error message
+     * @param errorMessage Error message
+     */
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

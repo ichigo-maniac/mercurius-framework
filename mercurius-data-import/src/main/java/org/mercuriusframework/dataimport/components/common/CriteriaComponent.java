@@ -1,11 +1,11 @@
 package org.mercuriusframework.dataimport.components.common;
 
 import org.mercuriusframework.dataimport.constants.MercuriusDataImportComponentConstants;
-import org.mercuriusframework.services.query.CriteriaParameter;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -47,6 +47,26 @@ public class CriteriaComponent {
                 }
             }
         }
+    }
+
+    /**
+     * Constructor
+     * @param property Property
+     * @param criteriaValues Criteria values
+     */
+    public CriteriaComponent(String property, List<CriteriaValueComponent> criteriaValues) {
+        this.property = property;
+        this.criteriaValues = criteriaValues;
+    }
+
+    /**
+     * Constructor
+     * @param property Property
+     * @param criteriaValue Criteria value
+     */
+    public CriteriaComponent(String property, CriteriaValueComponent criteriaValue) {
+        this.property = property;
+        this.criteriaValues = Collections.singletonList(criteriaValue);
     }
 
     /**

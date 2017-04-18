@@ -39,7 +39,7 @@ public class MessageSourceProvider implements ApplicationContextAware {
      * @param params Message parameters
      * @return Message
      */
-    public static String getMessage(String code, Object[] params) {
+    public static String getMessage(String code, Object... params) {
         try {
             return messageSource.getMessage(code, params, LocaleContextHolder.getLocale());
         } catch (NoSuchMessageException e) {
@@ -66,7 +66,7 @@ public class MessageSourceProvider implements ApplicationContextAware {
      * @param params Message parameters
      * @return Message
      */
-    public static String getMessage(String code, Object[] params, Locale locale) {
+    public static String getMessage(String code, Locale locale, Object... params) {
         try {
             return messageSource.getMessage(code, params, locale);
         } catch (NoSuchMessageException e) {

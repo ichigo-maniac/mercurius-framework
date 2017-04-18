@@ -59,11 +59,19 @@
     <xs:complexType name="update">
         <xs:sequence>
             <xs:element name="values" type="update-values" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="common-values" type="insert-common-values" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="common-values" type="update-common-values" minOccurs="0" maxOccurs="1"/>
             <xs:element name="common-search" type="entity-search" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <!-- Attributes -->
         <xs:attribute name="entity-name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="update-common-values">
+        <xs:sequence>
+            <xs:sequence>
+                <xs:element name="column" type="update-entity-column" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:sequence>
     </xs:complexType>
 
     <!-- Update value element -->
@@ -77,8 +85,15 @@
     <xs:complexType name="update-value">
         <xs:sequence>
             <xs:element name="search" type="entity-search" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="column" type="entity-column" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="column" type="update-entity-column" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="update-entity-column">
+        <!-- Attributes -->
+        <xs:attribute name="include-in-search" type="xs:boolean" use="optional"/>
+        <xs:attribute name="property" type="xs:string" use="required"/>
+        <xs:attribute name="value-import-bean" type="xs:string" use="optional"/>
     </xs:complexType>
 
     <!-- Entity search -->

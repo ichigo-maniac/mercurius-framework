@@ -75,7 +75,7 @@ public class UserFacadeImpl implements UserFacade {
             return false;
         }
         EmployeeUserDetails userDetails = new EmployeeUserDetails(employee);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getAuthorities());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         sessionService.setSessionAttribute(MercuriusConstants.SESSION_ATTRIBUTES.CURRENT_USER,
                 employeeEntityConverter.convert(employee, EmployeeLoadOptions.ROLES));
@@ -126,17 +126,8 @@ public class UserFacadeImpl implements UserFacade {
      */
     @Override
     public boolean hasCurrentUserRole(String roleCode) {
-        UserEntityDto currentUser = getCurrentUser();
-        if (currentUser == null && !(currentUser instanceof EmployeeEntityDto)) {
-            return false;
-        }
-        EmployeeEntityDto employee = (EmployeeEntityDto) currentUser;
-        for (RoleEntityDto role : employee.getRoles()) {
-            if (role.getCode().equals(roleCode)) {
-                return true;
-            }
-        }
-        return false;
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        return attr.getRequest().isUserInRole(roleCode);
     }
 
     /**

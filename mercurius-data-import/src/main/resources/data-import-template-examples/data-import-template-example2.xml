@@ -2,6 +2,27 @@
 
 <data-import xmlns="http://mercurius-framework.org/data-import">
 
+    <!-- Include in search -->
+    <update entity-name="Product">
+        <!-- Common values -->
+        <common-values>
+            <column include-in-search="true" property="catalog" value-import-bean="uniqueCodeImportBean">master_catalog</column>
+            <column property="mainCategory" value-import-bean="catalogUniqueCodeImportBean">master_catalog::ranobe_sci_fi</column>
+            <column property="categories" value-import-bean="multiCatalogUniqueCodeImportBean">master_catalog::ranobe_sci_fi</column>
+        </common-values>
+        <!-- Values -->
+        <values>
+            <value>
+                <column property="code" include-in-search="true">product_sao_02</column>
+                <column property="name">Sword Art Online vol. 01 - test</column>
+                <column property="description" value-import-bean="bigStringImportBean">master_catalog::
+                    Test description - include in search
+                </column>
+            </value>
+        </values>
+    </update>
+
+    <!-- Criterias and search -->
     <update entity-name="Product">
         <!-- Common criterias -->
         <common-search>
@@ -23,7 +44,7 @@
                 <search>
                     <criteria property="mainCategory">
                         <values>
-                            <value type="IN" value-import-bean="multiCatalogUniqueCodeImportBean">master_catalog::ranobe_sci_fi;ranobe_fantasy</value>
+                            <value type="IN" value-import-bean="primitiveListImportBean">product_sao_02;product_sao_03</value>
                         </values>
                     </criteria>
                 </search>

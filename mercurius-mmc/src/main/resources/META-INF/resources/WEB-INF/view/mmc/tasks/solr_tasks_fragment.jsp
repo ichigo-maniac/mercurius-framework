@@ -3,7 +3,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:if test="${not empty solrTasks}">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" id="solr"
+    <a style="margin-left: 20px;" class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" id="solr"
        aria-expanded="false">
         <spring:message code="mmc.panel.solr.tasks.label"/>
         <span class="caret"></span>

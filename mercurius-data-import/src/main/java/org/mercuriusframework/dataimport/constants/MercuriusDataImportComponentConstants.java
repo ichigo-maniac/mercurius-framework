@@ -46,6 +46,7 @@ public class MercuriusDataImportComponentConstants {
         public static final String COMPONENT_NAME = "column";
         public static final String PROPERTY = "property";
         public static final String VALUE_IMPORT_BEAN = "value-import-bean";
+        public static final String INCLUDE_IN_SEARCH = "include-in-search";
     }
 
     /**

@@ -62,7 +62,7 @@ public class MMCApplicationController {
         if (!userFacade.isCurrentUserEmployee()) {
             return "redirect:" + MercuriusMMCConstants.URLS.BASE_PATH;
         }
-        mmcApplicationService.rebuild();
+        mmcApplicationService.build();
         /** Get necessary widgets */
         TreeNodesViewWidget treeView = (TreeNodesViewWidget) mmcApplicationService.getWidgetXmlElement(WidgetType.TREE_NODES_VIEW);
         if (treeView != null) {
@@ -74,5 +74,17 @@ public class MMCApplicationController {
             model.addAttribute("solrTasks", solrIndexTaskService.getAllTasks());
         }
         return MercuriusMMCConstants.JSP_TEMPLATES.MAIN_VIEW_JSP;
+    }
+
+    /**
+     * Rebuild mmc-application
+     * @return View path
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/rebuild")
+    public String rebuildApplication() {
+        if (userFacade.hasCurrentUserRole(MercuriusMMCConstants.COMMON.ADMIN_ROLE_CODE)) {
+            mmcApplicationService.rebuild();
+        }
+        return "redirect:" + MercuriusMMCConstants.URLS.BASE_APPLICATION_PATH;
     }
 }
