@@ -40,6 +40,13 @@ public class MercuriusDataImportComponentConstants {
     }
 
     /**
+     * Insert update components
+     */
+    public class InsertUpdate {
+        public static final String COMPONENT_NAME = "insert-update";
+    }
+
+    /**
      * Import column component
      */
     public class ImportColumn {

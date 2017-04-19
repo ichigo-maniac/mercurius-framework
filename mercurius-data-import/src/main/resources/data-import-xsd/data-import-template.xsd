@@ -12,6 +12,7 @@
         <xs:sequence>
             <xs:element name="insert" type="insert" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="update" type="update" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="insert-update" type="insert-update" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -134,5 +135,34 @@
 
     <!-- Text query -->
     <xs:complexType name="text-query"/>
+
+    <!-- Insert-update element -->
+    <xs:complexType name="insert-update">
+        <xs:sequence>
+            <xs:element name="values" type="insert-update-values" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="common-values" type="insert-update-common-values" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <!-- Attributes -->
+        <xs:attribute name="entity-name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="insert-update-values">
+        <xs:sequence>
+            <xs:element name="value" type="insert-update-value" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Insert value (entity) element -->
+    <xs:complexType name="insert-update-common-values">
+        <xs:sequence>
+            <xs:element name="column" type="update-entity-column" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="insert-update-value">
+        <xs:sequence>
+            <xs:element name="column" type="update-entity-column" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
 
 </xs:schema>

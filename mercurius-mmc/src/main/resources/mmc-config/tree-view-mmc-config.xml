@@ -6,40 +6,40 @@
     <tree-nodes-view roles="ROLE_ADMIN" priority="0">
         <!-- Solr search -->
         <tree-node title="mmc.tree.view.system.label">
-            <tree-node-entity-element entity-name="Task"/>
+            <tree-node-entity-element title="mmc.tree.entity.Task.label" entity-name="Task"/>
             <tree-node title="mmc.tree.view.solr.search.label">
-                <tree-node-entity-element entity-name="SolrIndexTask"/>
-                <tree-node-entity-element entity-name="SolrIndexTaskProperty"/>
-                <tree-node-entity-element entity-name="SolrSearchResolver"/>
-                <tree-node-entity-element entity-name="SolrIndexField"/>
+                <tree-node-entity-element title="mmc.tree.entity.SolrIndexTask.label" entity-name="SolrIndexTask"/>
+                <tree-node-entity-element title="mmc.tree.entity.SolrIndexTaskProperty.label" entity-name="SolrIndexTaskProperty"/>
+                <tree-node-entity-element title="mmc.tree.entity.SolrSearchResolver.label" entity-name="SolrSearchResolver"/>
+                <tree-node-entity-element title="mmc.tree.entity.SolrIndexField.label" entity-name="SolrIndexField"/>
             </tree-node>
         </tree-node>
         <!-- Catalog -->
         <tree-node title="mmc.tree.view.catalog.label">
-            <tree-node-entity-element entity-name="Catalog"/>
-            <tree-node-entity-element entity-name="Product"/>
-            <tree-node-entity-element entity-name="Category"/>
-            <tree-node-entity-element entity-name="Unit"/>
+            <tree-node-entity-element title="mmc.tree.entity.Catalog.label" entity-name="Catalog"/>
+            <tree-node-entity-element title="mmc.tree.entity.Product.label" entity-name="Product"/>
+            <tree-node-entity-element title="mmc.tree.entity.Category.label" entity-name="Category"/>
+            <tree-node-entity-element title="mmc.tree.entity.Unit.label" entity-name="Unit"/>
             <tree-node title="mmc.tree.view.catalog.features.label">
-                <tree-node-entity-element entity-name="Feature"/>
-                <tree-node-entity-element entity-name="FeatureValue"/>
+                <tree-node-entity-element title="mmc.tree.entity.Feature.label" entity-name="Feature"/>
+                <tree-node-entity-element title="mmc.tree.entity.FeatureValue.label" entity-name="FeatureValue"/>
             </tree-node>
         </tree-node>
         <!-- Store -->
         <tree-node title="mmc.tree.view.store.label">
-            <tree-node-entity-element entity-name="Store"/>
-            <tree-node-entity-element entity-name="Warehouse"/>
-            <tree-node-entity-element entity-name="Stock"/>
+            <tree-node-entity-element title="mmc.tree.entity.Store.label" entity-name="Store"/>
+            <tree-node-entity-element title="mmc.tree.entity.Warehouse.label" entity-name="Warehouse"/>
+            <tree-node-entity-element title="mmc.tree.entity.Stock.label" entity-name="Stock"/>
         </tree-node>
         <!-- Prices -->
         <tree-node title="mmc.tree.view.prices.label">
-            <tree-node-entity-element entity-name="Price"/>
+            <tree-node-entity-element title="mmc.tree.entity.Price.label" entity-name="Price"/>
         </tree-node>
         <!-- Users -->
         <tree-node title="mmc.tree.view.users.label">
-            <tree-node-entity-element entity-name="Employee"/>
-            <tree-node-entity-element entity-name="Customer"/>
-            <tree-node-entity-element entity-name="Role"/>
+            <tree-node-entity-element title="mmc.tree.entity.Employee.label" entity-name="Employee"/>
+            <tree-node-entity-element title="mmc.tree.entity.Customer.label" entity-name="Customer"/>
+            <tree-node-entity-element title="mmc.tree.entity.Role.label" entity-name="Role"/>
         </tree-node>
     </tree-nodes-view>
 
@@ -47,9 +47,9 @@
     <tree-nodes-view priority="0">
         <!-- Catalog -->
         <tree-node title="mmc.tree.view.catalog.label">
-            <tree-node-entity-element entity-name="Product"/>
-            <tree-node-entity-element entity-name="Category"/>
-            <tree-node-entity-element entity-name="Unit"/>
+            <tree-node-entity-element title="mmc.tree.entity.Product.label" entity-name="Product"/>
+            <tree-node-entity-element title="mmc.tree.entity.Category.label" entity-name="Category"/>
+            <tree-node-entity-element title="mmc.tree.entity.Unit.label" entity-name="Unit"/>
         </tree-node>
     </tree-nodes-view>
 

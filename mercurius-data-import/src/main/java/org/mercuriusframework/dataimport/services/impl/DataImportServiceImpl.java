@@ -9,6 +9,7 @@ import org.mercuriusframework.dataimport.components.common.CriteriaValueComponen
 import org.mercuriusframework.dataimport.components.common.ImportColumn;
 import org.mercuriusframework.dataimport.components.insert.InsertImportComponent;
 import org.mercuriusframework.dataimport.components.insert.InsertValue;
+import org.mercuriusframework.dataimport.components.insertupdate.InsertUpdateImportComponent;
 import org.mercuriusframework.dataimport.components.update.UpdateImportComponent;
 import org.mercuriusframework.dataimport.components.update.UpdateValue;
 import org.mercuriusframework.dataimport.constants.MercuriusDataImportComponentConstants;
@@ -190,7 +191,9 @@ public class DataImportServiceImpl implements DataImportService {
             if (xmlElement.getNodeName().equals(MercuriusDataImportComponentConstants.Update.COMPONENT_NAME)) {
                 return new UpdateImportComponent(xmlElement);
             }
-
+            if (xmlElement.getNodeName().equals(MercuriusDataImportComponentConstants.InsertUpdate.COMPONENT_NAME)) {
+                return new InsertUpdateImportComponent(xmlElement);
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
             LOGGER.error(exception);
@@ -209,6 +212,10 @@ public class DataImportServiceImpl implements DataImportService {
      */
     private void importComponent(AbstractImportComponent importComponent, StringBuilder log) {
         try {
+            if (importComponent instanceof InsertUpdateImportComponent) {
+                insertUpdateComponent((InsertUpdateImportComponent) importComponent, log);
+                return;
+            }
             if (importComponent instanceof InsertImportComponent) {
                 insertComponent((InsertImportComponent) importComponent, log);
                 return;
@@ -267,6 +274,31 @@ public class DataImportServiceImpl implements DataImportService {
                 importColumns.addAll(updateValue.getColumns());
                 List<AbstractEntity> updatingData = loadUpdatingData(importComponent, updateValue);
                 /** Populate objects */
+                for (AbstractEntity entityObject : updatingData) {
+                    populateObject(entityObject, importColumns, entityClass, log);
+                    entityService.save(entityObject);
+                }
+            }
+        }
+    }
+
+    /**
+     * Insert-update component
+     * @param importComponent Import component
+     * @param log Log
+     */
+    public void insertUpdateComponent(InsertUpdateImportComponent importComponent, StringBuilder log) throws IllegalAccessException, InstantiationException {
+        Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
+        for (InsertValue insertValue : importComponent.getValues()) {
+            List<AbstractEntity> updatingData = loadInsertUpdatingData(importComponent, insertValue);
+            List<ImportColumn> importColumns = new ArrayList<>(importComponent.getCommonColumns());
+            importColumns.addAll(insertValue.getColumns());
+            if (updatingData.isEmpty()) {
+                /** Create a new instance of entity */
+                Object entityObject = entityClass.newInstance();
+                populateObject(entityObject, importColumns, entityClass, log);
+                entityService.save((AbstractEntity) entityObject);
+            } else {
                 for (AbstractEntity entityObject : updatingData) {
                     populateObject(entityObject, importColumns, entityClass, log);
                     entityService.save(entityObject);
@@ -369,7 +401,37 @@ public class DataImportServiceImpl implements DataImportService {
         /** Search updating data */
         return entityService.getListResultByCriteria(entityClass, new String[]{},
                 buildCriteriaParameters(entityClass, criteriaValues));
+    }
 
+    /**
+     * Load insert-updating data
+     * @param importComponent Import component
+     * @param insertValue Insert value
+     * @return Updating data
+     */
+    private List<AbstractEntity> loadInsertUpdatingData(InsertUpdateImportComponent importComponent, InsertValue insertValue) {
+        Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
+        List<CriteriaComponent> criteriaValues = new ArrayList<>();
+        /** Check import columns */
+        for (ImportColumn commonImportColumn : importComponent.getCommonColumns()) {
+            if (commonImportColumn.isIncludeInSearch()) {
+                criteriaValues.add(new CriteriaComponent(commonImportColumn.getProperty(),
+                        new CriteriaValueComponent(commonImportColumn.getValueImportBeanName(),
+                                commonImportColumn.getRawValue(), CriteriaValueType.EQUAL.getValue()))
+                );
+            }
+        }
+        for (ImportColumn importColumn : insertValue.getColumns()) {
+            if (importColumn.isIncludeInSearch()) {
+                criteriaValues.add(new CriteriaComponent(importColumn.getProperty(),
+                        new CriteriaValueComponent(importColumn.getValueImportBeanName(),
+                                importColumn.getRawValue(), CriteriaValueType.EQUAL.getValue()))
+                );
+            }
+        }
+        /** Search updating data */
+        return entityService.getListResultByCriteria(entityClass, new String[]{},
+                buildCriteriaParameters(entityClass, criteriaValues));
     }
 
     /**
