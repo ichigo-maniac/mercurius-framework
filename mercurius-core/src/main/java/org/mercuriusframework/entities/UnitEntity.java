@@ -8,7 +8,7 @@ import java.util.Set;
  * Unit entity class
  */
 @Entity(name = UnitEntity.ENTITY_NAME)
-@Table(name = "UNIT")
+@Table(name = "UNITS")
 public class UnitEntity extends CatalogUniqueCodeEntity {
 
     private static final long serialVersionUID = 3206380992490096733L;
@@ -22,7 +22,7 @@ public class UnitEntity extends CatalogUniqueCodeEntity {
      *  Products
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "PRODUCTS_UNITS_LINK",
+    @JoinTable(name = "PRODUCTS_UNITS_LINKS",
             joinColumns = {
                     @JoinColumn(name = "UNIT_UUID",
                             nullable = false, updatable = false)},

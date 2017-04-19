@@ -7,7 +7,7 @@ import java.util.List;
  * Warehouse entity class
  */
 @Entity(name = WarehouseEntity.ENTITY_NAME)
-@Table(name = "WAREHOUSE")
+@Table(name = "WAREHOUSES")
 public class WarehouseEntity extends UniqueCodeEntity {
 
     private static final long serialVersionUID = 4082941005457125655L;

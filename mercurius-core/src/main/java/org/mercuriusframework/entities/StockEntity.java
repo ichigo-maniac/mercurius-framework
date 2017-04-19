@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Stock entity class
  */
 @Entity(name = StockEntity.ENTITY_NAME)
-@Table(name = "STOCK")
+@Table(name = "STOCKS")
 public class StockEntity extends UniqueCodeEntity {
 
     private static final long serialVersionUID = 7058020107791400365L;

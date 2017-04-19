@@ -22,7 +22,7 @@ public class EmployeeEntity extends AbstractUserEntity {
      * Roles
      */
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "EMPLOYEE_ROLE_LINK",
+    @JoinTable(name = "EMPLOYEE_ROLE_LINKS",
             joinColumns = {
                     @JoinColumn(name = "EMPLOYEE_UUID",
                             nullable = false, updatable = false)},

@@ -8,7 +8,7 @@ import java.util.Set;
  * Product entity class
  */
 @Entity(name = ProductEntity.ENTITY_NAME)
-@Table(name = "PRODUCT")
+@Table(name = "PRODUCTS")
 public class ProductEntity extends CatalogUniqueCodeEntity {
 
     private static final long serialVersionUID = 3397412637120156482L;
@@ -45,7 +45,7 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
      * All available units
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "PRODUCTS_UNITS_LINK",
+    @JoinTable(name = "PRODUCTS_UNITS_LINKS",
             joinColumns = {
                     @JoinColumn(name = "PRODUCT_UUID",
                             nullable = false, updatable = false)},
@@ -67,7 +67,7 @@ public class ProductEntity extends CatalogUniqueCodeEntity {
      * All product categories
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "PRODUCTS_CATEGORIES_LINK",
+    @JoinTable(name = "PRODUCTS_CATEGORIES_LINKS",
             joinColumns = {
                     @JoinColumn(name = "PRODUCT_UUID",
                             nullable = false, updatable = false)},

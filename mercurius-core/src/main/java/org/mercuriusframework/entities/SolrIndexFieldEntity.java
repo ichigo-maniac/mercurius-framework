@@ -7,7 +7,7 @@ import java.util.List;
  * Solr index field entity class
  */
 @Entity(name = SolrIndexFieldEntity.ENTITY_NAME)
-@Table(name = "SOLR_INDEX_FIELD")
+@Table(name = "SOLR_INDEX_FIELDS")
 public class SolrIndexFieldEntity extends UniqueCodeEntity {
 
     private static final long serialVersionUID = 4195367163211127367L;
@@ -49,7 +49,7 @@ public class SolrIndexFieldEntity extends UniqueCodeEntity {
      * Solr index properties
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "SOLR_INDEX_PROPERTIES_FIELDS_LINK",
+    @JoinTable(name = "SOLR_INDEX_PROPERTIES_FIELDS_LINKS",
             joinColumns = {
                     @JoinColumn(name = "FIELD_UUID",
                             nullable = false, updatable = false)},
@@ -63,7 +63,7 @@ public class SolrIndexFieldEntity extends UniqueCodeEntity {
      * Solr search resolvers
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "SOLR_INDEX_PROPERTIES_FIELDS_LINK",
+    @JoinTable(name = "SOLR_INDEX_PROPERTIES_FIELDS_LINKS",
             joinColumns = {
                     @JoinColumn(name = "FIELD_UUID",
                             nullable = false, updatable = false)},

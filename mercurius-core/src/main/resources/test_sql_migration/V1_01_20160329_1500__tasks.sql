@@ -1,4 +1,4 @@
-CREATE TABLE SOLR_INDEX_TASK_PROPERTY(
+CREATE TABLE SOLR_INDEX_TASK_PROPERTIES(
   uuid CHARACTER VARYING(36) NOT NULL PRIMARY KEY,
   name CHARACTER VARYING(255) NOT NULL,
   code CHARACTER VARYING(255) NOT NULL UNIQUE,
@@ -9,7 +9,7 @@ CREATE TABLE SOLR_INDEX_TASK_PROPERTY(
   indexEntityName CHARACTER VARYING(255) NOT NULL
 );
 
-CREATE TABLE SOLR_SEARCH_RESOLVER(
+CREATE TABLE SOLR_SEARCH_RESOLVERS(
   uuid CHARACTER VARYING(36) NOT NULL PRIMARY KEY,
   name CHARACTER VARYING(255) NOT NULL,
   code CHARACTER VARYING(255) NOT NULL UNIQUE,
@@ -20,7 +20,7 @@ CREATE TABLE SOLR_SEARCH_RESOLVER(
   pageSize BIGINT NOT NULL
 );
 
-CREATE TABLE SOLR_INDEX_FIELD(
+CREATE TABLE SOLR_INDEX_FIELDS(
   uuid CHARACTER VARYING(36) NOT NULL PRIMARY KEY,
   name CHARACTER VARYING(255) NOT NULL,
   code CHARACTER VARYING(255) NOT NULL UNIQUE,
@@ -32,14 +32,14 @@ CREATE TABLE SOLR_INDEX_FIELD(
   caseInsensitive BOOLEAN
 );
 
-CREATE TABLE SOLR_INDEX_PROPERTIES_FIELDS_LINK(
-  property_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SOLR_INDEX_TASK_PROPERTY(uuid),
-  field_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SOLR_INDEX_FIELD(uuid)
+CREATE TABLE SOLR_INDEX_PROPERTIES_FIELDS_LINKS(
+  property_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SOLR_INDEX_TASK_PROPERTIES(uuid),
+  field_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SOLR_INDEX_FIELDS(uuid)
 );
 
-CREATE TABLE SOLR_SEARCH_RESOLVERS_TEXT_FIELDS_LINK(
-  resolver_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SOLR_SEARCH_RESOLVER(uuid),
-  field_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SOLR_INDEX_FIELD(uuid)
+CREATE TABLE SOLR_SEARCH_RESOLVERS_TEXT_FIELDS_LINKS(
+  resolver_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SOLR_SEARCH_RESOLVERS(uuid),
+  field_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SOLR_INDEX_FIELDS(uuid)
 );
 
 CREATE TABLE TASKS(
@@ -54,20 +54,20 @@ CREATE TABLE TASKS(
   laststarttime TIMESTAMP,
   lastfinishtime TIMESTAMP,
   task_type CHARACTER VARYING(255) NOT NULL,
-  solr_index_property_uuid CHARACTER VARYING(36) REFERENCES SOLR_INDEX_TASK_PROPERTY(uuid)
+  solr_index_property_uuid CHARACTER VARYING(36) REFERENCES SOLR_INDEX_TASK_PROPERTIES(uuid)
 );
 
-INSERT INTO SOLR_INDEX_TASK_PROPERTY(uuid, name, code, creationtime, modificationtime, solrCollectionName, query, indexEntityName) VALUES (
+INSERT INTO SOLR_INDEX_TASK_PROPERTIES(uuid, name, code, creationtime, modificationtime, solrCollectionName, query, indexEntityName) VALUES (
   '222b636e-f065-11e6-9dac-836adef2f3a6', 'Test index property', 'test_index_property', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
   'test_collection_1', 'test-query', 'Product'
 );
 
-INSERT INTO SOLR_INDEX_TASK_PROPERTY(uuid, name, code, creationtime, modificationtime, solrCollectionName, query, indexEntityName) VALUES (
+INSERT INTO SOLR_INDEX_TASK_PROPERTIES(uuid, name, code, creationtime, modificationtime, solrCollectionName, query, indexEntityName) VALUES (
   '3a4b636e-0022-11e6-9dac-836adef2f3a6', 'Test index property 2', 'test_index_property_2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
   'test_collection_2', 'test-query2', 'Product'
 );
 
-INSERT INTO SOLR_INDEX_TASK_PROPERTY(uuid, name, code, creationtime, modificationtime, solrCollectionName, query, indexEntityName) VALUES (
+INSERT INTO SOLR_INDEX_TASK_PROPERTIES(uuid, name, code, creationtime, modificationtime, solrCollectionName, query, indexEntityName) VALUES (
   '3a4b636e-f065-2222-9dac-836adef2f3a6', 'Test index property 3', 'test_index_property_3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
   'test_collection_3', 'test-query3', 'Product'
 );
@@ -75,17 +75,17 @@ INSERT INTO SOLR_INDEX_TASK_PROPERTY(uuid, name, code, creationtime, modificatio
 INSERT INTO TASKS(uuid, name, code, creationtime, modificationtime, enabled, task_type, taskRunBeanName, status, solr_index_property_uuid) VALUES (
   '4a4b636e-f065-11e6-9dac-836adef2f3a6', 'Test task 1', 'test_task_1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
   true, 'SolrIndexTask', 'testBean1', 'NEW',
-  (SELECT uuid FROM SOLR_INDEX_TASK_PROPERTY WHERE code = 'test_index_property')
+  (SELECT uuid FROM SOLR_INDEX_TASK_PROPERTIES WHERE code = 'test_index_property')
 );
 
 INSERT INTO TASKS(uuid, name, code, creationtime, modificationtime, enabled, task_type, taskRunBeanName, status, solr_index_property_uuid) VALUES (
   '224b636e-f065-11e6-9dac-836adef2f3a6', 'Test task 2', 'test_task_2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
   true, 'SolrIndexTask', 'testBean2', 'NEW',
-  (SELECT uuid FROM SOLR_INDEX_TASK_PROPERTY WHERE code = 'test_index_property_2')
+  (SELECT uuid FROM SOLR_INDEX_TASK_PROPERTIES WHERE code = 'test_index_property_2')
 );
 
 INSERT INTO TASKS(uuid, name, code, creationtime, modificationtime, enabled, task_type, taskRunBeanName, status, solr_index_property_uuid) VALUES (
   '3a4b636e-f065-11e6-9dac-836adef2f3a6', 'Test task 3', 'test_task_3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
   false, 'SolrIndexTask', 'testBean3', 'NEW',
-  (SELECT uuid FROM SOLR_INDEX_TASK_PROPERTY WHERE code = 'test_index_property_3')
+  (SELECT uuid FROM SOLR_INDEX_TASK_PROPERTIES WHERE code = 'test_index_property_3')
 );

@@ -7,7 +7,7 @@ import java.util.List;
  * Solr index task property entity class
  */
 @Entity(name = SolrIndexTaskPropertyEntity.ENTITY_NAME)
-@Table(name = "SOLR_INDEX_TASK_PROPERTY")
+@Table(name = "SOLR_INDEX_TASK_PROPERTIES")
 public class SolrIndexTaskPropertyEntity extends UniqueCodeEntity {
 
     private static final long serialVersionUID = -2780187780417142560L;
@@ -42,7 +42,7 @@ public class SolrIndexTaskPropertyEntity extends UniqueCodeEntity {
      * Index fields
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "SOLR_INDEX_PROPERTIES_FIELDS_LINK",
+    @JoinTable(name = "SOLR_INDEX_PROPERTIES_FIELDS_LINKS",
             joinColumns = {
                     @JoinColumn(name = "PROPERTY_UUID",
                             nullable = false, updatable = false)},

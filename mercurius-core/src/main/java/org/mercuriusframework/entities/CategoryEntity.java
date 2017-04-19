@@ -7,7 +7,7 @@ import java.util.Set;
  * Category entity class
  */
 @Entity(name = CategoryEntity.ENTITY_NAME)
-@Table(name = "CATEGORY")
+@Table(name = "CATEGORIES")
 public class CategoryEntity extends CatalogUniqueCodeEntity {
 
     private static final long serialVersionUID = -1108095657379342612L;
@@ -37,7 +37,7 @@ public class CategoryEntity extends CatalogUniqueCodeEntity {
      * Super categories
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "CATEGORIES_SUPERCATEGORIES_LINK",
+    @JoinTable(name = "CATEGORIES_SUPERCATEGORIES_LINKS",
             joinColumns = {
                     @JoinColumn(name = "CATEGORY_UUID",
                             nullable = false, updatable = false)},
@@ -51,7 +51,7 @@ public class CategoryEntity extends CatalogUniqueCodeEntity {
      * Sub categories
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "CATEGORIES_SUPERCATEGORIES_LINK",
+    @JoinTable(name = "CATEGORIES_SUPERCATEGORIES_LINKS",
             joinColumns = {
                     @JoinColumn(name = "SUPERCATEGORY_UUID",
                             nullable = false, updatable = false)},
@@ -65,7 +65,7 @@ public class CategoryEntity extends CatalogUniqueCodeEntity {
      * All products
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "PRODUCTS_CATEGORIES_LINK",
+    @JoinTable(name = "PRODUCTS_CATEGORIES_LINKS",
             joinColumns = {
                     @JoinColumn(name = "CATEGORY_UUID",
                             nullable = false, updatable = false)},

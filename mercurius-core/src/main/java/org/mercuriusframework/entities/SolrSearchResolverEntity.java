@@ -7,7 +7,7 @@ import java.util.List;
  * Solr search resolver entity class
  */
 @Entity(name = SolrSearchResolverEntity.ENTITY_NAME)
-@Table(name = "SOLR_SEARCH_RESOLVER")
+@Table(name = "SOLR_SEARCH_RESOLVERS")
 public class SolrSearchResolverEntity extends UniqueCodeEntity {
 
     private static final long serialVersionUID = -1774888047395626339L;
@@ -42,7 +42,7 @@ public class SolrSearchResolverEntity extends UniqueCodeEntity {
      * Text search fields
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "SOLR_SEARCH_RESOLVERS_TEXT_FIELDS_LINK",
+    @JoinTable(name = "SOLR_SEARCH_RESOLVERS_TEXT_FIELDS_LINKS",
             joinColumns = {
                     @JoinColumn(name = "RESOLVER_UUID",
                             nullable = false, updatable = false)},

@@ -11,7 +11,7 @@ import java.util.List;
  * Feature entity class
  */
 @Entity(name = FeatureEntity.ENTITY_NAME)
-@Table(name = "FEATURE")
+@Table(name = "FEATURES")
 public class FeatureEntity extends CatalogUniqueCodeEntity {
 
     private static final long serialVersionUID = -8068212712665197705L;

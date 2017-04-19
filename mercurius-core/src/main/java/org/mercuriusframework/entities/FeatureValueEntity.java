@@ -8,7 +8,7 @@ import javax.persistence.*;
  * Feature value entity class
  */
 @Entity(name = FeatureValueEntity.ENTITY_NAME)
-@Table(name = "FEATURE_VALUE")
+@Table(name = "FEATURE_VALUES")
 public class FeatureValueEntity extends CatalogUniqueCodeEntity {
 
     private static final long serialVersionUID = -1680066194915805527L;

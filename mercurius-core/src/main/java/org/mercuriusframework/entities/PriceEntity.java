@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Price entity class
  */
 @Entity(name = PriceEntity.ENTITY_NAME)
-@Table(name = "PRICE")
+@Table(name = "PRICES")
 public class PriceEntity extends CatalogUniqueCodeEntity {
 
     private static final long serialVersionUID = -1152130277804010010L;

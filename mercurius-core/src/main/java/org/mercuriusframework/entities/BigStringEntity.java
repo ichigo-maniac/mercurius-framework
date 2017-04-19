@@ -9,7 +9,7 @@ import java.util.Date;
  * Big string entity class (for lazy load)
  */
 @Entity(name = BigStringEntity.ENTITY_NAME)
-@Table(name = "BIG_STRING")
+@Table(name = "BIG_STRINGS")
 public class BigStringEntity extends CatalogUniqueCodeEntity {
 
     private static final long serialVersionUID = 8969015900186944644L;

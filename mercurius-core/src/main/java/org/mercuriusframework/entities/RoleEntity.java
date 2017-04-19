@@ -21,7 +21,7 @@ public class RoleEntity extends UniqueCodeEntity {
      * Employees
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "EMPLOYEE_ROLE_LINK",
+    @JoinTable(name = "EMPLOYEE_ROLE_LINKS",
             joinColumns = {
                     @JoinColumn(name = "ROLE_UUID",
                             nullable = false, updatable = false)},

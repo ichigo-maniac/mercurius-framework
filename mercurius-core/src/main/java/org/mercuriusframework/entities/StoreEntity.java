@@ -7,7 +7,7 @@ import java.util.List;
  * Store entity class
  */
 @Entity(name = StoreEntity.ENTITY_NAME)
-@Table(name = "STORE")
+@Table(name = "STORES")
 public class StoreEntity extends UniqueCodeEntity {
 
     private static final long serialVersionUID = -1603142104877065483L;
@@ -35,7 +35,7 @@ public class StoreEntity extends UniqueCodeEntity {
      * Currencies
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "STORES_CURRENCIES_LINK",
+    @JoinTable(name = "STORES_CURRENCIES_LINKS",
             joinColumns = {
                     @JoinColumn(name = "STORE_UUID",
                             nullable = false, updatable = false)},
