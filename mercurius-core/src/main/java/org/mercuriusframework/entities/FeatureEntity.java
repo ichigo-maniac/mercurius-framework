@@ -30,6 +30,14 @@ public class FeatureEntity extends CatalogUniqueCodeEntity {
     public static final String FEATURE_TYPE = "featureType";
 
     /**
+     * Dictionary type
+     */
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "DICTIONARY_TYPE_UUID", referencedColumnName = "uuid", nullable = true)
+    private DictionaryTypeEntity dictionaryType;
+    public static final String DICTIONARY_TYPE = "dictionaryType";
+
+    /**
      * Feature values
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = FeatureValueEntity.FEATURE, cascade = CascadeType.ALL)
@@ -50,6 +58,22 @@ public class FeatureEntity extends CatalogUniqueCodeEntity {
      */
     public void setFeatureType(FeatureType featureType) {
         this.featureType = featureType;
+    }
+
+    /**
+     * Get dictionary type
+     * @return Dictionary type
+     */
+    public DictionaryTypeEntity getDictionaryType() {
+        return dictionaryType;
+    }
+
+    /**
+     * Set dictionary type
+     * @param dictionaryType Dictionary type
+     */
+    public void setDictionaryType(DictionaryTypeEntity dictionaryType) {
+        this.dictionaryType = dictionaryType;
     }
 
     /**

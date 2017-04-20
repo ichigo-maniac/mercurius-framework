@@ -183,4 +183,21 @@
         </table-view>
     </list-view>
 
+    <list-view entity-name="DictionaryType" priority="0">
+        <table-view>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
+        </table-view>
+    </list-view>
+
+    <list-view entity-name="DictionaryItem" priority="0">
+        <table-view>
+            <column property="uuid"/>
+            <column property="code"/>
+            <column property="name"/>
+            <column property="dictionaryType" rendererBean="uniqueCodeTableViewColumnRenderer"/>
+        </table-view>
+    </list-view>
+
 </config>

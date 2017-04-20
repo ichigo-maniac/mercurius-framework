@@ -1,7 +1,7 @@
 package org.mercuriusframework.entities.attributes;
 
+import org.mercuriusframework.entities.DictionaryItemEntity;
 import org.mercuriusframework.enums.FeatureType;
-import org.mercuriusframework.enums.FeatureValueEnum;
 
 /**
  * Feature value
@@ -27,6 +27,12 @@ public class FeatureValue {
      * Boolean value
      */
     private Boolean booleanValue;
+
+    /**
+     * Dictionary item value
+     */
+    private DictionaryItemEntity dictionaryItemValue;
+
 
     /**
      * Constructor
@@ -61,6 +67,14 @@ public class FeatureValue {
     }
 
     /**
+     * Constructor
+     * @param dictionaryItemValue Dictionary item value
+     */
+    public FeatureValue(DictionaryItemEntity dictionaryItemValue) {
+        this.dictionaryItemValue = dictionaryItemValue;
+    }
+
+    /**
      * Get feature value
      * @return Value
      */
@@ -76,6 +90,9 @@ public class FeatureValue {
         }
         if (booleanValue != null) {
             return booleanValue;
+        }
+        if (dictionaryItemValue != null) {
+            return dictionaryItemValue;
         }
         return null;
     }
@@ -97,6 +114,9 @@ public class FeatureValue {
         if (booleanValue != null) {
             return FeatureType.BOOLEAN_TYPE;
         }
+        if (dictionaryItemValue != null) {
+            return FeatureType.DICTIONARY_TYPE;
+        }
         return null;
     }
 
@@ -106,6 +126,10 @@ public class FeatureValue {
      */
     @Override
     public String toString() {
+        Object value = getValue();
+        if (value instanceof DictionaryItemEntity) {
+            return ((DictionaryItemEntity) value).getName();
+        }
         return getValue() != null ? getValue().toString() : "";
     }
 }

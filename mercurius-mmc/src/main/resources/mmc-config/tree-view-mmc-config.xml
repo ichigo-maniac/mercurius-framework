@@ -7,6 +7,10 @@
         <!-- Solr search -->
         <tree-node title="mmc.tree.view.system.label">
             <tree-node-entity-element title="mmc.tree.entity.Task.label" entity-name="Task"/>
+            <tree-node title="mmc.tree.view.dictionaries.label">
+                <tree-node-entity-element title="mmc.tree.entity.DictionaryType.label" entity-name="DictionaryType"/>
+                <tree-node-entity-element title="mmc.tree.entity.DictionaryItem.label" entity-name="DictionaryItem"/>
+            </tree-node>
             <tree-node title="mmc.tree.view.solr.search.label">
                 <tree-node-entity-element title="mmc.tree.entity.SolrIndexTask.label" entity-name="SolrIndexTask"/>
                 <tree-node-entity-element title="mmc.tree.entity.SolrIndexTaskProperty.label" entity-name="SolrIndexTaskProperty"/>

@@ -24,6 +24,11 @@ import javax.persistence.criteria.Root;
 public class UniqueCodeEntityServiceImpl implements UniqueCodeEntityService {
 
     /**
+     * Constants
+     */
+    public static final String BEAN_NAME = "uniqueCodeEntityService";
+
+    /**
      * Entity manager
     */
     @PersistenceContext

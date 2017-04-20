@@ -12,7 +12,8 @@ public enum FeatureType {
     STRING_TYPE("STRING_TYPE"),
     NUMERIC_TYPE("NUMERIC_TYPE"),
     FLOAT_NUMERIC_TYPE("FLOAT_NUMERIC_TYPE"),
-    BOOLEAN_TYPE("BOOLEAN_TYPE");
+    BOOLEAN_TYPE("BOOLEAN_TYPE"),
+    DICTIONARY_TYPE("DICTIONARY_TYPE");
 
     /**
      * Enum value
@@ -55,6 +56,9 @@ public enum FeatureType {
         }
         if (BOOLEAN_TYPE.getValue().equalsIgnoreCase(rawValue)) {
             return BOOLEAN_TYPE;
+        }
+        if (DICTIONARY_TYPE.getValue().equalsIgnoreCase(rawValue)) {
+            return DICTIONARY_TYPE;
         }
         return null;
     }
