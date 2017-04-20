@@ -1,3 +1,34 @@
+CREATE TABLE DICTIONARY_TYPES(
+  uuid CHARACTER VARYING(36) NOT NULL PRIMARY KEY,
+  name CHARACTER VARYING(255) NOT NULL,
+  code CHARACTER VARYING(255) NOT NULL UNIQUE,
+  creationtime TIMESTAMP NOT NULL,
+  modificationtime TIMESTAMP NOT NULL
+);
+
+CREATE TABLE DICTIONARY_ITEMS(
+  uuid CHARACTER VARYING(36) NOT NULL PRIMARY KEY,
+  name CHARACTER VARYING(255) NOT NULL,
+  code CHARACTER VARYING(255) NOT NULL UNIQUE,
+  creationtime TIMESTAMP NOT NULL,
+  modificationtime TIMESTAMP NOT NULL,
+  dictionary_type_uuid CHARACTER VARYING(36) NOT NULL REFERENCES DICTIONARY_TYPES(uuid)
+);
+
+INSERT INTO DICTIONARY_TYPES(uuid, name, code, creationtime, modificationtime) VALUES (
+  '4a9b636e-f065-11e6-4444-836adef2f3a6', 'Country', 'dictionary_country', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
+INSERT INTO DICTIONARY_ITEMS(uuid, name, code, creationtime, modificationtime, dictionary_type_uuid) VALUES (
+  '2222636e-f065-11e6-4444-836adef2f3a6', 'Japan', 'country_japan', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+  (SELECT uuid FROM DICTIONARY_TYPES WHERE code = 'dictionary_country')
+);
+
+INSERT INTO DICTIONARY_ITEMS(uuid, name, code, creationtime, modificationtime, dictionary_type_uuid) VALUES (
+  '4a9b636e-f065-11e6-4444-836111f2f3a6', 'USA', 'country_usa', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+  (SELECT uuid FROM DICTIONARY_TYPES WHERE code = 'dictionary_country')
+);
+
 CREATE TABLE FEATURES(
   uuid CHARACTER VARYING(36) NOT NULL PRIMARY KEY,
   name CHARACTER VARYING(255) NOT NULL,
@@ -5,7 +36,8 @@ CREATE TABLE FEATURES(
   creationtime TIMESTAMP NOT NULL,
   modificationtime TIMESTAMP NOT NULL,
   catalog_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SHOP_CATALOGS(uuid) ON DELETE RESTRICT,
-  featureType CHARACTER VARYING(255) NOT NULL
+  featureType CHARACTER VARYING(255) NOT NULL,
+  dictionary_type_uuid CHARACTER VARYING(36) REFERENCES DICTIONARY_TYPES(uuid)
 );
 
 INSERT INTO FEATURES(uuid, name, code, creationtime, modificationtime, catalog_uuid, featureType) VALUES (
@@ -26,6 +58,12 @@ INSERT INTO FEATURES(uuid, name, code, creationtime, modificationtime, catalog_u
 INSERT INTO FEATURES(uuid, name, code, creationtime, modificationtime, catalog_uuid, featureType) VALUES (
   'b1001250-1111-5311-0012-bf2400ed613a', 'For adult', 'book_for_adult', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
   (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'), 'BOOLEAN_TYPE'
+);
+
+INSERT INTO FEATURES(uuid, name, code, creationtime, modificationtime, catalog_uuid, featureType, dictionary_type_uuid) VALUES (
+  '55501250-1111-5311-2252-bf2400ed613a', 'Country', 'book_country', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+  (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'), 'DICTIONARY_TYPE',
+  (SELECT uuid FROM DICTIONARY_TYPES WHERE code = 'dictionary_country')
 );
 
 CREATE TABLE FEATURE_VALUES(
@@ -71,4 +109,12 @@ INSERT INTO FEATURE_VALUES(uuid, name, code, creationtime, modificationtime, cat
   (SELECT uuid FROM FEATURES WHERE code ='book_for_adult' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog')),
   (SELECT uuid FROM PRODUCTS WHERE code ='product_sao_01' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog')),
   'BOOLEAN_TYPE::FALSE', 'Common'
+);
+
+INSERT INTO FEATURE_VALUES(uuid, name, code, creationtime, modificationtime, catalog_uuid, feature_uuid, product_uuid, featureValue, groupName) VALUES (
+  '11115e0-1a94-22e6-53a5-ccbd000223111', 'Product sao 01 - country', 'product_sao_01_country', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+  (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'),
+  (SELECT uuid FROM FEATURES WHERE code ='book_country' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog')),
+  (SELECT uuid FROM PRODUCTS WHERE code ='product_sao_01' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog')),
+  'DICTIONARY_TYPE::country_japan', 'Common'
 );

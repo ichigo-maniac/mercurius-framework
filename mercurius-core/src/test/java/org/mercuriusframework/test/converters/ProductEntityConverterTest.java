@@ -42,7 +42,8 @@ public class ProductEntityConverterTest extends AbstractTest {
 
     private static final List<String> FEATURE_VALUES_UUIDS_LIST = Arrays.asList(
             "12345e10-1a94-22e6-0000-abd000223330", "12345e10-1a94-22e6-0000-777000223337",
-            "00045e10-1a94-22e6-0000-abd000223111", "11115e0-1a94-22e6-0000-ccbd000223111"
+            "00045e10-1a94-22e6-0000-abd000223111", "11115e0-1a94-22e6-0000-ccbd000223111",
+            "11115e0-1a94-22e6-53a5-ccbd000223111"
     );
 
 
