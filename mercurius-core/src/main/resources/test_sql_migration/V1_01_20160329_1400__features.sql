@@ -37,12 +37,14 @@ CREATE TABLE FEATURES(
   modificationtime TIMESTAMP NOT NULL,
   catalog_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SHOP_CATALOGS(uuid) ON DELETE RESTRICT,
   featureType CHARACTER VARYING(255) NOT NULL,
-  dictionary_type_uuid CHARACTER VARYING(36) REFERENCES DICTIONARY_TYPES(uuid)
+  dictionary_type_uuid CHARACTER VARYING(36) REFERENCES DICTIONARY_TYPES(uuid),
+  includeInIndex BOOLEAN,
+  solrDocumentFieldName CHARACTER VARYING(255)
 );
 
-INSERT INTO FEATURES(uuid, name, code, creationtime, modificationtime, catalog_uuid, featureType) VALUES (
+INSERT INTO FEATURES(uuid, name, code, creationtime, modificationtime, catalog_uuid, featureType, includeInIndex, solrDocumentFieldName) VALUES (
   'b1f05e10-5522-11e6-4221-bf2400ed613a', 'Pages count', 'book_pages_feature', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
-  (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'), 'NUMERIC_TYPE'
+  (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'), 'NUMERIC_TYPE', true, 'page_size'
 );
 
 INSERT INTO FEATURES(uuid, name, code, creationtime, modificationtime, catalog_uuid, featureType) VALUES (

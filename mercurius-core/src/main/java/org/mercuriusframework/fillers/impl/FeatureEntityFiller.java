@@ -21,5 +21,7 @@ public class FeatureEntityFiller extends CatalogUniqueCodeEntityFiller<FeatureEn
     public void fillIn(FeatureEntity featureEntity, FeatureEntityDto featureEntityDto, LoadOptions... options) {
         super.fillIn(featureEntity, featureEntityDto, options);
         featureEntityDto.setFeatureType(featureEntity.getFeatureType());
+        featureEntityDto.setIncludeInIndex(featureEntity.getIncludeInIndex());
+        featureEntityDto.setSolrDocumentFieldName(featureEntityDto.getSolrDocumentFieldName());
     }
 }

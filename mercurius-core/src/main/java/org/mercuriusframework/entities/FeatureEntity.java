@@ -1,7 +1,5 @@
 package org.mercuriusframework.entities;
 
-import org.mercuriusframework.entities.attributes.FeatureEnumClass;
-import org.mercuriusframework.entities.converters.FeatureEnumClassConverter;
 import org.mercuriusframework.enums.FeatureType;
 
 import javax.persistence.*;
@@ -43,6 +41,18 @@ public class FeatureEntity extends CatalogUniqueCodeEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = FeatureValueEntity.FEATURE, cascade = CascadeType.ALL)
     private List<FeatureValueEntity> featureValues;
     public static final String FEATURE_VALUES = "featureValues";
+
+    /**
+     * Include a feature in the index
+     */
+    @Basic(optional = true)
+    private Boolean includeInIndex;
+
+    /**
+     * Solr document field name
+     */
+    @Basic(optional = true)
+    private String solrDocumentFieldName;
 
     /**
      * Get feature type
@@ -90,5 +100,37 @@ public class FeatureEntity extends CatalogUniqueCodeEntity {
      */
     public void setFeatureValues(List<FeatureValueEntity> featureValues) {
         this.featureValues = featureValues;
+    }
+
+    /**
+     * Get include a feature in the index flag
+     * @return Include a feature in the index flag
+     */
+    public Boolean getIncludeInIndex() {
+        return includeInIndex;
+    }
+
+    /**
+     * Set include a feature in the index flag
+     * @param includeInIndex Include a feature in the index flag
+     */
+    public void setIncludeInIndex(Boolean includeInIndex) {
+        this.includeInIndex = includeInIndex;
+    }
+
+    /**
+     * Get Solr document field name
+     * @return Solr document field name
+     */
+    public String getSolrDocumentFieldName() {
+        return solrDocumentFieldName;
+    }
+
+    /**
+     * Set Solr document field name
+     * @param solrDocumentFieldName Solr document field name
+     */
+    public void setSolrDocumentFieldName(String solrDocumentFieldName) {
+        this.solrDocumentFieldName = solrDocumentFieldName;
     }
 }
