@@ -12,6 +12,7 @@
                 <tree-node-entity-element title="mmc.tree.entity.DictionaryItem.label" entity-name="DictionaryItem"/>
             </tree-node>
             <tree-node title="mmc.tree.view.solr.search.label">
+                <tree-node-entity-element title="mmc.tree.entity.Facet.label" entity-name="Facet"/>
                 <tree-node-entity-element title="mmc.tree.entity.SolrIndexTask.label" entity-name="SolrIndexTask"/>
                 <tree-node-entity-element title="mmc.tree.entity.SolrIndexTaskProperty.label" entity-name="SolrIndexTaskProperty"/>
                 <tree-node-entity-element title="mmc.tree.entity.SolrSearchResolver.label" entity-name="SolrSearchResolver"/>

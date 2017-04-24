@@ -201,4 +201,15 @@
         </table-view>
     </list-view>
 
+    <list-view entity-name="Facet" priority="0">
+        <table-view>
+            <column property="code"/>
+            <column property="name"/>
+            <column property="forAllCategories"/>
+            <column property="facetType" rendererBean="enumTableViewColumnRenderer"/>
+            <column property="feature" rendererBean="catalogUniqueCodeTableViewColumnRenderer"/>
+            <column property="solrIndexField" rendererBean="uniqueCodeTableViewColumnRenderer"/>
+        </table-view>
+    </list-view>
+
 </config>

@@ -73,6 +73,13 @@ public class SolrIndexFieldEntity extends UniqueCodeEntity {
     private List<SolrSearchResolverEntity> searchResolvers;
 
     /**
+     * Facets
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = FacetEntity.SOLR_INDEX_FIELD, cascade = CascadeType.ALL)
+    private List<FacetEntity> facets;
+    public static final String FACETS = "facets";
+
+    /**
      * Get solr document field name
      * @return Solr document field name
      */
@@ -166,5 +173,21 @@ public class SolrIndexFieldEntity extends UniqueCodeEntity {
      */
     public void setSearchResolvers(List<SolrSearchResolverEntity> searchResolvers) {
         this.searchResolvers = searchResolvers;
+    }
+
+    /**
+     * Get facets
+     * @return Facets
+     */
+    public List<FacetEntity> getFacets() {
+        return facets;
+    }
+
+    /**
+     * Set facets
+     * @param facets Facets
+     */
+    public void setFacets(List<FacetEntity> facets) {
+        this.facets = facets;
     }
 }

@@ -48,7 +48,8 @@ public class TestDatabaseConnectionConfiguration {
                         "test_sql_migration/V1_01_20160329_1200__prices.sql",
                         "test_sql_migration/V1_01_20160329_1300__user.sql",
                         "test_sql_migration/V1_01_20160329_1400__features.sql",
-                        "test_sql_migration/V1_01_20160329_1500__tasks.sql"
+                        "test_sql_migration/V1_01_20160329_1500__tasks.sql",
+                        "test_sql_migration/V1_01_20160329_1600__facets.sql"
                 )
                 .build();
         return dataSource;

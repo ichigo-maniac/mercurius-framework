@@ -1,6 +1,7 @@
 package org.mercuriusframework.entities;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -74,6 +75,20 @@ public class CategoryEntity extends CatalogUniqueCodeEntity {
                             nullable = false, updatable = false)})
     private Set<ProductEntity> products;
     public static final String PRODUCTS = "products";
+
+    /**
+     * Facets
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "FACETS_CATEGORIES_LINKS",
+            joinColumns = {
+                    @JoinColumn(name = "CATEGORY_UUID",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "FACET_UUID",
+                            nullable = false, updatable = false)})
+    private List<FacetEntity> facets;
+    public static final String FACETS = "facets";
 
     /**
      * Get description
@@ -153,5 +168,21 @@ public class CategoryEntity extends CatalogUniqueCodeEntity {
      */
     public void setProducts(Set<ProductEntity> products) {
         this.products = products;
+    }
+
+    /**
+     * Get facets
+     * @return Facets
+     */
+    public List<FacetEntity> getFacets() {
+        return facets;
+    }
+
+    /**
+     * Set facets
+     * @param facets Facets
+     */
+    public void setFacets(List<FacetEntity> facets) {
+        this.facets = facets;
     }
 }

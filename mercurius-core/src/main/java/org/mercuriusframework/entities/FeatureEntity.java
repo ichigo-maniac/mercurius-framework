@@ -43,6 +43,13 @@ public class FeatureEntity extends CatalogUniqueCodeEntity {
     public static final String FEATURE_VALUES = "featureValues";
 
     /**
+     * Facets
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = FacetEntity.FEATURE, cascade = CascadeType.ALL)
+    private List<FacetEntity> facets;
+    public static final String FACETS = "facets";
+
+    /**
      * Include a feature in the index
      */
     @Basic(optional = true)
@@ -132,5 +139,21 @@ public class FeatureEntity extends CatalogUniqueCodeEntity {
      */
     public void setSolrDocumentFieldName(String solrDocumentFieldName) {
         this.solrDocumentFieldName = solrDocumentFieldName;
+    }
+
+    /**
+     * Get facets
+     * @return Facets
+     */
+    public List<FacetEntity> getFacets() {
+        return facets;
+    }
+
+    /**
+     * Set facets
+     * @param facets Facets
+     */
+    public void setFacets(List<FacetEntity> facets) {
+        this.facets = facets;
     }
 }
