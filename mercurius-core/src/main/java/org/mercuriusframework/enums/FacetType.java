@@ -8,8 +8,7 @@ public enum FacetType {
     /**
      * Values
      */
-    DICTIONARY("DICTIONARY"),
-    RANGE("RANGE");
+    DICTIONARY("DICTIONARY");
 
     /**
      * Enum value
@@ -43,9 +42,6 @@ public enum FacetType {
         }
         if (DICTIONARY.getValue().equalsIgnoreCase(rawValue)) {
             return DICTIONARY;
-        }
-        if (RANGE.getValue().equalsIgnoreCase(rawValue)) {
-            return RANGE;
         }
         return null;
     }

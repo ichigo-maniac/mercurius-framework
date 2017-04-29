@@ -47,16 +47,4 @@ public class FacetEntityConverterTest extends AbstractTest {
         && entityDto.getCode().equals("facet_country") && entityDto.getName().equals("Country"), true);
         assertUuidListsEquals(getUuidsFromDtos(entityDto.getAvailableValues()), DICTIONARY_ITEMS_UUIDS_LIST);
     }
-
-    /**
-     * Method test - facetEntityConverter.convert
-     */
-    @Test
-    public void convertTest2() {
-        FacetEntity facet = uniqueCodeEntityService.getEntityByCode("facet_price", FacetEntity.class);
-        FacetEntityDto entityDto = facetEntityConverter.convert(facet);
-        assertEquals(entityDto.getUuid().equals("3331b636e-f065-11e6-1111-836adef2f3a") && entityDto.getFacetType() == FacetType.RANGE
-                && entityDto.getCode().equals("facet_price") && entityDto.getName().equals("Price"), true);
-    }
-
 }

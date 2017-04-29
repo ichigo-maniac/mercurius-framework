@@ -22,7 +22,7 @@ public class FacetServiceTest extends AbstractTest {
      * Constants
      */
     private static final List<String> CATEGORY_FACETS_UUIDS_LIST = Arrays.asList(
-            "1111b636e-f065-11e6-5322-836adef2f3a", "3331b636e-f065-11e6-1111-836adef2f3a"
+            "1111b636e-f065-11e6-5322-836adef2f3a"
     );
 
 

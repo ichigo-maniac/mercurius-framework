@@ -21,12 +21,6 @@ INSERT INTO FACETS(uuid, name, code, creationtime, modificationtime, facetType, 
   (SELECT uuid FROM FEATURES WHERE code = 'country')
 );
 
-INSERT INTO FACETS(uuid, name, code, creationtime, modificationtime, facetType, forAllCategories, solr_index_field_uuid) VALUES (
-  '3331b636e-f065-11e6-1111-836adef2f3a', 'Price', 'facet_price', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
-  'RANGE', true,
-  (SELECT uuid FROM SOLR_INDEX_FIELDS WHERE code = 'price_index_field')
-);
-
 INSERT INTO FACETS_CATEGORIES_LINKS(facet_uuid, category_uuid) VALUES(
   (SELECT uuid FROM FACETS WHERE code = 'facet_country'),
   (SELECT uuid FROM CATEGORIES WHERE code ='fantasy_manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'))
