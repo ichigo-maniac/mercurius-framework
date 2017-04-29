@@ -59,7 +59,8 @@ public class FacetServiceImpl implements FacetService {
     @Override
     public List<FacetEntity> getFacetsByCategory(CategoryEntity category) {
         return entityService.getListResultByQuery("SELECT facet FROM " + FacetEntity.ENTITY_NAME + " as facet " +
-                        "WHERE :category IN facet." + FacetEntity.CATEGORIES,
+                        "WHERE facet." + FacetEntity.FOR_ALL_CATEGORIES + " = TRUE OR " +
+                        ":category MEMBER OF facet." + FacetEntity.CATEGORIES,
                 FacetEntity.class, new QueryParameter("category", category));
     }
 

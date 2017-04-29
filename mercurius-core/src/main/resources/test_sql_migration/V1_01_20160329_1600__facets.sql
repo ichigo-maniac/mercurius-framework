@@ -14,3 +14,20 @@ CREATE TABLE FACETS_CATEGORIES_LINKS(
   facet_uuid CHARACTER VARYING(36) NOT NULL REFERENCES FACETS(uuid),
   category_uuid CHARACTER VARYING(36) NOT NULL REFERENCES CATEGORIES(uuid)
 );
+
+INSERT INTO FACETS(uuid, name, code, creationtime, modificationtime, facetType, forAllCategories, feature_uuid) VALUES (
+  '1111b636e-f065-11e6-5322-836adef2f3a', 'Country', 'facet_country', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+  'DICTIONARY', false,
+  (SELECT uuid FROM FEATURES WHERE code = 'country')
+);
+
+INSERT INTO FACETS(uuid, name, code, creationtime, modificationtime, facetType, forAllCategories, solr_index_field_uuid) VALUES (
+  '3331b636e-f065-11e6-1111-836adef2f3a', 'Price', 'facet_price', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+  'RANGE', true,
+  (SELECT uuid FROM SOLR_INDEX_FIELDS WHERE code = 'price_index_field')
+);
+
+INSERT INTO FACETS_CATEGORIES_LINKS(facet_uuid, category_uuid) VALUES(
+  (SELECT uuid FROM FACETS WHERE code = 'facet_country'),
+  (SELECT uuid FROM CATEGORIES WHERE code ='fantasy_manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'))
+);

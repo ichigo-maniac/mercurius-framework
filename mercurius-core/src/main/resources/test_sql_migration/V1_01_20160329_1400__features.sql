@@ -63,7 +63,7 @@ INSERT INTO FEATURES(uuid, name, code, creationtime, modificationtime, catalog_u
 );
 
 INSERT INTO FEATURES(uuid, name, code, creationtime, modificationtime, catalog_uuid, featureType, dictionary_type_uuid) VALUES (
-  '55501250-1111-5311-2252-bf2400ed613a', 'Country', 'book_country', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+  '55501250-1111-5311-2252-bf2400ed613a', 'Country', 'country', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
   (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'), 'DICTIONARY_TYPE',
   (SELECT uuid FROM DICTIONARY_TYPES WHERE code = 'dictionary_country')
 );
@@ -116,7 +116,7 @@ INSERT INTO FEATURE_VALUES(uuid, name, code, creationtime, modificationtime, cat
 INSERT INTO FEATURE_VALUES(uuid, name, code, creationtime, modificationtime, catalog_uuid, feature_uuid, product_uuid, featureValue, groupName) VALUES (
   '11115e0-1a94-22e6-53a5-ccbd000223111', 'Product sao 01 - country', 'product_sao_01_country', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
   (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'),
-  (SELECT uuid FROM FEATURES WHERE code ='book_country' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog')),
+  (SELECT uuid FROM FEATURES WHERE code ='country' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog')),
   (SELECT uuid FROM PRODUCTS WHERE code ='product_sao_01' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog')),
   'DICTIONARY_TYPE::country_japan', 'Common'
 );

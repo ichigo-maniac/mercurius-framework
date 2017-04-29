@@ -32,6 +32,11 @@ CREATE TABLE SOLR_INDEX_FIELDS(
   caseInsensitive BOOLEAN
 );
 
+INSERT INTO SOLR_INDEX_FIELDS(uuid, name, code, creationtime, modificationtime, solrDocumentFieldName, entityFieldName) VALUES (
+  '4a9b636e-f065-0000-9dac-836adef2f3a6', 'Price', 'price_index_field', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+  'price', 'price'
+);
+
 CREATE TABLE SOLR_INDEX_PROPERTIES_FIELDS_LINKS(
   property_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SOLR_INDEX_TASK_PROPERTIES(uuid),
   field_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SOLR_INDEX_FIELDS(uuid)
