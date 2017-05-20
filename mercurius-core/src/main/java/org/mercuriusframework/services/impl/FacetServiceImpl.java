@@ -52,6 +52,16 @@ public class FacetServiceImpl implements FacetService {
     protected CatalogUniqueCodeEntityService catalogUniqueCodeEntityService;
 
     /**
+     * Get facets for all categories
+     * @return List of facets
+     */
+    @Override
+    public List<FacetEntity> getFacetsFolAllCategories() {
+        return entityService.getListResultByQuery("SELECT facet FROM " + FacetEntity.ENTITY_NAME + " as facet " +
+                        "WHERE facet." + FacetEntity.FOR_ALL_CATEGORIES + " = TRUE", FacetEntity.class);
+    }
+
+    /**
      * Get facets by category
      * @param category Category
      * @return Facets

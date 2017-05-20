@@ -12,6 +12,12 @@ import java.util.List;
 public interface FacetService {
 
     /**
+     * Get facets for all categories
+     * @return List of facets
+     */
+    List<FacetEntity> getFacetsFolAllCategories();
+
+    /**
      * Get facets by category
      * @param category Category
      * @return Facets

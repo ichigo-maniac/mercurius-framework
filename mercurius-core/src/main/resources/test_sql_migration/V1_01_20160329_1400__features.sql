@@ -62,8 +62,8 @@ INSERT INTO FEATURES(uuid, name, code, creationtime, modificationtime, catalog_u
   (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'), 'BOOLEAN_TYPE'
 );
 
-INSERT INTO FEATURES(uuid, name, code, creationtime, modificationtime, catalog_uuid, featureType, dictionary_type_uuid) VALUES (
-  '55501250-1111-5311-2252-bf2400ed613a', 'Country', 'country', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+INSERT INTO FEATURES(uuid, name, code, creationtime, modificationtime, solrDocumentFieldName, catalog_uuid, featureType, dictionary_type_uuid) VALUES (
+  '55501250-1111-5311-2252-bf2400ed613a', 'Country', 'country', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'country',
   (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'), 'DICTIONARY_TYPE',
   (SELECT uuid FROM DICTIONARY_TYPES WHERE code = 'dictionary_country')
 );

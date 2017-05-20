@@ -1,6 +1,7 @@
 package org.mercuriusframework.entities;
 
 import org.mercuriusframework.enums.FacetType;
+import org.mercuriusframework.enums.SolrCriteriaValueType;
 
 import javax.persistence.*;
 import java.util.List;
@@ -63,6 +64,14 @@ public class FacetEntity extends UniqueCodeEntity {
     @JoinColumn(name = "SOLR_INDEX_FIELD_UUID", referencedColumnName = "UUID", nullable = true)
     private SolrIndexFieldEntity solrIndexField;
     public static final String SOLR_INDEX_FIELD = "solrIndexField";
+
+    /**
+     * Solr criteria value type
+     */
+    @Basic(optional = false)
+    @Enumerated(EnumType.STRING)
+    private SolrCriteriaValueType solrCriteriaValueType;
+    public static final String SOLR_CRITERIA_VALUE_TYPE = "solrCriteriaValueType";
 
     /**
      * Get facet type
@@ -142,5 +151,21 @@ public class FacetEntity extends UniqueCodeEntity {
      */
     public void setSolrIndexField(SolrIndexFieldEntity solrIndexField) {
         this.solrIndexField = solrIndexField;
+    }
+
+    /**
+     * Get solr criteria value type
+     * @return Solr criteria value type
+     */
+    public SolrCriteriaValueType getSolrCriteriaValueType() {
+        return solrCriteriaValueType;
+    }
+
+    /**
+     * Set solr criteria value type
+     * @param solrCriteriaValueType Solr criteria value type
+     */
+    public void setSolrCriteriaValueType(SolrCriteriaValueType solrCriteriaValueType) {
+        this.solrCriteriaValueType = solrCriteriaValueType;
     }
 }

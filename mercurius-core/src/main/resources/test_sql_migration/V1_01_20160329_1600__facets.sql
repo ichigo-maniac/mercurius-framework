@@ -7,7 +7,8 @@ CREATE TABLE FACETS(
   facetType CHARACTER VARYING(255) NOT NULL,
   forAllCategories BOOLEAN,
   feature_uuid CHARACTER VARYING(36) REFERENCES FEATURES(uuid),
-  solr_index_field_uuid CHARACTER VARYING(36) REFERENCES SOLR_INDEX_FIELDS(uuid)
+  solr_index_field_uuid CHARACTER VARYING(36) REFERENCES SOLR_INDEX_FIELDS(uuid),
+  solrCriteriaValueType CHARACTER VARYING(255) NOT NULL
 );
 
 CREATE TABLE FACETS_CATEGORIES_LINKS(
@@ -15,9 +16,15 @@ CREATE TABLE FACETS_CATEGORIES_LINKS(
   category_uuid CHARACTER VARYING(36) NOT NULL REFERENCES CATEGORIES(uuid)
 );
 
-INSERT INTO FACETS(uuid, name, code, creationtime, modificationtime, facetType, forAllCategories, feature_uuid) VALUES (
+INSERT INTO FACETS(uuid, name, code, creationtime, modificationtime, facetType, solrCriteriaValueType, forAllCategories, feature_uuid) VALUES (
   '1111b636e-f065-11e6-5322-836adef2f3a', 'Country', 'facet_country', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
-  'DICTIONARY', false,
+  'DICTIONARY', 'IN', false,
+  (SELECT uuid FROM FEATURES WHERE code = 'country')
+);
+
+INSERT INTO FACETS(uuid, name, code, creationtime, modificationtime, facetType, solrCriteriaValueType, forAllCategories, feature_uuid) VALUES (
+  '1111b636e-f065-11e6-5322-836adef2234', 'Dummy', 'facet_dummy', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+  'DICTIONARY', 'IN', true,
   (SELECT uuid FROM FEATURES WHERE code = 'country')
 );
 

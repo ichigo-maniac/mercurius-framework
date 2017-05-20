@@ -46,6 +46,7 @@ public class FacetEntityFiller extends UniqueCodeEntityFiller<FacetEntity, Facet
     public void fillIn(FacetEntity facetEntity, FacetEntityDto facetEntityDto, LoadOptions... options) {
         super.fillIn(facetEntity, facetEntityDto, options);
         facetEntityDto.setFacetType(facetEntity.getFacetType());
+        facetEntityDto.setSolrCriteriaValueType(facetEntity.getSolrCriteriaValueType());
         /** Set available dictionary items */
         facetEntityDto.setAvailableValues(new ArrayList<>());
         if (facetEntity.getFeature() != null && facetEntity.getFacetType() == FacetType.DICTIONARY
@@ -54,6 +55,14 @@ public class FacetEntityFiller extends UniqueCodeEntityFiller<FacetEntity, Facet
             DictionaryTypeEntity dictionaryType = facetEntity.getFeature().getDictionaryType();
             List<DictionaryItemEntity> dictionaryItems = dictionaryService.getDictionaryItems(dictionaryType.getCode());
             facetEntityDto.setAvailableValues(dictionaryItemEntityConverter.convertAll(dictionaryItems));
+        }
+        /** Set solr field */
+        if (facetEntity.getFeature() != null || facetEntity.getSolrIndexField() != null) {
+            if (facetEntity.getFeature() != null) {
+                facetEntityDto.setSolrDocumentFieldName(facetEntity.getFeature().getSolrDocumentFieldName());
+            } else {
+                facetEntityDto.setSolrDocumentFieldName(facetEntity.getSolrIndexField().getSolrDocumentFieldName());
+            }
         }
     }
 }

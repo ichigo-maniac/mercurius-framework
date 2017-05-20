@@ -5,6 +5,7 @@ import org.mercuriusframework.converters.impl.FacetEntityConverter;
 import org.mercuriusframework.dto.FacetEntityDto;
 import org.mercuriusframework.entities.FacetEntity;
 import org.mercuriusframework.enums.FacetType;
+import org.mercuriusframework.enums.SolrCriteriaValueType;
 import org.mercuriusframework.services.UniqueCodeEntityService;
 import org.mercuriusframework.test.AbstractTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,9 @@ public class FacetEntityConverterTest extends AbstractTest {
         FacetEntity facet = uniqueCodeEntityService.getEntityByCode("facet_country", FacetEntity.class);
         FacetEntityDto entityDto = facetEntityConverter.convert(facet);
         assertEquals(entityDto.getUuid().equals("1111b636e-f065-11e6-5322-836adef2f3a") && entityDto.getFacetType() == FacetType.DICTIONARY
-        && entityDto.getCode().equals("facet_country") && entityDto.getName().equals("Country"), true);
+                && entityDto.getSolrCriteriaValueType() == SolrCriteriaValueType.IN
+                && entityDto.getCode().equals("facet_country") && entityDto.getName().equals("Country")
+                && entityDto.getSolrDocumentFieldName().equals("country"), true);
         assertUuidListsEquals(getUuidsFromDtos(entityDto.getAvailableValues()), DICTIONARY_ITEMS_UUIDS_LIST);
     }
 }
