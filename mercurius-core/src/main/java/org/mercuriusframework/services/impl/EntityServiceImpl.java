@@ -219,7 +219,7 @@ public class EntityServiceImpl implements EntityService {
      * @return Pageable result
      */
     @Override
-    public <T, RESULT> PageableResult<T> getPageableResultByQueries(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
+    public <T, RESULT> PageableResult<RESULT> getPageableResultByQueries(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
                                                                     String queryString, String totalCountQueryString, Integer currentPage, Integer pageSize,
                                                                     Class<T> classType, QueryParameter... parameters) {
         Long totalCount = getSingleResultByQuery(totalCountQueryString, Long.class, parameters);
@@ -312,7 +312,7 @@ public class EntityServiceImpl implements EntityService {
     @Override
     public <T> PageableResult<T> getPageableResultByCriteria(Integer currentPage, Integer pageSize, String[] fetchFields,
                                                              Class<T> classType, CriteriaParameter... criteriaParameters) {
-        Long totalCount = getCountByCriteria(classType);
+        Long totalCount = getCountByCriteria(classType, criteriaParameters);
         Integer currentPageResult = calculateCurrentPage(pageSize, currentPage, totalCount);
         /** Create criteria query */
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -372,10 +372,10 @@ public class EntityServiceImpl implements EntityService {
      * @return Pageable result
      */
     @Override
-    public <T, RESULT> PageableResult<T> getPageableResultByCriteria(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
+    public <T, RESULT> PageableResult<RESULT> getPageableResultByCriteria(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
                                                                      Integer currentPage, Integer pageSize, String[] fetchFields,
                                                                      Class<T> classType, CriteriaParameter... criteriaParameters) {
-        Long totalCount = getCountByCriteria(classType);
+        Long totalCount = getCountByCriteria(classType, criteriaParameters);
         Integer currentPageResult = calculateCurrentPage(pageSize, currentPage, totalCount);
         /** Create criteria query */
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();

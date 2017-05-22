@@ -52,7 +52,7 @@ public interface EntityService {
     /**
      * Delete entity
      * @param entityObject Entity object
-     * @param <T> Entity ckass
+     * @param <T> Entity class
      */
     <T extends AbstractEntity> void delete(T entityObject);
     /**
@@ -100,7 +100,7 @@ public interface EntityService {
      * @param <T> Type
      * @return Pageable result
      */
-    <T, RESULT> PageableResult<T> getPageableResultByQueries(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
+    <T, RESULT> PageableResult<RESULT> getPageableResultByQueries(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
             String queryString, String totalCountQueryString, Integer currentPage, Integer pageSize,
             Class<T> classType, QueryParameter... parameters);
 
@@ -146,6 +146,6 @@ public interface EntityService {
      * @param <T> Type
      * @return Pageable result
      */
-    <T, RESULT> PageableResult<T> getPageableResultByCriteria(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
+    <T, RESULT> PageableResult<RESULT> getPageableResultByCriteria(Converter<T, RESULT> converter, LoadOptions[] loadOptions,
             Integer currentPage, Integer pageSize, String[] fetchFields, Class<T> classType, CriteriaParameter... criteriaParameters);
 }
