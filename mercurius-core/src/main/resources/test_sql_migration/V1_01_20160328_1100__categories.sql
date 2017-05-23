@@ -6,7 +6,8 @@ CREATE TABLE CATEGORIES(
   modificationtime TIMESTAMP NOT NULL,
   catalog_uuid CHARACTER VARYING(36) NOT NULL REFERENCES SHOP_CATALOGS(uuid) ON DELETE RESTRICT,
   main_supercategory_uuid CHARACTER VARYING(36) REFERENCES CATEGORIES(uuid) ON DELETE SET NULL,
-  description_uuid CHARACTER VARYING(36) REFERENCES BIG_STRINGS(uuid) ON DELETE SET NULL
+  description_uuid CHARACTER VARYING(36) REFERENCES BIG_STRINGS(uuid) ON DELETE SET NULL,
+  priority INTEGER
 );
 
 CREATE TABLE CATEGORIES_SUPERCATEGORIES_LINKS(
@@ -45,8 +46,8 @@ INSERT INTO BIG_STRINGS(uuid, name, code, creationtime, modificationtime, catalo
   'Test description - category'
 );
 
-INSERT INTO CATEGORIES(uuid, name, code, creationtime, modificationtime, catalog_uuid, main_supercategory_uuid, description_uuid) VALUES (
-  '1116fb20-f065-11e6-9daf-a334a56d2222', 'Fantasy manga', 'fantasy_manga',
+INSERT INTO CATEGORIES(uuid, name, code, priority, creationtime, modificationtime, catalog_uuid, main_supercategory_uuid, description_uuid) VALUES (
+  '1116fb20-f065-11e6-9daf-a334a56d2222', 'Fantasy manga', 'fantasy_manga', 5,
   CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'),
   (SELECT uuid FROM CATEGORIES WHERE code = 'manga' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog')),
   (SELECT uuid FROM BIG_STRINGS WHERE code ='fantasy_manga_description' AND catalog_uuid = (SELECT uuid FROM SHOP_CATALOGS WHERE code = 'master_catalog'))

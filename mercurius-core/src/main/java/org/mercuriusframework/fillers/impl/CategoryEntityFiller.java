@@ -42,6 +42,7 @@ public class CategoryEntityFiller extends CatalogUniqueCodeEntityFiller<Category
     @Override
     public void fillIn(CategoryEntity categoryEntity, CategoryEntityDto categoryEntityDto, LoadOptions... options) {
         super.fillIn(categoryEntity, categoryEntityDto, options);
+        categoryEntityDto.setPriority(categoryEntity.getPriority());
         /** Build url */
         List<CategoryEntity> breadcrumbs = categoryService.getBreadCrumbsByCategoryUuid(categoryEntity.getUuid());
         StringBuilder buildUrl = new StringBuilder();

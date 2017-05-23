@@ -46,7 +46,7 @@ public class CategoryEntityConverterTest extends AbstractTest {
         CategoryEntity category = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCode("fantasy_manga", "master_catalog", CategoryEntity.class);
         CategoryEntityDto categoryDto = categoryEntityConverter.convert(category);
         assertEquals(categoryDto.getCode().equals("fantasy_manga") && categoryDto.getName().equals("Fantasy manga") &&
-                categoryDto.getUuid().equals("1116fb20-f065-11e6-9daf-a334a56d2222") &&
+                categoryDto.getUuid().equals("1116fb20-f065-11e6-9daf-a334a56d2222") && categoryDto.getPriority() == 5 &&
                 categoryDto.getBuiltUrl().equals("/main_category/manga/fantasy_manga"), true
         );
 
@@ -61,7 +61,7 @@ public class CategoryEntityConverterTest extends AbstractTest {
                 CategoryEntity.class, CategoryEntity.DESCRIPTION);
         CategoryEntityDto categoryDto = categoryEntityConverter.convert(category, CategoryLoadOptions.DESCRIPTION);
         assertEquals(categoryDto.getCode().equals("fantasy_manga") && categoryDto.getName().equals("Fantasy manga") &&
-                        categoryDto.getUuid().equals("1116fb20-f065-11e6-9daf-a334a56d2222") &&
+                        categoryDto.getUuid().equals("1116fb20-f065-11e6-9daf-a334a56d2222") && categoryDto.getPriority() == 5 &&
                         categoryDto.getBuiltUrl().equals("/main_category/manga/fantasy_manga"), true
         );
         assertEquals(categoryDto.getDescription().equals("Test description - category"), true);
@@ -76,7 +76,7 @@ public class CategoryEntityConverterTest extends AbstractTest {
                 CategoryEntity.class, CategoryEntity.DESCRIPTION);
         CategoryEntityDto categoryDto = categoryEntityConverter.convert(category, CategoryLoadOptions.DESCRIPTION, CategoryLoadOptions.BREAD_CRUMBS);
         assertEquals(categoryDto.getCode().equals("fantasy_manga") && categoryDto.getName().equals("Fantasy manga") &&
-                        categoryDto.getUuid().equals("1116fb20-f065-11e6-9daf-a334a56d2222") &&
+                        categoryDto.getUuid().equals("1116fb20-f065-11e6-9daf-a334a56d2222") && categoryDto.getPriority() == 5 &&
                         categoryDto.getBuiltUrl().equals("/main_category/manga/fantasy_manga"), true
         );
         assertEquals(categoryDto.getDescription().equals("Test description - category"), true);

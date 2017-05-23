@@ -91,6 +91,13 @@ public class CategoryEntity extends CatalogUniqueCodeEntity {
     public static final String FACETS = "facets";
 
     /**
+     * Priority
+     */
+    @Basic(optional = true)
+    private Integer priority;
+    public static final String PRIORITY = "priority";
+
+    /**
      * Get description
      * @return Description
      */
@@ -184,5 +191,21 @@ public class CategoryEntity extends CatalogUniqueCodeEntity {
      */
     public void setFacets(List<FacetEntity> facets) {
         this.facets = facets;
+    }
+
+    /**
+     * Get priority
+     * @return Priority
+     */
+    public Integer getPriority() {
+        return priority;
+    }
+
+    /**
+     * Set priority
+     * @param priority Priority
+     */
+    public void setPriority(Integer priority) {
+        this.priority = priority;
     }
 }

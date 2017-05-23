@@ -20,6 +20,11 @@ public class CategoryEntityDto extends CatalogUniqueCodeEntityDto {
     private String builtUrl;
 
     /**
+     * Priority
+     */
+    private Integer priority;
+
+    /**
      * Bread crumbs
      */
     private List<CategoryEntityDto> breadCrumbs;
@@ -70,5 +75,21 @@ public class CategoryEntityDto extends CatalogUniqueCodeEntityDto {
      */
     public void setBreadCrumbs(List<CategoryEntityDto> breadCrumbs) {
         this.breadCrumbs = breadCrumbs;
+    }
+
+    /**
+     * Get priority
+     * @return Priority
+     */
+    public Integer getPriority() {
+        return priority;
+    }
+
+    /**
+     * Set priority
+     * @param priority Priority
+     */
+    public void setPriority(Integer priority) {
+        this.priority = priority;
     }
 }
