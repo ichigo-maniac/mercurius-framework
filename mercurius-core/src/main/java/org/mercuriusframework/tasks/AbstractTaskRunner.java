@@ -48,7 +48,7 @@ public abstract class AbstractTaskRunner implements Runnable {
      * Set current task uuid
      * @param currentTaskUuid Current task uuid
      */
-    public void setCurrentTaskUuid(String currentTaskUuid) {
+    public synchronized void setCurrentTaskUuid(String currentTaskUuid) {
         this.currentTaskUuid = currentTaskUuid;
     }
 
