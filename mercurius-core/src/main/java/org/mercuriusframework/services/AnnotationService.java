@@ -17,4 +17,11 @@ public interface AnnotationService {
      * @return Entity class
      */
     Class getEntityClassByEntityName(String entityName);
+
+    /**
+     * Get entity name by class
+     * @param entityClass Entity class
+     * @return Entity name or null
+     */
+    String getEntityNameByClass(Class entityClass);
 }

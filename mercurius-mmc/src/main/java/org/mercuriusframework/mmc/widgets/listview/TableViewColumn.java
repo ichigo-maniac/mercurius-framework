@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.mercuriusframework.constants.MercuriusConstants;
 import org.mercuriusframework.providers.ApplicationContextProvider;
 import org.mercuriusframework.mmc.constants.MercuriusMMCWidgetsConstants;
+import org.mercuriusframework.providers.EntityMessageSourceProvider;
 import org.mercuriusframework.providers.MessageSourceProvider;
 import org.mercuriusframework.mmc.renderers.TableViewColumnRenderer;
 import org.w3c.dom.Node;
@@ -49,10 +50,10 @@ public class TableViewColumn {
                         MercuriusMMCWidgetsConstants.ListView.TableView.Column.TITLE).getNodeValue() : "";
         if (StringUtils.isEmpty(titleCode)) {
             String entityName = parent.getParent().getEntityName();
-            titleCode = MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName +
-                    MercuriusConstants.LOCALIZATION.ENTITY_PROPERTY_SUFFIX + property;
+            this.title = EntityMessageSourceProvider.getMessage(entityName, MercuriusConstants.LOCALIZATION.ENTITY_PROPERTY_SUFFIX + property);
+        } else {
+            this.title = MessageSourceProvider.getMessage(titleCode);
         }
-        this.title = MessageSourceProvider.getMessage(titleCode);
         /** Renderer bean */
         String rendererBeanName = columnXmlElement.getAttributes().getNamedItem(
                 MercuriusMMCWidgetsConstants.ListView.TableView.Column.RENDERER_BEAN) != null ?

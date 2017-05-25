@@ -64,4 +64,22 @@ public class AnnotationServiceImpl implements AnnotationService {
         /** User package */
         return null;
     }
+
+    /**
+     * Get entity name by class
+     * @param entityClass Entity class
+     * @return Entity name or null
+     */
+    @Override
+    public String getEntityNameByClass(Class entityClass) {
+        if (entityClass == null) {
+            return null;
+        }
+        Entity entityAnnotation = (Entity) entityClass.getAnnotation(Entity.class);
+        if (entityAnnotation != null) {
+            return entityAnnotation.name();
+        } else {
+            return null;
+        }
+    }
 }
