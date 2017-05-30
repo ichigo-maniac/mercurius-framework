@@ -140,6 +140,26 @@ public class DataImportServiceImpl implements DataImportService {
     }
 
     /**
+     * Import classpath data
+     * @param path Resource path
+     * @return Log result
+     */
+    @Override
+    public String importClasspathData(String path) {
+        try {
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
+            if (inputStream == null) {
+                throw new RuntimeException("No resource \"" + path + "\" has been found");
+            }
+            return importData(inputStream);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            LOGGER.error(exception);
+            return IMPORT_ERROR_PREFIX + exception.getMessage() + "<br>";
+        }
+    }
+
+    /**
      * Parse and import xml-document
      * @param xmlDocument Xml document
      * @return Import result

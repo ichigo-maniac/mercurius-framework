@@ -4,9 +4,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
- * Created by impi on 29.02.16.
+ * Application context provider
  */
 @Service("applicationContextProvider")
 public class ApplicationContextProvider implements ApplicationContextAware {
@@ -41,6 +43,25 @@ public class ApplicationContextProvider implements ApplicationContextAware {
      */
     public static Object getBean(String beanName) {
         return context.getBean(beanName);
+    }
+
+    /**
+     * Get beans names
+     * @param beansClass Beans class
+     * @return Set of beans
+     */
+    public static Collection<String> getBeansNames(Class beansClass) {
+        return Arrays.asList(context.getBeanNamesForType(beansClass));
+    }
+
+    /**
+     * Get beans
+     * @param beansClass Beans class
+     * @param <T> Class type
+     * @return Set of beans
+     */
+    public static <T> Collection<T> getBeans(Class<T> beansClass) {
+        return context.getBeansOfType(beansClass).values();
     }
 
     /**

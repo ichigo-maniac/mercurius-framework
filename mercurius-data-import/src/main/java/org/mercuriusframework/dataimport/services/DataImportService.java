@@ -27,4 +27,11 @@ public interface DataImportService {
      * @return Log result
      */
     String importData(InputStream stream);
+
+    /**
+     * Import classpath data
+     * @param path Resource path
+     * @return Log result
+     */
+    String importClasspathData(String path);
 }

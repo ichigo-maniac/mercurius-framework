@@ -3,7 +3,9 @@ package org.mercuriusframework.dataimport.controllers;
 import org.apache.commons.lang.StringUtils;
 import org.mercuriusframework.dataimport.constants.MercuriusDataImportConstants;
 import org.mercuriusframework.dataimport.services.DataImportService;
+import org.mercuriusframework.dataimport.services.PackageDataImportService;
 import org.mercuriusframework.facades.UserFacade;
+import org.mercuriusframework.providers.ApplicationContextProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -64,7 +66,7 @@ public class DataImportApplicationController {
             return redirectString;
         }
         String errorLog = dataImportService.importData(rawText.trim());
-        if (!StringUtils.isEmpty(errorLog)) {
+        if (StringUtils.isNotEmpty(errorLog)) {
             model.addFlashAttribute("errorLog", errorLog);
         }
         model.addFlashAttribute("importFinish", true);
@@ -91,8 +93,12 @@ public class DataImportApplicationController {
      * @param model Model
      * @return View result
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/import_files_data")
+    @RequestMapping(method = RequestMethod.POST, value = MercuriusDataImportConstants.URLS.IMPORT_FILES_DATA)
     public String importFilesData( @RequestParam MultipartFile[] importFiles, RedirectAttributes model)  {
+        String redirectString = getRedirectInErrors();
+        if (redirectString != null) {
+            return redirectString;
+        }
         if (importFiles != null && importFiles.length > 0) {
             StringBuilder logResult = new StringBuilder();
             for (MultipartFile file : importFiles) {
@@ -104,6 +110,49 @@ public class DataImportApplicationController {
         }
         model.addFlashAttribute("importFinish", true);
         return "redirect:" + MercuriusDataImportConstants.URLS.BASE_APPLICATION_PATH + MercuriusDataImportConstants.URLS.IMPORT_FILES_DATA;
+    }
+
+    /**
+     * Import package data view
+     * @param model Model
+     * @return View path
+     */
+    @RequestMapping(method = RequestMethod.GET, value = MercuriusDataImportConstants.URLS.IMPORT_PACKAGE_DATA)
+    public String importPackageDataView(Model model) {
+        String redirectString = getRedirectInErrors();
+        if (redirectString != null) {
+            return redirectString;
+        }
+        model.addAttribute("packageImportServices", ApplicationContextProvider.getBeansNames(PackageDataImportService.class));
+        return MercuriusDataImportConstants.JSP_TEMPLATES.PACKAGE_IMPORT;
+    }
+
+    /**
+     * Import package data
+     * @return View path
+     */
+    @RequestMapping(method = RequestMethod.POST, value = MercuriusDataImportConstants.URLS.IMPORT_PACKAGE_DATA)
+    public String importPackageData(@RequestParam(value = "packageServices", required = false) String[] servicesNames, RedirectAttributes model) {
+        String redirectString = getRedirectInErrors();
+        if (redirectString != null) {
+            return redirectString;
+        }
+        /** Check selected services */
+        if (servicesNames != null) {
+            StringBuilder errorLog = new StringBuilder();
+            for (String serviceName : servicesNames) {
+                PackageDataImportService importService = ApplicationContextProvider.getBean(serviceName, PackageDataImportService.class);
+                String errors = importService.importData();
+                if (StringUtils.isNotEmpty(errors)) {
+                    errorLog.append(errors + "<br>");
+                }
+            }
+            if (StringUtils.isNotEmpty(errorLog.toString().trim())) {
+                model.addFlashAttribute("errorLog", errorLog);
+            }
+        }
+        model.addFlashAttribute("importFinish", true);
+        return "redirect:" + MercuriusDataImportConstants.URLS.BASE_APPLICATION_PATH + MercuriusDataImportConstants.URLS.IMPORT_PACKAGE_DATA;
     }
 
     /**

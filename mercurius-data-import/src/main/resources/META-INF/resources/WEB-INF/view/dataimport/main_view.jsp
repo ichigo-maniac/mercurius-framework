@@ -29,6 +29,9 @@
             <a href="<c:url value="/dataimport/app_panel/import_files_data"/>" class="mdl-layout__tab">
                 <spring:message code="dataimport.import.files.import.tab.label"/>
             </a>
+            <a href="<c:url value="/dataimport/app_panel/import_package_data"/>" class="mdl-layout__tab">
+                <spring:message code="dataimport.import.package.import.tab.label"/>
+            </a>
             <a href="<c:url value="/dataimport/logout"/>" class="mdl-layout__tab">
                 <spring:message code="dataimport.logout.button.label"/>
             </a>

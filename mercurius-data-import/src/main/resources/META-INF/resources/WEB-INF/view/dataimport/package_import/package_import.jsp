@@ -26,10 +26,10 @@
         <%-- Tabs --%>
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
             <a href="<c:url value="/dataimport/app_panel"/>" class="mdl-layout__tab"><spring:message code="dataimport.import.console.tab.label"/></a>
-            <a href="#" class="mdl-layout__tab is-active">
+            <a href="<c:url value="/dataimport/app_panel/import_files_data"/>" class="mdl-layout__tab">
                 <spring:message code="dataimport.import.files.import.tab.label"/>
             </a>
-            <a href="<c:url value="/dataimport/app_panel/import_package_data"/>" class="mdl-layout__tab">
+            <a href="#" class="mdl-layout__tab is-active">
                 <spring:message code="dataimport.import.package.import.tab.label"/>
             </a>
             <a href="<c:url value="/dataimport/logout"/>" class="mdl-layout__tab">
@@ -44,20 +44,20 @@
             <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                 <div class="mdl-card mdl-cell mdl-cell--12-col">
                     <div class="mdl-card__supporting-text">
-                        <h4 style="color: black; font-weight: bold"><spring:message code="dataimport.import.files.import.panel.label"/></h4>
+                        <h4 style="color: black; font-weight: bold"><spring:message code="dataimport.import.package.import.panel.label"/></h4>
                         <%-- Import form --%>
-                        <form:form action="/dataimport/app_panel/import_files_data?${_csrf.parameterName}=${_csrf.token}" method="POST"
-                                   enctype="multipart/form-data"
-                                   class="form-inline">
-                            <%-- Files input --%>
-                            <div class="form-group" style="font-size: 150%">
-                                <label for="importFiles" class="col-sm-2 control-label" style="color: black">
-                                    <spring:message code="dataimport.import.files.files.label"/>
-                                </label>
-                                <div class="col-sm-10">
-                                    <input id="importFiles" name="importFiles" type="file" multiple="true">
+                        <form:form action="/dataimport/app_panel/import_package_data" method="POST" class="form-horizontal">
+                            <%-- Services --%>
+                            <c:forEach var="packageImportService" items="${packageImportServices}">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <label style="color: black; font-size: 130%;">
+                                            <input name="packageServices" value="${packageImportService}" type="checkbox"
+                                                    style="margin-right: 10px;"> <c:out value="${packageImportService}"/>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
+                            </c:forEach>
                             <%-- Submit --%>
                             <div class="form-group">
                                 <div class="pull-right">
