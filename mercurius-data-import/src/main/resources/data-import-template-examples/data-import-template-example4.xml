@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<data-import xmlns="http://mercurius-framework.org/data-import">
+
+    <remove entity-name="Product">
+        <text-query>
+            select product from Product as product where product.code in ('ranobe_sword_art_online_05', 'ranobe_sword_art_online_03')
+        </text-query>
+    </remove>
+
+    <remove entity-name="Product">
+        <criteria-query>
+            <criteria property="code">
+                <values>
+                    <value type="IN" value-import-bean="primitiveListImportBean">ranobe_sword_art_online_02;ranobe_sword_art_online_05</value>
+                </values>
+            </criteria>
+        </criteria-query>
+    </remove>
+
+</data-import>

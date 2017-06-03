@@ -47,6 +47,15 @@ public class MercuriusDataImportComponentConstants {
     }
 
     /**
+     * Remove components
+     */
+    public class Remove {
+        public static final String COMPONENT_NAME = "remove";
+        public static final String TEXT_QUERY = "text-query";
+        public static final String CRITERIA_QUERY = "criteria-query";
+    }
+
+    /**
      * Import column component
      */
     public class ImportColumn {

@@ -13,6 +13,7 @@
             <xs:element name="insert" type="insert" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="update" type="update" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="insert-update" type="insert-update" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="remove" type="remove" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -165,4 +166,20 @@
         </xs:sequence>
     </xs:complexType>
 
+    <!-- Remove element -->
+    <xs:complexType name="remove">
+        <xs:sequence>
+            <xs:element name="text-query" type="text-query" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="criteria-query" type="criteria-query" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <!-- Attributes -->
+        <xs:attribute name="entity-name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!-- Criteria query -->
+    <xs:complexType name="criteria-query">
+        <xs:sequence>
+            <xs:element name="criteria" type="criteria" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>

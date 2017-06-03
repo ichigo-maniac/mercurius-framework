@@ -107,12 +107,12 @@ public class EntityServiceImpl implements EntityService {
     }
 
     /**
-     * Delete entity by uuid
+     * Remove entity by uuid
      * @param entityUuid  Entity uuid
      * @param entityClass Entity class
      */
     @Override
-    public <T extends AbstractEntity> void delete(String entityUuid, Class<T> entityClass) {
+    public <T extends AbstractEntity> void remove(String entityUuid, Class<T> entityClass) {
         if (entityUuid == null) {
             return;
         }
@@ -126,14 +126,33 @@ public class EntityServiceImpl implements EntityService {
     }
 
     /**
-     * Delete entity
+     * Remove entity
      * @param entityObject Entity object
      */
     @Override
-    public <T extends AbstractEntity> void delete(T entityObject) {
+    public <T extends AbstractEntity> void remove(T entityObject) {
         if (entityObject.getUuid() != null) {
-            delete(entityObject.getUuid(), entityObject.getClass());
+            remove(entityObject.getUuid(), entityObject.getClass());
         }
+    }
+
+    /**
+     * Remove all entities
+     * @param entities Collection of entities
+     */
+    @Override
+    public <T extends AbstractEntity> void removeAll(Collection<T> entities) {
+        if (entities == null) {
+            return;
+        }
+        transactionOperations.execute(new TransactionCallback<T>() {
+            public T doInTransaction(TransactionStatus transactionStatus) {
+                for (AbstractEntity entityObject : entities) {
+                    entityManager.remove(entityManager.getReference(entityObject.getClass(), entityObject.getUuid()));
+                }
+                return null;
+            }
+        });
     }
 
     /**

@@ -7,6 +7,7 @@ import org.mercuriusframework.services.query.PageableResult;
 import org.mercuriusframework.services.query.QueryParameter;
 import org.mercuriusframework.entities.AbstractEntity;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -42,19 +43,27 @@ public interface EntityService {
     <T extends AbstractEntity> T save(T entity);
 
     /**
-     * Delete entity by uuid
+     * Remove entity by uuid
      * @param entityUuid Entity uuid
      * @param entityClass Entity class
      * @param <T> Entity Class
      */
-    <T extends AbstractEntity> void delete(String entityUuid, Class<T> entityClass);
+    <T extends AbstractEntity> void remove(String entityUuid, Class<T> entityClass);
 
     /**
-     * Delete entity
+     * Remove entity
      * @param entityObject Entity object
      * @param <T> Entity class
      */
-    <T extends AbstractEntity> void delete(T entityObject);
+    <T extends AbstractEntity> void remove(T entityObject);
+
+    /**
+     * Remove all entities
+     * @param entities Collection of entities
+     * @param <T> Entity class
+     */
+    <T extends AbstractEntity> void removeAll(Collection<T> entities);
+
     /**
      * Get list result by query
      *

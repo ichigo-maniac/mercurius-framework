@@ -10,6 +10,7 @@ import org.mercuriusframework.dataimport.components.common.ImportColumn;
 import org.mercuriusframework.dataimport.components.insert.InsertImportComponent;
 import org.mercuriusframework.dataimport.components.insert.InsertValue;
 import org.mercuriusframework.dataimport.components.insertupdate.InsertUpdateImportComponent;
+import org.mercuriusframework.dataimport.components.remove.RemoveImportComponent;
 import org.mercuriusframework.dataimport.components.update.UpdateImportComponent;
 import org.mercuriusframework.dataimport.components.update.UpdateValue;
 import org.mercuriusframework.dataimport.constants.MercuriusDataImportComponentConstants;
@@ -44,6 +45,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -214,6 +216,9 @@ public class DataImportServiceImpl implements DataImportService {
             if (xmlElement.getNodeName().equals(MercuriusDataImportComponentConstants.InsertUpdate.COMPONENT_NAME)) {
                 return new InsertUpdateImportComponent(xmlElement);
             }
+            if (xmlElement.getNodeName().equals(MercuriusDataImportComponentConstants.Remove.COMPONENT_NAME)) {
+                return new RemoveImportComponent(xmlElement);
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
             LOGGER.error(exception);
@@ -242,6 +247,10 @@ public class DataImportServiceImpl implements DataImportService {
             }
             if (importComponent instanceof UpdateImportComponent) {
                 updateComponent((UpdateImportComponent) importComponent, log);
+                return;
+            }
+            if (importComponent instanceof RemoveImportComponent) {
+                removeComponent((RemoveImportComponent) importComponent, log);
                 return;
             }
         } catch (IllegalAccessException exception) {
@@ -307,7 +316,7 @@ public class DataImportServiceImpl implements DataImportService {
      * @param importComponent Import component
      * @param log Log
      */
-    public void insertUpdateComponent(InsertUpdateImportComponent importComponent, StringBuilder log) throws IllegalAccessException, InstantiationException {
+    private void insertUpdateComponent(InsertUpdateImportComponent importComponent, StringBuilder log) throws IllegalAccessException, InstantiationException {
         Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
         for (InsertValue insertValue : importComponent.getValues()) {
             List<AbstractEntity> updatingData = loadInsertUpdatingData(importComponent, insertValue);
@@ -325,6 +334,24 @@ public class DataImportServiceImpl implements DataImportService {
                 }
             }
         }
+    }
+
+    /**
+     * Remove component
+     * @param importComponent Import component
+     * @param log Log
+     */
+    private void removeComponent(RemoveImportComponent importComponent, StringBuilder log) {
+        List<AbstractEntity> removingData = Collections.emptyList();
+        Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
+        /** Load data */
+        if (StringUtils.isNotEmpty(importComponent.getTextQuery())) {
+            removingData = entityService.getListResultByQuery(importComponent.getTextQuery(), entityClass);
+        } else {
+           removingData = entityService.getListResultByCriteria(entityClass, new String[]{},
+                    buildCriteriaParameters(entityClass, importComponent.getCriterias()));
+        }
+        entityService.removeAll(removingData);
     }
 
     /**

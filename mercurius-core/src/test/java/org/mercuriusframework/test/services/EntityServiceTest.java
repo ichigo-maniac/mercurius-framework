@@ -211,10 +211,10 @@ public class EntityServiceTest extends AbstractTest {
     }
 
     /**
-     * Method test - entityService.delete
+     * Method test - entityService.remove
      */
     @Test
-    public void deleteTest() {
+    public void removeTest() {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setCatalog(uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class));
         productEntity.setName("test2");
@@ -222,14 +222,14 @@ public class EntityServiceTest extends AbstractTest {
         productEntity.setMainCategory(mainCategory);
         productEntity.setCategories(new HashSet<>(Arrays.asList(mainCategory)));
         entityService.save(productEntity);
-        entityService.delete(productEntity);
+        entityService.remove(productEntity);
     }
 
     /**
-     * Method test - entityService.delete
+     * Method test - entityService.remove
      */
     @Test
-    public void deleteTest2() {
+    public void removeTest2() {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setCatalog(uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class));
         productEntity.setName("test3");
@@ -237,7 +237,27 @@ public class EntityServiceTest extends AbstractTest {
         productEntity.setMainCategory(mainCategory);
         productEntity.setCategories(new HashSet<>(Arrays.asList(mainCategory)));
         entityService.save(productEntity);
-        entityService.delete(productEntity.getUuid(), ProductEntity.class);
+        entityService.remove(productEntity.getUuid(), ProductEntity.class);
+    }
+
+    /**
+     * Method test - entityService.removeAll
+     */
+    @Test
+    public void removeAllTest() {
+        List<ProductEntity> removeCollection = new ArrayList<>();
+        /** Products */
+        ProductEntity productEntity1 = new ProductEntity();
+        productEntity1.setCatalog(uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class));
+        productEntity1.setName("test4");
+        entityService.save(productEntity1);
+        removeCollection.add(productEntity1);
+        ProductEntity productEntity2 = new ProductEntity();
+        productEntity2.setCatalog(uniqueCodeEntityService.getEntityByCode("master_catalog", CatalogEntity.class));
+        productEntity2.setName("test5");
+        entityService.save(productEntity2);
+        removeCollection.add(productEntity2);
+        entityService.removeAll(removeCollection);
     }
 
 }
