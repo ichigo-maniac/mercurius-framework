@@ -40,6 +40,7 @@
         <spring.data.solr.version>2.1.1.RELEASE</spring.data.solr.version>
         <jackson.version>1.9.13</jackson.version>
         <jackson.data.bind.version>2.5.0</jackson.data.bind.version>
+        <org.json.version>20160810</org.json.version>
         <google.guava.version>19.0</google.guava.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>
         <hibernate.version>4.3.9.Final</hibernate.version>
@@ -281,6 +282,12 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.data.bind.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${org.json.version}</version>
         </dependency>
 
         <!-- Solr -->

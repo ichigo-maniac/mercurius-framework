@@ -1,5 +1,6 @@
 package org.mercuriusframework.entities;
 
+import org.mercuriusframework.enums.AuthenticationType;
 import javax.persistence.*;
 
 /**
@@ -33,6 +34,22 @@ public abstract class AbstractUserEntity extends UniqueCodeEntity {
     public static final String PASSWORD = "password";
 
     /**
+     * Authentication type
+     */
+    @Basic(optional = false)
+    @Column(updatable = false)
+    @Enumerated(EnumType.STRING)
+    private AuthenticationType authenticationType;
+    public static final String AUTHENTICATION_TYPE = "authenticationType";
+
+    /**
+     * Phone number
+     */
+    @Basic(optional = true)
+    private String phoneNumber;
+    public static final String PHONE_NUMBER = "phoneNumber";
+
+    /**
      * Get e-mail
      * @return E-mail
      */
@@ -62,5 +79,37 @@ public abstract class AbstractUserEntity extends UniqueCodeEntity {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * Get authentication type
+     * @return Authentication type
+     */
+    public AuthenticationType getAuthenticationType() {
+        return authenticationType;
+    }
+
+    /**
+     * Set authentication type
+     * @param authenticationType Authentication type
+     */
+    public void setAuthenticationType(AuthenticationType authenticationType) {
+        this.authenticationType = authenticationType;
+    }
+
+    /**
+     * Get phone number
+     * @return Phone number
+     */
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    /**
+     * Set phone number
+     * @param phoneNumber Phone number
+     */
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

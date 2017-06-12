@@ -6,6 +6,8 @@ CREATE TABLE USERS(
   modificationtime TIMESTAMP NOT NULL,
   email CHARACTER VARYING(255),
   password CHARACTER VARYING(255),
+  authenticationType CHARACTER VARYING(255) NOT NULL,
+  phoneNumber CHARACTER VARYING(255),
   user_type CHARACTER VARYING(255) NOT NULL,
   socialNetworkType CHARACTER VARYING(255),
   socialNetworkId CHARACTER VARYING(255)
@@ -24,13 +26,14 @@ CREATE TABLE EMPLOYEE_ROLE_LINKS(
   role_uuid CHARACTER VARYING(36) NOT NULL REFERENCES ROLES(uuid)
 );
 
-INSERT INTO USERS(uuid, name, code, creationtime, modificationtime, email, password, user_type) VALUES (
-  '12001000-1154-11e6-b6ff-bf2400ed1234', 'Admin', 'admin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin@mercurius.org', '123123', 'Employee'
+INSERT INTO USERS(uuid, name, code, creationtime, modificationtime, email, password, user_type, authenticationType, phoneNumber) VALUES (
+  '12001000-1154-11e6-b6ff-bf2400ed1234', 'Admin', 'admin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin@mercurius.org', '123123',
+  'Employee', 'FORM', '123123'
 );
 
-INSERT INTO USERS(uuid, name, code, creationtime, modificationtime, user_type, socialNetworkId, socialNetworkType) VALUES (
+INSERT INTO USERS(uuid, name, code, creationtime, modificationtime, user_type, socialNetworkId, socialNetworkType, authenticationType) VALUES (
   '12001000-1154-11e6-4444-bf2400ed1234', 'Test customer', 'test_customer', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Customer',
-  'test-social-network-id', 'FACEBOOK'
+  'test-social-network-id', 'FACEBOOK', 'OAUTH'
 );
 
 INSERT INTO ROLES(uuid, name, code, creationtime, modificationtime) VALUES (

@@ -23,5 +23,7 @@ public class UserEntityFiller<SOURCE extends AbstractUserEntity, RESULT extends 
         super.fillIn(source, result, options);
         result.setEmail(source.getEmail());
         result.setPassword(source.getPassword());
+        result.setAuthenticationType(source.getAuthenticationType());
+        result.setPhoneNumber(source.getPhoneNumber());
     }
 }
