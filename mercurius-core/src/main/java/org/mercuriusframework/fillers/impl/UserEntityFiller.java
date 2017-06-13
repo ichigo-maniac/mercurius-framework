@@ -21,6 +21,8 @@ public class UserEntityFiller<SOURCE extends AbstractUserEntity, RESULT extends 
     @Override
     public void fillIn(SOURCE source, RESULT result, LoadOptions... options) {
         super.fillIn(source, result, options);
+        result.setFirstName(source.getFirstName());
+        result.setLastName(source.getLastName());
         result.setEmail(source.getEmail());
         result.setPassword(source.getPassword());
         result.setAuthenticationType(source.getAuthenticationType());

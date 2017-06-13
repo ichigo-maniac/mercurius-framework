@@ -4,6 +4,8 @@ CREATE TABLE USERS(
   code CHARACTER VARYING(255) NOT NULL UNIQUE,
   creationtime TIMESTAMP NOT NULL,
   modificationtime TIMESTAMP NOT NULL,
+  firstName CHARACTER VARYING(255),
+  lastName CHARACTER VARYING(255),
   email CHARACTER VARYING(255),
   password CHARACTER VARYING(255),
   authenticationType CHARACTER VARYING(255) NOT NULL,
@@ -31,9 +33,9 @@ INSERT INTO USERS(uuid, name, code, creationtime, modificationtime, email, passw
   'Employee', 'FORM', '123123'
 );
 
-INSERT INTO USERS(uuid, name, code, creationtime, modificationtime, user_type, socialNetworkId, socialNetworkType, authenticationType) VALUES (
+INSERT INTO USERS(uuid, name, code, creationtime, modificationtime, user_type, socialNetworkId, socialNetworkType, authenticationType, firstName, lastName) VALUES (
   '12001000-1154-11e6-4444-bf2400ed1234', 'Test customer', 'test_customer', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Customer',
-  'test-social-network-id', 'FACEBOOK', 'OAUTH'
+  'test-social-network-id', 'FACEBOOK', 'OAUTH', 'Test', 'Test'
 );
 
 INSERT INTO ROLES(uuid, name, code, creationtime, modificationtime) VALUES (

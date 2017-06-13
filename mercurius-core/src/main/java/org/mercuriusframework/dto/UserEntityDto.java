@@ -7,8 +7,17 @@ import org.mercuriusframework.enums.AuthenticationType;
  */
 public class UserEntityDto extends UniqueCodeEntityDto {
 
-
     private static final long serialVersionUID = 7200151198229674387L;
+
+    /**
+     * First name
+     */
+    private String firstName;
+
+    /**
+     * Last name
+     */
+    private String lastName;
 
     /**
      * E-mail
@@ -29,6 +38,38 @@ public class UserEntityDto extends UniqueCodeEntityDto {
      * Phone number
      */
     private String phoneNumber;
+
+    /**
+     * Get first name
+     * @return First name
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * Set first name
+     * @param firstName First name
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * Get last name
+     * @return Last name
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * Set last name
+     * @param lastName Last name
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     /**
      * Get e-mail

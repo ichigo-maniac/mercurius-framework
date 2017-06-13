@@ -19,6 +19,22 @@ public abstract class AbstractUserEntity extends UniqueCodeEntity {
      */
     public static final String ENTITY_NAME = "AbstractUser";
 
+
+    /**
+     * First name
+     */
+    @Basic(optional = true)
+    private String firstName;
+    public static final String FIRST_NAME = "firstName";
+
+    /**
+     * Last name
+     */
+    @Basic(optional = true)
+    private String lastName;
+    public static final String LAST_NAME = "lastName";
+
+
     /**
      * E-mail
      */
@@ -48,6 +64,38 @@ public abstract class AbstractUserEntity extends UniqueCodeEntity {
     @Basic(optional = true)
     private String phoneNumber;
     public static final String PHONE_NUMBER = "phoneNumber";
+
+    /**
+     * Get first name
+     * @return First name
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * Set first name
+     * @param firstName First name
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * Get last name
+     * @return Last name
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * Set last name
+     * @param lastName Last name
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     /**
      * Get e-mail

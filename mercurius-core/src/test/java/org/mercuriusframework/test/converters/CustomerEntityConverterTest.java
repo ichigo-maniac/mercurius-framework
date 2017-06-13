@@ -35,6 +35,7 @@ public class CustomerEntityConverterTest extends AbstractTest {
         CustomerEntityDto entityDto = customerEntityConverter.convert(customerEntity);
         assertEquals(entityDto.getCode().equals("test_customer") && entityDto.getUuid().equals("12001000-1154-11e6-4444-bf2400ed1234")
             && entityDto.getSocialNetworkType() == SocialNetworkType.FACEBOOK
+            && entityDto.getFirstName().equals("Test") && entityDto.getLastName().equals("Test")
             && entityDto.getSocialNetworkId().equals("test-social-network-id"), true);
     }
 }
