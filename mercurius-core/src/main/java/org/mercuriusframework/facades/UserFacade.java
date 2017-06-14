@@ -1,6 +1,7 @@
 package org.mercuriusframework.facades;
 
 import org.mercuriusframework.dto.UserEntityDto;
+import org.mercuriusframework.entities.AbstractUserEntity;
 
 import javax.servlet.ServletException;
 
@@ -8,6 +9,13 @@ import javax.servlet.ServletException;
  * User facade interface
  */
 public interface UserFacade {
+
+    /**
+     * Log in user
+     * @param user User entity
+     * @return Log in result
+     */
+    boolean logInUser(AbstractUserEntity user);
 
     /**
      * Log in employee by password and username

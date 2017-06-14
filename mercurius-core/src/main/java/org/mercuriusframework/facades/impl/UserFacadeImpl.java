@@ -1,13 +1,17 @@
 package org.mercuriusframework.facades.impl;
 
 import org.mercuriusframework.constants.MercuriusConstants;
+import org.mercuriusframework.converters.impl.CustomerEntityConverter;
 import org.mercuriusframework.converters.impl.EmployeeEntityConverter;
 import org.mercuriusframework.dto.EmployeeEntityDto;
 import org.mercuriusframework.dto.RoleEntityDto;
 import org.mercuriusframework.dto.UserEntityDto;
+import org.mercuriusframework.entities.AbstractUserEntity;
+import org.mercuriusframework.entities.CustomerEntity;
 import org.mercuriusframework.entities.EmployeeEntity;
 import org.mercuriusframework.enums.EmployeeLoadOptions;
 import org.mercuriusframework.facades.UserFacade;
+import org.mercuriusframework.security.CustomerUserDetails;
 import org.mercuriusframework.security.EmployeeUserDetails;
 import org.mercuriusframework.services.EntityService;
 import org.mercuriusframework.services.SessionService;
@@ -58,6 +62,45 @@ public class UserFacadeImpl implements UserFacade {
     @Qualifier("employeeEntityConverter")
     protected EmployeeEntityConverter employeeEntityConverter;
 
+    /**
+     * Customer entity converter
+     */
+    @Autowired
+    @Qualifier("customerEntityConverter")
+    protected CustomerEntityConverter customerEntityConverter;
+
+    /**
+     * Log in user
+     * @param user User entity
+     * @return Log in result
+     */
+    @Override
+    public boolean logInUser(AbstractUserEntity user) {
+        AbstractUserEntity currentUser = uniqueCodeEntityService.getEntityByCode(user.getCode(), AbstractUserEntity.class);
+        if (currentUser == null) {
+            return false;
+        }
+        if (currentUser instanceof EmployeeEntity) {
+            EmployeeEntity employee = (EmployeeEntity) currentUser;
+            EmployeeUserDetails userDetails = new EmployeeUserDetails(employee);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            sessionService.setSessionAttribute(MercuriusConstants.SESSION_ATTRIBUTES.CURRENT_USER,
+                    employeeEntityConverter.convert(employee, EmployeeLoadOptions.ROLES));
+            return true;
+        }
+        if (currentUser instanceof CustomerEntity) {
+            CustomerEntity customer = (CustomerEntity) currentUser;
+            CustomerUserDetails userDetails = new CustomerUserDetails(customer);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            sessionService.setSessionAttribute(MercuriusConstants.SESSION_ATTRIBUTES.CURRENT_USER,
+                    customerEntityConverter.convert(customer));
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Log in employee by password and username
