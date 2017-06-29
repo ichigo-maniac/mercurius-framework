@@ -4,6 +4,7 @@ import org.mercuriusframework.constants.MercuriusConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -16,6 +17,15 @@ import java.io.IOException;
 @Configuration
 @Profile(MercuriusConstants.PROFILES.DEVELOP_PROFILE)
 public class MultipartResolverConfiguration {
+
+    /**
+     * Local validation factory bean
+     * @return Local validation factory bean
+     */
+    @Bean(name = "localValidatorFactoryBean")
+    public LocalValidatorFactoryBean localValidatorFactoryBean() {
+        return new LocalValidatorFactoryBean();
+    }
 
     /**
      * Multipart resolver bean

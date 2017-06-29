@@ -22,6 +22,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Common -->
+        <javax.validation.version>1.0.0.GA</javax.validation.version>
         <log4j2.version>2.8</log4j2.version>
         <slf4j.version>1.7.25</slf4j.version>
         <servlet.api.version>3.1.0</servlet.api.version>
@@ -44,6 +45,7 @@
         <google.guava.version>19.0</google.guava.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>
         <hibernate.version>4.3.9.Final</hibernate.version>
+        <hibernate.validation.version>4.3.2.Final</hibernate.validation.version>
         <flyway.version>2.0.2</flyway.version>
         <spring.session.version>1.3.0.RELEASE</spring.session.version>
         <redis.lettuce.version>3.5.0.Final</redis.lettuce.version>
@@ -59,6 +61,19 @@
 
     <!-- Dependencies -->
     <dependencies>
+
+        <!-- Validation -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${javax.validation.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validation.version}</version>
+        </dependency>
 
         <!-- Log4j 2 -->
         <dependency>
