@@ -139,6 +139,19 @@ public class UserFacadeImpl implements UserFacade {
     }
 
     /**
+     * Is current user customer
+     * @return Check result - Is current user customer
+     */
+    @Override
+    public boolean isCurrentUserCustomer() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return false;
+        }
+        return authentication.getPrincipal() instanceof CustomerUserDetails;
+    }
+
+    /**
      * Get current user
      * @return Current user
      */

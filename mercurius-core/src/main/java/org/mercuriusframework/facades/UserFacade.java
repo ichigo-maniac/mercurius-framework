@@ -32,6 +32,12 @@ public interface UserFacade {
     boolean isCurrentUserEmployee();
 
     /**
+     * Is current user customer
+     * @return Check result - Is current user customer
+     */
+    boolean isCurrentUserCustomer();
+
+    /**
      * Get current user
      * @return Current user
      */
