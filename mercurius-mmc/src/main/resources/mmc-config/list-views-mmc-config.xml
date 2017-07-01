@@ -119,10 +119,12 @@
 
     <list-view entity-name="Customer" priority="0">
         <table-view>
-            <column property="uuid"/>
             <column property="code"/>
             <column property="name"/>
             <column property="email"/>
+            <column property="authenticationType"/>
+            <column property="socialNetworkType"/>
+            <column property="socialNetworkId"/>
         </table-view>
     </list-view>
 
