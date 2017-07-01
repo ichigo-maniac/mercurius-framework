@@ -9,7 +9,8 @@ public enum SocialNetworkType {
      * Values
      */
     FACEBOOK("FACEBOOK"),
-    VK_COM("VK_COM");
+    VK_COM("VK_COM"),
+    LINKED_IN("LINKED_IN");
 
     /**
      * Enum value
