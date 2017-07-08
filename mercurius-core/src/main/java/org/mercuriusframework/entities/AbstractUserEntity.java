@@ -1,6 +1,8 @@
 package org.mercuriusframework.entities;
 
 import org.mercuriusframework.enums.AuthenticationType;
+import org.mercuriusframework.enums.PasswordEncodingType;
+
 import javax.persistence.*;
 
 /**
@@ -48,6 +50,14 @@ public abstract class AbstractUserEntity extends UniqueCodeEntity {
     @Basic(optional = true)
     private String password;
     public static final String PASSWORD = "password";
+
+    /**
+     * Password encoding type
+     */
+    @Basic(optional = true)
+    @Enumerated(EnumType.STRING)
+    private PasswordEncodingType passwordEncodingType;
+    public static final String PASSWORD_ENCODING_TYPE = "passwordEncodingType";
 
     /**
      * Authentication type
@@ -159,5 +169,21 @@ public abstract class AbstractUserEntity extends UniqueCodeEntity {
      */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * Get password encoding type
+     * @return Password encoding type
+     */
+    public PasswordEncodingType getPasswordEncodingType() {
+        return passwordEncodingType;
+    }
+
+    /**
+     * Set password encoding type
+     * @param passwordEncodingType Password encoding type
+     */
+    public void setPasswordEncodingType(PasswordEncodingType passwordEncodingType) {
+        this.passwordEncodingType = passwordEncodingType;
     }
 }

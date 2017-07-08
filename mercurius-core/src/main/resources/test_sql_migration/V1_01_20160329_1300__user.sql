@@ -12,7 +12,8 @@ CREATE TABLE USERS(
   phoneNumber CHARACTER VARYING(255),
   user_type CHARACTER VARYING(255) NOT NULL,
   socialNetworkType CHARACTER VARYING(255),
-  socialNetworkId CHARACTER VARYING(255)
+  socialNetworkId CHARACTER VARYING(255),
+  passwordEncodingType CHARACTER VARYING(255)
 );
 
 CREATE TABLE ROLES(
@@ -30,7 +31,7 @@ CREATE TABLE EMPLOYEE_ROLE_LINKS(
 
 INSERT INTO USERS(uuid, name, code, creationtime, modificationtime, email, password, user_type, authenticationType, phoneNumber) VALUES (
   '12001000-1154-11e6-b6ff-bf2400ed1234', 'Admin', 'admin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin@mercurius.org', '123123',
-  'Employee', 'FORM', '123123'
+  'Employee', 'PASSWORD', '123123'
 );
 
 INSERT INTO USERS(uuid, name, code, creationtime, modificationtime, user_type, socialNetworkId, socialNetworkType, authenticationType, firstName, lastName) VALUES (

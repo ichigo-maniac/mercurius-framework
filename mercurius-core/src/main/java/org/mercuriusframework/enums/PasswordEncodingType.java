@@ -1,15 +1,17 @@
 package org.mercuriusframework.enums;
 
 /**
- * Authentication type enum
+ * Password encoding type
  */
-public enum AuthenticationType {
+public enum PasswordEncodingType {
 
     /**
      * Values
      */
-    PASSWORD("PASSWORD"),
-    OAUTH("OAUTH");
+    PLAIN_TEXT("PLAIN_TEXT"),
+    MD4("MD4"),
+    MD5("MD5"),
+    SHA("SHA");
 
     /**
      * Enum value
@@ -20,7 +22,7 @@ public enum AuthenticationType {
      * Constructor
      * @param value Enum value
      */
-    AuthenticationType(String value) {
+    PasswordEncodingType(String value) {
         this.value = value;
     }
 
@@ -28,6 +30,7 @@ public enum AuthenticationType {
      * Get enum value
      * @return Enum value
      */
+
     public String getValue() {
         return value;
     }
