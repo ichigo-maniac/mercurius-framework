@@ -2,6 +2,7 @@ package org.mercuriusframework.facades;
 
 import org.mercuriusframework.dto.UserEntityDto;
 import org.mercuriusframework.entities.AbstractUserEntity;
+import org.mercuriusframework.enums.PasswordEncodingType;
 
 import javax.servlet.ServletException;
 
@@ -18,12 +19,42 @@ public interface UserFacade {
     boolean logInUser(AbstractUserEntity user);
 
     /**
+     * Log in user
+     * @param username Username
+     * @param password Password
+     * @return Log in result
+     */
+    boolean logInUser(String username, String password);
+
+    /**
      * Log in employee by password and username
      * @param username Username
      * @param password Password
      * @return Log in result
      */
     boolean logInEmployee(String username, String password);
+
+    /**
+     * Log in customer by password and username
+     * @param username Username
+     * @param password Password
+     * @return Log in result
+     */
+    boolean logInCustomer(String username, String password);
+
+    /**
+     * Update user password
+     * @param user User entity
+     * @param rawPassword Raw password
+     * @param passwordEncodingType Password encoding type
+     */
+    void updateUserPassword(AbstractUserEntity user, String rawPassword, PasswordEncodingType passwordEncodingType);
+
+    /**
+     * Is current user anonymous
+     * @return Check result - Is current user anonymous
+     */
+    boolean isCurrentUserAnonymous();
 
     /**
      * Is current user employee
