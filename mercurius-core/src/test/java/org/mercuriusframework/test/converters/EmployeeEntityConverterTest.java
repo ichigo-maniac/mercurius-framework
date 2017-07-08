@@ -45,7 +45,7 @@ public class EmployeeEntityConverterTest extends AbstractTest {
         EmployeeEntity employee = uniqueCodeEntityService.getEntityByCode("admin", EmployeeEntity.class);
         EmployeeEntityDto dto = employeeEntityConverter.convert(employee);
         assertEquals(dto.getUuid().equals("12001000-1154-11e6-b6ff-bf2400ed1234") && dto.getCode().equals("admin") &&
-                dto.getAuthenticationType() == AuthenticationType.FORM &&
+                dto.getAuthenticationType() == AuthenticationType.PASSWORD &&
                 dto.getName().equals("Admin") && dto.getEmail().equals("admin@mercurius.org"), true);
     }
 
@@ -57,7 +57,7 @@ public class EmployeeEntityConverterTest extends AbstractTest {
         EmployeeEntity employee = uniqueCodeEntityService.getEntityByCode("admin", EmployeeEntity.class);
         EmployeeEntityDto dto = employeeEntityConverter.convert(employee, EmployeeLoadOptions.ROLES);
         assertEquals(dto.getUuid().equals("12001000-1154-11e6-b6ff-bf2400ed1234") && dto.getCode().equals("admin") &&
-                dto.getAuthenticationType() == AuthenticationType.FORM && dto.getPhoneNumber().equals("123123") &&
+                dto.getAuthenticationType() == AuthenticationType.PASSWORD && dto.getPhoneNumber().equals("123123") &&
                 dto.getName().equals("Admin") && dto.getEmail().equals("admin@mercurius.org"), true);
         assertUuidListsEquals(ROLES_UUIDS_LIST, getUuidsFromDtos(dto.getRoles()));
     }
