@@ -48,6 +48,7 @@
         <xs:sequence>
             <xs:element name="table-view" type="table-view" minOccurs="1" maxOccurs="1"/>
             <xs:element name="fetch-properties" type="list-view-fetch-properties" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="filters" type="filters-view" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <!-- Attributes -->
         <xs:attribute name="entity-name" type="xs:string" use="required"/>
@@ -80,6 +81,19 @@
         <xs:attribute name="title" type="xs:string" use="optional"/>
         <xs:attribute name="property" type="xs:string" use="required"/>
         <xs:attribute name="rendererBean" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+    <!-- Filters view -->
+    <xs:complexType name="filters-view">
+        <xs:sequence>
+            <xs:element name="filter" type="filter" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="default-concat-type" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="filter">
+        <xs:attribute name="property" type="xs:string" use="required"/>
+        <xs:attribute name="include-on-start" type="xs:boolean" use="optional"/>
     </xs:complexType>
 
 </xs:schema>

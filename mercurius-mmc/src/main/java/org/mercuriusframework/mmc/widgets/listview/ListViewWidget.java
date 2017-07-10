@@ -19,6 +19,11 @@ public class ListViewWidget extends Widget {
     private TableView tableView;
 
     /**
+     * Filters view
+     */
+    private FiltersView filtersView;
+
+    /**
      * Entity name
      */
     private String entityName;
@@ -69,6 +74,16 @@ public class ListViewWidget extends Widget {
                 }
             }
         }
+        /** Filters */
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node currentNode = nodeList.item(i);
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+                if (currentNode.getNodeName().equals(MercuriusMMCWidgetsConstants.ListView.Filters.WIDGET_NAME)) {
+                    filtersView = new FiltersView(currentNode);
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -85,6 +100,22 @@ public class ListViewWidget extends Widget {
      */
     public void setTableView(TableView tableView) {
         this.tableView = tableView;
+    }
+
+    /**
+     * Get filters view
+     * @return Filters view
+     */
+    public FiltersView getFiltersView() {
+        return filtersView;
+    }
+
+    /**
+     * Set filters view
+     * @param filtersView Filters view
+     */
+    public void setFiltersView(FiltersView filtersView) {
+        this.filtersView = filtersView;
     }
 
     /**

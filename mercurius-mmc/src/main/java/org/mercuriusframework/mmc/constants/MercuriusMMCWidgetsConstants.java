@@ -66,6 +66,23 @@ public class MercuriusMMCWidgetsConstants {
         }
 
         /**
+         * Filters
+         */
+        public class Filters {
+            public static final String WIDGET_NAME = "filters";
+            public static final String DEFAULT_CONCAT_TYPE = "default-concat-type";
+
+            /**
+             * Filter
+             */
+            public class Filter {
+                public static final String WIDGET_NAME = "filter";
+                public static final String PROPERTY = "property";
+                public static final String INCLUDE_ON_START = "include-on-start";
+            }
+        }
+
+        /**
          * Table view
          */
         public class TableView {
