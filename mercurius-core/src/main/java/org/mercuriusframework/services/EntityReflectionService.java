@@ -1,9 +1,11 @@
 package org.mercuriusframework.services;
 
+import java.lang.reflect.Field;
+
 /**
- * Annotation service interface
+ * Entity reflection service interface
  */
-public interface AnnotationService {
+public interface EntityReflectionService {
     /**
      * Is entity class exist
      * @param entityName Entity name
@@ -24,4 +26,12 @@ public interface AnnotationService {
      * @return Entity name or null
      */
     String getEntityNameByClass(Class entityClass);
+
+    /**
+     * Get field
+     * @param type Class
+     * @param fieldName Field name
+     * @return Class
+     */
+    Field getField(Class type, String fieldName) throws NoSuchFieldException;
 }

@@ -19,7 +19,7 @@ import org.mercuriusframework.dataimport.services.ValueImportBean;
 import org.mercuriusframework.entities.AbstractEntity;
 import org.mercuriusframework.enums.CriteriaValueType;
 import org.mercuriusframework.providers.ApplicationContextProvider;
-import org.mercuriusframework.services.AnnotationService;
+import org.mercuriusframework.services.EntityReflectionService;
 import org.mercuriusframework.services.EntityService;
 import org.mercuriusframework.services.query.CriteriaParameter;
 import org.mercuriusframework.services.query.CriteriaValue;
@@ -66,11 +66,11 @@ public class DataImportServiceImpl implements DataImportService {
     private static final Logger LOGGER = LogManager.getRootLogger();
 
     /**
-     * Annotation service
+     * Entity reflection service
      */
     @Autowired
-    @Qualifier("annotationService")
-    protected AnnotationService annotationService;
+    @Qualifier("entityReflectionService")
+    protected EntityReflectionService entityReflectionService;
 
     /**
      * Entity service
@@ -180,7 +180,7 @@ public class DataImportServiceImpl implements DataImportService {
             if (childNodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
                 AbstractImportComponent component = parseNode(childNodes.item(i), log);
                 if (component != null) {
-                    if (!annotationService.isEntityClassExist(component.getEntityName())) {
+                    if (!entityReflectionService.isEntityClassExist(component.getEntityName())) {
                         LOGGER.error(IMPORT_ERROR_PREFIX + "entity \"{}\" doesn't exist (no class with annotation @Entity(name = \"{}\")",
                                 component.getEntityName(), component.getEntityName());
                         log.append(IMPORT_ERROR_PREFIX + "entity \"" + component.getEntityName() + "\" doesn't exist (no class with annotation" +
@@ -271,7 +271,7 @@ public class DataImportServiceImpl implements DataImportService {
      * @param log Log
      */
     private void insertComponent(InsertImportComponent importComponent, StringBuilder log) throws IllegalAccessException, InstantiationException {
-        Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
+        Class entityClass = entityReflectionService.getEntityClassByEntityName(importComponent.getEntityName());
         for (InsertValue insertValue : importComponent.getValues()) {
             Object entityObject = entityClass.newInstance();
             List<ImportColumn> importColumns = new ArrayList<>(importComponent.getCommonColumns());
@@ -287,7 +287,7 @@ public class DataImportServiceImpl implements DataImportService {
      * @param log Log
      */
     private void updateComponent(UpdateImportComponent importComponent, StringBuilder log) {
-        Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
+        Class entityClass = entityReflectionService.getEntityClassByEntityName(importComponent.getEntityName());
         /** Load data */
         if (importComponent.getValues().isEmpty()) {
             List<AbstractEntity> updatingData = loadUpdatingData(importComponent, null);
@@ -317,7 +317,7 @@ public class DataImportServiceImpl implements DataImportService {
      * @param log Log
      */
     private void insertUpdateComponent(InsertUpdateImportComponent importComponent, StringBuilder log) throws IllegalAccessException, InstantiationException {
-        Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
+        Class entityClass = entityReflectionService.getEntityClassByEntityName(importComponent.getEntityName());
         for (InsertValue insertValue : importComponent.getValues()) {
             List<AbstractEntity> updatingData = loadInsertUpdatingData(importComponent, insertValue);
             List<ImportColumn> importColumns = new ArrayList<>(importComponent.getCommonColumns());
@@ -343,7 +343,7 @@ public class DataImportServiceImpl implements DataImportService {
      */
     private void removeComponent(RemoveImportComponent importComponent, StringBuilder log) {
         List<AbstractEntity> removingData = Collections.emptyList();
-        Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
+        Class entityClass = entityReflectionService.getEntityClassByEntityName(importComponent.getEntityName());
         /** Load data */
         if (StringUtils.isNotEmpty(importComponent.getTextQuery())) {
             removingData = entityService.getListResultByQuery(importComponent.getTextQuery(), entityClass);
@@ -365,7 +365,7 @@ public class DataImportServiceImpl implements DataImportService {
     private Object populateObject(Object entityObject, List<ImportColumn> importColumns, Class entityClass, StringBuilder log) {
         try {
             for (ImportColumn importColumn : importColumns) {
-                Field field = getField(entityClass, importColumn.getProperty());
+                Field field = entityReflectionService.getField(entityClass, importColumn.getProperty());
                 Method setMethod = getSetMethod(entityClass, importColumn.getProperty());
                 setPropertyValue(importColumn, entityObject, field, setMethod);
             }
@@ -392,7 +392,7 @@ public class DataImportServiceImpl implements DataImportService {
      */
     private Method getSetMethod(Class entityClass, String property) throws NoSuchMethodException {
         for (Method method : entityClass.getMethods()) {
-            if (method.getName().equals(SET_METHOD_PREFIX +  StringUtils.capitalize(property))) {
+            if (method.getName().equals(SET_METHOD_PREFIX + StringUtils.capitalize(property))) {
                 if (method.getParameterCount() == 1) {
                     return method;
                 }
@@ -408,7 +408,7 @@ public class DataImportServiceImpl implements DataImportService {
      * @return Updating data
      */
     private List<AbstractEntity> loadUpdatingData(UpdateImportComponent importComponent, UpdateValue updateValue) {
-        Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
+        Class entityClass = entityReflectionService.getEntityClassByEntityName(importComponent.getEntityName());
         List<CriteriaComponent> criteriaValues = new ArrayList<>();
         /** Check common search */
         if (importComponent.getCommonSearch() != null) {
@@ -457,7 +457,7 @@ public class DataImportServiceImpl implements DataImportService {
      * @return Updating data
      */
     private List<AbstractEntity> loadInsertUpdatingData(InsertUpdateImportComponent importComponent, InsertValue insertValue) {
-        Class entityClass = annotationService.getEntityClassByEntityName(importComponent.getEntityName());
+        Class entityClass = entityReflectionService.getEntityClassByEntityName(importComponent.getEntityName());
         List<CriteriaComponent> criteriaValues = new ArrayList<>();
         /** Check import columns */
         for (ImportColumn commonImportColumn : importComponent.getCommonColumns()) {
@@ -499,13 +499,13 @@ public class DataImportServiceImpl implements DataImportService {
                     if (criteriaValueType != null) {
                         try {
                             if (criteriaValueComponent.getValueImportBeanName() != null) {
-                                Field field = getField(entityClass, criteriaComponent.getProperty());
+                                Field field = entityReflectionService.getField(entityClass, criteriaComponent.getProperty());
                                 ValueImportBean valueImportBean = ApplicationContextProvider.getBean(criteriaValueComponent.getValueImportBeanName(),
                                         ValueImportBean.class);
                                 criteriaValues.add(new CriteriaValue(criteriaValueType,
                                         valueImportBean.getValueByString(criteriaValueComponent.getRawValue(), field, null)));
                             } else {
-                                Field field = getField(entityClass, criteriaComponent.getProperty());
+                                Field field = entityReflectionService.getField(entityClass, criteriaComponent.getProperty());
                                 criteriaValues.add(new CriteriaValue(criteriaValueType,
                                         getPrimitiveValue(field.getType(), criteriaValueComponent.getRawValue())));
                             }
@@ -614,27 +614,5 @@ public class DataImportServiceImpl implements DataImportService {
     private void setCompositeValue(String rawValue, Object entityObject, Field field, Method method, String beanName) throws InvocationTargetException, IllegalAccessException {
         ValueImportBean valueImportBean = (ValueImportBean) ApplicationContextProvider.getBean(beanName);
         method.invoke(entityObject, valueImportBean.getValueByString(rawValue, field, entityObject));
-    }
-
-    /**
-     * Get field
-     * @param type Class
-     * @param fieldName Field name
-     * @return Class
-     */
-    private Field getField(Class type, String fieldName) throws NoSuchFieldException {
-        Class currentClass = type;
-        while (currentClass != null && currentClass != Object.class) {
-            try {
-                Field field = currentClass.getDeclaredField(fieldName);
-                if (field != null) {
-                    return field;
-                }
-            } catch (NoSuchFieldException e) {
-            } finally {
-                currentClass = currentClass.getSuperclass();
-            }
-        }
-        throw new NoSuchFieldException(fieldName);
     }
 }

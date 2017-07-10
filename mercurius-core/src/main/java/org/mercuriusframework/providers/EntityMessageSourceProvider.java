@@ -1,7 +1,7 @@
 package org.mercuriusframework.providers;
 
 import org.mercuriusframework.constants.MercuriusConstants;
-import org.mercuriusframework.services.AnnotationService;
+import org.mercuriusframework.services.EntityReflectionService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -25,7 +25,7 @@ public class EntityMessageSourceProvider implements ApplicationContextAware {
     /**
      * Annotation service
      */
-    private static AnnotationService annotationService;
+    private static EntityReflectionService entityReflectionService;
 
     /**
      * Get entity message
@@ -82,7 +82,7 @@ public class EntityMessageSourceProvider implements ApplicationContextAware {
         Class subClass = entityClass;
         while (!entityClass.equals(Object.class)) {
             try {
-                String currentEntityName = annotationService.getEntityNameByClass(subClass);
+                String currentEntityName = entityReflectionService.getEntityNameByClass(subClass);
                 currentEntityName = currentEntityName != null ? currentEntityName : subClass.getSimpleName();
                 /** Load message */
                 String message = messageSource.getMessage(MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + currentEntityName + entityProperty,
@@ -115,7 +115,7 @@ public class EntityMessageSourceProvider implements ApplicationContextAware {
         Class subClass = entityClass;
         while (!entityClass.equals(Object.class)) {
             try {
-                String currentEntityName = annotationService.getEntityNameByClass(subClass);
+                String currentEntityName = entityReflectionService.getEntityNameByClass(subClass);
                 currentEntityName = currentEntityName != null ? currentEntityName : subClass.getSimpleName();
                 /** Load message */
                 String message = messageSource.getMessage(MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + currentEntityName + entityProperty,
@@ -141,7 +141,7 @@ public class EntityMessageSourceProvider implements ApplicationContextAware {
         if (entityName == null) {
             return null;
         }
-        return annotationService.getEntityClassByEntityName(entityName);
+        return entityReflectionService.getEntityClassByEntityName(entityName);
     }
 
     /**
@@ -151,6 +151,6 @@ public class EntityMessageSourceProvider implements ApplicationContextAware {
      */
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         messageSource = (MessageSource) applicationContext.getBean(MessageSource.class);
-        annotationService = (AnnotationService) applicationContext.getBean(AnnotationService.class);
+        entityReflectionService = (EntityReflectionService) applicationContext.getBean(EntityReflectionService.class);
     }
 }

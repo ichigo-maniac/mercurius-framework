@@ -4,21 +4,20 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mercuriusframework.constants.MercuriusConstants;
-import org.mercuriusframework.services.AnnotationService;
+import org.mercuriusframework.services.EntityReflectionService;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Entity;
-import java.util.Set;
+import java.lang.reflect.Field;
 
 /**
- * Annotation service
+ * Entity reflection service
  */
-@Service("annotationService")
-public class AnnotationServiceImpl implements AnnotationService {
+@Service("entityReflectionService")
+public class EntityReflectionServiceImpl implements EntityReflectionService {
 
     /**
      * Logger
@@ -81,5 +80,28 @@ public class AnnotationServiceImpl implements AnnotationService {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Get field
+     * @param type      Class
+     * @param fieldName Field name
+     * @return Class
+     */
+    @Override
+    public Field getField(Class type, String fieldName) throws NoSuchFieldException {
+        Class currentClass = type;
+        while (currentClass != null && currentClass != Object.class) {
+            try {
+                Field field = currentClass.getDeclaredField(fieldName);
+                if (field != null) {
+                    return field;
+                }
+            } catch (NoSuchFieldException e) {
+            } finally {
+                currentClass = currentClass.getSuperclass();
+            }
+        }
+        throw new NoSuchFieldException(fieldName);
     }
 }

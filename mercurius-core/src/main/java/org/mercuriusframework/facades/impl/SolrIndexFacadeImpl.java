@@ -10,7 +10,7 @@ import org.mercuriusframework.entities.SolrIndexFieldEntity;
 import org.mercuriusframework.entities.SolrIndexTaskPropertyEntity;
 import org.mercuriusframework.facades.SolrIndexFacade;
 import org.mercuriusframework.providers.ApplicationContextProvider;
-import org.mercuriusframework.services.AnnotationService;
+import org.mercuriusframework.services.EntityReflectionService;
 import org.mercuriusframework.services.EntityService;
 import org.mercuriusframework.services.solr.SolrDocumentFieldsMap;
 import org.mercuriusframework.services.solr.SolrFieldConverter;
@@ -43,11 +43,11 @@ public class SolrIndexFacadeImpl implements SolrIndexFacade {
     private static final String DOCUMENT_ID = "id";
 
     /**
-     * Annotation service
+     * Entity reflection service
      */
     @Autowired
-    @Qualifier("annotationService")
-    protected AnnotationService annotationService;
+    @Qualifier("entityReflectionService")
+    protected EntityReflectionService entityReflectionService;
 
     /**
      * Solr template
@@ -69,7 +69,7 @@ public class SolrIndexFacadeImpl implements SolrIndexFacade {
     @Override
     public void indexBySolrIndexProperty(SolrIndexTaskPropertyEntity solrIndexProperty) {
         /** Load entity objects */
-        Class entityClass = annotationService.getEntityClassByEntityName(solrIndexProperty.getIndexEntityName());
+        Class entityClass = entityReflectionService.getEntityClassByEntityName(solrIndexProperty.getIndexEntityName());
         List<AbstractEntity> indexObjects = entityService.getListResultByQuery(solrIndexProperty.getQuery(), entityClass);
         /** Index objects */
         for (AbstractEntity indexObject : indexObjects) {

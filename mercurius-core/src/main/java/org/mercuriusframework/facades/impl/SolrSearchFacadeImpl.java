@@ -13,7 +13,7 @@ import org.mercuriusframework.enums.SolrCriteriaValueType;
 import org.mercuriusframework.exceptions.SolrSearchResolverAbsenceException;
 import org.mercuriusframework.facades.SolrSearchFacade;
 import org.mercuriusframework.facades.solr.SolrCriteriaParameter;
-import org.mercuriusframework.services.AnnotationService;
+import org.mercuriusframework.services.EntityReflectionService;
 import org.mercuriusframework.services.EntityService;
 import org.mercuriusframework.services.UniqueCodeEntityService;
 import org.mercuriusframework.services.query.ConvertiblePageableResult;
@@ -55,11 +55,11 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
     protected UniqueCodeEntityService uniqueCodeEntityService;
 
     /**
-     * Annotation service
+     * Entity reflection service
      */
     @Autowired
-    @Qualifier("annotationService")
-    protected AnnotationService annotationService;
+    @Qualifier("entityReflectionService")
+    protected EntityReflectionService entityReflectionService;
 
     /**
      * Solr template
@@ -86,7 +86,7 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
         }
         Page<SolrDocumentDto> solrPage = getDocuments(solrSearchResolver, textQuery, parameters, page);
         List<String> uuids = getEntityUuids(solrPage);
-        Class entityClass = annotationService.getEntityClassByEntityName(solrSearchResolver.getIndexEntityName());
+        Class entityClass = entityReflectionService.getEntityClassByEntityName(solrSearchResolver.getIndexEntityName());
         List<AbstractEntity> entities = entityService.findByUuids(uuids, entityClass, fetchFields);
         /** Create result page */
         Integer currentPage = calculateCurrentPage(solrSearchResolver.getPageSize(), page, solrPage.getTotalElements());

@@ -5,7 +5,7 @@ import org.mercuriusframework.exceptions.MandatoryParameterNullException;
 import org.mercuriusframework.exceptions.NoSuchEntityException;
 import org.mercuriusframework.listeners.PrePersistEntityListener;
 import org.mercuriusframework.listeners.PreUpdateEntityListener;
-import org.mercuriusframework.services.AnnotationService;
+import org.mercuriusframework.services.EntityReflectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -18,11 +18,11 @@ public class SolrIndexTaskPropertyEntityListener implements PrePersistEntityList
         PreUpdateEntityListener<SolrIndexTaskPropertyEntity> {
 
     /**
-     * Annotation service
+     * Entity reflection service
      */
     @Autowired
-    @Qualifier("annotationService")
-    protected AnnotationService annotationService;
+    @Qualifier("entityReflectionService")
+    protected EntityReflectionService entityReflectionService;
 
     /**
      * Get entity type
@@ -60,7 +60,7 @@ public class SolrIndexTaskPropertyEntityListener implements PrePersistEntityList
         if (entityObject.getIndexEntityName() == null) {
             throw new MandatoryParameterNullException(SolrIndexTaskPropertyEntity.class, SolrIndexTaskPropertyEntity.INDEX_ENTITY_NAME);
         }
-        if (annotationService.getEntityClassByEntityName(entityObject.getIndexEntityName()) == null) {
+        if (entityReflectionService.getEntityClassByEntityName(entityObject.getIndexEntityName()) == null) {
             throw new NoSuchEntityException(entityObject.getIndexEntityName());
         }
     }

@@ -15,7 +15,7 @@ import org.mercuriusframework.facades.UserFacade;
 import org.mercuriusframework.mmc.services.MMCApplicationService;
 import org.mercuriusframework.mmc.widgets.listview.ListViewWidget;
 import org.mercuriusframework.mmc.widgets.treenodesview.TreeNodesViewWidget;
-import org.mercuriusframework.services.AnnotationService;
+import org.mercuriusframework.services.EntityReflectionService;
 import org.mercuriusframework.services.UniqueCodeEntityService;
 import org.mercuriusframework.mmc.widgets.Widget;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,11 +93,11 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
     protected UserFacade userFacade;
 
     /**
-     * Annotation service
+     * Entity reflection service
      */
     @Autowired
-    @Qualifier("annotationService")
-    protected AnnotationService annotationService;
+    @Qualifier("entityReflectionService")
+    protected EntityReflectionService entityReflectionService;
 
     /**
      * Build application (if application has been built - nothing 's gonna happen)
@@ -257,7 +257,7 @@ public class MMCApplicationServiceImpl implements MMCApplicationService {
                             MercuriusMMCWidgetsConstants.ListView.WIDGET_NAME, MercuriusMMCWidgetsConstants.ListView.ENTITY_NAME);
                     continue;
                 } else {
-                    if (!annotationService.isEntityClassExist(entityName)) {
+                    if (!entityReflectionService.isEntityClassExist(entityName)) {
                         LOGGER.error("MMC CONFIG ERROR - entity \"{}\" doesn't exist (no class with annotation @Entity(name = \"{}\") ",
                                 entityName, entityName);
                         continue;
