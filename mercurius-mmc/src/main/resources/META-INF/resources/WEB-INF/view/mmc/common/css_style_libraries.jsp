@@ -14,3 +14,4 @@
 <link rel="stylesheet" href="/resources/mmc_lib/css/bootstrap.alertify.min.css"/>
 <link rel="stylesheet" href="/resources/mmc_lib/css/bootstrap-treenav.min.css"/>
 <link rel="stylesheet" href="/resources/mmc_lib/css/alertify.min.css"/>
+<link rel="stylesheet" href="/resources/mmc_lib/css/select2.min.css"/>

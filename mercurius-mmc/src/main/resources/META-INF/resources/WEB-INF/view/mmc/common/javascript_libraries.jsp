@@ -24,3 +24,4 @@
 <script src="/resources/mmc_lib/js/alertify.min.js"></script>
 <script src="/resources/mmc_lib/js/json2.js"></script>
 <script src="/resources/mmc_lib/js/angular.min.js"></script>
+<script src="/resources/mmc_lib/js/select2.full.min.js"></script>
