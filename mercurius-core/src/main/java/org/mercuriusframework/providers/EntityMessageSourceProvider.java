@@ -39,10 +39,10 @@ public class EntityMessageSourceProvider implements ApplicationContextAware {
             if (entityMessage != null) {
                 return entityMessage;
             } else {
-                return "[" + MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName + entityProperty + "]";
+                return "[" + MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName + MercuriusConstants.LOCALIZATION.ENTITY_PROPERTY_SUFFIX + entityProperty + "]";
             }
         } catch (NoSuchMessageException e) {
-            return "[" + MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName + entityProperty + "]";
+            return "[" + MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName + MercuriusConstants.LOCALIZATION.ENTITY_PROPERTY_SUFFIX  + entityProperty + "]";
         }
     }
 
@@ -60,10 +60,10 @@ public class EntityMessageSourceProvider implements ApplicationContextAware {
             if (entityMessage != null) {
                 return entityMessage;
             } else {
-                return "[" + MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName + entityProperty + "]";
+                return "[" + MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName + MercuriusConstants.LOCALIZATION.ENTITY_PROPERTY_SUFFIX  + entityProperty + "]";
             }
         } catch (NoSuchMessageException e) {
-            return "[" + MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName + entityProperty + "]";
+            return "[" + MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + entityName + MercuriusConstants.LOCALIZATION.ENTITY_PROPERTY_SUFFIX  + entityProperty + "]";
         }
     }
 
@@ -85,7 +85,8 @@ public class EntityMessageSourceProvider implements ApplicationContextAware {
                 String currentEntityName = entityReflectionService.getEntityNameByClass(subClass);
                 currentEntityName = currentEntityName != null ? currentEntityName : subClass.getSimpleName();
                 /** Load message */
-                String message = messageSource.getMessage(MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + currentEntityName + entityProperty,
+                String message = messageSource.getMessage(MercuriusConstants.LOCALIZATION.ENTITY_PREFIX +
+                                currentEntityName + MercuriusConstants.LOCALIZATION.ENTITY_PROPERTY_SUFFIX +  entityProperty,
                         new Object[]{}, LocaleContextHolder.getLocale());
                 if (message != null) {
                     return message;
@@ -118,7 +119,8 @@ public class EntityMessageSourceProvider implements ApplicationContextAware {
                 String currentEntityName = entityReflectionService.getEntityNameByClass(subClass);
                 currentEntityName = currentEntityName != null ? currentEntityName : subClass.getSimpleName();
                 /** Load message */
-                String message = messageSource.getMessage(MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + currentEntityName + entityProperty,
+                String message = messageSource.getMessage(MercuriusConstants.LOCALIZATION.ENTITY_PREFIX + currentEntityName +
+                                MercuriusConstants.LOCALIZATION.ENTITY_PROPERTY_SUFFIX + entityProperty,
                         new Object[]{}, locale);
                 if (message != null) {
                     return message;
