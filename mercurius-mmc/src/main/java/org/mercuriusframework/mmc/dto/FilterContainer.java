@@ -34,6 +34,11 @@ public class FilterContainer {
     private CriteriaValueType[] criteriaTypes;
 
     /**
+     * Json criteria types
+     */
+    private String jsonCriteriaTypes;
+
+    /**
      * Constructor
      * @param property entity property
      * @param includeOnStart Include on start
@@ -41,7 +46,6 @@ public class FilterContainer {
     public FilterContainer(String property, Boolean includeOnStart) {
         this.property = property;
         this.includeOnStart = includeOnStart;
-        this.criteriaTypes = criteriaTypes;
     }
 
     /**
@@ -122,5 +126,21 @@ public class FilterContainer {
      */
     public void setFieldType(FieldType fieldType) {
         this.fieldType = fieldType;
+    }
+
+    /**
+     * Get json criteria types
+     * @return Json criteria types
+     */
+    public String getJsonCriteriaTypes() {
+        return jsonCriteriaTypes;
+    }
+
+    /**
+     * Set json criteria types
+     * @param jsonCriteriaTypes Json criteria types
+     */
+    public void setJsonCriteriaTypes(String jsonCriteriaTypes) {
+        this.jsonCriteriaTypes = jsonCriteriaTypes;
     }
 }

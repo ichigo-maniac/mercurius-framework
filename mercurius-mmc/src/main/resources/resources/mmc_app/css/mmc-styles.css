@@ -229,3 +229,7 @@ _:-ms-input-placeholder, :root .mmc-graph {
     opacity: 1;
     cursor: pointer;
 }
+
+.bootstrap-select {
+    margin-bottom: 5px;
+}

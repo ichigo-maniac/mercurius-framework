@@ -1,5 +1,7 @@
 package org.mercuriusframework.mmc.services.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.mercuriusframework.enums.CriteriaValueType;
 import org.mercuriusframework.mmc.dto.FilterContainer;
 import org.mercuriusframework.mmc.enums.FieldType;
@@ -20,6 +22,11 @@ import java.util.List;
  */
 @Service("mmcFilterService")
 public class MMCFilterServiceImpl implements MMCFilterService {
+
+    /**
+     * Object mapper
+     */
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Criteria types constants
@@ -85,6 +92,14 @@ public class MMCFilterServiceImpl implements MMCFilterService {
         if (Boolean.class.isAssignableFrom(type)) {
             filterContainer.setCriteriaTypes(BOOLEAN_TYPES);
             filterContainer.setFieldType(FieldType.BOOLEAN);
+        }
+        /** Create json for criteria types */
+        if (filterContainer.getCriteriaTypes() != null) {
+            ArrayNode arrayNode = objectMapper.createArrayNode();
+            for (CriteriaValueType criteriaValueType : filterContainer.getCriteriaTypes()) {
+                arrayNode.add(criteriaValueType.getValue());
+            }
+            filterContainer.setJsonCriteriaTypes(arrayNode.toString());
         }
     }
 }
