@@ -11,9 +11,10 @@ import org.mercuriusframework.mmc.enums.LoadWidgetResultStatus;
 import org.mercuriusframework.mmc.enums.WidgetType;
 import org.mercuriusframework.facades.UserFacade;
 import org.mercuriusframework.mmc.services.MMCApplicationService;
+import org.mercuriusframework.mmc.services.MMCFilterService;
 import org.mercuriusframework.mmc.widgets.listview.ListViewWidget;
 import org.mercuriusframework.providers.MessageSourceProvider;
-import org.mercuriusframework.services.AnnotationService;
+import org.mercuriusframework.services.EntityReflectionService;
 import org.mercuriusframework.services.ConfigurationService;
 import org.mercuriusframework.services.EntityService;
 import org.mercuriusframework.services.query.PageableResult;
@@ -63,11 +64,11 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
     private EntityService entityService;
 
     /**
-     * Annotation service
+     * Entity reflection service
      */
     @Autowired
-    @Qualifier("annotationService")
-    private AnnotationService annotationService;
+    @Qualifier("entityReflectionService")
+    private EntityReflectionService annotationService;
 
     /**
      * Configuration service
@@ -75,6 +76,13 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
     @Autowired
     @Qualifier("configurationService")
     private ConfigurationService configurationService;
+
+    /**
+     * MMC filter service
+     */
+    @Autowired
+    @Qualifier("mmcFilterService")
+    private MMCFilterService mmcFilterService;
 
     /**
      * Load widget
@@ -136,6 +144,9 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
         request.setAttribute("entityName", entityName);
         request.setAttribute("listView", listViewWidget);
         request.setAttribute("dataResult", dataResult);
+        if (listViewWidget.getFiltersView() != null) {
+            request.setAttribute("filters", mmcFilterService.buildFilters(entityName, listViewWidget.getFiltersView().getFilters()));
+        }
         requestDispatcher.forward(request, customResponse);
         return customResponse.getOutput();
     }
