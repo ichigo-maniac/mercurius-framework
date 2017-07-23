@@ -233,3 +233,8 @@ _:-ms-input-placeholder, :root .mmc-graph {
 .bootstrap-select {
     margin-bottom: 5px;
 }
+
+.filter-radio-span {
+    margin-left: 7px;
+    margin-right: 7px;
+}

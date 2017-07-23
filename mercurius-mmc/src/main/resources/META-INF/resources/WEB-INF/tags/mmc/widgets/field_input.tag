@@ -14,8 +14,8 @@
 <%-- Boolean --%>
 <c:if test="${fieldType == 'BOOLEAN'}">
     <div style="margin-bottom: 16px;">
-        <input name="${fieldName}_field_0" type="radio" value="true" checked><span>True</span>
-        <input name="${fieldName}_field_0" type="radio" value="false"><span>False</span>
-        <input name="${fieldName}_field_0" type="radio" value="null"><span>N/A</span>
+        <input name="${fieldName}_field_0" type="radio" value="true"><span class="filter-radio-span">True</span>
+        <input name="${fieldName}_field_0" type="radio" value="false"><span class="filter-radio-span">False</span>
+        <input name="${fieldName}_field_0" type="radio" value="na"><span class="filter-radio-span">N/A</span>
     </div>
 </c:if>

@@ -11,6 +11,11 @@
     </list-view>
 
     <list-view entity-name="Product" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="shortName" include-on-start="true"/>
+            <filter property="name"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -81,6 +86,10 @@
     </list-view>
 
     <list-view entity-name="Stock" priority="0">
+        <filters>
+            <filter property="count" include-on-start="true"/>
+            <filter property="enabled" include-on-start="true"/>
+        </filters>
         <fetch-properties>
             <entity-property name="product"/>
             <entity-property name="unit"/>

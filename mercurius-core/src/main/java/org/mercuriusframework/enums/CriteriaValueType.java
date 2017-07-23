@@ -10,6 +10,8 @@ public enum CriteriaValueType {
     /**
      * Values
      */
+    START_WITH("START_WITH"),
+    END_WITH("END_WITH"),
     EQUAL("EQUAL"),
     NOT_EQUAL("NOT_EQUAL"),
     IN("IN");

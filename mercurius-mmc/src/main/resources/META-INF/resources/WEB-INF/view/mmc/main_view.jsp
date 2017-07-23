@@ -68,14 +68,6 @@
         });
     }
 
-    function loadListView(entityName, currentPage) {
-        $.get("/mmc/widget/list-view/" + entityName, {
-            page : currentPage
-        }, widgetLoadResponse).fail(function() {
-            location.reload();
-        });
-    }
-
     function widgetLoadResponse(data) {
         if (data != null) {
             if (data.status == 'ERROR') {

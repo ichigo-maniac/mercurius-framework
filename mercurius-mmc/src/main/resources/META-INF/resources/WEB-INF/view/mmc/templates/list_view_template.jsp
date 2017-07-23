@@ -18,6 +18,7 @@
             <div>
                 <c:forEach var="filter" items="${filters}">
                     <%-- Hidden values --%>
+                    <input type="hidden" class="hidden_filter_type" value='${filter.property}'>
                     <input id="filter_field_type_${filter.property}" type="hidden" value='${filter.fieldType}'>
                     <input id="filter_criteria_types_${filter.property}" type="hidden" value='${filter.jsonCriteriaTypes}'>
                     <input id="filter_label_${filter.property}" type="hidden" value="<c:out value="${filter.label}"/>">
@@ -75,6 +76,9 @@
                         <button id="add_filter_button" class="btn btn-success">
                             <spring:message code="mmc.filter.view.add.filter.button"/>
                         </button>
+                        <button id="search_filter_button" class="btn btn-primary" style="width: 140px;">
+                            <spring:message code="mmc.filter.view.search.button"/>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -131,6 +135,96 @@
         $(".selectpicker").selectpicker({});
         $(".number_field").numberMask({type:'float', beforePoint:10, afterPoint:6, decimalMark:'.'});
     });
+
+    /**
+     * Load list view
+     * @param entityName Entity name
+     * @param currentPage Current page
+     */
+    function loadListView(entityName, currentPage) {
+        $.get("/mmc/widget/list-view/" + entityName, {
+            page : currentPage
+        }, listViewLoadResponse).fail(function() {
+            location.reload();
+        });
+    }
+
+    /**
+     * List view load response
+     */
+    function listViewLoadResponse(data) {
+        if (data != null) {
+            if (data.status == 'ERROR') {
+                $("#alert_dialog_title").text("Error");
+                $("#alert_dialog_error_message").html(data.errorMessage);
+                $("#alert_dialog").modal("show");
+                return;
+            }
+            if (data.status == "NOT_FOUND") {
+                $("#alert_dialog_title").text("Warning");
+                $("#alert_dialog_error_message").html(data.errorMessage);
+                $("#alert_dialog").modal("show");
+                return;
+            } else {
+                $("#main_panel_container").empty();
+                $("#main_panel_container").html(data.renderedWidget);
+                return;
+            }
+        } else {
+            location.reload();
+        }
+    }
+
+    /**
+     * Search button listener
+     */
+    $("#search_filter_button").click(function() {
+        /** Build criteria parameters */
+        var selectedCriteriaValues = [];
+        var allFilters = $(".hidden_filter_type").each(function(){
+            var currentFilter = $(this).val();
+            if ($("#filter_current_number_" + currentFilter)[0] != null) {
+                var fieldType = $("#filter_field_type_" + currentFilter).val();
+                var currentNumber = parseInt($("#filter_current_number_" + currentFilter).val());
+                for (var i = 0; i <= currentNumber; i++) {
+                    var criteriaType = $("[name='" + currentFilter + "_criteriaSelector_" + i + "']").val();
+                    var criteriaValue = getFilterValue(currentFilter, fieldType, i);
+                    if (criteriaType != null && criteriaValue!= null && (criteriaValue.trim().length > 0)) {
+                        selectedCriteriaValues.push({
+                            property : currentFilter,
+                            criteria : criteriaType,
+                            value : criteriaValue
+                        });
+                    }
+                }
+
+            }
+        });
+        /** Get data */
+        if (selectedCriteriaValues.length > 0) {
+            alert(selectedCriteriaValues);
+        }
+    });
+
+    /**
+     * Get filter value
+     * @param filterName Filter property name
+     * @param filterType Filter type
+     * @param Number filter number
+     * @return Filter value or null
+     */
+    function getFilterValue(filterName, filterType, number) {
+        if (filterType == "STRING") {
+            return $("[name='" + filterName + "_field_" + number + "']").val();
+        }
+        if (filterType == "NUMBER") {
+            return $("[name='" + filterName + "_field_" + number + "']").val();
+        }
+        if (filterType == "BOOLEAN") {
+            return $("[name='" + filterName + "_field_" + number + "']:checked").val();
+        }
+        return null;
+    }
 
     /**
      * Add filter button listener
@@ -231,18 +325,18 @@
         }
         if (fieldType == "BOOLEAN") {
             var container = $("<div style='margin-bottom: 16px;'></div>");
-            var trueField = $("<input type='radio' value='true' checked>");
+            var trueField = $("<input type='radio' value='true'>");
             trueField.attr("name", fieldProperty + "_field_" + number);
             container.append(trueField);
-            container.append($("<span>True</span>"));
+            container.append($("<span class='filter-radio-span'>True</span>"));
             var falseField = $("<input name='temp' type='radio' value='false'>");
             falseField.attr("name", fieldProperty + "_field_" + number);
             container.append(falseField);
-            container.append($("<span>False</span>"));
-            var naField = $("<input name='temp' type='radio' value='null'>");
+            container.append($("<span class='filter-radio-span'>False</span>"));
+            var naField = $("<input name='temp' type='radio' value='na'>");
             naField.attr("name", fieldProperty + "_field_" + number);
             container.append(naField);
-            container.append($("<span>N/A</span>"));
+            container.append($("<span class='filter-radio-span'>N/A</span>"));
             return container;
         }
         return null;
