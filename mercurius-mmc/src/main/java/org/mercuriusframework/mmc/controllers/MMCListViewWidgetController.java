@@ -1,10 +1,14 @@
 package org.mercuriusframework.mmc.controllers;
 
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.mercuriusframework.enums.CriteriaValueType;
 import org.mercuriusframework.mmc.constants.MercuriusMMCConfigurationParameters;
 import org.mercuriusframework.mmc.constants.MercuriusMMCConstants;
 import org.mercuriusframework.mmc.constants.MercuriusMMCWidgetsConstants;
 import org.mercuriusframework.mmc.controllers.response.CharArrayWriterResponse;
+import org.mercuriusframework.mmc.dto.FilterValueContainer;
 import org.mercuriusframework.mmc.dto.LoadWidgetResult;
 import org.mercuriusframework.entities.ProductEntity;
 import org.mercuriusframework.mmc.enums.LoadWidgetResultStatus;
@@ -28,6 +32,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Mercurius manager console list view widget controller (mercurius-mmc)
@@ -94,7 +101,10 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
      */
     @RequestMapping(method = RequestMethod.GET, value = MercuriusMMCWidgetsConstants.ListView.WIDGET_NAME + "/{entityName}")
     @ResponseBody
-    public LoadWidgetResult loadWidget(@PathVariable String entityName, @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+    public LoadWidgetResult loadWidget(@PathVariable String entityName,
+                                       @RequestParam(name = "renderFilter", defaultValue = "true") Boolean renderFilter,
+                                       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                       @RequestParam(name = "filterValuesJsonArray", required = false) String filterValues,
                                        HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!userFacade.isCurrentUserEmployee()) {
             return new LoadWidgetResult(LoadWidgetResultStatus.ERROR,
@@ -116,7 +126,7 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
         Integer pageSize = configurationService.getIntParameter(MercuriusMMCConfigurationParameters.LIST_VIEW_PAGE_SIZE, PAGE_SIZE);
         PageableResult<ProductEntity> loadedData = entityService.getPageableResultByCriteria(page, pageSize, listViewWidget.getFetchFields(), entityClass);
         /** Transform widget */
-        String rendererResult = renderListViewFragment(request, response, entityName, listViewWidget, loadedData);
+        String rendererResult = renderListViewFragment(request, response, renderFilter, entityName, listViewWidget, loadedData);
         if (StringUtils.isEmpty(rendererResult)) {
             return new LoadWidgetResult(LoadWidgetResultStatus.ERROR,
                     MessageSourceProvider.getMessage(WIDGET_RENDER_ERROR_MESSAGE));
@@ -125,11 +135,36 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
         }
     }
 
+    /**
+     * Parse filter values
+     * @param filterValues Filter values (json)
+     * @return Filter values (list of containers)
+     */
+    private List parseFilterValues(String filterValues) {
+        if (StringUtils.isEmpty(filterValues)) {
+            return Collections.emptyList();
+        } else {
+            List result = new ArrayList<>();
+            JSONArray jsonArray = new JSONArray(filterValues);
+            for (Object object : jsonArray) {
+                JSONObject jsonObject = (JSONObject) object;
+                FilterValueContainer filterValueContainer = new FilterValueContainer();
+                filterValueContainer.setProperty(jsonObject.getString("property"));
+                filterValueContainer.setCriteriaValueType(CriteriaValueType.valueFromString(jsonObject.getString("criteria")));
+                if (filterValueContainer.isValid()) {
+                    result.add(filterValueContainer);
+                }
+            }
+            return result;
+        }
+    }
+
 
     /**
      * Render list view widget
      * @param request Http-request
      * @param response Http-response
+     * @param renderFilter Render filter
      * @param entityName Entity name
      * @param listViewWidget List view widget
      * @param dataResult Loaded data
@@ -137,14 +172,14 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
      * @throws ServletException
      * @throws IOException
      */
-    private String renderListViewFragment(HttpServletRequest request, HttpServletResponse response,
+    private String renderListViewFragment(HttpServletRequest request, HttpServletResponse response, Boolean renderFilter,
                                           String entityName, ListViewWidget listViewWidget, PageableResult dataResult) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_VIEW_TEMPLATE);
         CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
         request.setAttribute("entityName", entityName);
         request.setAttribute("listView", listViewWidget);
         request.setAttribute("dataResult", dataResult);
-        if (listViewWidget.getFiltersView() != null) {
+        if (listViewWidget.getFiltersView() != null && renderFilter) {
             request.setAttribute("filters", mmcFilterService.buildFilters(entityName, listViewWidget.getFiltersView().getFilters()));
         }
         requestDispatcher.forward(request, customResponse);

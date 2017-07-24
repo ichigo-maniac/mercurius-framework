@@ -433,7 +433,7 @@ public class DataImportServiceImpl implements DataImportService {
             if (commonImportColumn.isIncludeInSearch()) {
                 criteriaValues.add(new CriteriaComponent(commonImportColumn.getProperty(),
                         new CriteriaValueComponent(commonImportColumn.getValueImportBeanName(),
-                                commonImportColumn.getRawValue(), CriteriaValueType.EQUAL.getValue()))
+                                commonImportColumn.getRawValue(), CriteriaValueType.EQUALS.getValue()))
                 );
             }
         }
@@ -441,7 +441,7 @@ public class DataImportServiceImpl implements DataImportService {
             if (importColumn.isIncludeInSearch()) {
                 criteriaValues.add(new CriteriaComponent(importColumn.getProperty(),
                         new CriteriaValueComponent(importColumn.getValueImportBeanName(),
-                                importColumn.getRawValue(), CriteriaValueType.EQUAL.getValue()))
+                                importColumn.getRawValue(), CriteriaValueType.EQUALS.getValue()))
                 );
             }
         }
@@ -464,7 +464,7 @@ public class DataImportServiceImpl implements DataImportService {
             if (commonImportColumn.isIncludeInSearch()) {
                 criteriaValues.add(new CriteriaComponent(commonImportColumn.getProperty(),
                         new CriteriaValueComponent(commonImportColumn.getValueImportBeanName(),
-                                commonImportColumn.getRawValue(), CriteriaValueType.EQUAL.getValue()))
+                                commonImportColumn.getRawValue(), CriteriaValueType.EQUALS.getValue()))
                 );
             }
         }
@@ -472,7 +472,7 @@ public class DataImportServiceImpl implements DataImportService {
             if (importColumn.isIncludeInSearch()) {
                 criteriaValues.add(new CriteriaComponent(importColumn.getProperty(),
                         new CriteriaValueComponent(importColumn.getValueImportBeanName(),
-                                importColumn.getRawValue(), CriteriaValueType.EQUAL.getValue()))
+                                importColumn.getRawValue(), CriteriaValueType.EQUALS.getValue()))
                 );
             }
         }

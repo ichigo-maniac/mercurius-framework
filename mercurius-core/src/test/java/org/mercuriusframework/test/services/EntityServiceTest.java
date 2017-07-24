@@ -152,7 +152,7 @@ public class EntityServiceTest extends AbstractTest {
     public void getListResultByCriteriaTest() {
         CategoryEntity mainCategory = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch("main_category", "master_catalog", CategoryEntity.class);
         List<CategoryEntity> categories = entityService.getListResultByCriteria(CategoryEntity.class, new String[]{CategoryEntity.MAIN_SUPER_CATEGORY},
-                new CriteriaParameter(CategoryEntity.MAIN_SUPER_CATEGORY, new CriteriaValue(CriteriaValueType.EQUAL, mainCategory)));
+                new CriteriaParameter(CategoryEntity.MAIN_SUPER_CATEGORY, new CriteriaValue(CriteriaValueType.EQUALS, mainCategory)));
         assertUuidListsEquals(CATEGORIES_UUIDS_LIST, getUuids(categories));
     }
 
@@ -163,7 +163,7 @@ public class EntityServiceTest extends AbstractTest {
     public void getCountByCriteriaTest() {
         CategoryEntity mainCategory = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch("main_category", "master_catalog", CategoryEntity.class);
         Long count = entityService.getCountByCriteria(CategoryEntity.class,
-                new CriteriaParameter(CategoryEntity.MAIN_SUPER_CATEGORY, new CriteriaValue(CriteriaValueType.EQUAL, mainCategory)));
+                new CriteriaParameter(CategoryEntity.MAIN_SUPER_CATEGORY, new CriteriaValue(CriteriaValueType.EQUALS, mainCategory)));
         assertEquals(CATEGORIES_UUIDS_LIST.size(), count.intValue());
     }
 
@@ -174,7 +174,7 @@ public class EntityServiceTest extends AbstractTest {
     public void getPageableResultByCriteriaTest() {
         CategoryEntity mainCategory = catalogUniqueCodeEntityService.getEntityByCodeAndCatalogCodeWithFetch("main_category", "master_catalog", CategoryEntity.class);
         PageableResult<CategoryEntity> pageableResult = entityService.getPageableResultByCriteria(0, 20, new String[]{CategoryEntity.PRODUCTS},
-                CategoryEntity.class, new CriteriaParameter(CategoryEntity.MAIN_SUPER_CATEGORY, new CriteriaValue(CriteriaValueType.EQUAL, mainCategory)));
+                CategoryEntity.class, new CriteriaParameter(CategoryEntity.MAIN_SUPER_CATEGORY, new CriteriaValue(CriteriaValueType.EQUALS, mainCategory)));
         assertEquals(pageableResult.getPagesCount(), new Integer(1));
         assertEquals(pageableResult.getTotalEntriesCount(), new Integer(2));
         assertUuidListsEquals(CATEGORIES_UUIDS_LIST, getUuids(pageableResult.getEntries()));
@@ -189,7 +189,7 @@ public class EntityServiceTest extends AbstractTest {
         PageableResult<CategoryEntityDto> pageableResult = entityService.getPageableResultByCriteria(
                 categoryEntityConverter, new LoadOptions[]{},
                 0, 20, new String[]{CategoryEntity.PRODUCTS},
-                CategoryEntity.class, new CriteriaParameter(CategoryEntity.MAIN_SUPER_CATEGORY, new CriteriaValue(CriteriaValueType.EQUAL, mainCategory)));
+                CategoryEntity.class, new CriteriaParameter(CategoryEntity.MAIN_SUPER_CATEGORY, new CriteriaValue(CriteriaValueType.EQUALS, mainCategory)));
         assertEquals(pageableResult.getPagesCount(), new Integer(1));
         assertEquals(pageableResult.getTotalEntriesCount(), new Integer(2));
         assertUuidListsEquals(CATEGORIES_UUIDS_LIST, getUuidsFromDtos(pageableResult.getEntries()));

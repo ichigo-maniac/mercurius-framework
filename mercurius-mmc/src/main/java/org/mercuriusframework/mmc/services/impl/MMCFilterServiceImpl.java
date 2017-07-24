@@ -32,15 +32,16 @@ public class MMCFilterServiceImpl implements MMCFilterService {
      * Criteria types constants
      */
     private static final CriteriaValueType[] NUMBER_TYPES = {
-            CriteriaValueType.EQUAL, CriteriaValueType.NOT_EQUAL
+            CriteriaValueType.EQUALS, CriteriaValueType.NOT_EQUALS, CriteriaValueType.MORE, CriteriaValueType.MORE_OR_EQUALS,
+            CriteriaValueType.LESS, CriteriaValueType.LESS_OR_EQUALS
     };
 
     private static final CriteriaValueType[] STRING_TYPES = {
-            CriteriaValueType.EQUAL, CriteriaValueType.NOT_EQUAL, CriteriaValueType.START_WITH, CriteriaValueType.END_WITH
+            CriteriaValueType.EQUALS, CriteriaValueType.NOT_EQUALS, CriteriaValueType.START_WITH, CriteriaValueType.END_WITH, CriteriaValueType.CONTAINS
     };
 
     private static final CriteriaValueType[] BOOLEAN_TYPES = {
-            CriteriaValueType.EQUAL
+            CriteriaValueType.EQUALS
     };
 
     /**

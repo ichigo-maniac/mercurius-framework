@@ -435,10 +435,10 @@ public class EntityServiceImpl implements EntityService {
                 for (CriteriaValue criteriaValue : criteriaParameter.getValues()) {
                     /** Create current value expression */
                     Expression currentValueExpression = null;
-                    if (criteriaValue.getType() == CriteriaValueType.EQUAL) {
+                    if (criteriaValue.getType() == CriteriaValueType.EQUALS) {
                         currentValueExpression = builder.equal(root.get(criteriaParameter.getProperty()), criteriaValue.getValue());
                     }
-                    if (criteriaValue.getType() == CriteriaValueType.NOT_EQUAL) {
+                    if (criteriaValue.getType() == CriteriaValueType.NOT_EQUALS) {
                         currentValueExpression = builder.notEqual(root.get(criteriaParameter.getProperty()), criteriaValue.getValue());
                     }
                     if (criteriaValue.getType() == CriteriaValueType.IN) {

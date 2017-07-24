@@ -86,44 +86,46 @@
     </div>
 </c:if>
 <%-- List view --%>
-<div class="panel panel-info" style="width: 100%;">
-    <%-- Header --%>
-    <div class="panel-heading">
-        <b style="font-size: 110%;"><c:out value="${entityName}"/></b>
-        <jsp:include page="/WEB-INF/view/mmc/templates/list_view_pagination.jsp"/>
-    </div>
-    <%-- Table view --%>
-    <div class="panel-body" style="padding: 0px;">
-        <table class="table table-hover table-bordered" style="margin-bottom: 0px">
-            <%-- Header --%>
-            <thead>
-            <tr>
-                <c:forEach var="currentColumn" items="${listView.tableView.columns}">
-                    <th style="font-size: 85%;"><c:out value="${currentColumn.title}"/></th>
-                </c:forEach>
-            </tr>
-            </thead>
-            <%-- Result --%>
-            <tbody>
-            <c:forEach var="item" items="${dataResult.entries}">
+<div id="main_list_view_container" style="width: 100%">
+    <div class="panel panel-info" style="width: 100%;">
+        <%-- Header --%>
+        <div class="panel-heading">
+            <b style="font-size: 110%;"><c:out value="${entityName}"/></b>
+            <jsp:include page="/WEB-INF/view/mmc/templates/list_view_pagination.jsp"/>
+        </div>
+        <%-- Table view --%>
+        <div class="panel-body" style="padding: 0px;">
+            <table class="table table-hover table-bordered" style="margin-bottom: 0px">
+                <%-- Header --%>
+                <thead>
                 <tr>
                     <c:forEach var="currentColumn" items="${listView.tableView.columns}">
-                        <td>
-                            <c:choose>
-                                <c:when test="${currentColumn.rendererBean != null}">
-                                    <mmc-tags:table-view-column-renderer parentObject="${item}" propertyObject="${item[currentColumn.property]}"
-                                                                         columnRenderer="${currentColumn.rendererBean}"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:out value="${item[currentColumn.property]}"/>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
+                        <th style="font-size: 85%;"><c:out value="${currentColumn.title}"/></th>
                     </c:forEach>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <%-- Result --%>
+                <tbody>
+                <c:forEach var="item" items="${dataResult.entries}">
+                    <tr>
+                        <c:forEach var="currentColumn" items="${listView.tableView.columns}">
+                            <td>
+                                <c:choose>
+                                    <c:when test="${currentColumn.rendererBean != null}">
+                                        <mmc-tags:table-view-column-renderer parentObject="${item}" propertyObject="${item[currentColumn.property]}"
+                                                                             columnRenderer="${currentColumn.rendererBean}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="${item[currentColumn.property]}"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </c:forEach>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
@@ -141,9 +143,11 @@
      * @param entityName Entity name
      * @param currentPage Current page
      */
-    function loadListView(entityName, currentPage) {
+    function loadListView(entityName, currentPage, filterValues) {
         $.get("/mmc/widget/list-view/" + entityName, {
-            page : currentPage
+            page : currentPage,
+            renderFilter : false,
+            filterValuesJsonArray : filterValues
         }, listViewLoadResponse).fail(function() {
             location.reload();
         });
@@ -166,8 +170,8 @@
                 $("#alert_dialog").modal("show");
                 return;
             } else {
-                $("#main_panel_container").empty();
-                $("#main_panel_container").html(data.renderedWidget);
+                $("#main_list_view_container").remove();
+                $("#main_panel_container").append($($.parseHTML(data.renderedWidget)));
                 return;
             }
         } else {
@@ -202,7 +206,7 @@
         });
         /** Get data */
         if (selectedCriteriaValues.length > 0) {
-            alert(selectedCriteriaValues);
+            loadListView('${entityName}', 0, JSON.stringify(selectedCriteriaValues));
         }
     });
 

@@ -12,9 +12,15 @@ public enum CriteriaValueType {
      */
     START_WITH("START_WITH"),
     END_WITH("END_WITH"),
-    EQUAL("EQUAL"),
-    NOT_EQUAL("NOT_EQUAL"),
-    IN("IN");
+    EQUALS("EQUALS"),
+    NOT_EQUALS("NOT_EQUALS"),
+    IN("IN"),
+    MORE("MORE"),
+    MORE_OR_EQUALS("MORE_OR_EQUALS"),
+    LESS("LESS"),
+    LESS_OR_EQUALS("LESS_OR_EQUALS"),
+    CONTAINS("CONTAINS");
+
     /**
      * Enum value
      */
