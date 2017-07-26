@@ -3,6 +3,10 @@
 <config xmlns="http://mercurius-framework.org/mmc-config">
 
     <list-view entity-name="Catalog" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -25,6 +29,10 @@
     </list-view>
 
     <list-view entity-name="Category" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -34,6 +42,10 @@
     </list-view>
 
     <list-view entity-name="Unit" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -42,6 +54,11 @@
     </list-view>
 
     <list-view entity-name="Feature" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+            <filter property="includeInIndex"/>
+        </filters>
         <table-view>
             <column property="code"/>
             <column property="name"/>
@@ -64,6 +81,11 @@
     </list-view>
 
     <list-view entity-name="Store" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+            <filter property="enabled"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -73,6 +95,11 @@
     </list-view>
 
     <list-view entity-name="Warehouse" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+            <filter property="enabled"/>
+        </filters>
         <fetch-properties>
             <entity-property name="store"/>
         </fetch-properties>
@@ -88,7 +115,7 @@
     <list-view entity-name="Stock" priority="0">
         <filters>
             <filter property="count" include-on-start="true"/>
-            <filter property="enabled" include-on-start="true"/>
+            <filter property="enabled"/>
         </filters>
         <fetch-properties>
             <entity-property name="product"/>
@@ -104,6 +131,9 @@
     </list-view>
 
     <list-view entity-name="Price" priority="0">
+        <filters>
+            <filter property="priceValue" include-on-start="true"/>
+        </filters>
         <fetch-properties>
             <entity-property name="product"/>
             <entity-property name="unit"/>
@@ -118,6 +148,10 @@
     </list-view>
 
     <list-view entity-name="Employee" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -127,6 +161,10 @@
     </list-view>
 
     <list-view entity-name="Customer" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+        </filters>
         <table-view>
             <column property="code"/>
             <column property="name"/>
@@ -138,6 +176,10 @@
     </list-view>
 
     <list-view entity-name="Role" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -146,6 +188,11 @@
     </list-view>
 
     <list-view entity-name="Task" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+            <filter property="enabled" include-on-start="true"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -156,6 +203,10 @@
     </list-view>
 
     <list-view entity-name="SolrIndexTask" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="enabled" include-on-start="true"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -166,6 +217,12 @@
     </list-view>
 
     <list-view entity-name="SolrIndexTaskProperty" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+            <filter property="solrCollectionName"/>
+            <filter property="indexEntityName"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -176,6 +233,12 @@
     </list-view>
 
     <list-view entity-name="SolrSearchResolver" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+            <filter property="solrCollectionName"/>
+            <filter property="indexEntityName"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -186,6 +249,13 @@
     </list-view>
 
     <list-view entity-name="SolrIndexField" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="solrDocumentFieldName" include-on-start="true"/>
+            <filter property="entityFieldName" include-on-start="true"/>
+            <filter property="solrFieldConverterBeanName"/>
+            <filter property="caseInsensitive"/>
+        </filters>
         <table-view>
             <column property="code"/>
             <column property="solrDocumentFieldName"/>
@@ -196,6 +266,10 @@
     </list-view>
 
     <list-view entity-name="DictionaryType" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -204,6 +278,10 @@
     </list-view>
 
     <list-view entity-name="DictionaryItem" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+        </filters>
         <table-view>
             <column property="uuid"/>
             <column property="code"/>
@@ -213,6 +291,11 @@
     </list-view>
 
     <list-view entity-name="Facet" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+            <filter property="forAllCategories"/>
+        </filters>
         <table-view>
             <column property="code"/>
             <column property="name"/>

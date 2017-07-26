@@ -446,6 +446,27 @@ public class EntityServiceImpl implements EntityService {
                             currentValueExpression = root.get(criteriaParameter.getProperty()).in(criteriaValue.getValue());
                         }
                     }
+                    if (criteriaValue.getType() == CriteriaValueType.START_WITH) {
+                        currentValueExpression = builder.like(root.get(criteriaParameter.getProperty()), criteriaValue.getValue() + "%");
+                    }
+                    if (criteriaValue.getType() == CriteriaValueType.END_WITH) {
+                        currentValueExpression = builder.like(root.get(criteriaParameter.getProperty()), "%" + criteriaValue.getValue());
+                    }
+                    if (criteriaValue.getType() == CriteriaValueType.CONTAINS) {
+                        currentValueExpression = builder.like(root.get(criteriaParameter.getProperty()), "%" + criteriaValue.getValue() + "%");
+                    }
+                    if (criteriaValue.getType() == CriteriaValueType.MORE) {
+                        currentValueExpression = builder.gt(root.get(criteriaParameter.getProperty()), (Number) criteriaValue.getValue());
+                    }
+                    if (criteriaValue.getType() == CriteriaValueType.MORE_OR_EQUALS) {
+                        currentValueExpression = builder.ge(root.get(criteriaParameter.getProperty()), (Number) criteriaValue.getValue());
+                    }
+                    if (criteriaValue.getType() == CriteriaValueType.LESS) {
+                        currentValueExpression = builder.lt(root.get(criteriaParameter.getProperty()), (Number) criteriaValue.getValue());
+                    }
+                    if (criteriaValue.getType() == CriteriaValueType.LESS_OR_EQUALS) {
+                        currentValueExpression = builder.le(root.get(criteriaParameter.getProperty()), (Number) criteriaValue.getValue());
+                    }
                     /** Add current value expression */
                     if (parameterExpression != null) {
                         parameterExpression = builder.or(parameterExpression, currentValueExpression);

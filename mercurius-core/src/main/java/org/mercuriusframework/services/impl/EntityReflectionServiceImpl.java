@@ -86,7 +86,7 @@ public class EntityReflectionServiceImpl implements EntityReflectionService {
      * Get field
      * @param type      Class
      * @param fieldName Field name
-     * @return Class
+     * @return Field
      */
     @Override
     public Field getField(Class type, String fieldName) throws NoSuchFieldException {
@@ -103,5 +103,21 @@ public class EntityReflectionServiceImpl implements EntityReflectionService {
             }
         }
         throw new NoSuchFieldException(fieldName);
+    }
+
+    /**
+     * Get field class
+     * @param type      Class
+     * @param fieldName Field name
+     * @return Class
+     */
+    @Override
+    public Class getFieldClass(Class type, String fieldName) {
+        try {
+            Field field = getField(type, fieldName);
+            return field.getType();
+        } catch (NoSuchFieldException e) {
+            return null;
+        }
     }
 }

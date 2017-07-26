@@ -19,6 +19,11 @@ public class FilterValueContainer {
     private String property;
 
     /**
+     * Value
+     */
+    private Object value;
+
+    /**
      * Get criteria value type
      * @return Criteria value type
      */
@@ -48,6 +53,22 @@ public class FilterValueContainer {
      */
     public void setProperty(String property) {
         this.property = property;
+    }
+
+    /**
+     * Get value
+     * @return Value
+     */
+    public Object getValue() {
+        return value;
+    }
+
+    /**
+     * Set value
+     * @param value Value
+     */
+    public void setValue(Object value) {
+        this.value = value;
     }
 
     /**

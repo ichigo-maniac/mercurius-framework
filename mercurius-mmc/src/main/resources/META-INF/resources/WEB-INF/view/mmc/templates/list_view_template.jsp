@@ -207,6 +207,8 @@
         /** Get data */
         if (selectedCriteriaValues.length > 0) {
             loadListView('${entityName}', 0, JSON.stringify(selectedCriteriaValues));
+        } else {
+            loadListView('${entityName}', 0, null);
         }
     });
 
@@ -337,10 +339,6 @@
             falseField.attr("name", fieldProperty + "_field_" + number);
             container.append(falseField);
             container.append($("<span class='filter-radio-span'>False</span>"));
-            var naField = $("<input name='temp' type='radio' value='na'>");
-            naField.attr("name", fieldProperty + "_field_" + number);
-            container.append(naField);
-            container.append($("<span class='filter-radio-span'>N/A</span>"));
             return container;
         }
         return null;

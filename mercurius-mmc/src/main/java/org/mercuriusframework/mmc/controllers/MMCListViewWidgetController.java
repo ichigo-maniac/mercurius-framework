@@ -21,6 +21,8 @@ import org.mercuriusframework.providers.MessageSourceProvider;
 import org.mercuriusframework.services.EntityReflectionService;
 import org.mercuriusframework.services.ConfigurationService;
 import org.mercuriusframework.services.EntityService;
+import org.mercuriusframework.services.query.CriteriaParameter;
+import org.mercuriusframework.services.query.CriteriaValue;
 import org.mercuriusframework.services.query.PageableResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,9 +34,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Mercurius manager console list view widget controller (mercurius-mmc)
@@ -75,7 +75,7 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
      */
     @Autowired
     @Qualifier("entityReflectionService")
-    private EntityReflectionService annotationService;
+    private EntityReflectionService entityReflectionService;
 
     /**
      * Configuration service
@@ -117,16 +117,18 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
                             MercuriusMMCWidgetsConstants.ListView.WIDGET_NAME, entityName));
         }
         /** Load data */
-        Class entityClass = annotationService.getEntityClassByEntityName(entityName);
+        Class entityClass = entityReflectionService.getEntityClassByEntityName(entityName);
         if (entityClass == null) {
             return new LoadWidgetResult(LoadWidgetResultStatus.NOT_FOUND,
                     MessageSourceProvider.getMessage(WIDGET_HAS_NOT_BEEN_FOUND_MESSAGE,
                             MercuriusMMCWidgetsConstants.ListView.WIDGET_NAME, entityName));
         }
         Integer pageSize = configurationService.getIntParameter(MercuriusMMCConfigurationParameters.LIST_VIEW_PAGE_SIZE, PAGE_SIZE);
-        PageableResult<ProductEntity> loadedData = entityService.getPageableResultByCriteria(page, pageSize, listViewWidget.getFetchFields(), entityClass);
+        CriteriaParameter[] criteriaParameters = parseFilterValues(entityClass, filterValues);
+        PageableResult<ProductEntity> loadedData = entityService.getPageableResultByCriteria(page, pageSize, listViewWidget.getFetchFields(),
+                entityClass, criteriaParameters);
         /** Transform widget */
-        String rendererResult = renderListViewFragment(request, response, renderFilter, entityName, listViewWidget, loadedData);
+        String rendererResult = renderListViewFragment(request, response, renderFilter, filterValues, entityName, listViewWidget, loadedData);
         if (StringUtils.isEmpty(rendererResult)) {
             return new LoadWidgetResult(LoadWidgetResultStatus.ERROR,
                     MessageSourceProvider.getMessage(WIDGET_RENDER_ERROR_MESSAGE));
@@ -137,26 +139,80 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
 
     /**
      * Parse filter values
+     * @param entityClass Entity class
      * @param filterValues Filter values (json)
      * @return Filter values (list of containers)
      */
-    private List parseFilterValues(String filterValues) {
+    private CriteriaParameter[] parseFilterValues(Class entityClass, String filterValues) {
         if (StringUtils.isEmpty(filterValues)) {
-            return Collections.emptyList();
+            return new CriteriaParameter[0];
         } else {
-            List result = new ArrayList<>();
+            List<FilterValueContainer> filterValuesContainers = new ArrayList<>();
             JSONArray jsonArray = new JSONArray(filterValues);
             for (Object object : jsonArray) {
                 JSONObject jsonObject = (JSONObject) object;
                 FilterValueContainer filterValueContainer = new FilterValueContainer();
                 filterValueContainer.setProperty(jsonObject.getString("property"));
                 filterValueContainer.setCriteriaValueType(CriteriaValueType.valueFromString(jsonObject.getString("criteria")));
+                Class propertyClass = entityReflectionService.getFieldClass(entityClass, filterValueContainer.getProperty());
+                if (propertyClass == null) {
+                    continue;
+                }
+                filterValueContainer.setValue(parseValue(propertyClass, jsonObject.getString("value")));
                 if (filterValueContainer.isValid()) {
-                    result.add(filterValueContainer);
+                    filterValuesContainers.add(filterValueContainer);
                 }
             }
-            return result;
+            /** Create criteria values */
+            Map<String, List<FilterValueContainer>> filterValuesMap = new HashMap<>();
+            filterValuesContainers.stream().forEach(value -> {
+                if (filterValuesMap.containsKey(value.getProperty())) {
+                    filterValuesMap.get(value.getProperty()).add(value);
+                } else {
+                    List<FilterValueContainer> newList = new ArrayList<FilterValueContainer>();
+                    newList.add(value);
+                    filterValuesMap.put(value.getProperty(), newList);
+                }
+            });
+            List<CriteriaParameter> criteriaParameters = new ArrayList<>(filterValuesMap.keySet().size());
+            for (String property : filterValuesMap.keySet()) {
+                List<CriteriaValue> criteriaValues = new ArrayList<>();
+                for (FilterValueContainer filterValueContainer : filterValuesMap.get(property)) {
+                    criteriaValues.add(new CriteriaValue(filterValueContainer.getCriteriaValueType(), filterValueContainer.getValue()));
+                }
+                criteriaParameters.add(new CriteriaParameter(property, criteriaValues.toArray(new CriteriaValue[criteriaValues.size()])));
+
+            }
+            return criteriaParameters.toArray(new CriteriaParameter[criteriaParameters.size()]);
         }
+    }
+
+    /**
+     * Parse value
+     * @param valueType Value class
+     * @param rawValue Raw value
+     * @return Parsed value
+     */
+    private Object parseValue(Class valueType, String rawValue) {
+        if (String.class.equals(valueType)) {
+            return rawValue;
+        }
+        if (Long.class.equals(valueType)) {
+            return Long.valueOf(rawValue);
+        }
+        if (Integer.class.equals(valueType)) {
+            return Integer.valueOf(rawValue);
+        }
+        if (Float.class.equals(valueType)) {
+            return Float.valueOf(rawValue);
+        }
+        if (Double.class.equals(valueType)) {
+            return Double.valueOf(rawValue);
+        }
+        if (Boolean.class.equals(valueType)) {
+            return Boolean.valueOf(rawValue);
+        }
+        return null;
     }
 
 
@@ -165,6 +221,7 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
      * @param request Http-request
      * @param response Http-response
      * @param renderFilter Render filter
+     * @param selectedFilterValues Selected filter values
      * @param entityName Entity name
      * @param listViewWidget List view widget
      * @param dataResult Loaded data
@@ -173,12 +230,14 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
      * @throws IOException
      */
     private String renderListViewFragment(HttpServletRequest request, HttpServletResponse response, Boolean renderFilter,
+                                          String selectedFilterValues,
                                           String entityName, ListViewWidget listViewWidget, PageableResult dataResult) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(LIST_VIEW_TEMPLATE);
         CharArrayWriterResponse customResponse  = new CharArrayWriterResponse(response);
         request.setAttribute("entityName", entityName);
         request.setAttribute("listView", listViewWidget);
         request.setAttribute("dataResult", dataResult);
+        request.setAttribute("selectedFilterValues", selectedFilterValues);
         if (listViewWidget.getFiltersView() != null && renderFilter) {
             request.setAttribute("filters", mmcFilterService.buildFilters(entityName, listViewWidget.getFiltersView().getFilters()));
         }

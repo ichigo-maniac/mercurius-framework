@@ -31,7 +31,15 @@ public interface EntityReflectionService {
      * Get field
      * @param type Class
      * @param fieldName Field name
-     * @return Class
+     * @return Field
      */
     Field getField(Class type, String fieldName) throws NoSuchFieldException;
+
+    /**
+     * Get field class
+     * @param type Class
+     * @param fieldName Field name
+     * @return Class
+     */
+    Class getFieldClass(Class type, String fieldName);
 }

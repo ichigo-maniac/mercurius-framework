@@ -17,7 +17,7 @@
                         <%-- First --%>
                     <c:if test="${dataResult.currentPage != 0}">
                         <li>
-                            <a onclick="loadListView('<c:out value="${entityName}"/>', 0, null)" href="#" aria-label="First">
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', 0, '<c:out value="${selectedFilterValues}"/>')" href="#" aria-label="First">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
@@ -25,7 +25,7 @@
                         <%-- Current page - 2 --%>
                     <c:if test="${dataResult.currentPage - 1 > 0}">
                         <li>
-                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage - 2}, null)"  href="#" aria-label="Current">
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage - 2}, '<c:out value="${selectedFilterValues}"/>')"  href="#" aria-label="Current">
                                 <span>${dataResult.currentPage - 1}</span>
                             </a>
                         </li>
@@ -33,21 +33,21 @@
                         <%-- Current page - 1 --%>
                     <c:if test="${dataResult.currentPage  > 0}">
                         <li>
-                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage - 1}, null)" href="#" aria-label="Current">
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage - 1}, '<c:out value="${selectedFilterValues}"/>')" href="#" aria-label="Current">
                                 <span>${dataResult.currentPage}</span>
                             </a>
                         </li>
                     </c:if>
                         <%-- Current page --%>
                     <li class="active">
-                        <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage}, null)" href="#" aria-label="Current">
+                        <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage}, '<c:out value="${selectedFilterValues}"/>')" href="#" aria-label="Current">
                             <span>${dataResult.currentPage + 1}</span>
                         </a>
                     </li>
                         <%-- Current page + 1 --%>
                     <c:if test="${dataResult.currentPage + 1 < dataResult.pagesCount - 1}">
                         <li>
-                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage + 1}, null)" href="#" aria-label="Current">
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage + 1}, '<c:out value="${selectedFilterValues}"/>')" href="#" aria-label="Current">
                                 <span>${dataResult.currentPage + 2}</span>
                             </a>
                         </li>
@@ -55,7 +55,7 @@
                         <%-- Current page + 2 --%>
                     <c:if test="${dataResult.currentPage + 2 < dataResult.pagesCount - 1}">
                         <li>
-                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage +2}, null)" href="#" aria-label="Current">
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.currentPage +2}, '<c:out value="${selectedFilterValues}"/>')" href="#" aria-label="Current">
                                 <span>${dataResult.currentPage + 3}</span>
                             </a>
                         </li>
@@ -63,7 +63,7 @@
                         <%-- Last --%>
                     <c:if test="${dataResult.currentPage + 1 != dataResult.pagesCount}">
                         <li>
-                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.pagesCount - 1}, null)" href="#" aria-label="Last">
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${dataResult.pagesCount - 1}, '<c:out value="${selectedFilterValues}"/>')" href="#" aria-label="Last">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -75,7 +75,7 @@
                 <ul class="pagination pagination-sm" style="margin: 0px 0px 0px 15px; float: right">
                     <c:forEach var="index" begin="0" end="${dataResult.pagesCount - 1}">
                         <li <c:if test="${index == dataResult.currentPage}">class="active"</c:if>>
-                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${index}, null)" href="#">
+                            <a onclick="loadListView('<c:out value="${entityName}"/>', ${index}, '<c:out value="${selectedFilterValues}"/>')" href="#">
                                 <span aria-hidden="true">${index + 1}</span>
                             </a>
                         </li>
