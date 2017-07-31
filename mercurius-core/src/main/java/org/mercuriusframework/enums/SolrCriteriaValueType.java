@@ -9,7 +9,8 @@ public enum SolrCriteriaValueType {
      * Values
      */
     IS("IS"),
-    IN("IN");
+    IN("IN"),
+    BETWEEN("BETWEEN");
     /**
      * Enum value
      */

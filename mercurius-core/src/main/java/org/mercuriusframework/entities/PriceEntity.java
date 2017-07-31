@@ -19,7 +19,7 @@ public class PriceEntity extends CatalogUniqueCodeEntity {
     /**
      * Unit
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "UNIT_UUID", referencedColumnName = "uuid", nullable = false)
     private UnitEntity unit;
     public static final String UNIT = "unit";

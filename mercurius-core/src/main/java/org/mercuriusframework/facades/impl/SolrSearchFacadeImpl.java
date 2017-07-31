@@ -220,6 +220,9 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
             } else {
                 return result.in((Collection) criteriaParameter.getValue());
             }
+        }
+        /** Between */
+        if (criteriaParameter.getType() == SolrCriteriaValueType.BETWEEN) {
 
         }
         return null;

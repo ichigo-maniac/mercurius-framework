@@ -85,6 +85,7 @@ public class SolrIndexFacadeImpl implements SolrIndexFacade {
                 } else {
                     fieldValue = getFieldValue(indexObject, indexField.getEntityFieldName());
                 }
+                /** Cast to case insensitive */
                 if (fieldValue != null && fieldValue instanceof String) {
                     if (indexField.getCaseInsensitive() != null && indexField.getCaseInsensitive()) {
                         fieldValue = ((String) fieldValue).toLowerCase();
