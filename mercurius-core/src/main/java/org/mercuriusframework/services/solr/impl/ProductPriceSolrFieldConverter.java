@@ -43,7 +43,7 @@ public class ProductPriceSolrFieldConverter implements SolrFieldConverter {
         SolrDocumentFieldsMap fieldsMap = new SolrDocumentFieldsMap();
         List<PriceEntity> prices = priceService.getPricesByProductUuid(product.getUuid());
         for (PriceEntity priceEntity : prices) {
-            fieldsMap.put(PRICE_PREFIX + priceEntity.getUnit().getCode(), priceEntity.getPriceValue());
+            fieldsMap.put(PRICE_PREFIX + priceEntity.getUnit().getCode() + "_" + priceEntity.getCurrency().getCode(), priceEntity.getPriceValue());
         }
         return fieldsMap;
     }

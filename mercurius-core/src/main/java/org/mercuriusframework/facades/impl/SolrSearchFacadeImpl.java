@@ -2,6 +2,7 @@ package org.mercuriusframework.facades.impl;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.Range;
 import org.mercuriusframework.constants.MercuriusConstants;
 import org.mercuriusframework.converters.Converter;
 import org.mercuriusframework.dto.SolrDocumentDto;
@@ -223,7 +224,8 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
         }
         /** Between */
         if (criteriaParameter.getType() == SolrCriteriaValueType.BETWEEN) {
-
+            Range range = (Range) criteriaParameter.getValue();
+            return result.between(range.getMinimumNumber(), range.getMaximumNumber());
         }
         return null;
     }
