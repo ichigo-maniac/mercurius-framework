@@ -135,7 +135,7 @@
      */
     $(document).ready(function() {
         $(".selectpicker").selectpicker({});
-        $(".number_field").numberMask({type:'float', beforePoint:10, afterPoint:6, decimalMark:'.'});
+        $(".number_field").numberMask({pattern:/^\d+\.{0,1}\d*$|^\d+,{0,1}\d*$|^$/});
     });
 
     /**
@@ -249,7 +249,7 @@
             $("#all_available_filters").before(createFilterRow(currentFilter, criteriaTypes, fieldType));
         }
         $(".selectpicker").selectpicker({});
-        $(".number_field").numberMask({type:'float', beforePoint:10, afterPoint:6, decimalMark:'.'});
+        $(".number_field").numberMask({pattern:/^\d+\.{0,1}\d*$|^\d+,{0,1}\d*$|^$/});
     });
 
     /**
