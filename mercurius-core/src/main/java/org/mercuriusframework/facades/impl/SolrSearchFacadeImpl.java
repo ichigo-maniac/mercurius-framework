@@ -115,6 +115,23 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
     }
 
     /**
+     * Return documents count
+     * @param solrSearchResolverCode Solr search resolver code
+     * @param textQuery              Text query
+     * @param parameters             Solr criteria parameters
+     * @return Documents count
+     */
+    @Override
+    public Long count(String solrSearchResolverCode, String textQuery, SolrCriteriaParameter... parameters) {
+        SolrSearchResolverEntity solrSearchResolver = uniqueCodeEntityService.getEntityByCodeWithFetch(solrSearchResolverCode,
+                SolrSearchResolverEntity.class, SolrSearchResolverEntity.TEXT_SEARCH_FIELDS);
+        if (solrSearchResolver == null) {
+            throw new SolrSearchResolverAbsenceException(solrSearchResolverCode);
+        }
+        return getTotalCount(solrSearchResolver, textQuery, parameters);
+    }
+
+    /**
      * Get entity uuids
      * @param solrPage Solr page
      * @return List of uuids

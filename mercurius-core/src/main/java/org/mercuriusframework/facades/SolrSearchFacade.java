@@ -9,7 +9,6 @@ import org.mercuriusframework.services.query.PageableResult;
  * Search facade interface
  */
 public interface SolrSearchFacade {
-
     /**
      * Search indexed data
      * @param solrSearchResolverCode Solr search resolver code
@@ -36,4 +35,13 @@ public interface SolrSearchFacade {
     PageableResult search(String solrSearchResolverCode, String textQuery, SolrCriteriaParameter[] parameters,
                           Integer page, Converter converter,
                           LoadOptions[] loadOptions, String... fetchFields);
+
+    /**
+     * Return documents count
+     * @param solrSearchResolverCode Solr search resolver code
+     * @param textQuery Text query
+     * @param parameters Solr criteria parameters
+     * @return Documents count
+     */
+    Long count(String solrSearchResolverCode, String textQuery, SolrCriteriaParameter... parameters);
 }
