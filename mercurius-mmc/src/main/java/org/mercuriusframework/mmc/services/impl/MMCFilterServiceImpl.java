@@ -2,6 +2,7 @@ package org.mercuriusframework.mmc.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.mercuriusframework.entities.AbstractEntity;
 import org.mercuriusframework.enums.CriteriaValueType;
 import org.mercuriusframework.mmc.dto.FilterContainer;
 import org.mercuriusframework.mmc.enums.FieldType;
@@ -31,6 +32,10 @@ public class MMCFilterServiceImpl implements MMCFilterService {
     /**
      * Criteria types constants
      */
+    private static final CriteriaValueType[] ENTITY_TYPES = {
+        CriteriaValueType.IN
+    };
+
     private static final CriteriaValueType[] NUMBER_TYPES = {
             CriteriaValueType.EQUALS, CriteriaValueType.NOT_EQUALS, CriteriaValueType.MORE, CriteriaValueType.MORE_OR_EQUALS,
             CriteriaValueType.LESS, CriteriaValueType.LESS_OR_EQUALS
@@ -49,7 +54,7 @@ public class MMCFilterServiceImpl implements MMCFilterService {
      */
     @Autowired
     @Qualifier("entityReflectionService")
-    private EntityReflectionService annotationService;
+    private EntityReflectionService entityReflectionService;
 
     /**
      * Build filters
@@ -59,11 +64,11 @@ public class MMCFilterServiceImpl implements MMCFilterService {
      */
     @Override
     public List<FilterContainer> buildFilters(String entityName, List<Filter> filters) {
-        Class entityClass = annotationService.getEntityClassByEntityName(entityName);
+        Class entityClass = entityReflectionService.getEntityClassByEntityName(entityName);
         List<FilterContainer> result = new ArrayList<>(filters.size());
         for (Filter filter : filters) {
             try {
-                Field field = annotationService.getField(entityClass, filter.getProperty());
+                Field field = entityReflectionService.getField(entityClass, filter.getProperty());
                 FilterContainer filterContainer = new FilterContainer(filter.getProperty(), filter.getIncludeOnStart());
                 filterContainer.setLabel(EntityMessageSourceProvider.getMessage(entityName, filter.getProperty()));
                 setCriteriaTypes(filterContainer, field.getType());
@@ -93,6 +98,11 @@ public class MMCFilterServiceImpl implements MMCFilterService {
         if (Boolean.class.isAssignableFrom(type)) {
             filterContainer.setCriteriaTypes(BOOLEAN_TYPES);
             filterContainer.setFieldType(FieldType.BOOLEAN);
+        }
+        if (AbstractEntity.class.isAssignableFrom(type)) {
+            filterContainer.setCriteriaTypes(ENTITY_TYPES);
+            filterContainer.setFieldType(FieldType.ENTITY);
+            filterContainer.setEntityName(entityReflectionService.getEntityNameByClass(type));
         }
         /** Create json for criteria types */
         if (filterContainer.getCriteriaTypes() != null) {

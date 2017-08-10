@@ -29,6 +29,11 @@ public class FilterContainer {
     private FieldType fieldType;
 
     /**
+     * Entity name
+     */
+    private String entityName;
+
+    /**
      * Criteria types
      */
     private CriteriaValueType[] criteriaTypes;
@@ -110,6 +115,22 @@ public class FilterContainer {
      */
     public void setCriteriaTypes(CriteriaValueType[] criteriaTypes) {
         this.criteriaTypes = criteriaTypes;
+    }
+
+    /**
+     * Get entity name
+     * @return Entity name
+     */
+    public String getEntityName() {
+        return entityName;
+    }
+
+    /**
+     * Set entity name
+     * @param entityName Entity name
+     */
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 
     /**

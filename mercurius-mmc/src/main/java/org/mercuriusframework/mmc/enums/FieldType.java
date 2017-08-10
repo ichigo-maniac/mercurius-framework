@@ -7,6 +7,7 @@ public enum FieldType {
     /**
      * Values
      */
+    ENTITY("ENTITY"),
     NUMBER("NUMBER"),
     STRING("STRING"),
     BOOLEAN("BOOLEAN");

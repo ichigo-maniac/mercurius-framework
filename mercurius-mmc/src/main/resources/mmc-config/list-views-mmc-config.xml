@@ -17,7 +17,10 @@
     <list-view entity-name="Product" priority="0">
         <filters>
             <filter property="code" include-on-start="true"/>
-            <filter property="shortName" include-on-start="true"/>
+            <filter property="mainUnit" include-on-start="true"/>
+            <filter property="mainCategory" include-on-start="true"/>
+            <filter property="catalog" include-on-start="true"/>
+            <filter property="shortName"/>
             <filter property="name"/>
         </filters>
         <table-view>
