@@ -22,6 +22,9 @@
                     <input id="filter_field_type_${filter.property}" type="hidden" value='${filter.fieldType}'>
                     <input id="filter_criteria_types_${filter.property}" type="hidden" value='${filter.jsonCriteriaTypes}'>
                     <input id="filter_label_${filter.property}" type="hidden" value="<c:out value="${filter.label}"/>">
+                    <c:if test="${filter.entityName != null}">
+                        <input id="filter_field_entity_name_${filter.property}" type="hidden" value='${filter.entityName}'>
+                    </c:if>
                     <%-- Filter view --%>
                     <c:if test="${filter.includeOnStart == true}">
                         <div id="filter_${filter.property}" class="row" style="border-bottom: 1px solid #DDDDDD; padding: 10px 0px 10px 0px">
@@ -44,7 +47,7 @@
                             </div>
                             <%-- Value --%>
                             <div id="filter_field_column_${filter.property}" class="col-md-6">
-                                <widgets:field_input fieldType="${filter.fieldType}" fieldName="${filter.property}"/>
+                                <widgets:field_input fieldType="${filter.fieldType}" fieldName="${filter.property}" entityName="${filter.entityName}"/>
                             </div>
                             <%-- Drop button --%>
                             <div class="col-md-1" style="text-align: center">
@@ -193,7 +196,12 @@
                 for (var i = 0; i <= currentNumber; i++) {
                     var criteriaType = $("[name='" + currentFilter + "_criteriaSelector_" + i + "']").val();
                     var criteriaValue = getFilterValue(currentFilter, fieldType, i);
-                    if (criteriaType != null && criteriaValue!= null && (criteriaValue.trim().length > 0)) {
+                    if (criteriaType != null && criteriaValue!= null) {
+                        if ((typeof criteriaValue) == 'string') {
+                            if ((criteriaValue.trim().length <= 0)) {
+                                continue;
+                            }
+                        }
                         selectedCriteriaValues.push({
                             property : currentFilter,
                             criteria : criteriaType,
@@ -229,6 +237,16 @@
         if (filterType == "BOOLEAN") {
             return $("[name='" + filterName + "_field_" + number + "']:checked").val();
         }
+        if (filterType == 'ENTITY') {
+            if ($("[name='" + filterName + "_field_" + number + "']").select2('val') != null) {
+                return {
+                    entityName : $("#filter_field_entity_name_" + filterName).val(),
+                    values : $("[name='" + filterName + "_field_" + number + "']").select2('val')
+                };
+            } else {
+                return null;
+            }
+        }
         return null;
     }
 
@@ -239,14 +257,16 @@
         var currentFilter = $("#current_available_filter").val();
         var criteriaTypes = JSON.parse($("#filter_criteria_types_" + currentFilter).val());
         var fieldType = $("#filter_field_type_" + currentFilter).val();
+        var entityName = $("#filter_field_entity_name_" + currentFilter).val();
         /** Add filter to the view */
         if ($("#filter_" + currentFilter)[0] != null) {
             increaseFieldNumber(currentFilter);
             $("#filter_criterias_column_" + currentFilter).append(createCriteriaSelector(criteriaTypes, currentFilter, getCurrentFieldNumber(currentFilter)));
             $("#filter_field_column_" + currentFilter).append(createFilterField(currentFilter, fieldType, getCurrentFieldNumber(currentFilter)));
-
+            setEntitySelectAjaxListener(currentFilter, getCurrentFieldNumber(currentFilter), entityName);
         } else {
             $("#all_available_filters").before(createFilterRow(currentFilter, criteriaTypes, fieldType));
+            setEntitySelectAjaxListener(currentFilter, 0, entityName);
         }
         $(".selectpicker").selectpicker({});
         $(".number_field").numberMask({pattern:/^\d+\.{0,1}\d*$|^\d+,{0,1}\d*$|^$/});
@@ -341,7 +361,56 @@
             container.append($("<span class='filter-radio-span'>False</span>"));
             return container;
         }
+        if (fieldType == "ENTITY") {
+            var container = $("<div style='margin-bottom: 8px;'></div>")
+            var entitySelect = $("<select style='width: 100%;' multiple='multiple'></select>");
+            entitySelect.attr("name", fieldProperty + "_field_" + number);
+            container.append(entitySelect);
+            return container;
+        }
         return null;
+    }
+
+    /**
+     * Set entity selector ajax listener
+     * @param fieldProperty Property name
+     * @param number Element number
+     * @param entityName Entity name
+     */
+    function setEntitySelectAjaxListener(fieldProperty, number, entityName) {
+        var select = "[name='" + fieldProperty + "_field_" + number + "']";
+        if ($(select)[0] != null && entityName != null) {
+            $(select).select2({
+                ajax: {
+                    url: "/mmc/app_panel/load_entities/" + entityName,
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            search_text: params.term
+                        };
+                    },
+                    processResults: function (data, params) {
+                        var resultArray = [];
+                        data.forEach(function (item, i, arr) {
+                            var displayName = item.code + " - " + item.name;
+                            if (item.catalog) {
+                                displayName = displayName + " (" + item.catalog.code + ")";
+                            }
+                            resultArray.push({
+                                id: item.uuid,
+                                text: displayName
+                            });
+                        });
+                        return {
+                            results: resultArray
+                        };
+                    },
+                    minimumInputLength: 2,
+                    cache: false
+                }
+            });
+        }
     }
 
     /**
