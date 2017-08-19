@@ -158,7 +158,7 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
                 if (propertyClass == null) {
                     continue;
                 }
-                filterValueContainer.setValue(parseValue(propertyClass, jsonObject.getString("value")));
+                filterValueContainer.setValue(parseValue(propertyClass, jsonObject.get("value")));
                 if (filterValueContainer.isValid()) {
                     filterValuesContainers.add(filterValueContainer);
                 }
@@ -193,24 +193,35 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
      * @param rawValue Raw value
      * @return Parsed value
      */
-    private Object parseValue(Class valueType, String rawValue) {
-        if (String.class.equals(valueType)) {
-            return rawValue;
+    private Object parseValue(Class valueType, Object rawValue) {
+        if (rawValue instanceof String) {
+            if (String.class.equals(valueType)) {
+                return rawValue;
+            }
+            if (Long.class.equals(valueType)) {
+                return Long.valueOf((String)rawValue);
+            }
+            if (Integer.class.equals(valueType)) {
+                return Integer.valueOf((String)rawValue);
+            }
+            if (Float.class.equals(valueType)) {
+                return Float.valueOf((String)rawValue);
+            }
+            if (Double.class.equals(valueType)) {
+                return Double.valueOf((String)rawValue);
+            }
+            if (Boolean.class.equals(valueType)) {
+                return Boolean.valueOf((String)rawValue);
+            }
         }
-        if (Long.class.equals(valueType)) {
-            return Long.valueOf(rawValue);
-        }
-        if (Integer.class.equals(valueType)) {
-            return Integer.valueOf(rawValue);
-        }
-        if (Float.class.equals(valueType)) {
-            return Float.valueOf(rawValue);
-        }
-        if (Double.class.equals(valueType)) {
-            return Double.valueOf(rawValue);
-        }
-        if (Boolean.class.equals(valueType)) {
-            return Boolean.valueOf(rawValue);
+        if (rawValue instanceof JSONObject) {
+            JSONObject object = (JSONObject) rawValue;
+            if (object.has("entityName") && object.has("values")) {
+                Class entityClass = entityReflectionService.getEntityClassByEntityName(object.getString("entityName"));
+                JSONArray valuesArray = object.getJSONArray("values");
+                List entityUuids = valuesArray.toList();
+                return entityService.findByUuids(entityUuids, entityClass);
+            }
         }
         return null;
     }
