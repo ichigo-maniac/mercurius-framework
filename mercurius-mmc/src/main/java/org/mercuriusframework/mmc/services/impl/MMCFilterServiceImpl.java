@@ -33,7 +33,7 @@ public class MMCFilterServiceImpl implements MMCFilterService {
      * Criteria types constants
      */
     private static final CriteriaValueType[] ENTITY_TYPES = {
-        CriteriaValueType.IN
+            CriteriaValueType.IN
     };
 
     private static final CriteriaValueType[] NUMBER_TYPES = {
@@ -42,7 +42,7 @@ public class MMCFilterServiceImpl implements MMCFilterService {
     };
 
     private static final CriteriaValueType[] STRING_TYPES = {
-            CriteriaValueType.EQUALS, CriteriaValueType.NOT_EQUALS, CriteriaValueType.START_WITH, CriteriaValueType.END_WITH, CriteriaValueType.CONTAINS
+            CriteriaValueType.CONTAINS, CriteriaValueType.EQUALS, CriteriaValueType.NOT_EQUALS, CriteriaValueType.START_WITH, CriteriaValueType.END_WITH
     };
 
     private static final CriteriaValueType[] BOOLEAN_TYPES = {
