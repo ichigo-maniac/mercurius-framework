@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -71,7 +72,7 @@ public class MMCFilterServiceImpl implements MMCFilterService {
                 Field field = entityReflectionService.getField(entityClass, filter.getProperty());
                 FilterContainer filterContainer = new FilterContainer(filter.getProperty(), filter.getIncludeOnStart());
                 filterContainer.setLabel(EntityMessageSourceProvider.getMessage(entityName, filter.getProperty()));
-                setCriteriaTypes(filterContainer, field.getType());
+                setCriteriaTypes(filterContainer, field);
                 result.add(filterContainer);
 
             } catch (NoSuchFieldException e) {
@@ -84,9 +85,10 @@ public class MMCFilterServiceImpl implements MMCFilterService {
     /**
      * Set criteria types
      * @param filterContainer Filter container
-     * @param type Property class
+     * @param field Property field
      */
-    private void setCriteriaTypes(FilterContainer filterContainer, Class type) {
+    private void setCriteriaTypes(FilterContainer filterContainer, Field field) {
+        Class type = field.getType();
         if (Number.class.isAssignableFrom(type)) {
             filterContainer.setCriteriaTypes(NUMBER_TYPES);
             filterContainer.setFieldType(FieldType.NUMBER);
@@ -103,6 +105,9 @@ public class MMCFilterServiceImpl implements MMCFilterService {
             filterContainer.setCriteriaTypes(ENTITY_TYPES);
             filterContainer.setFieldType(FieldType.ENTITY);
             filterContainer.setEntityName(entityReflectionService.getEntityNameByClass(type));
+        }
+        if (Collection.class.isAssignableFrom(type)) {
+
         }
         /** Create json for criteria types */
         if (filterContainer.getCriteriaTypes() != null) {

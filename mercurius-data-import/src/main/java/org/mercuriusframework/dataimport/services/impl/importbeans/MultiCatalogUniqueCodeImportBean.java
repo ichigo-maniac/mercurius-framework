@@ -6,6 +6,7 @@ import org.mercuriusframework.dataimport.services.ValueImportBean;
 import org.mercuriusframework.entities.CatalogUniqueCodeEntity;
 import org.mercuriusframework.exceptions.CatalogUniqueCodeEntityAbsenceException;
 import org.mercuriusframework.services.CatalogUniqueCodeEntityService;
+import org.mercuriusframework.services.EntityReflectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,14 @@ public class MultiCatalogUniqueCodeImportBean implements ValueImportBean {
     private CatalogUniqueCodeEntityService catalogUniqueCodeEntityService;
 
     /**
+     * Entity reflection service
+     */
+    @Autowired
+    @Qualifier("entityReflectionService")
+    private EntityReflectionService entityReflectionService;
+
+
+    /**
      * Get value by string
      *
      * @param value     String value
@@ -46,20 +55,20 @@ public class MultiCatalogUniqueCodeImportBean implements ValueImportBean {
         /** Set */
         if (classType.isAssignableFrom(Set.class)) {
             Set<CatalogUniqueCodeEntity> result = new HashSet<>();
-            Class entityClass = getCollectionTypeClass(field);
+            Class entityClass = entityReflectionService.getFieldClass(field);
             setDataToCollection(result, value, entityClass);
             return result;
         }
         /** List */
         if (classType.isAssignableFrom(List.class)) {
             List<CatalogUniqueCodeEntity> result = new ArrayList<>();
-            Class entityClass = getCollectionTypeClass(field);
+            Class entityClass = entityReflectionService.getFieldClass(field);
             setDataToCollection(result, value, entityClass);
             return result;
         }
         if (!classType.isAssignableFrom(Collection.class)) {
             List<CatalogUniqueCodeEntity> result = new ArrayList<>();
-            Class entityClass = field.getType();
+            Class entityClass = entityReflectionService.getFieldClass(field);
             setDataToCollection(result, value, entityClass);
             return result;
         }

@@ -42,4 +42,11 @@ public interface EntityReflectionService {
      * @return Class
      */
     Class getFieldClass(Class type, String fieldName);
+
+    /**
+     * Get field class
+     * @param field Field
+     * @return Class
+     */
+    Class getFieldClass(Field field);
 }

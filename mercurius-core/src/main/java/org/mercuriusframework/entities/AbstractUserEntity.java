@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "USER_TYPE", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "USERS")
-public abstract class AbstractUserEntity extends UniqueCodeEntity {
+public class AbstractUserEntity extends UniqueCodeEntity {
 
     private static final long serialVersionUID = -6492733529577799536L;
 

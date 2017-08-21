@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Entity;
 import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Entity reflection service
@@ -115,9 +118,43 @@ public class EntityReflectionServiceImpl implements EntityReflectionService {
     public Class getFieldClass(Class type, String fieldName) {
         try {
             Field field = getField(type, fieldName);
-            return field.getType();
+            return getFieldClass(field);
         } catch (NoSuchFieldException e) {
             return null;
+        }
+    }
+
+    /**
+     * Get field class
+     * @param field Field
+     * @return Class
+     */
+    @Override
+    public Class getFieldClass(Field field) {
+        if (Collection.class.isAssignableFrom(field.getType())) {
+            return getCollectionTypeClass(field);
+        } else {
+            return field.getType();
+        }
+    }
+
+
+    /**
+     * Get collection type class
+     * @param field Field
+     * @return
+     */
+    private Class getCollectionTypeClass(Field field) {
+        Class valueClass = field.getType();
+        if (!valueClass.isAssignableFrom(Set.class) && !valueClass.isAssignableFrom(List.class)) {
+            return null;
+        }
+        String signature = field.toGenericString();
+        String className = signature.substring(signature.indexOf("<") + 1, signature.lastIndexOf(">"));
+        try {
+            return Class.forName(className);
+        } catch (ClassNotFoundException exception) {
+            throw new RuntimeException(exception);
         }
     }
 }
