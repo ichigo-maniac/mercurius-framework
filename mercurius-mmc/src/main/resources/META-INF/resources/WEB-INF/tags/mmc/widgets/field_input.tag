@@ -20,10 +20,21 @@
     </div>
 </c:if>
 <%-- Entity --%>
-<c:if test="${fieldType == 'ENTITY'}">
-    <div style="margin-bottom: 8px;">
-        <select name="${fieldName}_field_0" style="width: 100%" multiple="multiple"></select>
-    </div>
+<c:if test="${fieldType == 'ENTITY' || fieldType == 'ENTITY_COLLECTION'}">
+    <c:choose>
+        <%-- Entity type - multiple select --%>
+        <c:when test="${fieldType == 'ENTITY'}">
+            <div style="margin-bottom: 8px;">
+                <select name="${fieldName}_field_0" style="width: 100%" multiple="multiple"></select>
+            </div>
+        </c:when>
+        <%-- Entity collection type - no multiple select --%>
+        <c:otherwise>
+            <div style="margin-bottom: 8px;">
+                <select name="${fieldName}_field_0" style="width: 100%"></select>
+            </div>
+        </c:otherwise>
+    </c:choose>
     <%-- Script --%>
     <script>
         var fieldName = '${fieldName}';

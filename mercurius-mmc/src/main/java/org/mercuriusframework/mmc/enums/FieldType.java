@@ -8,6 +8,7 @@ public enum FieldType {
      * Values
      */
     ENTITY("ENTITY"),
+    ENTITY_COLLECTION("ENTITY_COLLECTION"),
     NUMBER("NUMBER"),
     STRING("STRING"),
     BOOLEAN("BOOLEAN");

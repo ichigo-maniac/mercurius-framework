@@ -237,7 +237,7 @@
         if (filterType == "BOOLEAN") {
             return $("[name='" + filterName + "_field_" + number + "']:checked").val();
         }
-        if (filterType == 'ENTITY') {
+        if (filterType == 'ENTITY' || filterType == 'ENTITY_COLLECTION') {
             if ($("[name='" + filterName + "_field_" + number + "']").select2('val') != null) {
                 return {
                     entityName : $("#filter_field_entity_name_" + filterName).val(),
@@ -364,6 +364,13 @@
         if (fieldType == "ENTITY") {
             var container = $("<div style='margin-bottom: 8px;'></div>")
             var entitySelect = $("<select style='width: 100%;' multiple='multiple'></select>");
+            entitySelect.attr("name", fieldProperty + "_field_" + number);
+            container.append(entitySelect);
+            return container;
+        }
+        if (fieldType == 'ENTITY_COLLECTION') {
+            var container = $("<div style='margin-bottom: 8px;'></div>")
+            var entitySelect = $("<select style='width: 100%;'></select>");
             entitySelect.attr("name", fieldProperty + "_field_" + number);
             container.append(entitySelect);
             return container;

@@ -37,6 +37,10 @@ public class MMCFilterServiceImpl implements MMCFilterService {
             CriteriaValueType.IN
     };
 
+    private static final CriteriaValueType[] ENTITY_COLLECTION_TYPES = {
+            CriteriaValueType.IS_MEMBER
+    };
+
     private static final CriteriaValueType[] NUMBER_TYPES = {
             CriteriaValueType.EQUALS, CriteriaValueType.NOT_EQUALS, CriteriaValueType.MORE, CriteriaValueType.MORE_OR_EQUALS,
             CriteriaValueType.LESS, CriteriaValueType.LESS_OR_EQUALS
@@ -107,7 +111,11 @@ public class MMCFilterServiceImpl implements MMCFilterService {
             filterContainer.setEntityName(entityReflectionService.getEntityNameByClass(type));
         }
         if (Collection.class.isAssignableFrom(type)) {
-
+            filterContainer.setCriteriaTypes(ENTITY_COLLECTION_TYPES);
+            filterContainer.setFieldType(FieldType.ENTITY_COLLECTION);
+            filterContainer.setEntityName(entityReflectionService.getEntityNameByClass(
+                    entityReflectionService.getFieldClass(field)
+            ));
         }
         /** Create json for criteria types */
         if (filterContainer.getCriteriaTypes() != null) {

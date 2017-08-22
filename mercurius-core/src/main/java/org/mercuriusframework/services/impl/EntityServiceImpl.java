@@ -446,6 +446,9 @@ public class EntityServiceImpl implements EntityService {
                             currentValueExpression = root.get(criteriaParameter.getProperty()).in(criteriaValue.getValue());
                         }
                     }
+                    if (criteriaValue.getType() == CriteriaValueType.IS_MEMBER) {
+                        currentValueExpression = builder.isMember(criteriaValue.getValue(), root.get(criteriaParameter.getProperty()));
+                    }
                     if (criteriaValue.getType() == CriteriaValueType.START_WITH) {
                         currentValueExpression = builder.like(root.get(criteriaParameter.getProperty()), criteriaValue.getValue() + "%");
                     }

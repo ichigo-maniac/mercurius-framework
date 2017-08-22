@@ -47,6 +47,8 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
      * Constants
      */
     private static final String LIST_VIEW_TEMPLATE = "/WEB-INF/view/mmc/templates/list_view_template.jsp";
+    private static final String ENTITY_NAME_FILTER_ATTRIBUTE = "entityName";
+    private static final String VALUES_FILTER_ATTRIBUTE = "values";
     private static final Integer PAGE_SIZE = 20;
 
     /**
@@ -216,11 +218,16 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
         }
         if (rawValue instanceof JSONObject) {
             JSONObject object = (JSONObject) rawValue;
-            if (object.has("entityName") && object.has("values")) {
-                Class entityClass = entityReflectionService.getEntityClassByEntityName(object.getString("entityName"));
-                JSONArray valuesArray = object.getJSONArray("values");
-                List entityUuids = valuesArray.toList();
-                return entityService.findByUuids(entityUuids, entityClass);
+            if (object.has(ENTITY_NAME_FILTER_ATTRIBUTE) && object.has(VALUES_FILTER_ATTRIBUTE)) {
+                Class entityClass = entityReflectionService.getEntityClassByEntityName(object.getString(ENTITY_NAME_FILTER_ATTRIBUTE));
+                if (object.get(VALUES_FILTER_ATTRIBUTE) instanceof JSONArray) {
+                    JSONArray valuesArray = object.getJSONArray(VALUES_FILTER_ATTRIBUTE);
+                    List entityUuids = valuesArray.toList();
+                    return entityService.findByUuids(entityUuids, entityClass);
+                } else {
+                    String value = object.getString(VALUES_FILTER_ATTRIBUTE);
+                    return entityService.findByUuid(value, entityClass);
+                }
             }
         }
         return null;

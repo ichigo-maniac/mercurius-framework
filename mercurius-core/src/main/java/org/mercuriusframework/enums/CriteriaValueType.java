@@ -15,6 +15,7 @@ public enum CriteriaValueType {
     EQUALS("EQUALS"),
     NOT_EQUALS("NOT_EQUALS"),
     IN("IN"),
+    IS_MEMBER("IS_MEMBER"),
     MORE("MORE"),
     MORE_OR_EQUALS("MORE_OR_EQUALS"),
     LESS("LESS"),
