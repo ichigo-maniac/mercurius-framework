@@ -20,6 +20,11 @@ CREATE TABLE SOLR_SEARCH_RESOLVERS(
   pageSize BIGINT NOT NULL
 );
 
+INSERT INTO SOLR_SEARCH_RESOLVERS(uuid, name, code, creationtime, modificationtime, solrCollectionName, indexEntityName, pageSize) VALUES (
+  '4a9b636e-f065-0000-9dac-836adef2f111', 'dummy_solr_search_resolver', 'dummy_solr_search_resolver', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
+  'dummy_solr_collection', 'Product', 20
+);
+
 CREATE TABLE SOLR_INDEX_FIELDS(
   uuid CHARACTER VARYING(36) NOT NULL PRIMARY KEY,
   name CHARACTER VARYING(255) NOT NULL,

@@ -49,7 +49,8 @@ public class TestDatabaseConnectionConfiguration {
                         "test_sql_migration/V1_01_20160329_1300__user.sql",
                         "test_sql_migration/V1_01_20160329_1400__features.sql",
                         "test_sql_migration/V1_01_20160329_1500__tasks.sql",
-                        "test_sql_migration/V1_01_20160329_1600__facets.sql"
+                        "test_sql_migration/V1_01_20160329_1600__facets.sql",
+                        "test_sql_migration/V1_01_20160329_1700__solr_sort.sql"
                 )
                 .build();
         return dataSource;
