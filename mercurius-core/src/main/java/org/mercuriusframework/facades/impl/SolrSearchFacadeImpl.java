@@ -9,21 +9,26 @@ import org.mercuriusframework.dto.SolrDocumentDto;
 import org.mercuriusframework.entities.AbstractEntity;
 import org.mercuriusframework.entities.SolrIndexFieldEntity;
 import org.mercuriusframework.entities.SolrSearchResolverEntity;
+import org.mercuriusframework.entities.SolrSortEntity;
 import org.mercuriusframework.enums.LoadOptions;
 import org.mercuriusframework.enums.SolrCriteriaValueType;
+import org.mercuriusframework.enums.SolrSortDirectionType;
 import org.mercuriusframework.exceptions.SolrSearchResolverAbsenceException;
 import org.mercuriusframework.facades.SolrSearchFacade;
 import org.mercuriusframework.facades.solr.SolrCriteriaParameter;
+import org.mercuriusframework.providers.ApplicationContextProvider;
 import org.mercuriusframework.services.EntityReflectionService;
 import org.mercuriusframework.services.EntityService;
 import org.mercuriusframework.services.UniqueCodeEntityService;
 import org.mercuriusframework.services.query.ConvertiblePageableResult;
 import org.mercuriusframework.services.query.DefaultPageableResult;
 import org.mercuriusframework.services.query.PageableResult;
+import org.mercuriusframework.services.solr.SolrFieldResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.Criteria;
 import org.springframework.data.solr.core.query.Query;
@@ -74,18 +79,19 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
      * @param textQuery              Text query
      * @param parameters Solr criteria parameters
      * @param page Current page
+     * @param solrSort Solr sort
      * @param fetchFields Fetch fields
      * @return Pageable result
      */
     @Override
     public PageableResult search(String solrSearchResolverCode, String textQuery, SolrCriteriaParameter[] parameters,
-                                 Integer page, String... fetchFields) {
+                                 Integer page, SolrSortEntity solrSort, String... fetchFields) {
         SolrSearchResolverEntity solrSearchResolver = uniqueCodeEntityService.getEntityByCodeWithFetch(solrSearchResolverCode,
                 SolrSearchResolverEntity.class, SolrSearchResolverEntity.TEXT_SEARCH_FIELDS);
         if (solrSearchResolver == null) {
             throw new SolrSearchResolverAbsenceException(solrSearchResolverCode);
         }
-        Page<SolrDocumentDto> solrPage = getDocuments(solrSearchResolver, textQuery, parameters, page);
+        Page<SolrDocumentDto> solrPage = getDocuments(solrSearchResolver, textQuery, solrSort, parameters, page);
         List<String> uuids = getEntityUuids(solrPage);
         Class entityClass = entityReflectionService.getEntityClassByEntityName(solrSearchResolver.getIndexEntityName());
         List<AbstractEntity> entities = entityService.findByUuids(uuids, entityClass, fetchFields);
@@ -99,8 +105,25 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
      * Search indexed data
      * @param solrSearchResolverCode Solr search resolver code
      * @param textQuery              Text query
+     * @param parameters             Solr criteria parameters
+     * @param page                   Current page
+     * @param solrSortCode           Solr sort code
+     * @param fetchFields            Fetch fields
+     * @return Pageable result
+     */
+    @Override
+    public PageableResult search(String solrSearchResolverCode, String textQuery, SolrCriteriaParameter[] parameters, Integer page, String solrSortCode, String... fetchFields) {
+        SolrSortEntity solrSortEntity = uniqueCodeEntityService.getEntityByCode(solrSortCode, SolrSortEntity.class);
+        return search(solrSearchResolverCode, textQuery, parameters, page, solrSortEntity, fetchFields);
+    }
+
+    /**
+     * Search indexed data
+     * @param solrSearchResolverCode Solr search resolver code
+     * @param textQuery              Text query
      * @param parameters Solr criteria parameters
      * @param page Current page
+     * @param solrSort Solr sort
      * @param converter Converter
      * @param loadOptions Load options
      * @param fetchFields Fetch fields
@@ -108,10 +131,28 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
      */
     @Override
     public PageableResult search(String solrSearchResolverCode, String textQuery, SolrCriteriaParameter[] parameters,
-                                 Integer page, Converter converter,
+                                 Integer page, SolrSortEntity solrSort, Converter converter,
                                  LoadOptions[] loadOptions, String... fetchFields) {
-        PageableResult searchResult = search(solrSearchResolverCode, textQuery, parameters, page, fetchFields);
+        PageableResult searchResult = search(solrSearchResolverCode, textQuery, parameters, page, solrSort, fetchFields);
         return new ConvertiblePageableResult(searchResult, converter, loadOptions);
+    }
+
+    /**
+     * Search indexed data
+     * @param solrSearchResolverCode Solr search resolver code
+     * @param textQuery              Text query
+     * @param parameters             Solr criteria parameters
+     * @param page                   Current page
+     * @param solrSortCode           Solr sort code
+     * @param converter              Converter
+     * @param loadOptions            Load options
+     * @param fetchFields            Fetch fields
+     * @return Pageable result
+     */
+    @Override
+    public PageableResult search(String solrSearchResolverCode, String textQuery, SolrCriteriaParameter[] parameters, Integer page, String solrSortCode, Converter converter, LoadOptions[] loadOptions, String... fetchFields) {
+        SolrSortEntity solrSortEntity = uniqueCodeEntityService.getEntityByCode(solrSortCode, SolrSortEntity.class);
+        return search(solrSearchResolverCode, textQuery, parameters, page, solrSortEntity, converter, loadOptions, fetchFields);
     }
 
     /**
@@ -148,13 +189,14 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
      * Get documents
      * @param resolver Solr search resolver
      * @param textQuery Text query
+     * @param solrSort Solr sort
      * @param parameters Solr criteria parameters
      * @return Documents page
      */
-    private Page<SolrDocumentDto> getDocuments(SolrSearchResolverEntity resolver, String textQuery, SolrCriteriaParameter[] parameters, Integer page) {
+    private Page<SolrDocumentDto> getDocuments(SolrSearchResolverEntity resolver, String textQuery, SolrSortEntity solrSort, SolrCriteriaParameter[] parameters, Integer page) {
         Long totalCount = getTotalCount(resolver, textQuery, parameters);
         Integer currentPage = calculateCurrentPage(resolver.getPageSize(), page, totalCount);
-        Query dataQuery = createQuery(resolver, textQuery, parameters);
+        Query dataQuery = createQuery(resolver, textQuery, solrSort, parameters);
         dataQuery.setOffset(currentPage * resolver.getPageSize());
         dataQuery.setRows(resolver.getPageSize());
         return solrTemplate.query(resolver.getSolrCollectionName(), dataQuery, SolrDocumentDto.class);
@@ -168,7 +210,7 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
      * @return Items count
      */
     private long getTotalCount(SolrSearchResolverEntity resolver, String textQuery, SolrCriteriaParameter[] parameters) {
-        Query query = createQuery(resolver, textQuery, parameters);
+        Query query = createQuery(resolver, textQuery, null, parameters);
         return solrTemplate.count(resolver.getSolrCollectionName(), query);
     }
 
@@ -176,10 +218,11 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
      * Create solr query
      * @param resolver Solr search resolver
      * @param textQuery Text query
+     * @param solrSort Solr sort
      * @param parameters Solr criteria parameters
      * @return Solr query
      */
-    private Query createQuery(SolrSearchResolverEntity resolver, String textQuery, SolrCriteriaParameter[] parameters) {
+    private Query createQuery(SolrSearchResolverEntity resolver, String textQuery, SolrSortEntity solrSort, SolrCriteriaParameter[] parameters) {
         Criteria criteria = null;
         /** Build text criteria path */
         if (StringUtils.isNotEmpty(textQuery)) {
@@ -213,11 +256,22 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
             }
         }
         /** Build query */
+        SimpleQuery query = null;
         if (criteria != null) {
-            return new SimpleQuery(criteria);
+            query = new SimpleQuery(criteria);
         } else {
-            return new SimpleQuery();
+            query = new SimpleQuery();
         }
+        /** Add sort */
+        if (solrSort != null) {
+            if (solrSort.getSolrField() != null) {
+                query.addSort(new Sort(SolrSortDirectionType.transformDirection(solrSort.getDirectionType()), solrSort.getSolrField()));
+            } else {
+                SolrFieldResolver solrFieldResolver = ApplicationContextProvider.getBean(solrSort.getSolrFieldResolver(), SolrFieldResolver.class);
+                query.addSort(new Sort(SolrSortDirectionType.transformDirection(solrSort.getDirectionType()), solrFieldResolver.resolveField()));
+            }
+        }
+        return query;
     }
 
     /**

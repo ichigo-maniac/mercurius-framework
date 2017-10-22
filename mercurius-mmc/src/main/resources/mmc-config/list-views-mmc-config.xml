@@ -292,6 +292,19 @@
         </table-view>
     </list-view>
 
+    <list-view entity-name="SolrSort" priority="0">
+        <filters>
+            <filter property="code" include-on-start="true"/>
+            <filter property="name" include-on-start="true"/>
+        </filters>
+        <table-view>
+            <column property="code"/>
+            <column property="name"/>
+            <column property="solrField"/>
+            <column property="directionType"/>
+        </table-view>
+    </list-view>
+
     <list-view entity-name="DictionaryType" priority="0">
         <filters>
             <filter property="code" include-on-start="true"/>

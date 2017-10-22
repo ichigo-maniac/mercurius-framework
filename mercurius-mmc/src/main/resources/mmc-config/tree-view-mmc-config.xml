@@ -17,6 +17,7 @@
                 <tree-node-entity-element title="mmc.tree.entity.SolrIndexTaskProperty.label" entity-name="SolrIndexTaskProperty"/>
                 <tree-node-entity-element title="mmc.tree.entity.SolrSearchResolver.label" entity-name="SolrSearchResolver"/>
                 <tree-node-entity-element title="mmc.tree.entity.SolrIndexField.label" entity-name="SolrIndexField"/>
+                <tree-node-entity-element title="mmc.tree.entity.SolrSort.label" entity-name="SolrSort"/>
             </tree-node>
         </tree-node>
         <!-- Catalog -->

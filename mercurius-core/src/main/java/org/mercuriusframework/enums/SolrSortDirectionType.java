@@ -1,9 +1,12 @@
 package org.mercuriusframework.enums;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.data.domain.Sort;
+
 /**
  * Solr sort direction enum
  */
-public enum SolrSortDirectionType implements LoadOptions {
+public enum SolrSortDirectionType {
 
     /**
      * Values
@@ -25,20 +28,46 @@ public enum SolrSortDirectionType implements LoadOptions {
     }
 
     /**
-     * Get enum value
-     * @return Enum value
+     * Get value
+     * @return Value
      */
-    @Override
     public String getValue() {
         return value;
     }
 
     /**
-     * Get enum value
-     * @return Array of values
+     * Get value from string
+     * @param value String value
+     * @return Enum value
      */
-    @Override
-    public LoadOptions[] getValues() {
-        return values();
+    public static SolrSortDirectionType valueFromString(String value) {
+        if (StringUtils.isEmpty(value)) {
+            return null;
+        }
+        for (SolrSortDirectionType featureValue : SolrSortDirectionType.values()) {
+            if (featureValue.getValue().equalsIgnoreCase(value.toLowerCase())) {
+                return featureValue;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Transform direction
+     * @param directionType Direction type
+     * @return Sort direction
+     */
+    public static Sort.Direction transformDirection(SolrSortDirectionType directionType) {
+        if (directionType == null) {
+            return Sort.Direction.ASC;
+        }
+        if (directionType == ASC) {
+            return Sort.Direction.ASC;
+        }
+        if (directionType == DESC) {
+            return Sort.Direction.DESC;
+        } else {
+            return Sort.Direction.ASC;
+        }
     }
 }
