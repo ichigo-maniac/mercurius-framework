@@ -34,6 +34,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -50,6 +52,8 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
     private static final String ENTITY_NAME_FILTER_ATTRIBUTE = "entityName";
     private static final String VALUES_FILTER_ATTRIBUTE = "values";
     private static final Integer PAGE_SIZE = 20;
+    private static final String DATE_FORMAT_STRING = "dd.MM.yyyy HH:mm";
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_STRING);
 
     /**
      * User facade
@@ -107,7 +111,7 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
                                        @RequestParam(name = "renderFilter", defaultValue = "true") Boolean renderFilter,
                                        @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
                                        @RequestParam(name = "filterValuesJsonArray", required = false) String filterValues,
-                                       HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                                       HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
         if (!userFacade.isCurrentUserEmployee()) {
             return new LoadWidgetResult(LoadWidgetResultStatus.ERROR,
                     MessageSourceProvider.getMessage(USER_IS_NOT_EMPLOYEE_MESSAGE));
@@ -145,7 +149,7 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
      * @param filterValues Filter values (json)
      * @return Filter values (list of containers)
      */
-    private CriteriaParameter[] parseFilterValues(Class entityClass, String filterValues) {
+    private CriteriaParameter[] parseFilterValues(Class entityClass, String filterValues) throws ParseException {
         if (StringUtils.isEmpty(filterValues)) {
             return new CriteriaParameter[0];
         } else {
@@ -195,25 +199,28 @@ public class MMCListViewWidgetController extends AbstractMMCViewWidgetController
      * @param rawValue Raw value
      * @return Parsed value
      */
-    private Object parseValue(Class valueType, Object rawValue) {
+    private Object parseValue(Class valueType, Object rawValue) throws ParseException {
         if (rawValue instanceof String) {
             if (String.class.equals(valueType)) {
                 return rawValue;
             }
             if (Long.class.equals(valueType)) {
-                return Long.valueOf((String)rawValue);
+                return Long.valueOf((String) rawValue);
             }
             if (Integer.class.equals(valueType)) {
-                return Integer.valueOf((String)rawValue);
+                return Integer.valueOf((String) rawValue);
             }
             if (Float.class.equals(valueType)) {
-                return Float.valueOf((String)rawValue);
+                return Float.valueOf((String) rawValue);
             }
             if (Double.class.equals(valueType)) {
-                return Double.valueOf((String)rawValue);
+                return Double.valueOf((String) rawValue);
             }
             if (Boolean.class.equals(valueType)) {
-                return Boolean.valueOf((String)rawValue);
+                return Boolean.valueOf((String) rawValue);
+            }
+            if (Date.class.equals(valueType)) {
+                return DATE_FORMAT.parse((String) rawValue);
             }
         }
         if (rawValue instanceof JSONObject) {

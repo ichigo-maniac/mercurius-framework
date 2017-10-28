@@ -8,10 +8,12 @@
 <c:if test="${fieldType == 'NUMBER'}">
     <input name="${fieldName}_field_0" class="number_field" type="text" style="width: 100%; margin-bottom: 13px;">
 </c:if>
+
 <%-- String --%>
 <c:if test="${fieldType == 'STRING'}">
     <input name="${fieldName}_field_0" class="string_field" type="text" style="width: 100%; margin-bottom: 13px;">
 </c:if>
+
 <%-- Boolean --%>
 <c:if test="${fieldType == 'BOOLEAN'}">
     <div style="margin-bottom: 16px;">
@@ -19,6 +21,25 @@
         <input name="${fieldName}_field_0" type="radio" value="false"><span class="filter-radio-span">False</span>
     </div>
 </c:if>
+<%-- Date-time --%>
+<c:if test="${fieldType == 'DATETIME'}">
+    <div style="width: 100%; margin-bottom: 6px;">
+        <div class='input-group date' id="${fieldName}_field_0">
+            <input type='text' class="form-control" name="${fieldName}_field_0" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $('#' + '${fieldName}' + '_field_0').datetimepicker({
+                format : 'DD.MM.YYYY HH:mm'
+            });
+        });
+    </script>
+</c:if>
+
 <%-- Entity --%>
 <c:if test="${fieldType == 'ENTITY' || fieldType == 'ENTITY_COLLECTION'}">
     <c:choose>

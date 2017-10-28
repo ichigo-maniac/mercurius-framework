@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,6 +53,11 @@ public class MMCFilterServiceImpl implements MMCFilterService {
 
     private static final CriteriaValueType[] BOOLEAN_TYPES = {
             CriteriaValueType.EQUALS
+    };
+
+    private static final CriteriaValueType[] DATETIME_TYPES = {
+            CriteriaValueType.EQUALS, CriteriaValueType.NOT_EQUALS, CriteriaValueType.MORE, CriteriaValueType.MORE_OR_EQUALS,
+            CriteriaValueType.LESS, CriteriaValueType.LESS_OR_EQUALS
     };
 
     /**
@@ -104,6 +110,10 @@ public class MMCFilterServiceImpl implements MMCFilterService {
         if (Boolean.class.isAssignableFrom(type)) {
             filterContainer.setCriteriaTypes(BOOLEAN_TYPES);
             filterContainer.setFieldType(FieldType.BOOLEAN);
+        }
+        if (Date.class.isAssignableFrom(type)) {
+            filterContainer.setCriteriaTypes(DATETIME_TYPES);
+            filterContainer.setFieldType(FieldType.DATETIME);
         }
         if (AbstractEntity.class.isAssignableFrom(type)) {
             filterContainer.setCriteriaTypes(ENTITY_TYPES);

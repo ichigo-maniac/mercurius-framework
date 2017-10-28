@@ -237,6 +237,9 @@
         if (filterType == "BOOLEAN") {
             return $("[name='" + filterName + "_field_" + number + "']:checked").val();
         }
+        if (filterType == "DATETIME") {
+            return $("[name='" + filterName + "_field_" + number + "']").val();
+        }
         if (filterType == 'ENTITY' || filterType == 'ENTITY_COLLECTION') {
             if ($("[name='" + filterName + "_field_" + number + "']").select2('val') != null) {
                 return {
@@ -359,6 +362,28 @@
             falseField.attr("name", fieldProperty + "_field_" + number);
             container.append(falseField);
             container.append($("<span class='filter-radio-span'>False</span>"));
+            return container;
+        }
+        if (fieldType == "DATETIME") {
+            var container = $("<div style='width: 100%; margin-bottom: 6px;'></div>");
+            var pickerContainer = $("<div></div>");
+            pickerContainer.attr({
+                class : "input-group date",
+                id : fieldProperty + "_field_" + number
+            });
+            var dateInput = $("<input/>");
+            dateInput.attr({
+                    type : "text",
+                    class : "form-control",
+                    name : fieldProperty + "_field_" + number
+            });
+            var dateSpan = $("<span class='input-group-addon'><span class='glyphicon glyphicon-calendar'></span></span>");
+            pickerContainer.append(dateInput);
+            pickerContainer.append(dateSpan);
+            pickerContainer.datetimepicker({
+                format : 'DD.MM.YYYY HH:mm'
+            })
+            container.append(pickerContainer);
             return container;
         }
         if (fieldType == "ENTITY") {

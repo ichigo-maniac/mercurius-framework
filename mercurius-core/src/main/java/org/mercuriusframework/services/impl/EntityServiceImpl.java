@@ -16,6 +16,7 @@ import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -459,16 +460,32 @@ public class EntityServiceImpl implements EntityService {
                         currentValueExpression = builder.like(root.get(criteriaParameter.getProperty()), "%" + criteriaValue.getValue() + "%");
                     }
                     if (criteriaValue.getType() == CriteriaValueType.MORE) {
-                        currentValueExpression = builder.gt(root.get(criteriaParameter.getProperty()), (Number) criteriaValue.getValue());
+                        if (criteriaValue.getValue() instanceof Date) {
+                            currentValueExpression = builder.greaterThan((Expression<Date>) root.get(criteriaParameter.getProperty()), (Date) criteriaValue.getValue());
+                        } else {
+                            currentValueExpression = builder.gt(root.get(criteriaParameter.getProperty()), (Number) criteriaValue.getValue());
+                        }
                     }
                     if (criteriaValue.getType() == CriteriaValueType.MORE_OR_EQUALS) {
-                        currentValueExpression = builder.ge(root.get(criteriaParameter.getProperty()), (Number) criteriaValue.getValue());
+                        if (criteriaValue.getValue() instanceof Date) {
+                            currentValueExpression = builder.greaterThanOrEqualTo((Expression<Date>) root.get(criteriaParameter.getProperty()), (Date) criteriaValue.getValue());
+                        } else {
+                            currentValueExpression = builder.ge(root.get(criteriaParameter.getProperty()), (Number) criteriaValue.getValue());
+                        }
                     }
                     if (criteriaValue.getType() == CriteriaValueType.LESS) {
-                        currentValueExpression = builder.lt(root.get(criteriaParameter.getProperty()), (Number) criteriaValue.getValue());
+                        if (criteriaValue.getValue() instanceof Date) {
+                            currentValueExpression = builder.lessThan((Expression<Date>) root.get(criteriaParameter.getProperty()), (Date) criteriaValue.getValue());
+                        } else {
+                            currentValueExpression = builder.lt(root.get(criteriaParameter.getProperty()), (Number) criteriaValue.getValue());
+                        }
                     }
                     if (criteriaValue.getType() == CriteriaValueType.LESS_OR_EQUALS) {
-                        currentValueExpression = builder.le(root.get(criteriaParameter.getProperty()), (Number) criteriaValue.getValue());
+                        if (criteriaValue.getValue() instanceof Date) {
+                            currentValueExpression = builder.lessThanOrEqualTo((Expression<Date>) root.get(criteriaParameter.getProperty()), (Date) criteriaValue.getValue());
+                        } else {
+                            currentValueExpression = builder.le(root.get(criteriaParameter.getProperty()), (Number) criteriaValue.getValue());
+                        }
                     }
                     /** Add current value expression */
                     if (parameterExpression != null) {

@@ -27,3 +27,5 @@
 <script src="/resources/mmc_lib/js/select2.full.min.js"></script>
 <script src="/resources/mmc_lib/js/jquery.mask.min.js"></script>
 <script src="/resources/mmc_lib/js/jquery.numberMask.min.js"></script>
+<script src="/resources/mmc_lib/js/moment.min.js"></script>
+<script src="/resources/mmc_lib/js/bootstrap-datetimepicker.min.js"></script>

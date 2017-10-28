@@ -11,7 +11,8 @@ public enum FieldType {
     ENTITY_COLLECTION("ENTITY_COLLECTION"),
     NUMBER("NUMBER"),
     STRING("STRING"),
-    BOOLEAN("BOOLEAN");
+    BOOLEAN("BOOLEAN"),
+    DATETIME("DATETIME");
 
     /**
      * Enum value
