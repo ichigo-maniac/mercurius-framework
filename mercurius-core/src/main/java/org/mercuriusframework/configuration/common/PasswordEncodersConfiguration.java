@@ -1,4 +1,4 @@
-package org.mercuriusframework.configuration.develop;
+package org.mercuriusframework.configuration.common;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

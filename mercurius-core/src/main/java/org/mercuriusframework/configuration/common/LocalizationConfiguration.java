@@ -1,4 +1,4 @@
-package org.mercuriusframework.configuration.develop;
+package org.mercuriusframework.configuration.common;
 
 import org.mercuriusframework.constants.MercuriusConstants;
 import org.mercuriusframework.facades.impl.WildcardReloadableResourceBundleMessageSource;
@@ -11,7 +11,6 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
  * Localization configuration
  */
 @Configuration
-@Profile(MercuriusConstants.PROFILES.DEVELOP_PROFILE)
 public class LocalizationConfiguration {
 
     /**
