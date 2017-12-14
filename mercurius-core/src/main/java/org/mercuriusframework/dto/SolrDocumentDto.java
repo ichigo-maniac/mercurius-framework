@@ -13,6 +13,16 @@ public class SolrDocumentDto implements Serializable {
     private String id;
 
     /**
+     * Name
+     */
+    private String name;
+
+    /**
+     * Code (unique)
+     */
+    private String code;
+
+    /**
      * Get document id
      * @return Document id
      */
@@ -26,5 +36,37 @@ public class SolrDocumentDto implements Serializable {
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    /**
+     * Get name
+     * @return Name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Set name
+     * @param name Name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Get code
+     * @return Code
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * Set code
+     * @param code code
+     */
+    public void setCode(String code) {
+        this.code = code;
     }
 }

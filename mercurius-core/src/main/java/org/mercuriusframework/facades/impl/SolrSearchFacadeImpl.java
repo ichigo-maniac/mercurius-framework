@@ -35,9 +35,7 @@ import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Search facade
@@ -94,11 +92,29 @@ public class SolrSearchFacadeImpl implements SolrSearchFacade {
         Page<SolrDocumentDto> solrPage = getDocuments(solrSearchResolver, textQuery, solrSort, parameters, page);
         List<String> uuids = getEntityUuids(solrPage);
         Class entityClass = entityReflectionService.getEntityClassByEntityName(solrSearchResolver.getIndexEntityName());
-        List<AbstractEntity> entities = entityService.findByUuids(uuids, entityClass, fetchFields);
+        List<AbstractEntity> entities = sortByUuids(uuids, entityService.findByUuids(uuids, entityClass, fetchFields));
         /** Create result page */
         Integer currentPage = calculateCurrentPage(solrSearchResolver.getPageSize(), page, solrPage.getTotalElements());
         return new DefaultPageableResult((int) solrPage.getTotalElements(), currentPage, solrSearchResolver.getPageSize(),
                 solrPage.getTotalPages(), entities);
+    }
+
+    /**
+     * Sort entities by uuids
+     * @param uuids Uuid list
+     * @param entities Entities list
+     * @return Sorted entities list
+     */
+    private List<AbstractEntity> sortByUuids(List<String> uuids, List<AbstractEntity> entities) {
+        List<AbstractEntity> result = new ArrayList<>(entities.size());
+        Map<String, AbstractEntity> entitiesMap = new HashMap<>();
+        for (AbstractEntity entity : entities) {
+            entitiesMap.put(entity.getUuid(), entity);
+        }
+        for (String uuid : uuids) {
+            result.add(entitiesMap.get(uuid));
+        }
+        return result;
     }
 
     /**
