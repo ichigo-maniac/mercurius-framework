@@ -53,7 +53,7 @@
         <postgre.sql.driver.version>9.0-801.jdbc4</postgre.sql.driver.version>
         <mysql.sql.driver.version>5.1.6</mysql.sql.driver.version>
         <!-- Solr -->
-        <solr.version>6.5.0</solr.version>
+        <solr.version>8.4.1</solr.version>
         <!-- Testing -->
         <junit.version>4.12</junit.version>
         <h2.database.version>1.4.193</h2.database.version>
