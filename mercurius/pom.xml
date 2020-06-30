@@ -40,7 +40,7 @@
         <spring.security.version>4.2.1.RELEASE</spring.security.version>
         <spring.data.solr.version>2.1.1.RELEASE</spring.data.solr.version>
         <jackson.version>1.9.13</jackson.version>
-        <jackson.data.bind.version>2.5.0</jackson.data.bind.version>
+        <jackson.data.bind.version>2.9.10.5</jackson.data.bind.version>
         <org.json.version>20160810</org.json.version>
         <google.guava.version>19.0</google.guava.version>
         <commons.dbcp.version>1.4</commons.dbcp.version>
