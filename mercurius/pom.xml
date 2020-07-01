@@ -51,7 +51,7 @@
         <redis.lettuce.version>3.5.0.Final</redis.lettuce.version>
         <!-- Database drivers -->
         <postgre.sql.driver.version>9.0-801.jdbc4</postgre.sql.driver.version>
-        <mysql.sql.driver.version>5.1.6</mysql.sql.driver.version>
+        <mysql.sql.driver.version>8.0.16</mysql.sql.driver.version>
         <!-- Solr -->
         <solr.version>6.5.0</solr.version>
         <!-- Testing -->
