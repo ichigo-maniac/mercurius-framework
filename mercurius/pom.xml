@@ -37,7 +37,7 @@
         <ostermiller.utils.version>1.07.00</ostermiller.utils.version>
         <!-- Libraries -->
         <spring.version>4.2.1.RELEASE</spring.version>
-        <spring.security.version>4.2.1.RELEASE</spring.security.version>
+        <spring.security.version>5.2.10.RELEASE</spring.security.version>
         <spring.data.solr.version>2.1.1.RELEASE</spring.data.solr.version>
         <jackson.version>1.9.13</jackson.version>
         <jackson.data.bind.version>2.5.0</jackson.data.bind.version>
